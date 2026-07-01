@@ -52,7 +52,8 @@ class ShadowInfiltrator:
                 "service_2": "Private Sommelier Vault", "desc_2": "Exclusive access to rare international vintages curated by master sommeliers.", "icon_2": "🍾",
                 "service_3": "Theatrical Chef's Table", "desc_3": "Front-row seating inside our open kitchen with personalized chef commentary.", "icon_3": "👑",
                 "service_4": "Bespoke Event Catering", "desc_4": "Custom luxury menus engineered specifically for your high-profile private gatherings.", "icon_4": "🥂",
-                "before_label": "Standard Crowded Restaurants", "after_label": "LeadFlow VIP Private Gastronomy"
+                "before_label": "Standard Crowded Restaurants", "after_label": "LeadFlow VIP Private Gastronomy",
+                "extra_btn": '<a href="lumiere_3d_dish_experience.html" class="btn-vip" style="background: linear-gradient(135deg, #ffd700, #ff8800); color: #000; padding: 16px 28px; text-decoration: none; font-size: 15px; box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);">🍔 Launch 3D Interactive Dish →</a>'
             }
         elif any(w in cat for w in ["salon", "spa", "beauty", "hair", "skin", "wellness"]):
             return {
@@ -340,6 +341,7 @@ class ShadowInfiltrator:
             <p class="lead">{t['desc']}</p>
             <div style="display: flex; gap: 16px; flex-wrap: wrap;">
                 <button class="btn-vip" style="padding: 16px 36px; font-size: 16px;" onclick="openModal()">🚀 Reserve Your Experience</button>
+                {t.get('extra_btn', '')}
                 <a href="#calculator" style="color: #fff; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 8px; padding: 16px;">Calculate Savings ↓</a>
             </div>
         </div>
