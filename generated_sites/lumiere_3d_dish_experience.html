@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lumiere Fine Dining - 3D Interactive Culinary Dish Experience</title>
-    <!-- Library #1: Three.js CDN & GSAP -->
+    <title>Lumiere Fine Dining - Mouse-Driven 3D Interactive Culinary Dish</title>
+    <!-- Three.js CDN & GSAP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <style>
@@ -12,13 +12,13 @@
         
         :root {
             --bg: #030509;
-            --surface: rgba(13, 18, 30, 0.8);
+            --surface: rgba(13, 18, 30, 0.85);
             --gold: #ffd700;
-            --gold-glow: rgba(255, 215, 0, 0.3);
+            --gold-glow: rgba(255, 215, 0, 0.35);
             --crimson: #ff0055;
             --text-main: #f9fafb;
             --text-muted: #9ca3af;
-            --border: rgba(255, 215, 0, 0.2);
+            --border: rgba(255, 215, 0, 0.25);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; user-select: none; }
@@ -27,243 +27,115 @@
             background-color: var(--bg);
             color: var(--text-main);
             overflow: hidden;
-            height: 100vh;
-            width: 100vw;
-            display: flex;
-            flex-direction: column;
+            height: 100vh; width: 100vw;
+            display: flex; flex-direction: column;
+            background-image: radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.08) 0%, transparent 70%);
         }
 
         /* 3D Canvas Container */
         #webgl-container {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 1;
-            cursor: grab;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1; cursor: crosshair;
         }
-        #webgl-container:active { cursor: grabbing; }
 
-        /* Top Bar */
+        /* Header Bar */
         header {
-            position: relative;
-            z-index: 10;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 40px;
-            background: linear-gradient(180deg, rgba(3,5,9,0.9) 0%, transparent 100%);
+            position: relative; z-index: 10; display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 40px; background: linear-gradient(180deg, rgba(3,5,9,0.9) 0%, transparent 100%);
             pointer-events: none;
         }
         header * { pointer-events: auto; }
 
         .brand {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 24px;
-            font-weight: 800;
+            font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 800;
             background: linear-gradient(to right, #fff, var(--gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            display: flex; align-items: center; gap: 12px;
         }
         .brand-badge {
-            background: var(--crimson);
-            color: #fff;
-            font-size: 11px;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-weight: 800;
-            letter-spacing: 1px;
+            background: var(--crimson); color: #fff; font-size: 11px; padding: 4px 10px;
+            border-radius: 20px; font-weight: 800; letter-spacing: 1px;
         }
 
         .back-btn {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--border);
-            color: #fff;
-            padding: 10px 20px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 13px;
+            background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: #fff;
+            padding: 10px 20px; border-radius: 30px; text-decoration: none; font-weight: 600; font-size: 13px;
             transition: all 0.3s;
         }
-        .back-btn:hover {
-            background: var(--gold);
-            color: #000;
-            box-shadow: 0 0 20px var(--gold-glow);
-        }
+        .back-btn:hover { background: var(--gold); color: #000; box-shadow: 0 0 20px var(--gold-glow); }
 
-        /* UI Overlay Sidebar (Left) */
+        /* Left Story Sidebar */
         .sidebar-left {
-            position: absolute;
-            top: 100px;
-            left: 40px;
-            width: 320px;
-            z-index: 10;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
+            position: absolute; top: 100px; left: 40px; width: 330px; z-index: 10;
+            display: flex; flex-direction: column; gap: 16px; pointer-events: none;
         }
-        @media (max-width: 900px) {
-            .sidebar-left { left: 20px; width: 280px; top: 80px; }
-            header { padding: 16px 20px; }
-        }
-        @media (max-width: 600px) {
-            .sidebar-left { position: relative; top: auto; left: auto; width: 100%; padding: 16px 20px; z-index: 10; }
-        }
+        .sidebar-left * { pointer-events: auto; }
+        @media (max-width: 900px) { .sidebar-left { left: 20px; width: 280px; top: 80px; } header { padding: 16px 20px; } }
+        @media (max-width: 600px) { .sidebar-left { position: relative; top: auto; left: auto; width: 100%; padding: 16px 20px; z-index: 10; } }
 
         .info-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 24px;
-            backdrop-filter: blur(20px);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            background: var(--surface); border: 1px solid var(--border); border-radius: 24px;
+            padding: 26px; backdrop-filter: blur(25px); box-shadow: 0 25px 60px rgba(0,0,0,0.8);
         }
 
-        .dish-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 28px;
-            font-weight: 800;
-            color: var(--gold);
-            margin-bottom: 6px;
-        }
-        .dish-sub {
-            font-size: 13px;
-            color: var(--text-muted);
-            margin-bottom: 16px;
-            line-height: 1.6;
-        }
+        .dish-title { font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 800; color: var(--gold); margin-bottom: 6px; }
+        .dish-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 18px; line-height: 1.6; }
 
-        /* 3D Control Buttons */
-        .controls-box {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 10px;
+        /* Mouse Control Indicator */
+        .mouse-radar-box {
+            background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px;
+            padding: 16px; margin-bottom: 16px;
         }
-
-        .btn-3d {
-            width: 100%;
-            padding: 14px;
-            border-radius: 14px;
-            font-weight: 700;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            border: 1px solid var(--border);
-        }
-        .btn-explode {
-            background: linear-gradient(135deg, var(--gold), #ff9900);
-            color: #000;
-            border: none;
-            box-shadow: 0 0 25px var(--gold-glow);
-        }
-        .btn-explode:hover { transform: translateY(-2px); box-shadow: 0 0 35px var(--gold); }
+        .radar-title { font-size: 11px; font-weight: 800; color: #34d399; letter-spacing: 1px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+        .dot-pulse { width: 8px; height: 8px; background: #34d399; border-radius: 50%; display: inline-block; box-shadow: 0 0 10px #34d399; }
         
-        .btn-rotate {
-            background: rgba(255,255,255,0.05);
-            color: #fff;
-        }
-        .btn-rotate:hover { background: rgba(255,255,255,0.1); border-color: var(--gold); }
+        .radar-stat { display: flex; justify-content: space-between; font-size: 12px; margin-top: 6px; color: var(--text-muted); }
+        .radar-val { color: #fff; font-weight: 700; font-family: 'Space Grotesk', monospace; }
 
-        /* Ingredient Selector Menu (Right) */
-        .sidebar-right {
-            position: absolute;
-            top: 100px;
-            right: 40px;
-            width: 320px;
-            z-index: 10;
+        /* Controls */
+        .btn-3d {
+            width: 100%; padding: 14px; border-radius: 14px; font-weight: 700; font-size: 14px;
+            cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px;
+            border: 1px solid var(--border); margin-bottom: 10px;
         }
-        @media (max-width: 900px) { .sidebar-right { right: 20px; width: 260px; } }
-        @media (max-width: 600px) { .sidebar-right { display: none; } }
+        .btn-gold { background: linear-gradient(135deg, var(--gold), #ff9900); color: #000; border: none; box-shadow: 0 0 25px var(--gold-glow); }
+        .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 0 35px var(--gold); }
+        .btn-dark { background: rgba(255,255,255,0.05); color: #fff; }
+        .btn-dark:hover { background: rgba(255,255,255,0.1); border-color: var(--gold); }
 
-        .ingredient-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            max-height: 70vh;
-            overflow-y: auto;
-            padding-right: 4px;
+        /* Floating Holographic Hover Card (Follows Mouse / Layer) */
+        #hover-hud {
+            position: absolute; top: 50%; right: 40px; width: 340px;
+            background: rgba(10, 15, 26, 0.95); border: 2px solid var(--gold);
+            border-radius: 24px; padding: 26px; z-index: 100;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.9), 0 0 40px var(--gold-glow);
+            backdrop-filter: blur(20px); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(-50%); pointer-events: none;
         }
+        @media (max-width: 900px) { #hover-hud { right: 20px; width: 280px; } }
+        @media (max-width: 600px) { #hover-hud { position: fixed; top: auto; bottom: 80px; right: 5%; width: 90%; transform: none; } }
 
-        .ingredient-item {
-            background: rgba(13, 18, 30, 0.7);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 16px;
-            padding: 14px 18px;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            backdrop-filter: blur(15px);
-        }
-        .ingredient-item:hover, .ingredient-item.active {
-            border-color: var(--gold);
-            background: rgba(255, 215, 0, 0.15);
-            transform: translateX(-6px);
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
-        }
-        .ing-left { display: flex; align-items: center; gap: 12px; }
-        .ing-icon { font-size: 22px; }
-        .ing-name { font-weight: 700; font-size: 14px; color: #fff; }
-        .ing-cal { font-size: 11px; color: var(--gold); font-weight: 600; }
+        .hud-layer-num { font-size: 11px; font-weight: 800; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
+        .hud-title { font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 12px; }
+        .hud-desc { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 18px; }
+        
+        .hud-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 14px; }
+        .hud-stat { text-align: center; background: rgba(255,255,255,0.03); padding: 8px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); }
+        .stat-val { font-size: 15px; font-weight: 800; color: var(--gold); }
+        .stat-lbl { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
 
-        /* Bottom Status & Hints */
+        /* Footer Hint */
         footer {
-            position: absolute;
-            bottom: 20px;
-            left: 0; width: 100%;
-            z-index: 10;
-            text-align: center;
-            pointer-events: none;
+            position: absolute; bottom: 20px; left: 0; width: 100%; z-index: 10;
+            text-align: center; pointer-events: none;
         }
         .hint-badge {
-            display: inline-block;
-            background: rgba(0,0,0,0.7);
-            border: 1px solid var(--border);
-            padding: 8px 20px;
-            border-radius: 30px;
-            font-size: 12px;
-            color: var(--gold);
-            font-weight: 700;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-            animation: bounce 2s infinite alternate;
+            display: inline-block; background: rgba(0,0,0,0.8); border: 1px solid var(--border);
+            padding: 10px 24px; border-radius: 30px; font-size: 13px; color: var(--gold); font-weight: 700;
+            backdrop-filter: blur(10px); box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+            animation: bounce 2s infinite alternate; pointer-events: auto;
         }
-        @keyframes bounce { 0% { transform: translateY(0); } 100% { transform: translateY(-5px); } }
-
-        /* Nutrition / Story Popup Modal */
-        #ing-modal {
-            position: absolute;
-            bottom: 80px;
-            left: 50%;
-            transform: translateX(-50%) translateY(20px);
-            width: 440px;
-            background: #0d121e;
-            border: 1px solid var(--gold);
-            border-radius: 24px;
-            padding: 24px;
-            z-index: 100;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.9), 0 0 30px var(--gold-glow);
-            display: none;
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-        @media (max-width: 500px) { #ing-modal { width: 90%; bottom: 60px; } }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-        .modal-title { font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 800; color: var(--gold); }
-        .modal-close { background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; }
-        .modal-desc { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 16px; }
-        .modal-stats { display: flex; gap: 16px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 12px; }
-        .stat-item { flex: 1; text-align: center; }
-        .stat-val { font-size: 16px; font-weight: 800; color: #fff; }
-        .stat-lbl { font-size: 11px; color: var(--text-muted); }
+        @keyframes bounce { 0% { transform: translateY(0); } 100% { transform: translateY(-6px); } }
     </style>
 </head>
 <body>
@@ -275,105 +147,76 @@
     <header>
         <div class="brand">
             <span>LUMIERE GASTRONOMY</span>
-            <span class="brand-badge">3D INTERACTIVE DISH</span>
+            <span class="brand-badge">MOUSE-DRIVEN 3D DECONSTRUCTION</span>
         </div>
         <a href="lumiere_fine_dining_luxury.html" class="back-btn">← Back to Dining Suite</a>
     </header>
 
-    <!-- Sidebar Left: Dish Story & 3D Controls -->
+    <!-- Sidebar Left: Story & Mouse Radar -->
     <div class="sidebar-left">
         <div class="info-card">
             <div class="dish-title">Le Royal Wagyu Burger</div>
-            <div class="dish-sub">A culinary masterpiece featuring A5 Miyazaki Wagyu, 24k Gold Brioche, Perigord Black Truffle, and artisanal aged aged cheddar.</div>
+            <div class="dish-sub">Move your mouse up and down to dynamically separate and inspect the 7 artisanal layers in 3D space.</div>
             
-            <div style="font-size: 12px; font-weight: 700; color: #fff; margin-bottom: 10px; display: flex; justify-content: space-between;">
-                <span>COMPOSITION STATUS:</span>
-                <span id="status-tag" style="color: var(--gold);">● ASSEMBLED (NORMAL)</span>
+            <div class="mouse-radar-box">
+                <div class="radar-title"><span class="dot-pulse"></span> LIVE MOUSE RADAR & PARALLAX</div>
+                <div class="radar-stat"><span>Mouse Y (Layer Separation):</span><span class="radar-val" id="radar-y">50% Exploded</span></div>
+                <div class="radar-stat"><span>Mouse X (3D Orbit Rotation):</span><span class="radar-val" id="radar-x">0° Angle</span></div>
+                <div class="radar-stat"><span>Active Hovered Layer:</span><span class="radar-val" id="radar-layer" style="color: var(--gold);">A5 Wagyu Patty</span></div>
             </div>
 
-            <div class="controls-box">
-                <button class="btn-3d btn-explode" id="btn-explode-toggle" onclick="toggleExplode()">
-                    💥 Explode Layers (3D Deconstruct)
-                </button>
-                <button class="btn-3d btn-rotate" id="btn-rotate-toggle" onclick="toggleAutoRotate()">
-                    ⏸️ Pause 360° Rotation
-                </button>
-                <button class="btn-3d btn-rotate" onclick="resetView()">
-                    🎯 Reset Camera Zoom & Angle
-                </button>
-            </div>
+            <button class="btn-3d btn-gold" id="btn-mode-toggle" onclick="toggleMouseMode()">
+                🖱️ Mouse Separation Mode: ON (Dynamic)
+            </button>
+            <button class="btn-3d btn-dark" onclick="cycleLayer(1)">
+                ⏭️ Inspect Next Ingredient Layer
+            </button>
+            <button class="btn-3d btn-dark" onclick="resetCamera()">
+                🎯 Reset Camera View
+            </button>
         </div>
     </div>
 
-    <!-- Sidebar Right: Interactive Ingredient Selector -->
-    <div class="sidebar-right">
-        <div class="info-card" style="padding: 20px;">
-            <div style="font-size: 14px; font-weight: 800; color: #fff; margin-bottom: 14px; letter-spacing: 0.5px;">🍔 DISH INGREDIENTS (CLICK TO INSPECT)</div>
-            <div class="ingredient-list">
-                <div class="ingredient-item" onclick="inspectLayer(6, '24k Gold Brioche Crown', 'Artisanal sourdough brioche infused with French butter and brushed with edible 24-karat gold leaf.', '220 kcal', 'Miyazaki, JP', 'Organic')">
-                    <div class="ing-left"><span class="ing-icon">🍞</span><span class="ing-name">Gold Brioche Bun</span></div>
-                    <span class="ing-cal">Top Layer</span>
-                </div>
-                <div class="ingredient-item" onclick="inspectLayer(5, 'Perigord Black Truffle Cheddar', 'Aged 36-month English farmhouse cheddar melted with shavings of rare winter black truffle.', '180 kcal', 'Perigord, FR', 'Aged 36M')">
-                    <div class="ing-left"><span class="ing-icon">🧀</span><span class="ing-name">Truffle Cheddar</span></div>
-                    <span class="ing-cal">Layer 2</span>
-                </div>
-                <div class="ingredient-item" onclick="inspectLayer(4, 'A5 Miyazaki Wagyu Patty', '100% authentic Japanese Black cattle wagyu beef seared over Japanese Binchotan charcoal.', '450 kcal', 'Miyazaki, JP', 'Grade A5')">
-                    <div class="ing-left"><span class="ing-icon">🥩</span><span class="ing-name">A5 Wagyu Beef Patty</span></div>
-                    <span class="ing-cal">Core Layer</span>
-                </div>
-                <div class="ingredient-item" onclick="inspectLayer(3, 'Caramelized Onion & Morel Ragu', 'Slow-cooked sweet Vidalia onions glazed in 30-year balsamic vinegar and wild morel mushrooms.', '90 kcal', 'Bordeaux, FR', 'Wild Foraged')">
-                    <div class="ing-left"><span class="ing-icon">🧅</span><span class="ing-name">Caramelized Onions</span></div>
-                    <span class="ing-cal">Layer 4</span>
-                </div>
-                <div class="ingredient-item" onclick="inspectLayer(2, 'Heirloom San Marzano Tomato', 'Sun-ripened volcanic soil tomatoes harvested at peak sweetness with sea salt crystals.', '35 kcal', 'Naples, IT', 'Heirloom')">
-                    <div class="ing-left"><span class="ing-icon">🍅</span><span class="ing-name">Heirloom Tomato Slice</span></div>
-                    <span class="ing-cal">Layer 5</span>
-                </div>
-                <div class="ingredient-item" onclick="inspectLayer(1, 'Hydroponic Butterhead Lettuce', 'Crisp, zero-pesticide hydroponic greens harvested two hours prior to table presentation.', '15 kcal', 'Local Greenhouse', 'Zero Pesticide')">
-                    <div class="ing-left"><span class="ing-icon">🥬</span><span class="ing-name">Crisp Butter Lettuce</span></div>
-                    <span class="ing-cal">Layer 6</span>
-                </div>
-                <div class="ingredient-item" onclick="inspectLayer(0, 'Toasted Brioche Base', 'Butter-seared base bun coated with secret truffle-garlic emulsion to preserve crunch.', '190 kcal', 'Artisanal Bakery', 'Toasted')">
-                    <div class="ing-left"><span class="ing-icon">🥯</span><span class="ing-name">Toasted Brioche Base</span></div>
-                    <span class="ing-cal">Bottom Layer</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Ingredient Popup Modal -->
-    <div id="ing-modal">
-        <div class="modal-header">
-            <span class="modal-title" id="modal-ing-title">Ingredient Name</span>
-            <button class="modal-close" onclick="closeModal()">×</button>
-        </div>
-        <div class="modal-desc" id="modal-ing-desc">Description of the gourmet ingredient goes here.</div>
-        <div class="modal-stats">
-            <div class="stat-item"><div class="stat-val" id="stat-cal">0 kcal</div><div class="stat-lbl">Energy Value</div></div>
-            <div class="stat-item"><div class="stat-val" id="stat-origin">France</div><div class="stat-lbl">Origin / Terroir</div></div>
-            <div class="stat-item"><div class="stat-val" id="stat-cert">A5 Grade</div><div class="stat-lbl">Certification</div></div>
+    <!-- Floating Holographic Hover HUD (Right) -->
+    <div id="hover-hud">
+        <div class="hud-layer-num" id="hud-num">LAYER 4 OF 7 • CORE PROTEIN</div>
+        <div class="hud-title" id="hud-title">A5 Miyazaki Wagyu Patty</div>
+        <div class="hud-desc" id="hud-desc">100% authentic Japanese Black cattle wagyu beef seared over Japanese Binchotan charcoal, delivering unmatched umami richness and melt-in-mouth texture.</div>
+        <div class="hud-grid">
+            <div class="hud-stat"><div class="stat-val" id="hud-cal">450 kcal</div><div class="stat-lbl">Energy Value</div></div>
+            <div class="hud-stat"><div class="stat-val" id="hud-origin">Miyazaki, JP</div><div class="stat-lbl">Terroir Origin</div></div>
+            <div class="hud-stat"><div class="stat-val" id="hud-cert">Grade A5</div><div class="stat-lbl">Certification</div></div>
         </div>
     </div>
 
     <!-- Footer Hint -->
     <footer>
-        <div class="hint-badge">👆 DRAG WITH MOUSE TO ROTATE 360° | CLICK 'EXPLODE LAYERS' TO INSPECT IN 3D</div>
+        <div class="hint-badge">👆 MOVE MOUSE UP & DOWN TO EXPLODE LAYERS | POINT AT LAYERS TO INSPECT IN 3D</div>
     </footer>
 
-    <!-- Three.js 3D Food Composition Engine -->
+    <!-- Three.js Mouse-Driven Food Composition Engine -->
     <script>
         let scene, camera, renderer, dishGroup;
         let layers = [];
-        let isExploded = false;
-        let isAutoRotate = true;
-        let isDragging = false;
-        let previousMousePosition = { x: 0, y: 0 };
-        let rotationSpeed = { x: 0, y: 0.008 };
+        let isMouseMode = true;
+        let currentHoverIndex = 4; // Default to Wagyu patty
+        let mouseX = 0, mouseY = 0.5; // Normalized 0 to 1
+        let targetRotationY = 0, targetRotationX = 0.2;
 
-        // Exploded Y positions vs Assembled Y positions
-        const assembledY = [-3.0, -2.0, -1.0, 0.2, 1.2, 2.2, 3.5];
-        const explodedY  = [-6.5, -4.0, -1.5, 1.0, 3.5, 6.0, 8.8];
+        // Layer Data
+        const layerInfo = [
+            { name: "Toasted Brioche Base", num: "BOTTOM LAYER 1 OF 7", desc: "Butter-seared base bun coated with secret truffle-garlic emulsion to preserve crunch and absorb gourmet juices.", cal: "190 kcal", origin: "Artisanal Bakery", cert: "Toasted 240°C" },
+            { name: "Crisp Butterhead Lettuce", num: "LAYER 2 OF 7 • GREENS", desc: "Crisp, zero-pesticide hydroponic greens harvested two hours prior to table presentation for ultimate freshness.", cal: "15 kcal", origin: "Local Greenhouse", cert: "Zero Pesticide" },
+            { name: "Heirloom San Marzano Tomato", num: "LAYER 3 OF 7 • ACIDITY", desc: "Sun-ripened volcanic soil tomatoes harvested at peak sweetness and seasoned with Mediterranean sea salt crystals.", cal: "35 kcal", origin: "Naples, Italy", cert: "Heirloom Organic" },
+            { name: "Caramelized Onion & Morel Ragu", num: "LAYER 4 OF 7 • SAVORY", desc: "Slow-cooked sweet Vidalia onions glazed in 30-year balsamic vinegar paired with wild French morel mushrooms.", cal: "90 kcal", origin: "Bordeaux, France", cert: "Wild Foraged" },
+            { name: "A5 Miyazaki Wagyu Patty", num: "CORE LAYER 5 OF 7 • PROTEIN", desc: "100% authentic Japanese Black cattle wagyu beef seared over Japanese Binchotan charcoal for melt-in-mouth umami.", cal: "450 kcal", origin: "Miyazaki, Japan", cert: "Grade A5 Gold" },
+            { name: "Perigord Truffle Cheddar", num: "LAYER 6 OF 7 • MELt", desc: "Aged 36-month English farmhouse cheddar melted with generous shavings of rare winter Perigord black truffle.", cal: "180 kcal", origin: "Perigord, France", cert: "Aged 36M" },
+            { name: "24k Gold Brioche Crown", num: "TOP CROWN LAYER 7 OF 7", desc: "Artisanal sourdough brioche infused with French butter, topped with organic sesame seeds and 24-karat gold leaf.", cal: "220 kcal", origin: "Paris, France", cert: "24k Edible Gold" }
+        ];
+
+        // Assembled vs Exploded Y coordinates
+        const assembledY = [-3.2, -2.1, -1.1, 0.1, 1.2, 2.3, 3.6];
+        const explodedY  = [-7.5, -4.8, -2.1, 0.6, 3.3, 6.0, 9.2];
 
         function init3D() {
             const container = document.getElementById('webgl-container');
@@ -381,7 +224,7 @@
             if (typeof THREE !== 'undefined') {
                 scene = new THREE.Scene();
                 camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-                camera.position.set(0, 5, 26);
+                camera.position.set(0, 4, 28);
                 camera.lookAt(0, 0, 0);
 
                 renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -391,14 +234,14 @@
                 container.appendChild(renderer.domElement);
 
                 // Lighting
-                const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+                const ambientLight = new THREE.AmbientLight(0xffffff, 0.65);
                 scene.add(ambientLight);
 
-                const dirLight1 = new THREE.DirectionalLight(0xffd700, 1.2);
+                const dirLight1 = new THREE.DirectionalLight(0xffd700, 1.3);
                 dirLight1.position.set(15, 25, 15);
                 scene.add(dirLight1);
 
-                const dirLight2 = new THREE.DirectionalLight(0xff0055, 0.8);
+                const dirLight2 = new THREE.DirectionalLight(0xff0055, 0.9);
                 dirLight2.position.set(-15, -10, -15);
                 scene.add(dirLight2);
 
@@ -406,29 +249,24 @@
                 pointLight.position.set(0, 15, 10);
                 scene.add(pointLight);
 
-                // Create Food Layers Group
                 dishGroup = new THREE.Group();
                 scene.add(dishGroup);
 
-                // PROCEDURAL FOOD LAYERS (From bottom index 0 to top index 6)
-
-                // 0. Bottom Brioche Bun (Golden Cylinder)
+                // 0. Bottom Brioche Bun
                 const bunMat = new THREE.MeshStandardMaterial({ color: 0xd98c38, roughness: 0.4, metalness: 0.1 });
-                const baseGeom = new THREE.CylinderGeometry(4.2, 3.8, 1.4, 32);
-                const baseBun = new THREE.Mesh(baseGeom, bunMat);
+                const baseBun = new THREE.Mesh(new THREE.CylinderGeometry(4.3, 3.9, 1.4, 32), bunMat);
                 baseBun.position.y = assembledY[0];
                 dishGroup.add(baseBun);
                 layers.push(baseBun);
 
-                // 1. Crisp Butter Lettuce (Undulating Green Disc)
+                // 1. Crisp Butter Lettuce
                 const lettuceMat = new THREE.MeshStandardMaterial({ color: 0x33cc44, roughness: 0.6, side: THREE.DoubleSide });
-                const lettuceGeom = new THREE.CylinderGeometry(4.6, 4.4, 0.3, 32);
-                // Deform vertices for curly lettuce look
+                const lettuceGeom = new THREE.CylinderGeometry(4.7, 4.5, 0.3, 32);
                 const pos = lettuceGeom.attributes.position;
                 for(let i=0; i<pos.count; i++) {
                     let x = pos.getX(i), z = pos.getZ(i);
-                    if(Math.sqrt(x*x + z*z) > 3.5) {
-                        pos.setY(i, pos.getY(i) + Math.sin(x*3)*0.25 + Math.cos(z*3)*0.25);
+                    if(Math.sqrt(x*x + z*z) > 3.6) {
+                        pos.setY(i, pos.getY(i) + Math.sin(x*3)*0.28 + Math.cos(z*3)*0.28);
                     }
                 }
                 lettuceGeom.computeVertexNormals();
@@ -437,60 +275,53 @@
                 dishGroup.add(lettuce);
                 layers.push(lettuce);
 
-                // 2. Heirloom Tomato Slice (Ruby Red Cylinder with inner circle)
+                // 2. Heirloom Tomato Slice
                 const tomatoMat = new THREE.MeshStandardMaterial({ color: 0xd91424, roughness: 0.2, metalness: 0.3 });
-                const tomatoGeom = new THREE.CylinderGeometry(4.1, 4.1, 0.6, 32);
-                const tomato = new THREE.Mesh(tomatoGeom, tomatoMat);
+                const tomato = new THREE.Mesh(new THREE.CylinderGeometry(4.2, 4.2, 0.6, 32), tomatoMat);
                 tomato.position.y = assembledY[2];
                 dishGroup.add(tomato);
                 layers.push(tomato);
 
-                // 3. Caramelized Onions & Truffle Ragu (Scattered Dark Rings)
+                // 3. Caramelized Truffle Onions & Morel Mushrooms
                 const onionGroup = new THREE.Group();
                 const onionMat = new THREE.MeshStandardMaterial({ color: 0x592613, roughness: 0.5 });
-                for(let i=0; i<6; i++) {
-                    const ringGeom = new THREE.TorusGeometry(0.8 + Math.random()*0.5, 0.2, 12, 24);
-                    const ring = new THREE.Mesh(ringGeom, onionMat);
+                for(let i=0; i<7; i++) {
+                    const ring = new THREE.Mesh(new THREE.TorusGeometry(0.8 + Math.random()*0.5, 0.22, 12, 24), onionMat);
                     ring.rotation.x = Math.PI/2 + (Math.random()-0.5)*0.3;
-                    ring.position.set((Math.random()-0.5)*4, (Math.random()-0.5)*0.2, (Math.random()-0.5)*4);
+                    ring.position.set((Math.random()-0.5)*4.2, (Math.random()-0.5)*0.2, (Math.random()-0.5)*4.2);
                     onionGroup.add(ring);
                 }
                 onionGroup.position.y = assembledY[3];
                 dishGroup.add(onionGroup);
                 layers.push(onionGroup);
 
-                // 4. A5 Miyazaki Wagyu Beef Patty (Thick Seared Brown Cylinder)
+                // 4. A5 Miyazaki Wagyu Beef Patty
                 const pattyMat = new THREE.MeshStandardMaterial({ color: 0x401a12, roughness: 0.7 });
-                const pattyGeom = new THREE.CylinderGeometry(4.4, 4.3, 1.4, 32);
-                const patty = new THREE.Mesh(pattyGeom, pattyMat);
+                const patty = new THREE.Mesh(new THREE.CylinderGeometry(4.5, 4.4, 1.4, 32), pattyMat);
                 patty.position.y = assembledY[4];
                 dishGroup.add(patty);
                 layers.push(patty);
 
-                // 5. Truffle Cheddar Cheese (Melted Golden Yellow Box)
+                // 5. Truffle Cheddar Cheese
                 const cheeseMat = new THREE.MeshStandardMaterial({ color: 0xffb700, roughness: 0.3, metalness: 0.1 });
-                const cheeseGeom = new THREE.BoxGeometry(6.6, 0.3, 6.6);
-                const cheese = new THREE.Mesh(cheeseGeom, cheeseMat);
+                const cheese = new THREE.Mesh(new THREE.BoxGeometry(6.8, 0.35, 6.8), cheeseMat);
                 cheese.rotation.y = Math.PI / 4;
                 cheese.position.y = assembledY[5];
                 dishGroup.add(cheese);
                 layers.push(cheese);
 
-                // 6. Gold Brioche Crown (Curved Dome Bun with Sesame Seeds)
+                // 6. Gold Brioche Crown with Sesame Seeds
                 const topBunGroup = new THREE.Group();
-                const crownGeom = new THREE.SphereGeometry(4.3, 32, 16, 0, Math.PI * 2, 0, Math.PI / 2);
-                const crownBun = new THREE.Mesh(crownGeom, bunMat);
+                const crownBun = new THREE.Mesh(new THREE.SphereGeometry(4.4, 32, 16, 0, Math.PI * 2, 0, Math.PI / 2), bunMat);
                 crownBun.scale.set(1, 0.8, 1);
                 topBunGroup.add(crownBun);
 
-                // Add Gold Sesame Seeds
                 const seedMat = new THREE.MeshStandardMaterial({ color: 0xfff0b3, roughness: 0.2 });
-                for(let i=0; i<30; i++) {
-                    const seedGeom = new THREE.CylinderGeometry(0.08, 0.08, 0.3, 8);
-                    const seed = new THREE.Mesh(seedGeom, seedMat);
+                for(let i=0; i<35; i++) {
+                    const seed = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 0.3, 8), seedMat);
                     const phi = Math.random() * Math.PI * 2;
                     const theta = Math.random() * (Math.PI / 3);
-                    const r = 4.35;
+                    const r = 4.45;
                     seed.position.set(r * Math.sin(theta) * Math.cos(phi), r * Math.cos(theta) * 0.8, r * Math.sin(theta) * Math.sin(phi));
                     seed.lookAt(0, 0, 0);
                     topBunGroup.add(seed);
@@ -499,39 +330,65 @@
                 dishGroup.add(topBunGroup);
                 layers.push(topBunGroup);
 
-                // Initial tilt
-                dishGroup.rotation.x = 0.2;
+                dishGroup.rotation.x = 0.18;
 
-                // Event Listeners for Rotation
-                container.addEventListener('mousedown', e => { isDragging = true; previousMousePosition = { x: e.clientX, y: e.clientY }; });
-                window.addEventListener('mouseup', () => { isDragging = false; });
+                // Mouse Movement Listener for Dynamic Separation & Orbit
                 window.addEventListener('mousemove', e => {
-                    if (!isDragging) return;
-                    const deltaX = e.clientX - previousMousePosition.x;
-                    const deltaY = e.clientY - previousMousePosition.y;
-                    dishGroup.rotation.y += deltaX * 0.01;
-                    dishGroup.rotation.x += deltaY * 0.01;
-                    previousMousePosition = { x: e.clientX, y: e.clientY };
+                    const normX = e.clientX / window.innerWidth;
+                    const normY = e.clientY / window.innerHeight;
+                    
+                    if (isMouseMode) {
+                        mouseX = normX;
+                        mouseY = normY; // 0 at top (exploded), 1 at bottom (assembled)
+                        
+                        // Calculate separation factor (0 = assembled, 1 = exploded)
+                        const sepFactor = Math.max(0, Math.min(1, (1 - normY) * 1.4));
+                        document.getElementById('radar-y').innerText = `${Math.round(sepFactor * 100)}% Exploded`;
+                        
+                        // Orbit rotation angle
+                        const angleDeg = Math.round((normX - 0.5) * 120);
+                        document.getElementById('radar-x').innerText = `${angleDeg}° Angle`;
+                        
+                        targetRotationY = (normX - 0.5) * 2.2;
+                        targetRotationX = 0.18 + (normY - 0.5) * 0.4;
+
+                        // Dynamically update layer Y positions based on mouse separation!
+                        layers.forEach((mesh, idx) => {
+                            const targetY = assembledY[idx] + (explodedY[idx] - assembledY[idx]) * sepFactor;
+                            mesh.position.y += (targetY - mesh.position.y) * 0.1;
+                        });
+
+                        // Select active layer based on mouse vertical zone
+                        const layerIndex = Math.min(6, Math.floor((1 - normY) * 7));
+                        if (layerIndex !== currentHoverIndex && layerIndex >= 0 && layerIndex < 7) {
+                            selectLayer(layerIndex);
+                        }
+                    }
                 });
 
                 // Touch support
-                container.addEventListener('touchstart', e => { isDragging = true; previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY }; });
-                window.addEventListener('touchend', () => { isDragging = false; });
                 window.addEventListener('touchmove', e => {
-                    if (!isDragging) return;
-                    const deltaX = e.touches[0].clientX - previousMousePosition.x;
-                    const deltaY = e.touches[0].clientY - previousMousePosition.y;
-                    dishGroup.rotation.y += deltaX * 0.01;
-                    dishGroup.rotation.x += deltaY * 0.01;
-                    previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+                    if (!isMouseMode || !e.touches[0]) return;
+                    const normX = e.touches[0].clientX / window.innerWidth;
+                    const normY = e.touches[0].clientY / window.innerHeight;
+                    const sepFactor = Math.max(0, Math.min(1, (1 - normY) * 1.4));
+                    document.getElementById('radar-y').innerText = `${Math.round(sepFactor * 100)}% Exploded`;
+                    targetRotationY = (normX - 0.5) * 2.2;
+                    layers.forEach((mesh, idx) => {
+                        const targetY = assembledY[idx] + (explodedY[idx] - assembledY[idx]) * sepFactor;
+                        mesh.position.y += (targetY - mesh.position.y) * 0.1;
+                    });
+                    const layerIndex = Math.min(6, Math.floor((1 - normY) * 7));
+                    if (layerIndex !== currentHoverIndex && layerIndex >= 0 && layerIndex < 7) {
+                        selectLayer(layerIndex);
+                    }
                 });
 
-                // Render Loop
+                // Animation Loop
                 const animate = () => {
                     requestAnimationFrame(animate);
-                    if (isAutoRotate && !isDragging) {
-                        dishGroup.rotation.y += rotationSpeed.y;
-                    }
+                    dishGroup.rotation.y += (targetRotationY - dishGroup.rotation.y) * 0.08;
+                    dishGroup.rotation.x += (targetRotationX - dishGroup.rotation.x) * 0.08;
                     renderer.render(scene, camera);
                 };
                 animate();
@@ -542,34 +399,38 @@
                     renderer.setSize(window.innerWidth, window.innerHeight);
                 });
             } else {
-                // Vanilla Canvas 3D Perspective Fallback for offline iframe sandbox!
+                // Vanilla Canvas 3D Fallback for offline iframe preview!
                 const canvas = document.createElement('canvas');
                 canvas.width = window.innerWidth; canvas.height = window.innerHeight;
                 container.appendChild(canvas);
                 const ctx = canvas.getContext('2d');
                 let angle = 0;
                 const colors = ['#d98c38', '#33cc44', '#d91424', '#592613', '#401a12', '#ffb700', '#ffd700'];
-                const names  = ['Bottom Bun', 'Lettuce', 'Tomato Slice', 'Truffle Onions', 'Wagyu Patty', 'Truffle Cheddar', 'Gold Brioche'];
+                
+                window.addEventListener('mousemove', e => {
+                    if (isMouseMode) mouseY = e.clientY / window.innerHeight;
+                });
                 
                 const drawFallback = () => {
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
                     const cx = canvas.width / 2, cy = canvas.height / 2;
-                    angle += 0.01;
-                    const currentY = isExploded ? explodedY : assembledY;
+                    angle += 0.015;
+                    const sepFactor = Math.max(0, Math.min(1, (1 - mouseY) * 1.4));
+                    document.getElementById('radar-y').innerText = `${Math.round(sepFactor * 100)}% Exploded`;
                     
                     for(let i=0; i<7; i++) {
-                        const yOffset = -currentY[i] * 22;
-                        const rx = Math.cos(angle + i*0.5) * 15;
+                        const targetY = assembledY[i] + (explodedY[i] - assembledY[i]) * sepFactor;
+                        const yOffset = -targetY * 23;
+                        const rx = Math.cos(angle + i*0.4) * 16;
                         
                         ctx.fillStyle = colors[i];
                         ctx.beginPath();
-                        ctx.ellipse(cx + rx, cy + yOffset, 90, 30, 0, 0, Math.PI * 2);
+                        ctx.ellipse(cx + rx, cy + yOffset, 95, 32, 0, 0, Math.PI * 2);
                         ctx.fill();
-                        ctx.lineWidth = 2; ctx.strokeStyle = 'rgba(255,255,255,0.3)'; ctx.stroke();
+                        ctx.lineWidth = 2; ctx.strokeStyle = (i === currentHoverIndex) ? '#ffd700' : 'rgba(255,255,255,0.2)'; ctx.stroke();
                         
-                        // Label
                         ctx.fillStyle = '#fff'; ctx.font = 'bold 12px Plus Jakarta Sans';
-                        ctx.fillText(names[i], cx + rx + 105, cy + yOffset + 5);
+                        ctx.fillText(layerInfo[i].name, cx + rx + 110, cy + yOffset + 5);
                     }
                     requestAnimationFrame(drawFallback);
                 };
@@ -578,92 +439,62 @@
         }
         window.addEventListener('DOMContentLoaded', init3D);
 
-        // UI Actions
-        function toggleExplode() {
-            isExploded = !isExploded;
-            const btn = document.getElementById('btn-explode-toggle');
-            const status = document.getElementById('status-tag');
-            
-            if (isExploded) {
-                btn.innerHTML = "🍔 Assemble Dish (Normal 3D View)";
-                btn.style.background = "linear-gradient(135deg, #00f0ff, #0077ff)";
-                status.innerHTML = "● EXPLODED (DECONSTRUCTED VIEW)";
-                status.style.color = "#00f0ff";
-            } else {
-                btn.innerHTML = "💥 Explode Layers (3D Deconstruct)";
+        function selectLayer(idx) {
+            currentHoverIndex = idx;
+            const info = layerInfo[idx];
+            document.getElementById('hud-num').innerText = info.num;
+            document.getElementById('hud-title').innerText = info.name;
+            document.getElementById('hud-desc').innerText = info.desc;
+            document.getElementById('hud-cal').innerText = info.cal;
+            document.getElementById('hud-origin').innerText = info.origin;
+            document.getElementById('hud-cert').innerText = info.cert;
+            document.getElementById('radar-layer').innerText = info.name;
+
+            // Subtle scale bump on selected layer
+            if (typeof gsap !== 'undefined' && layers[idx]) {
+                layers.forEach((mesh, i) => {
+                    gsap.to(mesh.scale, { x: (i === idx) ? 1.15 : 1, z: (i === idx) ? 1.15 : 1, duration: 0.4 });
+                });
+            }
+        }
+
+        function toggleMouseMode() {
+            isMouseMode = !isMouseMode;
+            const btn = document.getElementById('btn-mode-toggle');
+            if (isMouseMode) {
+                btn.innerHTML = "🖱️ Mouse Separation Mode: ON (Dynamic)";
                 btn.style.background = "linear-gradient(135deg, var(--gold), #ff9900)";
-                status.innerHTML = "● ASSEMBLED (NORMAL)";
-                status.style.color = "var(--gold)";
-            }
-
-            // Animate Y positions
-            if (typeof gsap !== 'undefined' && layers.length === 7) {
-                const targetY = isExploded ? explodedY : assembledY;
-                layers.forEach((mesh, index) => {
-                    gsap.to(mesh.position, {
-                        y: targetY[index],
-                        duration: 1.2,
-                        ease: "elastic.out(1, 0.7)"
+            } else {
+                btn.innerHTML = "🖱️ Mouse Separation Mode: PAUSED (Manual)";
+                btn.style.background = "rgba(255,255,255,0.1)";
+                // Animate to normal assembled state
+                if (typeof gsap !== 'undefined') {
+                    layers.forEach((mesh, idx) => {
+                        gsap.to(mesh.position, { y: assembledY[idx], duration: 1, ease: "power2.out" });
+                        gsap.to(mesh.scale, { x: 1, z: 1, duration: 0.5 });
                     });
-                });
+                }
+                document.getElementById('radar-y').innerText = "Paused (Assembled)";
             }
         }
 
-        function toggleAutoRotate() {
-            isAutoRotate = !isAutoRotate;
-            const btn = document.getElementById('btn-rotate-toggle');
-            btn.innerHTML = isAutoRotate ? "⏸️ Pause 360° Rotation" : "▶️ Resume 360° Rotation";
+        function cycleLayer(step) {
+            let nextIdx = (currentHoverIndex + step) % 7;
+            if (nextIdx < 0) nextIdx = 6;
+            selectLayer(nextIdx);
         }
 
-        function resetView() {
+        function resetCamera() {
+            targetRotationY = 0; targetRotationX = 0.18;
             if (typeof gsap !== 'undefined' && dishGroup) {
-                gsap.to(dishGroup.rotation, { x: 0.2, y: 0, z: 0, duration: 1, ease: "power2.out" });
-                gsap.to(camera.position, { x: 0, y: 5, z: 26, duration: 1, ease: "power2.out" });
+                gsap.to(dishGroup.rotation, { x: 0.18, y: 0, z: 0, duration: 1, ease: "power2.out" });
             }
         }
 
-        function inspectLayer(index, name, desc, cal, origin, cert) {
-            // Highlight item in right list
-            document.querySelectorAll('.ingredient-item').forEach(el => el.classList.remove('active'));
-            if(event && event.currentTarget) event.currentTarget.classList.add('active');
-
-            // Open popup modal
-            const modal = document.getElementById('ing-modal');
-            document.getElementById('modal-ing-title').innerText = name;
-            document.getElementById('modal-ing-desc').innerText = desc;
-            document.getElementById('stat-cal').innerText = cal;
-            document.getElementById('stat-origin').innerText = origin;
-            document.getElementById('stat-cert').innerText = cert;
-            
-            modal.style.display = 'block';
-            setTimeout(() => { modal.style.opacity = '1'; }, 10);
-
-            // Animate camera and highlight layer in 3D scene
-            if (typeof gsap !== 'undefined' && layers.length === 7) {
-                // If not exploded, explode first to see the layer!
-                if (!isExploded) toggleExplode();
-                
-                // Spin dish to showcase this specific layer
-                gsap.to(dishGroup.position, {
-                    y: -explodedY[index] * 0.5,
-                    duration: 1,
-                    ease: "power2.out"
-                });
-                
-                // Make the selected layer bounce!
-                gsap.fromTo(layers[index].scale, { x: 1.3, z: 1.3 }, { x: 1, z: 1, duration: 0.8, ease: "elastic.out(1, 0.5)" });
-            }
-        }
-
-        function closeModal() {
-            const modal = document.getElementById('ing-modal');
-            modal.style.opacity = '0';
-            setTimeout(() => { modal.style.display = 'none'; }, 300);
-            
-            if (typeof gsap !== 'undefined' && dishGroup) {
-                gsap.to(dishGroup.position, { y: 0, duration: 1, ease: "power2.out" });
-            }
-        }
+        // Initialize display with default layer 4 (Patty)
+        window.addEventListener('DOMContentLoaded', () => {
+            selectLayer(4);
+        });
     </script>
 </body>
 </html>
