@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumiere Gourmet Burger Lounge - Awwwards 2026 Interactive Experience</title>
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700;800&family=Playfair+Display:ital,wght@0,700;1,600&display=swap');
+        
+        :root {
+            --bg: #04060a;
+            --surface: #0b111e;
+            --gold: #ffd700;
+            --gold-glow: rgba(255, 215, 0, 0.35);
+            --crimson: #e6194b;
+            --crimson-glow: rgba(230, 25, 75, 0.4);
+            --text-main: #f9fafb;
+            --text-muted: #9ca3af;
+            --border: rgba(255, 215, 0, 0.2);
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-serif: 'Playfair Display', serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-body); }
+        
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 20%, rgba(255, 215, 0, 0.08) 0%, transparent 45%),
+                radial-gradient(circle at 85% 80%, rgba(230, 25, 75, 0.08) 0%, transparent 45%);
+            background-attachment: fixed;
+        }
+
+        /* Ambient Ember Canvas Background */
+        #ember-canvas {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none; z-index: 0; opacity: 0.6;
+        }
+
+        /* Top Banner */
+        .ai-banner {
+            background: linear-gradient(90deg, #0b111e, #23151c, #0b111e);
+            border-bottom: 1px solid var(--border);
+            padding: 10px 20px; text-align: center; font-size: 11px; font-weight: 800;
+            letter-spacing: 2px; color: var(--gold); position: relative; z-index: 100;
+            text-transform: uppercase;
+        }
+
+        /* Navbar */
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 24px 60px; background: rgba(4, 6, 10, 0.85);
+            backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.06);
+            position: sticky; top: 0; z-index: 90;
+        }
+        @media (max-width: 768px) { nav { padding: 18px 24px; flex-direction: column; gap: 16px; } }
+
+        .brand {
+            font-family: var(--font-display); font-size: 26px; font-weight: 800;
+            background: linear-gradient(to right, #fff, var(--gold));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            display: flex; align-items: center; gap: 12px;
+        }
+        .brand-logo {
+            width: 42px; height: 42px; background: linear-gradient(135deg, var(--gold), #ff8800);
+            border-radius: 12px; display: flex; align-items: center; justify-content: center;
+            color: #000; font-weight: 800; font-size: 20px; box-shadow: 0 0 25px var(--gold-glow);
+        }
+
+        .nav-links { display: flex; gap: 32px; list-style: none; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; font-weight: 600; font-size: 14px; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--gold); }
+        @media (max-width: 600px) { .nav-links { display: none; } }
+
+        .btn-vip {
+            background: linear-gradient(135deg, var(--gold), #ff8800);
+            color: #000; font-weight: 800; font-size: 14px; padding: 14px 30px;
+            border-radius: 30px; border: none; cursor: pointer; text-decoration: none;
+            box-shadow: 0 0 30px var(--gold-glow); transition: all 0.3s;
+            text-transform: uppercase; letter-spacing: 1px; display: inline-flex; align-items: center; gap: 8px;
+        }
+        .btn-vip:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 0 45px var(--gold); }
+
+        /* SECTION 1: CINEMATIC HERO */
+        .hero {
+            padding: 80px 60px 120px; max-width: 1350px; margin: 0 auto;
+            position: relative; z-index: 10; min-height: 85vh;
+            display: grid; grid-template-columns: 1.1fr 1fr; align-items: center; gap: 60px;
+        }
+        @media (max-width: 992px) { .hero { grid-template-columns: 1fr; text-align: center; padding: 60px 24px; } }
+
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(255, 215, 0, 0.1); border: 1px solid var(--border);
+            color: var(--gold); padding: 8px 20px; border-radius: 30px;
+            font-size: 12px; font-weight: 800; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 2px;
+        }
+        h1 { font-family: var(--font-serif); font-size: 68px; font-weight: 700; line-height: 1.05; margin-bottom: 24px; }
+        @media (max-width: 768px) { h1 { font-size: 44px; } }
+        h1 span.highlight {
+            font-family: var(--font-display); font-style: normal;
+            background: linear-gradient(135deg, var(--gold), #ff8800, #fff);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 35px rgba(255, 215, 0, 0.3);
+        }
+        p.lead { font-size: 19px; color: var(--text-muted); max-width: 560px; margin-bottom: 40px; line-height: 1.7; }
+        @media (max-width: 992px) { p.lead { margin: 0 auto 40px; } }
+
+        /* 3D Real-Image Hover Card */
+        .hero-img-container {
+            position: relative; perspective: 1200px; display: flex; justify-content: center;
+        }
+        .hero-card-3d {
+            width: 100%; max-width: 520px;
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 32px; padding: 20px; backdrop-filter: blur(20px);
+            box-shadow: 0 30px 70px rgba(0,0,0,0.9), 0 0 40px var(--gold-glow);
+            transform: rotateY(-10deg) rotateX(6deg); transition: transform 0.15s ease-out;
+            cursor: pointer; position: relative; overflow: hidden;
+        }
+        .hero-card-3d:hover { transform: rotateY(0deg) rotateX(0deg) scale(1.03); }
+        .hero-food-img {
+            width: 100%; height: 380px; object-fit: cover; border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6); transition: transform 0.5s;
+        }
+        .hero-card-3d:hover .hero-food-img { transform: scale(1.05); }
+
+        .card-badge-floating {
+            position: absolute; top: 36px; right: 36px; background: rgba(0,0,0,0.8);
+            border: 1px solid var(--gold); color: var(--gold); padding: 8px 16px;
+            border-radius: 20px; font-size: 12px; font-weight: 800; backdrop-filter: blur(10px);
+        }
+
+        .img-caption { display: flex; justify-content: space-between; align-items: center; margin-top: 18px; padding: 0 10px; }
+        .caption-title { font-family: var(--font-display); font-size: 22px; font-weight: 800; color: #fff; }
+        .caption-price { font-size: 24px; font-weight: 800; color: var(--gold); }
+
+        /* SECTION 2: INFINITE MARQUEE TICKER */
+        .marquee-section {
+            background: rgba(11, 17, 30, 0.9); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+            padding: 22px 0; overflow: hidden; position: relative; z-index: 10; margin-bottom: 100px;
+        }
+        .marquee-track { display: flex; gap: 60px; width: max-content; animation: scrollMarquee 25s linear infinite; }
+        @keyframes scrollMarquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .marquee-item { font-family: var(--font-display); font-size: 18px; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 14px; white-space: nowrap; letter-spacing: 1px; }
+        .marquee-item span { color: var(--gold); font-size: 20px; }
+
+        /* SECTION 3: BENTO GRID MENU WITH REAL PHOTOGRAPHY */
+        .section-box { padding: 80px 60px; max-width: 1350px; margin: 0 auto; position: relative; z-index: 10; }
+        @media (max-width: 768px) { .section-box { padding: 60px 24px; } }
+        .section-header { text-align: center; margin-bottom: 70px; }
+        .section-header h2 { font-family: var(--font-serif); font-size: 48px; font-weight: 700; margin-bottom: 16px; }
+        .section-header p { color: var(--text-muted); font-size: 18px; max-width: 650px; margin: 0 auto; }
+
+        .menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+        @media (max-width: 992px) { .menu-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 640px) { .menu-grid { grid-template-columns: 1fr; } }
+
+        .menu-card {
+            background: var(--surface); border: 1px solid rgba(255,255,255,0.08); border-radius: 28px;
+            padding: 24px; position: relative; overflow: hidden; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex; flex-direction: column; justify-content: space-between;
+        }
+        .menu-card:hover {
+            border-color: var(--gold); transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8), 0 0 30px var(--gold-glow);
+        }
+        .menu-img-wrap { width: 100%; height: 240px; border-radius: 20px; overflow: hidden; margin-bottom: 20px; position: relative; }
+        .menu-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s; }
+        .menu-card:hover .menu-img { transform: scale(1.1); }
+        
+        .menu-tag { position: absolute; top: 14px; left: 14px; background: rgba(0,0,0,0.8); border: 1px solid var(--gold); color: var(--gold); padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: 800; backdrop-filter: blur(10px); }
+        
+        .menu-card h3 { font-family: var(--font-display); font-size: 22px; font-weight: 800; margin-bottom: 10px; color: #fff; }
+        .menu-card p { color: var(--text-muted); font-size: 14px; line-height: 1.6; margin-bottom: 24px; }
+        .menu-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 16px; }
+        .price-val { font-size: 22px; font-weight: 800; color: var(--gold); }
+
+        /* SECTION 4: INTERACTIVE GOURMET BURGER CONFIGURATOR */
+        .config-box {
+            background: linear-gradient(135deg, rgba(11, 17, 30, 0.95), rgba(255, 215, 0, 0.06));
+            border: 1px solid var(--gold); border-radius: 36px; padding: 60px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.9), 0 0 40px var(--gold-glow); margin: 60px 0;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center;
+        }
+        @media (max-width: 992px) { .config-box { grid-template-columns: 1fr; padding: 36px 20px; } }
+
+        .topping-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 24px; }
+        @media (max-width: 500px) { .topping-grid { grid-template-columns: 1fr; } }
+        
+        .topping-btn {
+            background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px; padding: 16px; cursor: pointer; transition: all 0.3s;
+            display: flex; justify-content: space-between; align-items: center; color: #fff;
+        }
+        .topping-btn:hover { border-color: var(--gold); background: rgba(255, 215, 0, 0.1); }
+        .topping-btn.active { border-color: var(--gold); background: rgba(255, 215, 0, 0.2); box-shadow: 0 0 15px var(--gold-glow); }
+        .top-name { font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 8px; }
+        .top-price { color: var(--gold); font-weight: 800; font-size: 14px; }
+
+        .meter-wrap { background: rgba(0,0,0,0.6); border: 1px solid var(--border); border-radius: 24px; padding: 30px; text-align: center; }
+        .umami-gauge { height: 16px; background: #1e293b; border-radius: 10px; overflow: hidden; margin: 20px 0; position: relative; }
+        .umami-fill { height: 100%; width: 45%; background: linear-gradient(90deg, #34d399, var(--gold), var(--crimson)); transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .total-price-display { font-family: var(--font-display); font-size: 56px; font-weight: 800; color: var(--gold); text-shadow: 0 0 30px var(--gold-glow); margin: 16px 0; }
+
+        /* SECTION 5: BEFORE & AFTER COMPARISON SLIDER */
+        .comp-container {
+            position: relative; width: 100%; max-width: 950px; height: 460px; margin: 40px auto;
+            border-radius: 32px; overflow: hidden; border: 1px solid var(--gold);
+            box-shadow: 0 30px 70px rgba(0,0,0,0.9), 0 0 40px var(--gold-glow); user-select: none;
+        }
+        @media (max-width: 768px) { .comp-container { height: 320px; } }
+        .comp-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: flex-end; padding: 30px; }
+        .comp-before {
+            background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.2) 60%), url('https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=1000&q=80') center/cover;
+            color: #9ca3af; width: 100%;
+        }
+        .comp-after {
+            background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.2) 60%), url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1000&q=80') center/cover;
+            color: var(--gold); width: 50%; overflow: hidden; border-right: 3px solid var(--gold); box-shadow: 5px 0 30px var(--gold-glow);
+        }
+        .comp-badge { background: rgba(0,0,0,0.85); padding: 10px 20px; border-radius: 20px; font-weight: 800; font-size: 15px; border: 1px solid rgba(255,255,255,0.2); }
+        .comp-slider-input { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: ew-resize; z-index: 20; }
+
+        /* VIP BOOKING MODAL */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(15px);
+            display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px;
+        }
+        .modal-box {
+            background: #0b111e; border: 1px solid var(--gold); border-radius: 32px;
+            max-width: 520px; width: 100%; padding: 40px; position: relative;
+            box-shadow: 0 0 60px var(--gold-glow);
+        }
+        .form-input { width: 100%; padding: 14px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: #fff; font-size: 15px; outline: none; margin-bottom: 16px; }
+        .form-input:focus { border-color: var(--gold); }
+
+        /* Footer */
+        footer { padding: 60px; text-align: center; border-top: 1px solid rgba(255,255,255,0.08); color: #64748b; font-size: 14px; position: relative; z-index: 10; }
+        
+        /* GSAP Reveal */
+        .gsap-reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s ease; }
+        .gsap-reveal.active { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body>
+
+    <!-- Ambient Ember Canvas -->
+    <canvas id="ember-canvas"></canvas>
+
+    <div class="ai-banner">
+        ⚡ DESIGNED WITH REAL FOOD PHOTOGRAPHY BY PROMPT ENGINEER SPECIALIST | AWWWARDS 2026 BENCHMARK ⚡
+    </div>
+
+    <nav>
+        <div class="brand">
+            <div class="brand-logo">🍔</div>
+            <span>LUMIERE GOURMET BURGERS</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#menu">Artisan Menu</a></li>
+            <li><a href="#configurator">Build Your Burger</a></li>
+            <li><a href="#transformation">Quality Compare</a></li>
+            <li><a href="lumiere_3d_dish_experience.html" style="color: var(--gold);">✨ 3D Ingredient Radar</a></li>
+        </ul>
+        <button class="btn-vip" onclick="openModal()">🍽️ Reserve VIP Table</button>
+    </nav>
+
+    <!-- SECTION 1: CINEMATIC HERO -->
+    <header class="hero">
+        <div class="gsap-reveal">
+            <div class="hero-badge">🍷 MICHELIN GUIDE 2026 RECOMMENDED LOUNGE</div>
+            <h1>The Pinnacle of <br><span class="highlight">Artisan Burger</span> Craftsmanship</h1>
+            <p class="lead">Forget ordinary fast food. Experience 100% Japanese A5 Miyazaki Wagyu, Perigord winter black truffle, and 24-karat edible gold brioche buns baked fresh hourly.</p>
+            <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+                <button class="btn-vip" style="padding: 16px 36px; font-size: 16px;" onclick="openModal()">🚀 Order VIP Delivery / Table</button>
+                <a href="#configurator" style="color: #fff; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 8px; padding: 16px;">Customize Flavor ↓</a>
+            </div>
+        </div>
+
+        <div class="hero-img-container gsap-reveal">
+            <div class="hero-card-3d" id="tilt-card">
+                <span class="card-badge-floating">🔥 CHEF'S SIGNATURE</span>
+                <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1000&q=80" alt="Le Royal Wagyu Burger" class="hero-food-img">
+                <div class="img-caption">
+                    <div>
+                        <div class="caption-title">Le Royal Truffle Wagyu</div>
+                        <div style="font-size: 13px; color: var(--text-muted);">Miyazaki A5 Wagyu • Aged Farmhouse Cheddar</div>
+                    </div>
+                    <div class="caption-price">$48</div>
+                </div>
+                <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.08); font-size: 12px; color: var(--gold); text-align: center; font-weight: 700;">
+                    💡 TIP: HOVER & MOVE MOUSE FOR 3D TILT EFFECT
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- SECTION 2: INFINITE MARQUEE TICKER -->
+    <div class="marquee-section">
+        <div class="marquee-track">
+            <div class="marquee-item"><span>★</span> 100% JAPANESE A5 WAGYU BEEF <span>★</span> 36-MONTH AGED ENGLISH CHEDDAR <span>★</span> BAKED HOURLY 24K GOLD BRIOCHE <span>★</span> PERIGORD BLACK TRUFFLE EMULSION <span>★</span> ZERO ARTIFICIAL INGREDIENTS <span>★</span></div>
+            <div class="marquee-item"><span>★</span> 100% JAPANESE A5 WAGYU BEEF <span>★</span> 36-MONTH AGED ENGLISH CHEDDAR <span>★</span> BAKED HOURLY 24K GOLD BRIOCHE <span>★</span> PERIGORD BLACK TRUFFLE EMULSION <span>★</span> ZERO ARTIFICIAL INGREDIENTS <span>★</span></div>
+        </div>
+    </div>
+
+    <!-- SECTION 3: BENTO GRID MENU WITH REAL PHOTOGRAPHY -->
+    <section class="section-box" id="menu">
+        <div class="section-header gsap-reveal">
+            <h2>The Artisan Burger Collection</h2>
+            <p>Every burger is cooked to medium-rare perfection over Japanese Binchotan charcoal.</p>
+        </div>
+        <div class="menu-grid">
+            <div class="menu-card gsap-reveal">
+                <div class="menu-img-wrap">
+                    <span class="menu-tag">👑 MOST POPULAR</span>
+                    <img src="https://images.unsplash.com/photo-1553979459-d2229ba7433b?auto=format&fit=crop&w=800&q=80" alt="Wagyu Truffle Supreme" class="menu-img">
+                </div>
+                <h3>Wagyu Truffle Supreme</h3>
+                <p>Double A5 Miyazaki patty, caramelized Morel mushrooms, 30-year balsamic glaze, and shaved Perigord winter truffle.</p>
+                <div class="menu-footer">
+                    <span class="price-val">$54</span>
+                    <button class="btn-vip" style="padding: 10px 20px; font-size: 12px;" onclick="openModal()">Order Now</button>
+                </div>
+            </div>
+
+            <div class="menu-card gsap-reveal">
+                <div class="menu-img-wrap">
+                    <span class="menu-tag">✨ 24K GOLD LEAF</span>
+                    <img src="https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?auto=format&fit=crop&w=800&q=80" alt="The Sovereign Gold" class="menu-img">
+                </div>
+                <h3>The Sovereign Gold Brioche</h3>
+                <p>Hand-crafted sourdough brioche brushed with edible 24-karat gold, topped with seared foie gras and fig chutney.</p>
+                <div class="menu-footer">
+                    <span class="price-val">$68</span>
+                    <button class="btn-vip" style="padding: 10px 20px; font-size: 12px;" onclick="openModal()">Order Now</button>
+                </div>
+            </div>
+
+            <div class="menu-card gsap-reveal">
+                <div class="menu-img-wrap">
+                    <span class="menu-tag">🔥 SMOKED ARTISAN</span>
+                    <img src="https://images.unsplash.com/photo-1576107232684-1279f3908594?auto=format&fit=crop&w=800&q=80" alt="Craft Truffle Fries" class="menu-img">
+                </div>
+                <h3>Artisan Truffle Fries & Dip</h3>
+                <p>Hand-cut Kennebec potatoes triple-cooked in duck fat, tossed in rosemary sea salt and served with truffle aioli.</p>
+                <div class="menu-footer">
+                    <span class="price-val">$18</span>
+                    <button class="btn-vip" style="padding: 10px 20px; font-size: 12px;" onclick="openModal()">Order Now</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: INTERACTIVE GOURMET BURGER CONFIGURATOR -->
+    <section class="section-box" id="configurator">
+        <div class="config-box gsap-reveal">
+            <div>
+                <span class="hero-badge">🎛️ INTERACTIVE FLAVOR LAB</span>
+                <h2 style="font-family: var(--font-serif); font-size: 42px; font-weight: 700; margin-bottom: 12px;">Build Your Custom Gourmet Masterpiece</h2>
+                <p style="color: var(--text-muted); font-size: 16px;">Select your artisanal upgrades below and watch the Umami Intensity Gauge respond in real-time:</p>
+                
+                <div class="topping-grid">
+                    <div class="topping-btn active" onclick="toggleTopping(this, 18, 25)">
+                        <span class="top-name">🥩 Extra A5 Wagyu Patty</span>
+                        <span class="top-price">+$18</span>
+                    </div>
+                    <div class="topping-btn active" onclick="toggleTopping(this, 12, 20)">
+                        <span class="top-name">🍄 Shaved Perigord Truffle</span>
+                        <span class="top-price">+$12</span>
+                    </div>
+                    <div class="topping-btn" onclick="toggleTopping(this, 14, 20)">
+                        <span class="top-name">🦆 Seared French Foie Gras</span>
+                        <span class="top-price">+$14</span>
+                    </div>
+                    <div class="topping-btn" onclick="toggleTopping(this, 8, 10)">
+                        <span class="top-name">✨ 24k Gold Leaf Brioche</span>
+                        <span class="top-price">+$8</span>
+                    </div>
+                    <div class="topping-btn" onclick="toggleTopping(this, 6, 15)">
+                        <span class="top-name">🧀 36M Aged English Cheddar</span>
+                        <span class="top-price">+$6</span>
+                    </div>
+                    <div class="topping-btn" onclick="toggleTopping(this, 4, 10)">
+                        <span class="top-name">🧅 30-Year Balsamic Onions</span>
+                        <span class="top-price">+$4</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="meter-wrap">
+                <div style="font-size: 13px; font-weight: 800; color: #fff; letter-spacing: 1px;">🔥 UMAMI FLAVOR INTENSITY INDEX</div>
+                <div class="umami-gauge">
+                    <div class="umami-fill" id="umami-bar" style="width: 65%;"></div>
+                </div>
+                <div style="font-size: 14px; color: var(--text-muted); display: flex; justify-content: space-between; margin-bottom: 24px;">
+                    <span>Standard Fast Food (15%)</span>
+                    <span id="umami-val" style="color: var(--gold); font-weight: 800;">Tier-1 Gourmet (65%)</span>
+                </div>
+
+                <div style="font-size: 14px; color: var(--text-muted);">ESTIMATED CUSTOM BURGER VALUE:</div>
+                <div class="total-price-display" id="total-price">$58</div>
+                <button class="btn-vip" style="width: 100%; justify-content: center; padding: 18px;" onclick="openModal()">🚀 Order This Custom Burger Now</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5: BEFORE & AFTER COMPARISON SLIDER -->
+    <section class="section-box" id="transformation">
+        <div class="section-header gsap-reveal">
+            <h2>The Quality Difference</h2>
+            <p>Drag the divider left and right to compare generic mass-produced fast food against our artisan culinary creations.</p>
+        </div>
+        <div class="comp-container gsap-reveal">
+            <div class="comp-layer comp-before">
+                <span class="comp-badge" style="border-color: #ef4444; color: #ef4444;">❌ Generic Frozen Patty & Soggy Bun</span>
+            </div>
+            <div class="comp-layer comp-after" id="comp-after-layer">
+                <span class="comp-badge" style="border-color: var(--gold); color: var(--gold);">✨ Lumiere 100% A5 Wagyu & Gold Brioche</span>
+            </div>
+            <input type="range" class="comp-slider-input" min="0" max="100" value="50" oninput="updateComp(this.value)">
+        </div>
+    </section>
+
+    <!-- VIP BOOKING MODAL -->
+    <div class="modal-overlay" id="vip-modal">
+        <div class="modal-box">
+            <button style="position: absolute; top: 20px; right: 20px; background: none; border: none; color: var(--text-muted); font-size: 24px; cursor: pointer;" onclick="closeModal()">×</button>
+            <div style="font-size: 26px; font-weight: 800; margin-bottom: 8px; color: #fff;">🍽️ VIP Table / Delivery</div>
+            <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 24px;">Complete your reservation with Lumiere Gourmet Lounge.</p>
+            <form onsubmit="handleOrder(event)">
+                <input type="text" class="form-input" placeholder="Full Name *" required>
+                <input type="tel" class="form-input" placeholder="Contact Phone / WhatsApp *" required>
+                <input type="text" class="form-input" placeholder="Delivery Address or Table Date" required>
+                <button type="submit" class="btn-vip" style="width: 100%; justify-content: center; margin-top: 10px;">🚀 Confirm Order & Celebrate</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p style="font-size: 20px; color: #fff; font-weight: 800; margin-bottom: 8px;">LUMIERE GOURMET BURGER LOUNGE</p>
+        <p style="margin-bottom: 20px;">100% A5 Miyazaki Wagyu • Baked Hourly Gold Brioche • Michelin Guide 2026</p>
+        <p>© 2026 Lumiere Lounge. All rights reserved. Architected with Prompt Engineer Specialist Rules.</p>
+    </footer>
+
+    <!-- Interactive Scripts -->
+    <script>
+        // 1. Scroll Reveal Engine
+        function initReveal() {
+            if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+                gsap.registerPlugin(ScrollTrigger);
+                document.querySelectorAll('.gsap-reveal').forEach(el => {
+                    gsap.fromTo(el, { opacity: 0, y: 40 }, {
+                        opacity: 1, y: 0, duration: 0.8,
+                        scrollTrigger: { trigger: el, start: "top 85%" }
+                    });
+                });
+            } else {
+                const checkScroll = () => {
+                    document.querySelectorAll('.gsap-reveal').forEach(el => {
+                        if (el.getBoundingClientRect().top < window.innerHeight - 60) el.classList.add('active');
+                    });
+                };
+                window.addEventListener('scroll', checkScroll);
+                checkScroll();
+            }
+        }
+        window.addEventListener('DOMContentLoaded', initReveal);
+
+        // 2. 3D Card Mouse Tilt
+        const tiltCard = document.getElementById('tilt-card');
+        if (tiltCard) {
+            tiltCard.addEventListener('mousemove', e => {
+                const rect = tiltCard.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                tiltCard.style.transform = `rotateY(${x * 0.05}deg) rotateX(${-y * 0.05}deg) scale(1.03)`;
+            });
+            tiltCard.addEventListener('mouseleave', () => {
+                tiltCard.style.transform = 'rotateY(-10deg) rotateX(6deg)';
+            });
+        }
+
+        // 3. Ambient Ember Canvas Particles
+        const canvas = document.getElementById('ember-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let embers = [];
+
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Ember {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 2.5 + 1;
+                this.speedY = -(Math.random() * 1.2 + 0.3);
+                this.speedX = (Math.random() - 0.5) * 0.8;
+                this.opacity = Math.random() * 0.7 + 0.3;
+            }
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX;
+                if (this.y < 0) {
+                    this.y = height;
+                    this.x = Math.random() * width;
+                }
+            }
+            draw() {
+                ctx.fillStyle = `rgba(255, 215, 0, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < 60; i++) embers.push(new Ember());
+
+        function animateEmbers() {
+            ctx.clearRect(0, 0, width, height);
+            embers.forEach(e => { e.update(); e.draw(); });
+            requestAnimationFrame(animateEmbers);
+        }
+        animateEmbers();
+
+        // 4. Interactive Burger Configurator
+        let basePrice = 28;
+        let baseUmami = 20;
+        let currentPrice = 58;
+        let currentUmami = 65;
+
+        function toggleTopping(btn, price, umami) {
+            btn.classList.toggle('active');
+            if (btn.classList.contains('active')) {
+                currentPrice += price;
+                currentUmami += umami;
+            } else {
+                currentPrice -= price;
+                currentUmami -= umami;
+            }
+            currentUmami = Math.min(100, Math.max(15, currentUmami));
+            
+            document.getElementById('total-price').innerText = `$${currentPrice}`;
+            document.getElementById('umami-bar').style.width = `${currentUmami}%`;
+            
+            let label = "Tier-1 Gourmet";
+            if (currentUmami > 85) label = "👑 MICHELIN GOD TIER";
+            else if (currentUmami > 50) label = "🔥 ULTRA SAVORY";
+            else label = "Standard Gourmet";
+            
+            document.getElementById('umami-val').innerText = `${label} (${currentUmami}%)`;
+        }
+
+        // 5. Before & After Slider
+        function updateComp(val) {
+            document.getElementById('comp-after-layer').style.width = `${val}%`;
+        }
+
+        // 6. VIP Booking Handlers
+        function openModal() { document.getElementById('vip-modal').style.display = 'flex'; }
+        function closeModal() { document.getElementById('vip-modal').style.display = 'none'; }
+        function handleOrder(e) {
+            e.preventDefault();
+            closeModal();
+            if (typeof confetti !== 'undefined') {
+                confetti({ particleCount: 180, spread: 90, origin: { y: 0.6 } });
+            } else {
+                alert("🎉 CELEBRATION CONFETTI! 🎉");
+            }
+            setTimeout(() => {
+                alert("🎉 ORDER CONFIRMED!\n\nYour gourmet Wagyu order has been transmitted to our kitchen over Binchotan charcoal.");
+            }, 400);
+        }
+    </script>
+</body>
+</html>
