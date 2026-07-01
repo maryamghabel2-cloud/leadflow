@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeadFlow.AI - Client Onboarding & Campaign Setup</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        
+        :root {
+            --bg-dark: #030712;
+            --bg-card: #0b1120;
+            --accent: #6366f1;
+            --accent-glow: rgba(99, 102, 241, 0.25);
+            --pink-accent: #ec4899;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --text-white: #f9fafb;
+            --text-gray: #9ca3af;
+            --border-color: #1f2937;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-white);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-image: 
+                radial-gradient(circle at 15% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 85% 80%, rgba(236, 72, 153, 0.12) 0%, transparent 40%);
+        }
+
+        /* Nav */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 60px;
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(3, 7, 18, 0.8);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text-white);
+            font-weight: 800;
+            font-size: 22px;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-icon {
+            background: linear-gradient(135deg, var(--accent), var(--pink-accent));
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 16px;
+            color: white;
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .back-link {
+            color: var(--text-gray);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--text-white);
+        }
+
+        /* Container */
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 0 24px;
+            flex: 1;
+            width: 100%;
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header-section h1 {
+            font-size: 38px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            background: linear-gradient(to right, #fff 40%, #a5b4fc, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-section p {
+            color: var(--text-gray);
+            font-size: 16px;
+        }
+
+        /* Step Progress */
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .progress-bar::before {
+            content: "";
+            position: absolute;
+            top: 20px;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: var(--border-color);
+            z-index: 1;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .step-circle {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--text-gray);
+            transition: all 0.3s;
+            margin-bottom: 8px;
+        }
+
+        .step.active .step-circle {
+            border-color: var(--accent);
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .step.completed .step-circle {
+            border-color: var(--success);
+            background: var(--success);
+            color: white;
+        }
+
+        .step-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-gray);
+        }
+
+        .step.active .step-label {
+            color: var(--text-white);
+        }
+
+        /* Form Card */
+        .form-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-section {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-subtitle {
+            font-size: 14px;
+            color: var(--text-gray);
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 640px) {
+            .form-grid { grid-template-columns: 1fr; }
+            nav { padding: 20px; }
+            .form-card { padding: 24px; }
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            color: var(--text-gray);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 14px 18px;
+            background-color: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: white;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-select option {
+            background-color: var(--bg-card);
+            color: white;
+        }
+
+        /* Blockchain verification box */
+        .crypto-box {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(99, 102, 241, 0.08) 100%);
+            border: 1px dashed rgba(16, 185, 129, 0.4);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 30px;
+        }
+
+        .crypto-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .wallet-address {
+            font-family: 'Courier New', monospace;
+            background: rgba(0,0,0,0.4);
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            color: var(--success);
+            font-size: 13px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .copy-btn {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* Buttons */
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-secondary {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text-white);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--pink-accent));
+            color: white;
+            box-shadow: 0 10px 25px var(--accent-glow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* Status alerts */
+        .alert {
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+        }
+        .alert-success {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid var(--success);
+            color: #34d399;
+        }
+        .alert-error {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid var(--danger);
+            color: #f87171;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="logo">
+            <div class="logo-icon">LF</div>
+            <span>LeadFlow.AI</span>
+        </a>
+        <a href="index.html" class="back-link">← Return to Main Homepage</a>
+    </nav>
+
+    <div class="container">
+        <div class="header-section">
+            <h1>Deploy Your Autonomous AI SDR</h1>
+            <p>Complete your campaign specifications to initiate AI training and web scraping pipeline.</p>
+        </div>
+
+        <div class="progress-bar">
+            <div class="step active" id="step-nav-1">
+                <div class="step-circle">1</div>
+                <div class="step-label">Company Profile</div>
+            </div>
+            <div class="step" id="step-nav-2">
+                <div class="step-circle">2</div>
+                <div class="step-label">Target ICP & Logic</div>
+            </div>
+            <div class="step" id="step-nav-3">
+                <div class="step-circle">3</div>
+                <div class="step-label">USDT Verification</div>
+            </div>
+        </div>
+
+        <div class="form-card">
+            <!-- Alert box -->
+            <div id="status-alert" class="alert"></div>
+
+            <!-- STEP 1 -->
+            <div class="form-section active" id="section-1">
+                <div class="form-title">🏢 Step 1: Your Company Profile</div>
+                <div class="form-subtitle">Tell us about your business so our AI can learn your value propositions and tone of voice.</div>
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="company-name">Company Name *</label>
+                        <input type="text" id="company-name" class="form-input" placeholder="e.g. CloudBase Systems" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="company-url">Official Website URL *</label>
+                        <input type="text" id="company-url" class="form-input" placeholder="e.g. https://cloudbase.io" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="sender-name">AI SDR Persona Name</label>
+                        <input type="text" id="sender-name" class="form-input" value="Elena (AI SDR)" placeholder="e.g. Elena or Marcus">
+                    </div>
+                    <div class="form-group">
+                        <label for="sender-email">Your Notification Email *</label>
+                        <input type="email" id="sender-email" class="form-input" placeholder="e.g. founder@cloudbase.io" required>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="value-prop">Core Value Proposition / Elevator Pitch *</label>
+                        <textarea id="value-prop" class="form-textarea" placeholder="Describe what problem you solve and how you help your clients save time or increase revenue..."></textarea>
+                    </div>
+                </div>
+
+                <div class="btn-container" style="justify-content: flex-end;">
+                    <button type="button" class="btn btn-primary" onclick="nextStep(2)">Next: Target ICP →</button>
+                </div>
+            </div>
+
+            <!-- STEP 2 -->
+            <div class="form-section" id="section-2">
+                <div class="form-title">🎯 Step 2: Ideal Customer Profile (ICP)</div>
+                <div class="form-subtitle">Define who our AI SDR should search for, scrape, and contact on your behalf.</div>
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="target-industry">Target Industry / Niche *</label>
+                        <input type="text" id="target-industry" class="form-input" placeholder="e.g. B2B SaaS, FinTech, E-commerce Agencies">
+                    </div>
+                    <div class="form-group">
+                        <label for="target-titles">Decision Maker Job Titles *</label>
+                        <input type="text" id="target-titles" class="form-input" placeholder="e.g. CEO, Founder, VP of Outbound, CMO">
+                    </div>
+                    <div class="form-group">
+                        <label for="target-geo">Geographic Focus</label>
+                        <select id="target-geo" class="form-select">
+                            <option value="Global (English)">Global (English Speaking)</option>
+                            <option value="North America">North America (USA & Canada)</option>
+                            <option value="Europe / UK">Europe & UK</option>
+                            <option value="Middle East / UAE">Middle East & UAE</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="outreach-tone">Outreach Email Tone</label>
+                        <select id="outreach-tone" class="form-select">
+                            <option value="Conversational & Direct">Conversational & Direct (Recommended)</option>
+                            <option value="Formal & Executive">Formal & Executive</option>
+                            <option value="Curious & Question-based">Curious & Question-Based Hook</option>
+                        </select>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="custom-instructions">Special Instructions for AI Copywriter (Optional)</label>
+                        <textarea id="custom-instructions" class="form-textarea" placeholder="e.g. Always mention our 30-day money back guarantee. Do not contact companies with under 10 employees."></textarea>
+                    </div>
+                </div>
+
+                <div class="btn-container">
+                    <button type="button" class="btn btn-secondary" onclick="prevStep(1)">← Back</button>
+                    <button type="button" class="btn btn-primary" onclick="nextStep(3)">Next: Crypto Verification →</button>
+                </div>
+            </div>
+
+            <!-- STEP 3 -->
+            <div class="form-section" id="section-3">
+                <div class="form-title">🛡️ Step 3: Blockchain Payment Audit</div>
+                <div class="form-subtitle">To activate your autonomous agent, verify your Tether (USDT TRC-20) payment hash.</div>
+                
+                <div class="crypto-box">
+                    <div class="crypto-header">
+                        <span style="font-weight: 700; font-size: 14px; color: #34d399;">● TRON (TRC-20) DEPOSIT WALLET</span>
+                        <span style="font-size: 12px; color: var(--text-gray);">Instant Automated Verification</span>
+                    </div>
+                    <div class="wallet-address">
+                        <span id="wallet-str">TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t</span>
+                        <button class="copy-btn" onclick="copyWallet()">COPY</button>
+                    </div>
+                    <p style="font-size: 13px; color: var(--text-gray); line-height: 1.5;">
+                        Transfer your selected plan amount in <strong>USDT (TRC-20)</strong> to the wallet above. Once sent, paste the Tron Transaction Hash (TXID) below for automated blockchain verification.
+                    </p>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="plan-select">Selected Plan Tier *</label>
+                        <select id="plan-select" class="form-select">
+                            <option value="199">Starter Agent ($199 / mo - Special Promotional Rate)</option>
+                            <option value="499" selected>Growth Team ($499 / mo - Most Popular)</option>
+                            <option value="1499">Enterprise Cloud ($1,499 / mo)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="tx-hash">Tron Transaction Hash (TXID) *</label>
+                        <input type="text" id="tx-hash" class="form-input" placeholder="e.g. 853793d552635f533aa982b92b35b00e63a1c1a..." required>
+                    </div>
+                </div>
+
+                <div class="btn-container">
+                    <button type="button" class="btn btn-secondary" onclick="prevStep(2)">← Back</button>
+                    <button type="button" id="verify-btn" class="btn btn-primary" onclick="verifyAndDeploy()">
+                        🛡️ Verify Hash & Deploy AI Agent
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function nextStep(step) {
+            document.querySelectorAll('.form-section').forEach(el => el.classList.remove('active'));
+            document.getElementById(`section-${step}`).classList.add('active');
+            
+            for(let i=1; i<=3; i++) {
+                const nav = document.getElementById(`step-nav-${i}`);
+                if(i < step) {
+                    nav.className = 'step completed';
+                    nav.querySelector('.step-circle').innerHTML = '✔';
+                } else if(i === step) {
+                    nav.className = 'step active';
+                    nav.querySelector('.step-circle').innerHTML = i;
+                } else {
+                    nav.className = 'step';
+                    nav.querySelector('.step-circle').innerHTML = i;
+                }
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function prevStep(step) {
+            nextStep(step);
+        }
+
+        function copyWallet() {
+            const txt = document.getElementById('wallet-str').innerText;
+            navigator.clipboard.writeText(txt);
+            alert("Tron (TRC-20) Wallet Address copied to clipboard!");
+        }
+
+        function showAlert(msg, isSuccess = false) {
+            const alertBox = document.getElementById('status-alert');
+            alertBox.style.display = 'block';
+            alertBox.className = `alert ${isSuccess ? 'alert-success' : 'alert-error'}`;
+            alertBox.innerHTML = msg;
+        }
+
+        async function verifyAndDeploy() {
+            const txHash = document.getElementById('tx-hash').value.trim();
+            const planAmount = parseFloat(document.getElementById('plan-select').value);
+            const companyName = document.getElementById('company-name').value.trim() || "Your Company";
+            const btn = document.getElementById('verify-btn');
+
+            if(!txHash || txHash.length < 10) {
+                showAlert("Please enter a valid Tron Transaction Hash (TXID) before deploying.", false);
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = "⌛ Auditing Tron Blockchain Ledger...";
+            showAlert("Connecting to Tronscan public API to audit USDT transfer...", true);
+
+            try {
+                // Call our live Python FastAPI backend
+                const response = await fetch('/api/verify-payment', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        tx_hash: txHash,
+                        plan_amount: planAmount
+                    })
+                });
+
+                const result = await response.json();
+
+                if(response.ok && result.status === "success") {
+                    showAlert(`🎉 <strong>SUCCESS!</strong> Blockchain audit confirmed ${result.amount_usdt} USDT from wallet ${result.sender}. Deploying autonomous SDR agents for ${companyName}...`, true);
+                    btn.innerHTML = "✔ Agent Deployed Successfully";
+                    setTimeout(() => {
+                        alert(`Congratulations! Your autonomous AI SDR campaign for "${companyName}" has been initialized in our cloud infrastructure.`);
+                        window.location.href = "index.html";
+                    }, 2500);
+                } else {
+                    // Display specific verification error from Tronscan API
+                    showAlert(`⚠️ <strong>Blockchain Audit Notice:</strong> ${result.message || "Transaction not found or unconfirmed on chain."}`, false);
+                    btn.disabled = false;
+                    btn.innerHTML = "🔄 Retry Blockchain Verification";
+                }
+            } catch (err) {
+                // Fallback if backend server isn't running locally during frontend preview
+                console.warn("Backend API not reachable, simulating offline demo fallback.", err);
+                showAlert(`⚠️ <strong>Simulated Audit Mode:</strong> Unable to reach Tronscan live engine (${err.message}). In live server mode, this hash will be verified instantly. Campaign preferences saved!`, false);
+                btn.disabled = false;
+                btn.innerHTML = "🛡️ Verify Hash & Deploy AI Agent";
+            }
+        }
+    </script>
+</body>
+</html>

@@ -519,8 +519,9 @@
             <li><a href="#how-it-works">How It Works</a></li>
             <li><a href="#pricing">Pricing</a></li>
             <li><a href="#demo">Live Agent Demo</a></li>
+            <li><a href="onboard.html" style="color: var(--accent); font-weight: 700;">🚀 Client Onboarding</a></li>
         </ul>
-        <a href="#free-trial" class="btn btn-primary">Start Free Trial</a>
+        <a href="onboard.html" class="btn btn-primary">Start Free Trial</a>
     </nav>
 
     <!-- Hero Section -->
@@ -624,7 +625,7 @@
                     <li>Inbox Monitoring & Sentiment analysis</li>
                     <li>Email Deliverability Warmup</li>
                 </ul>
-                <a href="#free-trial" class="btn btn-secondary" style="width: 100%; justify-content: center;">Deploy Starter Agent</a>
+                <a href="onboard.html" class="btn btn-secondary" style="width: 100%; justify-content: center;">Deploy Starter Agent</a>
             </div>
 
             <div class="price-card popular">
@@ -641,7 +642,7 @@
                     <li>Objection Handling & Automated Booking</li>
                     <li>Custom CRM Integrations (Hubspot/Zapier)</li>
                 </ul>
-                <a href="#free-trial" class="btn btn-primary" style="width: 100%; justify-content: center;">Deploy Growth Team</a>
+                <a href="onboard.html" class="btn btn-primary" style="width: 100%; justify-content: center;">Deploy Growth Team</a>
             </div>
 
             <div class="price-card">
@@ -735,40 +736,58 @@
             document.getElementById('demo').scrollIntoView({ behavior: 'smooth' });
         }
 
-        function requestCustomEmail() {
+        async function requestCustomEmail() {
             const url = document.getElementById('comp-url').value || "techstart.com";
             const name = document.getElementById('prosp-name').value || "Marcus (Founder)";
             
-            alert(`AI SDR Agent starting research on: ${url} for ${name}...\n\nDraft will be displayed in the live console at the top!`);
+            alert(`AI SDR Agent starting live research on: ${url} for ${name}...\n\nWatch the console at the top for real-time scraping & LLM copywriting logs!`);
             
             document.getElementById('demo').scrollIntoView({ behavior: 'smooth' });
             
-            setTimeout(() => {
-                appendLiveLog("researcher", `[CUSTOM REQUEST] Crawling submitted URL: ${url}...`);
-            }, 1000);
+            appendLiveLog("researcher", `[LIVE AGENT INIT] Connecting to ${url} to extract business metadata & H1/H2 signals...`);
 
-            setTimeout(() => {
-                appendLiveLog("copywriter", `[CUSTOM REQUEST] Writing customized email draft for ${name}...`);
-            }, 3000);
+            try {
+                // Call real Python FastAPI AI Agent Backend
+                const response = await fetch('/api/analyze', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url: url, prospect_name: name })
+                });
+                
+                const data = await response.json();
+                
+                if(response.ok && data.status === "success") {
+                    setTimeout(() => {
+                        appendLiveLog("researcher", `[SCRAPED DATA] Domain: ${data.research.domain} | Title: "${data.research.title.substring(0, 45)}..."`);
+                    }, 1200);
 
-            setTimeout(() => {
-                const customDraft = `
-Subject: Scaling client acquisition for your team, ${name.split(' ')[0]}
+                    setTimeout(() => {
+                        appendLiveLog("copywriter", `[LLM REASONING] Synthesizing hook around: "${data.research.value_proposition.substring(0, 55)}..."`);
+                    }, 2800);
 
-Hi ${name.split(' ')[0]},
+                    setTimeout(() => {
+                        const emailFormatted = `Subject: ${data.campaign.subject}\n\n${data.campaign.body}`;
+                        appendLiveLog("booking", `[LIVE GENERATED DRAFT]\n\n${emailFormatted}`);
+                    }, 4500);
+                } else {
+                    throw new Error(data.detail || "Agent response error");
+                }
+            } catch(e) {
+                // Fallback for static preview without active local server
+                console.warn("Live API fallback mode:", e);
+                setTimeout(() => {
+                    appendLiveLog("researcher", `[CUSTOM REQUEST] Crawling submitted URL: ${url}... (Simulated Fallback)`);
+                }, 1000);
 
-I was browsing ${url} and was impressed by your automated service offerings. 
+                setTimeout(() => {
+                    appendLiveLog("copywriter", `[CUSTOM REQUEST] Writing customized email draft for ${name}...`);
+                }, 3000);
 
-Usually, the biggest challenge for businesses like yours is scaling the outbound B2B sales pipeline without inflating human hiring costs. We build Autonomous AI SDRs that research and email your target clients with highly-relevant messages, booking meetings on your calendar.
-
-Would you be open to a quick 5-minute call next Tuesday at 3 PM to see the AI workflow we used to research ${url}?
-
-Best,
-Amir
-LeadFlow.AI
-                `;
-                appendLiveLog("booking", `[DRAFT GENERATED]\n\n${customDraft}`);
-            }, 5000);
+                setTimeout(() => {
+                    const customDraft = `Subject: Scaling client acquisition for your team, ${name.split(' ')[0]}\n\nHi ${name.split(' ')[0]},\n\nI was browsing ${url} and was impressed by your automated service offerings.\n\nUsually, the biggest challenge for businesses like yours is scaling the outbound B2B sales pipeline without inflating human hiring costs. We build Autonomous AI SDRs that research and email your target clients with highly-relevant messages, booking meetings on your calendar.\n\nWould you be open to a quick 5-minute call next Tuesday at 3 PM to see the AI workflow we used to research ${url}?\n\nBest,\nElena\nAutonomous AI SDR Agent | LeadFlow.AI`;
+                    appendLiveLog("booking", `[DRAFT GENERATED]\n\n${customDraft}`);
+                }, 5000);
+            }
         }
     </script>
 </body>
