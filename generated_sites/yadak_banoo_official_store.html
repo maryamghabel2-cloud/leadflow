@@ -172,12 +172,16 @@
             padding: 20px; transition: all 0.3s; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden;
         }
         .product-card:hover { border-color: var(--orange); transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 30px var(--orange-glow); }
-        .prod-img-wrap { width: 100%; height: 210px; border-radius: 18px; overflow: hidden; margin-bottom: 14px; position: relative; background: #05070c; }
+        
+        .prod-img-wrap { width: 100%; height: 210px; border-radius: 18px; overflow: hidden; margin-bottom: 14px; position: relative; background: #05070c; display: flex; align-items: center; justify-content: center; }
         .prod-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
         .product-card:hover .prod-img { transform: scale(1.1); }
         
-        .discount-badge { position: absolute; top: 10px; right: 10px; background: var(--pink); color: #fff; font-size: 11px; font-weight: 900; padding: 4px 10px; border-radius: 14px; }
-        .compat-badge { position: absolute; bottom: 10px; right: 10px; background: rgba(0,0,0,0.85); border: 1px solid var(--turquoise); color: var(--turquoise); font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 12px; }
+        /* Inline SVG / Canvas Vector Fallback Boxes for Guaranteed Display */
+        .svg-icon-wrap { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle, rgba(0, 169, 157, 0.15) 0%, #05070c 70%); }
+        
+        .discount-badge { position: absolute; top: 10px; right: 10px; background: var(--pink); color: #fff; font-size: 11px; font-weight: 900; padding: 4px 10px; border-radius: 14px; z-index: 10; }
+        .compat-badge { position: absolute; bottom: 10px; right: 10px; background: rgba(0,0,0,0.85); border: 1px solid var(--turquoise); color: var(--turquoise); font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 12px; z-index: 10; }
 
         .prod-cat { font-size: 11px; color: var(--orange); font-weight: 800; margin-bottom: 4px; }
         .prod-title { font-size: 16px; font-weight: 900; color: #fff; margin-bottom: 8px; line-height: 1.4; }
@@ -309,7 +313,7 @@
         </div>
     </section>
 
-    <!-- PRODUCTS E-COMMERCE GRID (RICH CATALOG) -->
+    <!-- PRODUCTS E-COMMERCE GRID (12+ ITEMS) -->
     <section class="store-main">
         <div class="store-header-info">
             <div>
@@ -320,12 +324,12 @@
         </div>
 
         <div class="products-grid" id="products-container">
-            <!-- Product 1 -->
+            <!-- Product 1: Exhaust -->
             <div class="product-card" data-cat="tuning" data-model="click benelli yamaha" data-base="8200000" data-title="اگزوز کربنی Akrapovic اسلیپ‌آن">
                 <div class="prod-img-wrap">
                     <span class="discount-badge">-۱۵٪ تخفیف</span>
                     <span class="compat-badge">هندا کلیک / بنلی / یاماها</span>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/8f/Akrapovic_exhaust_on_motorcycle.jpg" alt="اگزوز آکراپوویچ" class="prod-img">
+                    <img src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=800&q=80" alt="اگزوز آکراپوویچ" class="prod-img">
                 </div>
                 <div class="prod-cat">اگزوز و تیونینگ قهرمانی</div>
                 <h3 class="prod-title">اگزوز کربنی Akrapovic اسلیپ‌آن با سایلنسر</h3>
@@ -339,12 +343,21 @@
                 </div>
             </div>
 
-            <!-- Product 2 -->
+            <!-- Product 2: Brembo Disc Brake SVG Illustration (Never Fails) -->
             <div class="product-card" data-cat="brake" data-model="click yamaha benelli honda125 pulsar" data-base="1280000" data-title="لنت ترمز سرامیکی Brembo">
                 <div class="prod-img-wrap">
                     <span class="discount-badge">-۱۰٪ تخفیف</span>
                     <span class="compat-badge">تمام اسکوترها و موتورها</span>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Brembo_brakes_on_a_motorcycle.jpg" alt="لنت برامبو" class="prod-img">
+                    <div class="svg-icon-wrap">
+                        <svg viewBox="0 0 200 200" width="150" height="150">
+                            <!-- Disc -->
+                            <circle cx="100" cy="100" r="70" fill="none" stroke="#e2e8f0" stroke-width="18" stroke-dasharray="12 6"/>
+                            <circle cx="100" cy="100" r="45" fill="none" stroke="#64748b" stroke-width="6"/>
+                            <!-- Caliper -->
+                            <path d="M 120 40 Q 150 50 160 90 L 140 95 Q 130 65 110 55 Z" fill="#ef4444"/>
+                            <text x="135" y="75" fill="#fff" font-size="10" font-weight="bold" transform="rotate(25 135 75)">BREMBO</text>
+                        </svg>
+                    </div>
                 </div>
                 <div class="prod-cat">سیستم ترمز و لنت</div>
                 <h3 class="prod-title">لنت ترمز سرامیکی Brembo اصلی ایتالیا (جفت)</h3>
@@ -358,12 +371,21 @@
                 </div>
             </div>
 
-            <!-- Product 3 -->
+            <!-- Product 3: Bando CVT Belt SVG Illustration (Never Fails) -->
             <div class="product-card" data-cat="clutch" data-model="click yamaha" data-base="1890000" data-title="تسمه درایو Bando ژاپن">
                 <div class="prod-img-wrap">
                     <span class="discount-badge">اورجینال ژاپن</span>
                     <span class="compat-badge">هندا کلیک / یاماها NMAX</span>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Scooter_CVT_transmission_belt.jpg" alt="تسمه باندو" class="prod-img">
+                    <div class="svg-icon-wrap">
+                        <svg viewBox="0 0 200 200" width="160" height="160">
+                            <!-- CVT Pulleys -->
+                            <circle cx="60" cy="100" r="32" fill="#334155" stroke="#94a3b8" stroke-width="4"/>
+                            <circle cx="140" cy="100" r="24" fill="#334155" stroke="#94a3b8" stroke-width="4"/>
+                            <!-- Belt -->
+                            <path d="M 60 68 L 140 76 A 24 24 0 0 1 140 124 L 60 132 A 32 32 0 0 1 60 68 Z" fill="none" stroke="#10b981" stroke-width="10" stroke-dasharray="6 3"/>
+                            <text x="85" y="103" fill="#fff" font-size="12" font-weight="bold">BANDO</text>
+                        </svg>
+                    </div>
                 </div>
                 <div class="prod-cat">سیستم انتقال قدرت (CVT)</div>
                 <h3 class="prod-title">تسمه درایو (تسمه کلاچ) Bando اصلی ژاپن</h3>
@@ -377,12 +399,24 @@
                 </div>
             </div>
 
-            <!-- Product 4 -->
+            <!-- Product 4: Clutch Kit SVG Illustration (Never Fails) -->
             <div class="product-card" data-cat="clutch" data-model="honda125 pulsar" data-base="950000" data-title="کیت صفحه کلاچ ۶ فنره باکسر">
                 <div class="prod-img-wrap">
                     <span class="discount-badge">پرفروش تعمیرگاه‌ها</span>
                     <span class="compat-badge">باکسر ۱۵۰ / پالس NS</span>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Motorcycle_chain_and_sprocket.jpg" alt="صفحه کلاچ باکسر" class="prod-img">
+                    <div class="svg-icon-wrap">
+                        <svg viewBox="0 0 200 200" width="150" height="150">
+                            <!-- Clutch Gear Teeth -->
+                            <circle cx="100" cy="100" r="65" fill="#1e293b" stroke="#f59e0b" stroke-width="8" stroke-dasharray="14 10"/>
+                            <circle cx="100" cy="100" r="45" fill="#0f172a" stroke="#cbd5e1" stroke-width="4"/>
+                            <!-- Springs -->
+                            <circle cx="100" cy="65" r="8" fill="#ef4444"/>
+                            <circle cx="100" cy="135" r="8" fill="#ef4444"/>
+                            <circle cx="65" cy="100" r="8" fill="#ef4444"/>
+                            <circle cx="135" cy="100" r="8" fill="#ef4444"/>
+                            <text x="82" y="104" fill="#f59e0b" font-size="11" font-weight="bold">CLUTCH</text>
+                        </svg>
+                    </div>
                 </div>
                 <div class="prod-cat">سیستم کلاچ و گیربکس</div>
                 <h3 class="prod-title">کیت کامل صفحه کلاچ ۶ فنره باجاج باکسر ۱۵۰</h3>
@@ -396,12 +430,12 @@
                 </div>
             </div>
 
-            <!-- Product 5 -->
+            <!-- Product 5: LED Headlight -->
             <div class="product-card" data-cat="light" data-model="click benelli yamaha honda125 pulsar" data-base="950000" data-title="هدلایت LED نسل ۸ حرفه‌ای">
                 <div class="prod-img-wrap">
                     <span class="discount-badge">-۲۰٪ تخفیف</span>
                     <span class="compat-badge">نصب فابریک تمام موتورها</span>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c5/Motorcycle_headlight_LED.jpg" alt="هدلایت LED" class="prod-img">
+                    <img src="https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&w=800&q=80" alt="هدلایت LED" class="prod-img">
                 </div>
                 <div class="prod-cat">سیستم برق و روشنایی</div>
                 <h3 class="prod-title">هدلایت LED نسل ۸ حرفه‌ای ۶۰۰۰ لومن (سفید یخی)</h3>
@@ -415,12 +449,31 @@
                 </div>
             </div>
 
-            <!-- Product 6 -->
+            <!-- Product 6: NGK Iridium Spark Plug SVG Illustration (Never Fails) -->
             <div class="product-card" data-cat="engine" data-model="click benelli yamaha honda125 pulsar" data-base="620000" data-title="شمع ایریدیم NGK لیزری">
                 <div class="prod-img-wrap">
                     <span class="discount-badge">تضمین اصالت</span>
                     <span class="compat-badge">انواع اسکوتر و دنده‌ای</span>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/f/f6/Spark_plug_NGK_BPR6ES.jpg" alt="شمع ایریدیم NGK" class="prod-img">
+                    <div class="svg-icon-wrap">
+                        <svg viewBox="0 0 200 200" width="150" height="150">
+                            <!-- Insulator White Body -->
+                            <rect x="85" y="30" width="30" height="60" fill="#f8fafc" rx="4"/>
+                            <line x1="85" y1="45" x2="115" y2="45" stroke="#3b82f6" stroke-width="4"/>
+                            <line x1="85" y1="55" x2="115" y2="55" stroke="#3b82f6" stroke-width="4"/>
+                            <!-- Hex Nut -->
+                            <polygon points="80,90 120,90 125,110 75,110" fill="#94a3b8"/>
+                            <!-- Threads -->
+                            <rect x="85" y="110" width="30" height="40" fill="#64748b"/>
+                            <line x1="85" y1="120" x2="115" y2="120" stroke="#334155" stroke-width="3"/>
+                            <line x1="85" y1="130" x2="115" y2="130" stroke="#334155" stroke-width="3"/>
+                            <line x1="85" y1="140" x2="115" y2="140" stroke="#334155" stroke-width="3"/>
+                            <!-- Tip & Spark -->
+                            <rect x="97" y="150" width="6" height="15" fill="#cbd5e1"/>
+                            <path d="M 90 165 L 100 165 L 100 155" fill="none" stroke="#94a3b8" stroke-width="4"/>
+                            <circle cx="100" cy="155" r="4" fill="#00f0ff"/>
+                            <text x="88" y="75" fill="#1e293b" font-size="12" font-weight="bold">NGK</text>
+                        </svg>
+                    </div>
                 </div>
                 <div class="prod-cat">سیستم احتراق و برق انجین</div>
                 <h3 class="prod-title">شمع سوزنی ایریدیم NGK لیزری اصل ژاپن</h3>
@@ -434,12 +487,12 @@
                 </div>
             </div>
 
-            <!-- Product 7 -->
+            <!-- Product 7: Öhlins Racing Suspension -->
             <div class="product-card" data-cat="tuning" data-model="benelli pulsar yamaha" data-base="1640000" data-title="کمک‌فنر گازی Öhlins ریسینگ">
                 <div class="prod-img-wrap">
                     <span class="discount-badge">ویژه ریسینگ</span>
                     <span class="compat-badge">بنلی ۳۰۰ / پالس NS</span>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/3d/Motorcycle_shock_absorber.jpg" alt="کمک فنر اولینز" class="prod-img">
+                    <img src="https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=800&q=80" alt="کمک فنر اولینز" class="prod-img">
                 </div>
                 <div class="prod-cat">سیستم تعلیق و هندلینگ</div>
                 <h3 class="prod-title">کمک‌فنر گازی قابل تنظیم Öhlins ریسینگ طلایی</h3>
@@ -453,12 +506,22 @@
                 </div>
             </div>
 
-            <!-- Product 8 -->
+            <!-- Product 8: Honda 125 Brake Pads SVG Illustration -->
             <div class="product-card" data-cat="brake" data-model="honda125 boxer" data-base="248000" data-title="لنت ترمز سرامیکی هوندا ۱۲۵">
                 <div class="prod-img-wrap">
                     <span class="discount-badge">-۱۵٪ تخفیف</span>
                     <span class="compat-badge">هوندا CG 125 / باکسر</span>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Brembo_motorcycle_brake_disc.jpg" alt="لنت هوندا ۱۲۵" class="prod-img">
+                    <div class="svg-icon-wrap">
+                        <svg viewBox="0 0 200 200" width="150" height="150">
+                            <!-- Pad 1 -->
+                            <path d="M 40 70 A 50 50 0 0 1 100 40 L 110 65 A 30 30 0 0 0 65 85 Z" fill="#b91c1c" stroke="#f8fafc" stroke-width="2"/>
+                            <!-- Pad 2 -->
+                            <path d="M 100 160 A 50 50 0 0 1 40 130 L 65 115 A 30 30 0 0 0 90 135 Z" fill="#b91c1c" stroke="#f8fafc" stroke-width="2"/>
+                            <circle cx="75" cy="65" r="6" fill="#f59e0b"/>
+                            <circle cx="75" cy="135" r="6" fill="#f59e0b"/>
+                            <text x="85" y="105" fill="#fff" font-size="12" font-weight="bold">HONDA 125</text>
+                        </svg>
+                    </div>
                 </div>
                 <div class="prod-cat">سیستم ترمز و لنت</div>
                 <h3 class="prod-title">لنت ترمز سرامیکی هوندا ۱۲۵ و باکسر (جفت)</h3>
