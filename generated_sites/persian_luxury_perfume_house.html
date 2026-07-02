@@ -108,14 +108,14 @@
         .quote-text { font-size: 14px; font-style: italic; color: var(--charcoal); margin-bottom: 8px; }
         .quote-author { font-size: 11px; font-weight: 700; color: var(--gold); letter-spacing: 1px; }
 
-        /* INTERACTIVE SCENT SOMMELIER QUIZ (COMPLETELY DIFFERENT PARADIGM) */
+        /* INTERACTIVE SCENT SOMMELIER QUIZ - FULL 4-QUESTION DYNAMIC ENGINE */
         .quiz-section {
             padding: 100px 80px; background: var(--bg-silk); border-bottom: 1px solid var(--border);
         }
         @media (max-width: 768px) { .quiz-section { padding: 60px 24px; } }
         
         .quiz-container {
-            max-width: 950px; margin: 0 auto; background: var(--surface-creme);
+            max-width: 1000px; margin: 0 auto; background: var(--surface-creme);
             border: 1px solid var(--border); padding: 60px; position: relative;
         }
         @media (max-width: 600px) { .quiz-container { padding: 30px 20px; } }
@@ -128,27 +128,34 @@
         .quiz-step.active { display: block; }
         @keyframes fadeStep { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        .question-title { font-size: 20px; font-weight: 700; color: var(--charcoal); margin-bottom: 28px; text-align: center; }
+        .question-title { font-size: 22px; font-weight: 700; color: var(--charcoal); margin-bottom: 10px; text-align: center; }
+        .question-sub { font-size: 14px; color: var(--muted); margin-bottom: 30px; text-align: center; }
+        
         .options-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
         @media (max-width: 768px) { .options-grid { grid-template-columns: 1fr; } }
         
         .quiz-option {
-            background: var(--bg-silk); border: 1px solid var(--border); padding: 24px;
-            text-align: center; cursor: pointer; transition: all 0.3s;
+            background: var(--bg-silk); border: 1px solid var(--border); padding: 26px 20px;
+            text-align: center; cursor: pointer; transition: all 0.3s; display: flex; flex-direction: column; justify-content: center;
         }
-        .quiz-option:hover { border-color: var(--bordeaux); background: #fff; transform: translateY(-4px); }
-        .opt-icon { font-size: 32px; margin-bottom: 12px; }
-        .opt-label { font-weight: 700; font-size: 16px; color: var(--charcoal); margin-bottom: 6px; }
-        .opt-sub { font-size: 12px; color: var(--muted); }
+        .quiz-option:hover { border-color: var(--bordeaux); background: #fff; transform: translateY(-4px); box-shadow: 0 10px 25px rgba(0,0,0,0.06); }
+        .opt-icon { font-size: 36px; margin-bottom: 14px; }
+        .opt-label { font-weight: 700; font-size: 16px; color: var(--charcoal); margin-bottom: 8px; }
+        .opt-sub { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+        .quiz-progress { display: flex; justify-content: center; gap: 8px; margin-bottom: 36px; }
+        .prog-dot { width: 40px; height: 4px; background: #E6DDD0; transition: background 0.3s; }
+        .prog-dot.active { background: var(--bordeaux); }
 
         .quiz-result-card {
             background: #fff; border: 1px solid var(--gold); padding: 40px;
-            display: grid; grid-template-columns: 1fr 1.5fr; gap: 36px; align-items: center;
+            display: grid; grid-template-columns: 1fr 1.4fr; gap: 40px; align-items: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.05);
         }
         @media (max-width: 768px) { .quiz-result-card { grid-template-columns: 1fr; text-align: center; } }
-        .result-img { width: 100%; height: 280px; object-fit: cover; }
+        .result-img { width: 100%; height: 320px; object-fit: cover; }
 
-        /* INTERACTIVE OLFACTORY PYRAMID (TOP, HEART, BASE NOTES) */
+        /* INTERACTIVE OLFACTORY PYRAMID */
         .pyramid-section {
             padding: 100px 80px; background: #fff; border-bottom: 1px solid var(--border);
         }
@@ -186,7 +193,7 @@
         .longevity-bar { height: 6px; background: #E6DDD0; margin-top: 6px; overflow: hidden; }
         .longevity-fill { height: 100%; background: var(--bordeaux); width: 85%; }
 
-        /* MINIMALIST BOUTIQUE COLLECTION (ASBESTOS EDITORIAL GRID) */
+        /* MINIMALIST BOUTIQUE COLLECTION */
         .collection-section { padding: 100px 80px; background: var(--bg-silk); }
         @media (max-width: 768px) { .collection-section { padding: 60px 24px; } }
         
@@ -273,81 +280,138 @@
         </div>
     </section>
 
-    <!-- INTERACTIVE SCENT SOMMELIER QUIZ (COMPLETELY DIFFERENT PARADIGM) -->
+    <!-- INTERACTIVE SCENT SOMMELIER QUIZ - FULL 4-QUESTION DYNAMIC ENGINE -->
     <section class="quiz-section" id="sommelier">
         <div class="quiz-container">
             <div class="section-header">
                 <h2>آزمون روانشناسی تشخیص عطر امضا (Scent Sommelier)</h2>
-                <p>به ۳ سوال کوتاه زیر پاسخ دهید تا عطرساز هوشمند گالری، رایحه‌ای کاملاً متناسب با روحیات و سبک زندگی شما را پیشنهاد دهد:</p>
+                <p>به ۴ سوال کوتاه زیر پاسخ دهید تا عطرساز هوشمند گالری بر اساس نمره‌دهی داینامیک، رایحه‌ای کاملاً متناسب با روحیات، طبع و سبک زندگی شما را پیشنهاد دهد:</p>
             </div>
 
-            <!-- Step 1 -->
+            <div class="quiz-progress">
+                <div class="prog-dot active" id="dot-1"></div>
+                <div class="prog-dot" id="dot-2"></div>
+                <div class="prog-dot" id="dot-3"></div>
+                <div class="prog-dot" id="dot-4"></div>
+            </div>
+
+            <!-- Step 1: Occasion -->
             <div class="quiz-step active" id="q-step-1">
                 <div class="question-title">۱. در چه موقعیت و زمانی قصد استفاده از این عطر را دارید؟</div>
+                <div class="question-sub">موقعیت اجتماعی شما اولین معیار در تعیین میزان سنگینی و پخش بوی عطر است</div>
                 <div class="options-grid">
-                    <div class="quiz-option" onclick="nextQuizStep(2, 'formal')">
+                    <div class="quiz-option" onclick="answerQuestion(1, 'woody')">
                         <div class="opt-icon">🥂</div>
                         <div class="opt-label">مجالس رسمی و شبانه‌های لوکس</div>
-                        <div class="opt-sub">پخش بوی بالا و وقار اشرافی</div>
+                        <div class="opt-sub">پخش بوی بالا، سنگین و وقار اشرافی</div>
                     </div>
-                    <div class="quiz-option" onclick="nextQuizStep(2, 'romantic')">
+                    <div class="quiz-option" onclick="answerQuestion(1, 'floral')">
                         <div class="opt-icon">🌹</div>
                         <div class="opt-label">دیدارهای عاشقانه و صمیمی</div>
-                        <div class="opt-sub">رایحه گرم، اغواکننده و احساسی</div>
+                        <div class="opt-sub">رایحه گرم، اغواکننده، لطیف و احساسی</div>
                     </div>
-                    <div class="quiz-option" onclick="nextQuizStep(2, 'daily')">
+                    <div class="quiz-option" onclick="answerQuestion(1, 'leather')">
                         <div class="opt-icon">☀️</div>
-                        <div class="opt-label">استفاده روزمره و محیط کار</div>
-                        <div class="opt-sub">رایحه‌ای متعادل، شاداب و انرژی‌بخش</div>
+                        <div class="opt-label">استفاده روزمره، جلسات کاری و مدیریت</div>
+                        <div class="opt-sub">رایحه‌ای باصلابت، بانفوذ، شاداب و انرژی‌بخش</div>
                     </div>
                 </div>
             </div>
 
-            <!-- Step 2 -->
+            <!-- Step 2: Olfactory Family -->
             <div class="quiz-step" id="q-step-2">
-                <div class="question-title">۲. کدام خانواده بویایی بیشترین آرامش و حس خوب را به شما می‌دهد؟</div>
+                <div class="question-title">۲. کدام خانواده بویایی بیشترین آرامش و حس جذابیت را به شما می‌دهد؟</div>
+                <div class="question-sub">هر خانواده بویایی بازتاب‌دهنده یکی از عناصر طبیعت و روحیه درونی شماست</div>
                 <div class="options-grid">
-                    <div class="quiz-option" onclick="nextQuizStep(3, 'woody')">
+                    <div class="quiz-option" onclick="answerQuestion(2, 'woody')">
                         <div class="opt-icon">🪵</div>
                         <div class="opt-label">چوبی، تلخ و دودی (Woody & Smoky)</div>
-                        <div class="opt-sub">چوب صندل، عود، چرم و وتایور</div>
+                        <div class="opt-sub">چوب صندل، عود طبیعی، خس‌خس و وتایور</div>
                     </div>
-                    <div class="quiz-option" onclick="nextQuizStep(3, 'floral')">
+                    <div class="quiz-option" onclick="answerQuestion(2, 'floral')">
                         <div class="opt-icon">🌸</div>
                         <div class="opt-label">گلی، ملایم و پودری (Floral & Powdery)</div>
-                        <div class="opt-sub">رز کاشان، زنبق، یاس و شکوفه پرتقال</div>
+                        <div class="opt-sub">رز ناب کاشان، زنبق فلورانس، وانیل و شکوفه پرتقال</div>
                     </div>
-                    <div class="quiz-option" onclick="nextQuizStep(3, 'oriental')">
+                    <div class="quiz-option" onclick="answerQuestion(2, 'leather')">
                         <div class="opt-icon">🔥</div>
-                        <div class="opt-label">شرقی، ادویه‌ای و کهربایی (Oriental)</div>
-                        <div class="opt-sub">زعفران، هل، مشک، کهربا و دارچین</div>
+                        <div class="opt-label">چرمی، ادویه‌ای و کهربایی (Leather & Oriental)</div>
+                        <div class="opt-sub">چرم توسکان، زعفران سرخ، برگ تنباکو و هل</div>
                     </div>
                 </div>
             </div>
 
-            <!-- Step 3 Result -->
+            <!-- Step 3: Longevity & Sillage -->
             <div class="quiz-step" id="q-step-3">
-                <div class="question-title">✦ پیشنهاد اختصاصی مستر پارفومر برای شخصیت شما:</div>
+                <div class="question-title">۳. انتظار شما از ماندگاری و خط بوی عطر (Sillage) در محیط چیست؟</div>
+                <div class="question-sub">میزان غلظت اسانس (Extrait vs Eau de Parfum) بر این اساس تنظیم می‌شود</div>
+                <div class="options-grid">
+                    <div class="quiz-option" onclick="answerQuestion(3, 'woody')">
+                        <div class="opt-icon">🌪️</div>
+                        <div class="opt-label">خط بوی خیره‌کننده و ماندگاری ۴۸ ساعته</div>
+                        <div class="opt-sub">عطری که حتی پس از ترک اتاق، رد بوی آن در فضا بماند</div>
+                    </div>
+                    <div class="quiz-option" onclick="answerQuestion(3, 'floral')">
+                        <div class="opt-icon">🍃</div>
+                        <div class="opt-label">رایحه‌ای لطیف، نزدیک به پوست و صمیمی</div>
+                        <div class="opt-sub">عطری ملایم که فقط افرادی که در حریم خصوصی شما هستند حس کنند</div>
+                    </div>
+                    <div class="quiz-option" onclick="answerQuestion(3, 'leather')">
+                        <div class="opt-icon">⚡</div>
+                        <div class="opt-label">پخش بوی قدرتمند در ساعات اولیه و ماندگاری متعادل</div>
+                        <div class="opt-sub">مناسب برای جلسات مهم کاری و قرارهای چند ساعته</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4: Personality Archetype -->
+            <div class="quiz-step" id="q-step-4">
+                <div class="question-title">۴. اطرافیان معمولاً شخصیت شما را با کدام ویژگی توصیف می‌کنند؟</div>
+                <div class="question-sub">آخرین گام برای تطبیق کامل هویت عطر با کهن‌الگوی شخصیتی شما</div>
+                <div class="options-grid">
+                    <div class="quiz-option" onclick="answerQuestion(4, 'woody')">
+                        <div class="opt-icon">👑</div>
+                        <div class="opt-label">قدرتمند، قاطع، سنتی و باوقار</div>
+                        <div class="opt-sub">رهبری که به اصالت، میراث و چارچوب‌های کلاسیک اهمیت می‌دهد</div>
+                    </div>
+                    <div class="quiz-option" onclick="answerQuestion(4, 'floral')">
+                        <div class="opt-icon">✨</div>
+                        <div class="opt-label">آرام، مهربان، هنردوست و احساساتی</div>
+                        <div class="opt-sub">شخصیتی لطیف و خلاق که زیبایی‌های ظریف زندگی را تحسین می‌کند</div>
+                    </div>
+                    <div class="quiz-option" onclick="answerQuestion(4, 'leather')">
+                        <div class="opt-icon">🚀</div>
+                        <div class="opt-label">مدرن، جسور، پیشرو و پرشور</div>
+                        <div class="opt-sub">فردی ساختارشکن که دوست دارد متمایز باشد و قوانین جدید بسازد</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 5: Dynamic Result Card -->
+            <div class="quiz-step" id="q-step-result">
+                <div class="question-title" style="color: var(--bordeaux);">✦ پیشنهاد اختصاصی مستر پارفومر برای شخصیت شما:</div>
+                <div class="question-sub" id="result-match-reason">بر اساس تحلیل ۴ پاسخ شما، این رایحه بیشترین همخوانی را با طبع و روحیه شما دارد</div>
+                
                 <div class="quiz-result-card">
-                    <img src="https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&w=800&q=80" alt="سلطان العود" class="result-img">
+                    <img src="https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&w=800&q=80" id="res-img" alt="عطر امضا" class="result-img">
                     <div>
-                        <span style="font-family: var(--font-serif); color: var(--gold); font-size: 13px; letter-spacing: 2px;">EDITION SPÉCIALE</span>
-                        <h3 style="font-size: 28px; color: var(--bordeaux); margin: 8px 0 14px;">عطر نیش «سلطان العود و زعفران» (Sultan Oud)</h3>
-                        <p style="font-size: 14px; color: var(--charcoal); line-height: 2; margin-bottom: 24px;">ترکیبی باشکوه از عود طبیعی کامبوج، زعفران سرخ قائنات و مشک سفید. این رایحه با طبعی گرم و تلخ، ماندگاری بالای ۴۸ ساعت و پخش بوی خیره‌کننده، امضای شخصیت قدرتمند شما در مجالس خواهد بود.</p>
-                        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 18px;">
-                            <span style="font-size: 22px; font-weight: 800; color: var(--bordeaux);">۶,۸۰۰,۰۰۰ تومان</span>
-                            <button class="btn-luxury" style="padding: 14px 28px;" onclick="alert('✨ عطر سلطان العود با موفقیت رزرو شد. جعبه هدیه و حکاکی نام شما روی شیشه به صورت رایگان انجام می‌شود.')">سفارش این عطر امضا</button>
+                        <span style="font-family: var(--font-serif); color: var(--gold); font-size: 13px; letter-spacing: 2px;">EDITION SPÉCIALE • SUR MESURE</span>
+                        <h3 style="font-size: 28px; color: var(--bordeaux); margin: 8px 0 14px;" id="res-title">عطر نیش «سلطان العود و زعفران»</h3>
+                        <p style="font-size: 14px; color: var(--charcoal); line-height: 2; margin-bottom: 24px;" id="res-desc">ترکیبی باشکوه از عود طبیعی کامبوج، زعفران سرخ قائنات و مشک سفید. این رایحه با طبعی گرم و تلخ، ماندگاری بالای ۴۸ ساعت و پخش بوی خیره‌کننده، امضای شخصیت قدرتمند شما در مجالس خواهد بود.</p>
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 18px; flex-wrap: wrap; gap: 14px;">
+                            <span style="font-size: 22px; font-weight: 800; color: var(--bordeaux);" id="res-price">۶,۸۰۰,۰۰۰ تومان</span>
+                            <button class="btn-luxury" style="padding: 14px 28px;" onclick="alert('✨ عطر امضای شما با موفقیت رزرو شد. جعبه هدیه مخمل‌دار و حکاکی نام شما روی شیشه به صورت رایگان انجام می‌شود.')">سفارش این عطر امضا</button>
                         </div>
                     </div>
                 </div>
-                <div style="text-align: center; margin-top: 20px;">
-                    <button onclick="resetQuiz()" style="background: none; border: none; color: var(--muted); cursor: pointer; font-size: 13px; text-decoration: underline;">↻ تکرار آزمون تشخیص عطر</button>
+                <div style="text-align: center; margin-top: 24px;">
+                    <button onclick="resetQuiz()" style="background: none; border: none; color: var(--muted); cursor: pointer; font-size: 14px; text-decoration: underline; font-weight: 600;">↻ تکرار آزمون تشخیص عطر</button>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- INTERACTIVE OLFACTORY PYRAMID (TOP, HEART, BASE NOTES) -->
+    <!-- INTERACTIVE OLFACTORY PYRAMID -->
     <section class="pyramid-section" id="pyramid">
         <div class="section-header">
             <h2>هرم بویایی و تحلیل‌گر نت‌های عطر شاهانه</h2>
@@ -404,7 +468,6 @@
         </div>
 
         <div class="editorial-grid">
-            <!-- Perfume 1 -->
             <div class="perfume-item">
                 <div class="perfume-img-wrap">
                     <span class="perfume-volume">100 ML • EXTRAIT</span>
@@ -418,7 +481,6 @@
                 </div>
             </div>
 
-            <!-- Perfume 2 -->
             <div class="perfume-item">
                 <div class="perfume-img-wrap">
                     <span class="perfume-volume">100 ML • EXTRAIT</span>
@@ -432,7 +494,6 @@
                 </div>
             </div>
 
-            <!-- Perfume 3 -->
             <div class="perfume-item">
                 <div class="perfume-img-wrap">
                     <span class="perfume-volume">100 ML • EXTRAIT</span>
@@ -463,14 +524,68 @@
 
     <!-- Interactive Scripts -->
     <script>
-        // 1. Scent Sommelier Quiz Logic
-        function nextQuizStep(step, val) {
+        // 1. Full 4-Question Dynamic Scent Sommelier Quiz Logic
+        let scores = { woody: 0, floral: 0, leather: 0 };
+
+        function answerQuestion(step, category) {
+            scores[category]++;
+            
             document.querySelectorAll('.quiz-step').forEach(el => el.classList.remove('active'));
-            document.getElementById(`q-step-${step}`).classList.add('active');
+            
+            if (step < 4) {
+                document.getElementById(`q-step-${step + 1}`).classList.add('active');
+                for(let i=1; i<=4; i++) {
+                    const dot = document.getElementById(`dot-${i}`);
+                    if(i <= step + 1) dot.classList.add('active');
+                    else dot.classList.remove('active');
+                }
+            } else {
+                // Calculate winning category
+                let winner = 'woody';
+                let max = scores.woody;
+                if (scores.floral > max) { winner = 'floral'; max = scores.floral; }
+                if (scores.leather > max) { winner = 'leather'; max = scores.leather; }
+
+                // Display dynamic recommendation
+                const img = document.getElementById('res-img');
+                const title = document.getElementById('res-title');
+                const desc = document.getElementById('res-desc');
+                const price = document.getElementById('res-price');
+                const reason = document.getElementById('result-match-reason');
+
+                if (winner === 'floral') {
+                    img.src = "https://images.unsplash.com/photo-1588405766542-551b3f284776?auto=format&fit=crop&w=800&q=80";
+                    title.innerText = "عطر نیش «رز اشرافی کاشان و زنبق» (Rose Impériale)";
+                    desc.innerText = "ترکیبی احساسی، لطیف و بسیار شیک از عصاره رز ناب کاشان، وانیل ماداگاسکار و زنبق فلورانس. این رایحه گلی و پودری برای دیدارهای عاشقانه و شخصیت آرام و هنردوست شما انتخابی بی‌نظیر است.";
+                    price.innerText = "۵,۹۰۰,۰۰۰ تومان";
+                    reason.innerText = "✦ تطبیق ۱۰۰٪ با روحیه احساساتی، هنری و علاقه شما به رایحه‌های لطیف و پودری";
+                } else if (winner === 'leather') {
+                    img.src = "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=800&q=80";
+                    title.innerText = "عطر نیش «چرم توسکان و تنباکو» (Cuir Royal)";
+                    desc.innerText = "رایحه‌ای جسورانه، مدرن و باصلابت از چرم اصیل توسکان، برگ تنباکو و هل. این عطر شرقی و ادویه‌ای برای جلسات مهم کاری و شخصیت پیشرو و متمایز شما طراحی شده است.";
+                    price.innerText = "۷,۲۰۰,۰۰۰ تومان";
+                    reason.innerText = "✦ تطبیق ۱۰۰٪ با شخصیت جسور، مدرن و علاقه شما به پخش بوی پرقدرت و ادویه‌ای";
+                } else {
+                    img.src = "https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&w=800&q=80";
+                    title.innerText = "عطر نیش «سلطان العود و زعفران» (Sultan Oud)";
+                    desc.innerText = "ترکیبی باشکوه از عود طبیعی کامبوج، زعفران سرخ قائنات و مشک سفید. این رایحه با طبعی گرم و تلخ، ماندگاری بالای ۴۸ ساعت و خط بوی خیره‌کننده، امضای شخصیت باوقار و قدرتمند شما در مجالس رسمی است.";
+                    price.innerText = "۶,۸۰۰,۰۰۰ تومان";
+                    reason.innerText = "✦ تطبیق ۱۰۰٪ با کهن‌الگوی رهبری، وقار کلاسیک و علاقه شما به ماندگاری ۴۸ ساعته";
+                }
+
+                document.getElementById('q-step-result').classList.add('active');
+            }
         }
+
         function resetQuiz() {
+            scores = { woody: 0, floral: 0, leather: 0 };
             document.querySelectorAll('.quiz-step').forEach(el => el.classList.remove('active'));
             document.getElementById('q-step-1').classList.add('active');
+            for(let i=1; i<=4; i++) {
+                const dot = document.getElementById(`dot-${i}`);
+                if(i === 1) dot.classList.add('active');
+                else dot.classList.remove('active');
+            }
         }
 
         // 2. Olfactory Pyramid Note Switcher
