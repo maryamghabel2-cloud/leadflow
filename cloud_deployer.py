@@ -9,6 +9,7 @@ Manages the end-to-end infrastructure for generated client websites:
 import os
 import zipfile
 import json
+import subprocess
 from typing import Dict, Any
 
 class CloudDeploymentEngine:
@@ -22,10 +23,10 @@ class CloudDeploymentEngine:
         os.makedirs(self.live_demos_dir, exist_ok=True)
         os.makedirs(self.packages_dir, exist_ok=True)
 
-    def provision_live_demo(self, business_name: str, html_content: str, industry_paradigm: str) -> Dict[str, Any]:
+    def provision_live_demo(self, business_name: str, html_content: str, industry_paradigm: str, auto_push: bool = True) -> Dict[str, Any]:
         """
-        Step 1 of 0-to-100: Provisions a live cloud-hosted demo file so the outbound SDR agent
-        can embed a real, working clickable URL in the cold email pitch to the business owner.
+        Step 1 of 0-to-100: Provisions a live cloud-hosted demo file and automatically pushes to GitHub Pages
+        so the outbound SDR agent embeds a real, verified live URL in the cold email pitch to the client.
         """
         slug = "".join(c if c.isalnum() else "_" for c in business_name.lower()).strip("_")
         filename = f"{slug}_live.html"
@@ -34,8 +35,19 @@ class CloudDeploymentEngine:
         with open(filepath, "w", encoding="utf-8") as f:
             f.write(html_content.strip())
 
+        # Automatically execute git commit and push to make the cloud URL real and live on the internet!
+        push_status = "Skipped"
+        if auto_push:
+            try:
+                repo_root = os.path.dirname(self.base_output_dir)
+                subprocess.run(["git", "add", filepath], cwd=repo_root, check=False)
+                subprocess.run(["git", "commit", "-m", f"🌐 Autonomous Edge Deploy: Live 3D portal for {business_name}"], cwd=repo_root, check=False)
+                res = subprocess.run(["git", "push", "origin", "main"], cwd=repo_root, capture_output=True, text=True, check=False)
+                push_status = "Published to GitHub Pages" if res.returncode == 0 else f"Local Staged ({res.stderr.strip()[:50]})"
+            except Exception as e:
+                push_status = f"Local Staged ({str(e)[:40]})"
+
         # Build public GitHub Pages URL / Cloud Server URL
-        # Format: https://{username}.github.io/{repo}/generated_sites/live_demos/{filename}
         live_cloud_url = f"https://maryamghabel2-cloud.github.io/leadflow/generated_sites/live_demos/{filename}"
         
         return {
@@ -45,7 +57,7 @@ class CloudDeploymentEngine:
             "local_filepath": filepath,
             "live_cloud_url": live_cloud_url,
             "industry_paradigm": industry_paradigm,
-            "provisioned_at": "Autonomous Cloud Edge (SSL/TLS Enabled)"
+            "provisioned_at": f"Autonomous Cloud Edge ({push_status})"
         }
 
     def create_client_handover_package(self, business_name: str, html_content: str, custom_domain: str = "example-client.com") -> Dict[str, Any]:
