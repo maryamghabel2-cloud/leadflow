@@ -455,7 +455,8 @@
 
             <div class="modal-buttons">
                 <button class="btn btn-mine" style="flex: 1;" onclick="copyPitch()">📋 Copy Pitch Email</button>
-                <button class="btn" style="flex: 1; background: rgba(255,255,255,0.1); color: white;" id="btn-open-site" onclick="openGeneratedSite()">🌐 Preview 3D Site</button>
+                <button class="btn" style="flex: 1; background: rgba(0, 240, 255, 0.2); border: 1px solid #00f0ff; color: white;" id="btn-open-site" onclick="openGeneratedSite()">🌐 Open Live Cloud Demo</button>
+                <button class="btn" style="flex: 1; background: rgba(16, 185, 129, 0.2); border: 1px solid #10b981; color: white;" id="btn-dl-zip" onclick="downloadZipPackage()">📦 Download 0-to-100 Handover ZIP</button>
             </div>
         </div>
     </div>
@@ -561,6 +562,9 @@
             }
         }
 
+        let currentLiveUrl = "";
+        let currentZipPackage = "";
+
         async function generateSite(name, category, city, phone) {
             try {
                 const res = await fetch('/api/generate-website', {
@@ -577,16 +581,22 @@
                 const data = await res.json();
                 if(res.ok && data.status === "success") {
                     currentGeneratedFile = data.generated_filename;
-                    document.getElementById('modal-subtitle').innerText = `3D animated website compiled for "${name}" (${city}).`;
-                    document.getElementById('modal-pitch-text').innerText = `Subject: Your new luxury website preview for ${name}\n\nHi ${name} Team,\n\nI was looking for premier ${category.toLowerCase()}s in ${city} and saw your glowing reputation—but noticed you don't currently have an active official website.\n\nTo show what's possible, our AI engineering team built an ultra-modern 3D animated neon website specifically for ${name} (complete with VIP booking consultation buttons and mobile optimization).\n\nYou can own and deploy this site today for a one-time fee of $499.\n\nWould you like me to send over the live demo link to preview?\n\nBest regards,\nElena\nShadow Infiltrator | LeadFlow.AI`;
+                    currentLiveUrl = data.live_cloud_demo_url || `/live_demos/${data.generated_filename.replace('_luxury.html', '_live.html')}`;
+                    currentZipPackage = data.client_handover_zip || `/handover_packages/${data.generated_filename.replace('_luxury.html', '_full_deployment_package.zip')}`;
+                    
+                    document.getElementById('modal-subtitle').innerText = `3D Portal compiled for "${name}" (${city}). Paradigm: ${data.industry_paradigm_applied}`;
+                    document.getElementById('modal-pitch-text').innerText = data.upsell_pitch || `Subject: Your new live 3D portal preview for ${name}\n\nHi ${name} Team,\n\nNotice you don't have an active website in ${city}. Our autonomous agency built and deployed a live SSL-secured 3D portal specifically for your profession:\n👉 LIVE DEMO: ${currentLiveUrl}\n\nWe have your full 0-to-100 deployment package (ZIP) ready for 1-click transfer. You can own this site today for $499 USDT.\n\nBest,\nElena | LeadFlow.AI`;
                     
                     document.getElementById('pitch-modal').style.display = 'flex';
                 }
             } catch(e) {
                 console.warn("Fallback mode generate:", e);
                 currentGeneratedFile = `${name.toLowerCase().replace(/[^a-z0-9]/g, '_')}_luxury.html`;
-                document.getElementById('modal-subtitle').innerText = `3D animated website compiled for "${name}" (${city}). (Simulated Fallback)`;
-                document.getElementById('modal-pitch-text').innerText = `Subject: Your new luxury website preview for ${name}\n\nHi ${name} Team,\n\nI was looking for premier ${category.toLowerCase()}s in ${city} and saw your glowing reputation—but noticed you don't currently have an active official website.\n\nTo show what's possible, our AI engineering team built an ultra-modern 3D animated neon website specifically for ${name}.\n\nYou can own and deploy this site today for a one-time fee of $499.\n\nWould you like me to send over the live demo link to preview?\n\nBest regards,\nElena\nShadow Infiltrator | LeadFlow.AI`;
+                currentLiveUrl = `https://maryamghabel2-cloud.github.io/leadflow/generated_sites/live_demos/${currentGeneratedFile.replace('_luxury.html', '_live.html')}`;
+                currentZipPackage = `/handover_packages/${currentGeneratedFile.replace('_luxury.html', '_full_deployment_package.zip')}`;
+                
+                document.getElementById('modal-subtitle').innerText = `3D Portal compiled for "${name}" (${city}). (Simulated Fallback)`;
+                document.getElementById('modal-pitch-text').innerText = `Subject: Your new live 3D portal preview for ${name}\n\nHi ${name} Team,\n\nNotice you don't have an active website in ${city}. Our autonomous agency built and deployed a live SSL-secured 3D portal specifically for your profession:\n👉 LIVE DEMO: ${currentLiveUrl}\n\nWe have your full 0-to-100 deployment package (ZIP) ready for 1-click transfer. You can own this site today for $499 USDT.\n\nBest,\nElena | LeadFlow.AI`;
                 document.getElementById('pitch-modal').style.display = 'flex';
             }
         }
@@ -602,10 +612,20 @@
         }
 
         function openGeneratedSite() {
-            if(currentGeneratedFile) {
+            if(currentLiveUrl) {
+                window.open(currentLiveUrl, '_blank');
+            } else if(currentGeneratedFile) {
                 window.open(`/generated/${currentGeneratedFile}`, '_blank');
             } else {
                 alert("Please generate a site first.");
+            }
+        }
+
+        function downloadZipPackage() {
+            if(currentZipPackage) {
+                window.location.href = currentZipPackage;
+            } else {
+                alert("0-to-100 Handover ZIP package is being generated by CloudEngine...");
             }
         }
     </script>

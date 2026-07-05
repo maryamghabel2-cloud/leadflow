@@ -61,6 +61,7 @@ class GenerateSiteRequest(BaseModel):
     category: str = Field(default="Clinic", description="Business category")
     city: str = Field(default="Toronto", description="City location")
     phone: str = Field(default="+1 (555) 019-2831", description="Contact phone number")
+    custom_domain: Optional[str] = Field(default=None, description="Custom domain for 0-to-100 client handover")
 
 @app.get("/")
 async def serve_index():
@@ -86,6 +87,20 @@ async def serve_generated_site(filename: str):
     if os.path.exists(filepath):
         return FileResponse(filepath)
     raise HTTPException(status_code=404, detail="Generated luxury website file not found.")
+
+@app.get("/live_demos/{filename}")
+async def serve_live_demo(filename: str):
+    filepath = os.path.join("generated_sites", "live_demos", filename)
+    if os.path.exists(filepath):
+        return FileResponse(filepath)
+    raise HTTPException(status_code=404, detail="Live demo file not found.")
+
+@app.get("/handover_packages/{filename}")
+async def serve_handover_package(filename: str):
+    filepath = os.path.join("generated_sites", "handover_packages", filename)
+    if os.path.exists(filepath):
+        return FileResponse(filepath, media_type="application/zip", filename=filename)
+    raise HTTPException(status_code=404, detail="Handover ZIP package not found.")
 
 @app.post("/api/analyze")
 async def analyze_prospect(request: AnalyzeRequest):
@@ -130,10 +145,11 @@ async def mine_no_website_businesses(request: MineRequest):
 @app.post("/api/generate-website")
 async def generate_luxury_website(request: GenerateSiteRequest):
     """
-    Instantly compiles an Awwwards-style 3D neon website tailored for a local business without a website.
+    Instantly compiles an Awwwards-style 3D website tailored for a local business without a website,
+    provisions a live cloud URL, and creates a 0-to-100 client handover ZIP package.
     """
     try:
-        site_result = infiltrator.generate_luxury_site(request.business_name, request.category, request.city, request.phone)
+        site_result = infiltrator.generate_luxury_site(request.business_name, request.category, request.city, request.phone, request.custom_domain)
         return site_result
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Shadow Infiltrator Error: {str(e)}")

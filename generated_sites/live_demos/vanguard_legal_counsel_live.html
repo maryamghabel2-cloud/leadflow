@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vanguard Legal Counsel - Premier Legal Counsel in New York</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap');
+        :root { --bg: #FDFBF7; --bordeaux: #1E293B; --gold: #C5A059; --text: #1E293B; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.8; }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 30px 80px; border-bottom: 1px solid #E2E8F0; background: #fff; }
+        .brand { font-family: 'Cinzel', serif; font-size: 24px; font-weight: 900; letter-spacing: 4px; color: #0F172A; text-decoration: none; }
+        .btn-minimal { background: #0F172A; color: #fff; padding: 14px 32px; font-size: 13px; font-weight: 700; letter-spacing: 2px; text-decoration: none; }
+        .hero { padding: 100px 80px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; max-width: 1300px; margin: 0 auto; align-items: center; }
+        h1 { font-family: 'Cinzel', serif; font-size: 52px; font-weight: 800; line-height: 1.2; color: #0F172A; margin-bottom: 24px; }
+        .calc-box { background: #fff; border: 1px solid #CBD5E1; padding: 40px; box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
+        footer { padding: 60px; background: #0F172A; color: #94A3B8; text-align: center; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <header><a href="#" class="brand">⚖️ VANGUARD LEGAL COUNSEL</a><a href="#consult" class="btn-minimal">CONFIDENTIAL CONSULTATION</a></header>
+    <section class="hero">
+        <div>
+            <span style="font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: 3px; color: var(--gold); font-weight: 700;">PREMIER LEGAL COUNSEL & LITIGATION • NEW YORK</span>
+            <h1 style="margin-top: 16px;">Unrivaled Advocacy. <br>Decisive Legal Victory.</h1>
+            <p style="color: #64748B; font-size: 18px; margin-bottom: 34px;">Representing corporations, executives, and high-net-worth individuals in complex civil litigation and intellectual property disputes.</p>
+            <a href="#consult" class="btn-minimal" style="background: var(--gold); color: #000; font-size: 14px;">SCHEDULE CASE EVALUATION →</a>
+        </div>
+        <div class="calc-box">
+            <h3 style="font-family: 'Cinzel', serif; font-size: 22px; color: #0F172A; margin-bottom: 10px;">⚖️ Instant Case Valuation Estimator</h3>
+            <p style="color: #64748B; font-size: 13px; margin-bottom: 20px;">Adjust estimated claim damages to calculate potential settlement recovery:</p>
+            <div style="font-size: 32px; font-weight: 800; color: var(--gold); margin: 16px 0;" id="claim-val">$1,500,000 Recovery</div>
+            <input type="range" style="width:100%; accent-color: var(--gold);" min="100000" max="10000000" step="100000" value="1500000" oninput="document.getElementById('claim-val').innerText = '$' + parseInt(this.value).toLocaleString() + ' Recovery'">
+        </div>
+    </section>
+    <footer id="consult"><p style="font-size: 20px; color: #fff; font-family: 'Cinzel', serif;">Vanguard Legal Counsel</p><p style="margin-top: 8px;">Direct Attorney Line: <strong style="color: var(--gold);">+1 212 555 0100</strong> | Deployed via LeadFlow.AI Cloud Engine</p></footer>
+</body>
+</html>
