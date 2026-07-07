@@ -20,6 +20,7 @@ from blockchain_verifier import BlockchainVerifier
 from no_website_miner import NoWebsiteMiner
 from shadow_infiltrator import ShadowInfiltrator
 from affiliate_manager import AffiliateManager
+from voice_outbound_agent import VoiceOutboundAgent
 
 app = FastAPI(
     title="LeadFlow.AI Autonomous SDR & Shadow Infiltrator Engine",
@@ -43,8 +44,16 @@ verifier = BlockchainVerifier(timeout=10)
 miner = NoWebsiteMiner(timeout=12)
 infiltrator = ShadowInfiltrator(output_dir="generated_sites")
 affiliate_mgr = AffiliateManager()
+voice_agent = VoiceOutboundAgent()
 
 # Request Models
+class VoiceCallRequest(BaseModel):
+    business_name: str = Field(..., example="Apex Dental Lounge")
+    phone: str = Field(..., example="+1 (416) 555-0199")
+    city: str = Field(..., example="Toronto")
+    live_cloud_url: str = Field(..., example="https://maryamghabel2-cloud.github.io/leadflow/live_demos/apex_dental_live.html")
+    contact_name: str = Field(default="Decision Maker", example="Dr. Wright")
+
 class AnalyzeRequest(BaseModel):
     url: str = Field(..., example="github.com", description="Target company website URL")
     prospect_name: str = Field(default="Decision Maker", example="David (CEO)", description="Name and role of the prospect")
@@ -184,18 +193,31 @@ async def process_affiliate_renewals():
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Renewal Error: {str(e)}")
 
+@app.post("/api/voice/call")
+async def trigger_voice_outbound_call(request: VoiceCallRequest):
+    """
+    Triggers an autonomous AI voice telephony call (Vapi/Bland AI/ElevenLabs)
+    inviting prospects to view their generated 3D portal without scam suspicion.
+    """
+    try:
+        res = voice_agent.initiate_outbound_call(request.business_name, request.phone, request.city, request.live_cloud_url, request.contact_name)
+        return res
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Telephony Error: {str(e)}")
+
 @app.get("/api/health")
 async def health_check():
     return {
         "status": "online",
-        "service": "LeadFlow.AI Cloud Engine v5.0",
+        "service": "LeadFlow.AI Cloud Engine v6.0",
         "agents": [
             "ResearcherAgent (Live Web Scraper)",
             "CopywriterAgent (LLM Logic)",
             "BlockchainVerifier (Tronscan API)",
             "NoWebsiteMiner (OpenStreetMap / Directory Scraper)",
-            "ShadowInfiltrator (Instant 3D Neon Website Generator)",
-            "AffiliateManager (20%/5% Crypto PLG Viral Referral Loop)"
+            "ShadowInfiltrator (Instant 3D Website Generator)",
+            "AffiliateManager (20%/5% Crypto PLG Viral Referral Loop)",
+            "VoiceOutboundAgent (Vapi/Bland AI Telephony Assistant)"
         ]
     }
 
