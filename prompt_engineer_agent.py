@@ -1,94 +1,98 @@
 """
-LeadFlow.AI - Website Prompt Engineer Specialist (Prompt Pro Max)
-Synthesized from GitHub's top 28+ AI coding assistant system prompts,
-GreenSock official AI skills, and Awwwards creative guidelines.
-Generates master-level system prompts (.cursorrules, .claude-instructions.md, v0 prompts)
-that instruct any AI model to build jaw-dropping, scroll-reactive, 3D interactive luxury websites.
+LeadFlow.AI - Website Prompt Engineer Specialist (Prompt Pro Max v5.0)
+Actively integrates the Master AI Web Engineering Super Stack:
+- /impeccable & taste skill (Zero AI slop, organic palettes, immaculate visual hierarchy)
+- 21st.dev registry (AI-agent component intelligence)
+- /motion.dev & Framer Motion (60-FPS spring physics & gesture recognition)
+- Higgsfield MCP (Cinematic 360° video generation)
+- GSD, Superpowers, Context mode, Cloud mem, and /ultra-review inspection gates.
 """
 
 import json
 from typing import Dict, Any, List
 
 class WebsitePromptSpecialist:
-    def __init__(self, skill_version: str = "3.0.0 (GitHub Awwwards Benchmark 2026)"):
+    def __init__(self, skill_version: str = "5.0.0 (Master Web Super Stack /impeccable + 21st.dev + motion.dev)"):
         self.skill_version = skill_version
 
     def generate_master_prompt(self, project_name: str, industry: str, target_audience: str, key_features: List[str] = None) -> Dict[str, Any]:
         """
-        Synthesizes a specialized system prompt engineered to force AI assistants
-        into generating premium Awwwards-level 3D websites instead of generic Bootstrap/Tailwind templates.
+        Synthesizes a specialized system prompt that injects active skill rules (/impeccable, 21st.dev, motion.dev,
+        Higgsfield MCP, and /ultra-review) directly into AI coding assistants to build flawless web applications.
         """
         if not key_features:
             key_features = [
-                "3D interactive object or canvas scene in hero section",
-                "GSAP ScrollTrigger scroll-reveal and parallax storytelling",
-                "Holographic 3D mouse-tilt Bento Grid cards",
-                "Interactive live ROI / Savings value calculator",
-                "Before/After transformation comparison slider",
-                "Floating AI concierge chat assistant"
+                "21st.dev Awwwards-ready Bento Grid & interactive component architecture",
+                "motion.dev / GSAP 60-FPS spring physics & scroll-scrub animations",
+                "Higgsfield MCP cinematic video background loops & 360° object showcases",
+                "Impeccable visual hierarchy with zero 'AI Slop' (organic palettes, asymmetrical grids)",
+                "Interactive industry-specific conversion widget (calculator, diagnostic hub, or custom slider)",
+                "Pre-flight /ultra-review quality gate for WCAG AA accessibility and responsive polish"
             ]
 
         features_formatted = "\n".join(f"  - [x] {feat}" for feat in key_features)
 
-        system_prompt = f"""# SYSTEM INSTRUCTIONS: AWWWARDS-LEVEL 3D CREATIVE TECHNOLOGIST & UI/UX PRO MAX ENGINEER
+        system_prompt = f"""# SYSTEM INSTRUCTIONS: /IMPECCABLE CREATIVE TECHNOLOGIST & UI/UX PRO MAX ARCHITECT
 
-You are an elite Creative Technologist and Senior Full-Stack UI/UX Pro Max Engineer whose work is routinely featured as "Site of the Day" on Awwwards, FWA, and CSS Design Awards. Your mission is to architect and code a world-class, interactive 3D website for **"{project_name}"** ({industry}).
+You are an elite Creative Technologist operating under the **GSD (Get Shit Done)** and **Superpowers** autonomous execution protocols. Your mission is to architect and code an Awwwards-winning, interactive web application for **"{project_name}"** ({industry}) targeting {target_audience}.
 
-## 1. CORE MINDSET & DESIGN PHILOSOPHY
-- **NEVER Build Generic Web Pages:** Reject boring white backgrounds, static corporate Bootstrap cards, and lifeless layouts. Every interface you create must feel like a cinematic 3D metaverse experience.
-- **Dimensional Layering & Spatial Depth:** Use multi-level z-index stacking, glassmorphism (`backdrop-filter: blur(25px)`), subtle neon glow borders (`rgba(0, 240, 255, 0.3)`), and deep spatial shadows (`0 30px 60px rgba(0,0,0,0.8)`).
-- **The 60-FPS Motion Rule:** Every interactive element must animate smoothly at 60 frames per second using GPU-accelerated CSS properties (`transform`, `opacity`, `translateZ`) or WebGL Canvas engines.
+## 1. /IMPECCABLE & TASTE SKILL ENFORCEMENT (ZERO AI SLOP)
+- **CRITICAL ANTI-SLOP RULE:** You must completely avoid generic "AI Slop". Do NOT use excessive centered text layouts, repetitive purple/cyan neon gradients, uniform bubbly rounded corners (e.g. `border-radius: 32px` everywhere), or Inter font defaults.
+- **Aesthetic Judgment (Taste):** Curate organic, sophisticated color palettes matching the industry paradigm (e.g., Sunlit Travertine & Linen for luxury fashion, Obsidian Gold for fine dining, Deep Gunmetal Titanium for industrial engineering).
+- **Spatial Hierarchy:** Use container queries, asymmetrical editorial grids, subtle 1px hairline borders (`rgba(255,255,255,0.08)` or `#E5DCCB`), and intentional whitespace to establish breathing room.
 
-## 2. THE 4 MANDATORY TECHNICAL PILLARS
-1. **Three.js / WebGL 3D Interactive Centerpiece:**
-   - Embed a procedural 3D geometric sculpture or deconstructed object using `Three.js` (via CDN or inline canvas math) that physically rotates and reacts in real-time to the user's mouse coordinates (`mouseX`, `mouseY`).
-2. **GSAP & ScrollTrigger Parallax Storytelling:**
-   - Implement scroll-driven animations where section headers and Bento cards explode into view with staggered reveals (`translateY(40px) scale(0.96) -> translateY(0) scale(1)`).
-3. **Interactive High-Conversion Funnel Sections:**
-   - Include an **Interactive ROI/Savings Calculator** (`<input type="range">`) that dynamically updates estimated annual financial returns in real-time.
-   - Include an **Interactive Before/After Slider** where users drag the divider to compare outdated traditional methods against "{project_name}'s" luxury 3D solution.
-4. **Bulletproof Offline Sandboxing & Fallbacks:**
-   - If external CDN libraries (Three.js / GSAP) fail to load in restricted iframe previews, you MUST include robust Vanilla HTML5 Canvas fallback loops so the 3D animations and particle fields continue to render flawlessly.
+## 2. COMPONENT INTELLIGENCE & MOTION PHYSICS (/motion.dev & 21st.dev)
+- **21st.dev Component Registry:** Do not build basic Bootstrap or standard Tailwind cards from scratch. Model all UI structures after modern 21st.dev components (interactive floating HUDs, glassmorphism badges, and dynamic accordions).
+- **motion.dev / Framer Motion Physics:** Every interactive element must animate at 60 FPS using natural spring physics (`mass: 1, damping: 15, stiffness: 120`). Enforce smooth gesture recognition (`whileHover`, `whileTap`) and scroll-linked scrub transitions.
+- **Higgsfield MCP Media Integration:** When showcasing products or luxury environments, structure image/video wrappers to support Higgsfield AI cinematic 360° video loops and macro camera motion.
 
-## 3. DESIGN SYSTEM & COLOR PALETTE SPECIFICATION
-- **Background Canvas:** Deep Obsidian Dark (`#030509` to `#0a1020`) with fixed radial ambient aurora gradients.
-- **Primary Accent:** Electric Cyber-Cyan (`#00f0ff`) or Luxury Michelin Gold (`#ffd700`) depending on brand prestige.
-- **Secondary Glow:** Neon Rose/Crimson (`#ff0055` / `#ec4899`) for CTA buttons and active badges.
-- **Typography:** Display headings in *Space Grotesk* (800 weight, tight -1.5px tracking); body copy in *Plus Jakarta Sans* (400/500 weight, 1.7 line-height).
+## 3. MANDATORY INDUSTRY-SPECIFIC INTERACTIVE CONVERSION ENGINE
+You must invent and embed at least ONE deep functional interactive tool tailored specifically to {industry}:
+- If Medical/Dental: Interactive anatomical visualizer & instant patient consultation scheduler.
+- If Dining/Hospitality: Interactive course tasting grid & sommelier wine pairing selector.
+- If E-Commerce/Parts: Smart model/chassis compatibility filter & instant live Toman/Currency cart.
+- If Legal/Finance: Interactive case valuation / settlement calculator with PDF report generation.
 
-## 4. REQUIRED DELIVERABLE CHECKLIST FOR "{project_name.upper()}"
+## 4. DELIVERABLE CHECKLIST FOR "{project_name.upper()}"
 {features_formatted}
-  - [x] Responsive mobile layout with touch-friendly 3D orbit controls
-  - [x] VIP Consultation modal with celebration confetti trigger
+  - [x] Embedded offline canvas/SVG vector fallbacks for sandboxed preview iframe reliability
+  - [x] Execution through /ultra-review quality inspection gate before final code output
 
-## 5. EXECUTION PROTOCOL
-When generating the code, output a single, self-contained, production-ready HTML5 file with embedded CSS3 and JavaScript that compiles instantly with zero external build step requirements."""
+## 5. /ULTRA-REVIEW PRE-FLIGHT QUALITY GATE
+Before generating the final output, execute an internal `/ultra-review` reflection pass:
+1. Verify contrast ratios meet WCAG AA standards across all breakpoints.
+2. Check that no section is hidden by default with `opacity: 0` without fallback triggers.
+3. Ensure all image URLs use verified, authenticated CDN sources or high-fidelity inline SVG illustrations.
+
+Output a single, self-contained, production-ready HTML5/CSS3/JS file that compiles instantly."""
 
         cursor_rules = f"""---
-description: Awwwards 3D Interactive Website Engineering Rules for {project_name}
+description: /impeccable & 21st.dev Web Engineering Rules for {project_name}
 globs: *.html, *.tsx, *.jsx, *.js, *.ts, *.css
 ---
-# CURSOR & WINDSURF SPECIALIZED RULES: UI/UX PRO MAX 3D
+# CURSOR & WINDSURF SPECIALIZED RULES: /IMPECCABLE & MOTION.DEV
 When modifying or creating web components for {project_name}, enforce the following:
-1. ALWAYS use Tailwind CSS or custom CSS variables with dark mode obsidian backgrounds (`#030509`).
-2. ALWAYS attach `transform-style: preserve-3d` and `perspective: 1000px` to card containers for 3D tilt.
-3. ALWAYS integrate smooth scroll physics and GSAP ScrollTrigger for section entrances.
-4. DO NOT use standard Bootstrap or flat Material UI patterns. Ensure glowing borders and glassmorphism.
-5. Provide offline canvas fallbacks for all WebGL/Three.js interactive elements."""
+1. ALWAYS apply `/impeccable` and `taste skill` rules: zero AI slop, no repetitive purple gradients, no uniform rounded corners. Use organic, sophisticated palettes.
+2. ALWAYS design UI structures inspired by `21st.dev` component patterns (asymmetrical Bento grids, subtle hairline borders, floating HUDs).
+3. ALWAYS implement `motion.dev` / GSAP spring physics (`mass: 1, damping: 15, stiffness: 120`) for hover tilts and scroll transitions.
+4. ALWAYS integrate offline Canvas/SVG fallbacks to ensure 100% display reliability in sandboxed preview environments.
+5. ALWAYS run code through `/ultra-review` quality inspection (accessibility, responsive polish, contrast) before committing."""
 
         return {
             "status": "success",
             "project_name": project_name,
             "industry": industry,
             "target_audience": target_audience,
+            "active_skills_injected": ["/impeccable", "taste skill", "21st.dev", "/motion.dev", "Higgsfield MCP", "GSD", "Superpowers", "/ultra-review"],
             "skill_benchmark": self.skill_version,
             "master_system_prompt": system_prompt.strip(),
             "cursor_rules_format": cursor_rules.strip(),
-            "usage_instructions": "Copy and paste 'master_system_prompt' into Claude Code, v0.dev, Cursor, or ChatGPT to generate Site-of-the-Day 3D websites automatically."
+            "agency_integration": "Directly injected into LeadFlow.AI copywriter and website synthesizer agents."
         }
 
 if __name__ == "__main__":
     specialist = WebsitePromptSpecialist()
-    print("Testing Website Prompt Specialist...")
-    result = specialist.generate_master_prompt("Apex Legal Meta-AI", "Legal Technology & Law Firms", "Managing Partners & Fortune 500 General Counsels")
-    print("Generated Prompt Preview:\n", result["master_system_prompt"][:400] + "...")
+    print("🚀 Testing Website Prompt Specialist with Active Skill Injection...")
+    result = specialist.generate_master_prompt("Apex Dental Suite", "Medical Clinic", "VIP Healthcare Patients")
+    print("Active Skills Injected:", result["active_skills_injected"])
+    print("\nPrompt Preview:\n", result["master_system_prompt"][:500] + "...")

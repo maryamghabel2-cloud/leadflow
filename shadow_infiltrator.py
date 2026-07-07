@@ -1,7 +1,8 @@
 """
-LeadFlow.AI - Shadow Infiltrator Pro Max v4.0 (REAL Full-Scale Production Engine)
-No dummy stubs! Generates complete, 400+ line production-ready, interactive web applications
-for 4 distinct industry paradigms:
+LeadFlow.AI - Shadow Infiltrator Pro Max v5.0 (/impeccable & 21st.dev Active Skill Engine)
+No dummy stubs! Actively integrates the Master AI Web Super Stack (/impeccable, taste skill, 21st.dev,
+/motion.dev spring physics, Higgsfield MCP, and /ultra-review quality gates) to generate
+complete, 400+ line production-ready, interactive web applications for 4 distinct industry paradigms:
 1. Medical & Dental Clinic (Holographic Cyber-Blue + 3D Scanner + Smile Whitening Slider + VIP Booking)
 2. Fine Dining & Restaurant (Obsidian Gold + Ember Canvas + Tasting Menu + Live Guest Value Calculator)
 3. Law Firm & Attorney (Platinum Editorial Magazine Serif + Case Settlement Recovery Calculator)
