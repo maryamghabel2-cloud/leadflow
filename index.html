@@ -3,752 +3,596 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LeadFlow.AI - Deploy Autonomous AI SDR Agents to Book B2B Meetings</title>
+    <title>LeadFlow.AI - Autonomous AI SDR Agents & 0-to-100 Cloud Web Agency</title>
+    <!-- GSAP & Confetti -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;700;800;900&family=JetBrains+Mono:wght@400;700;800&display=swap');
         
         :root {
-            --bg-dark: #030712;
-            --bg-card: #0b1120;
-            --accent: #6366f1;
-            --accent-glow: rgba(99, 102, 241, 0.15);
-            --pink-accent: #ec4899;
-            --success: #10b981;
-            --text-white: #f9fafb;
-            --text-gray: #9ca3af;
-            --border-color: #1f2937;
+            --bg: #020409;
+            --surface: #0a101d;
+            --surface-hover: #121c32;
+            --surface-card: #0f182c;
+            --cyan: #00f0ff;
+            --cyan-glow: rgba(0, 240, 255, 0.4);
+            --pink: #ff007f;
+            --pink-glow: rgba(255, 0, 127, 0.4);
+            --gold: #ffd700;
+            --gold-glow: rgba(255, 215, 0, 0.4);
+            --amber: #f59e0b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: rgba(0, 240, 255, 0.25);
+            --border-light: rgba(255, 255, 255, 0.08);
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            scroll-behavior: smooth;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-body); }
+        
         body {
-            background-color: var(--bg-dark);
-            color: var(--text-white);
+            background-color: var(--bg);
+            color: var(--text-main);
             overflow-x: hidden;
-            line-height: 1.6;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(0, 240, 255, 0.1) 0%, transparent 45%),
+                radial-gradient(circle at 85% 85%, rgba(255, 0, 127, 0.1) 0%, transparent 45%);
+            background-attachment: fixed;
+            line-height: 1.7;
         }
 
-        /* Navigation */
+        /* Top Announcement Banner */
+        .top-banner {
+            background: linear-gradient(90deg, #050811, #002b28, #1f0b18, #050811);
+            border-bottom: 1px solid var(--border);
+            padding: 10px 24px; text-align: center; font-size: 13px; font-weight: 800;
+            color: #fff; position: relative; z-index: 100;
+            display: flex; justify-content: center; align-items: center; gap: 12px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.8);
+        }
+        .banner-pulse { width: 8px; height: 8px; background: #34d399; border-radius: 50%; box-shadow: 0 0 10px #34d399; animation: ping 1.5s infinite; }
+        @keyframes ping { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(2.5); opacity: 0; } }
+
+        /* Navbar */
         nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 24px 80px;
-            border-bottom: 1px solid var(--border-color);
-            background: rgba(3, 7, 18, 0.8);
-            backdrop-filter: blur(12px);
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 60px; background: rgba(2, 4, 9, 0.92);
+            backdrop-filter: blur(25px); border-bottom: 1px solid var(--border-light);
+            position: sticky; top: 0; z-index: 90; flex-wrap: wrap; gap: 20px;
+        }
+        @media (max-width: 900px) { nav { padding: 16px 20px; flex-direction: column; gap: 14px; } }
+
+        .brand {
+            font-family: var(--font-display); font-size: 28px; font-weight: 900;
+            background: linear-gradient(to right, #fff, var(--cyan), var(--pink));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            display: flex; align-items: center; gap: 12px; text-decoration: none;
+        }
+        .brand-logo {
+            width: 48px; height: 48px; background: linear-gradient(135deg, var(--cyan), var(--pink));
+            border-radius: 14px; display: flex; align-items: center; justify-content: center;
+            color: #000; font-weight: 900; font-size: 22px; box-shadow: 0 0 25px var(--cyan-glow);
         }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            color: white;
-            font-weight: 800;
-            font-size: 22px;
-        }
+        .nav-links { display: flex; gap: 32px; list-style: none; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; font-weight: 700; font-size: 15px; transition: color 0.2s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--cyan); }
+        @media (max-width: 850px) { .nav-links { display: none; } }
 
-        .logo-icon {
-            width: 38px;
-            height: 38px;
-            background: linear-gradient(135deg, var(--accent), var(--pink-accent));
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        .btn-nav {
+            background: linear-gradient(135deg, var(--cyan), #0088ff);
+            color: #000; font-weight: 900; font-size: 14px; padding: 12px 28px;
+            border-radius: 30px; cursor: pointer; transition: all 0.3s;
+            text-decoration: none; box-shadow: 0 0 25px var(--cyan-glow);
         }
+        .btn-nav:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 0 40px var(--cyan); }
 
-        .nav-links {
-            display: flex;
-            gap: 32px;
-            list-style: none;
+        /* HERO SECTION - ASYMMETRICAL 21ST.DEV METAVERSE DECK */
+        .hero {
+            padding: 80px 60px 100px; max-width: 1400px; margin: 0 auto;
+            display: grid; grid-template-columns: 1.1fr 1fr; align-items: center; gap: 60px;
         }
+        @media (max-width: 992px) { .hero { grid-template-columns: 1fr; text-align: center; padding: 40px 20px; } }
 
-        .nav-links a {
-            color: var(--text-gray);
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: color 0.3s;
+        .hero-tag {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(0, 240, 255, 0.12); border: 1px solid var(--cyan);
+            color: var(--cyan); padding: 8px 20px; border-radius: 30px;
+            font-size: 13px; font-weight: 800; margin-bottom: 22px; letter-spacing: 1px;
         }
-
-        .nav-links a:hover {
-            color: white;
+        h1 { font-family: var(--font-display); font-size: 58px; font-weight: 900; line-height: 1.15; margin-bottom: 22px; letter-spacing: -1.5px; }
+        @media (max-width: 768px) { h1 { font-size: 38px; } }
+        h1 span.highlight {
+            background: linear-gradient(135deg, var(--cyan), #fff, var(--pink));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 40px rgba(0, 240, 255, 0.35);
         }
-
-        .btn {
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            text-decoration: none;
-            transition: all 0.3s;
-            border: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
+        p.lead { font-size: 18px; color: var(--text-muted); max-width: 600px; margin-bottom: 36px; line-height: 1.8; }
+        @media (max-width: 992px) { p.lead { margin: 0 auto 36px; } }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--accent), #4f46e5);
-            color: white;
-            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+            background: linear-gradient(135deg, var(--cyan), var(--pink));
+            color: #000; font-weight: 900; font-size: 16px; padding: 18px 40px;
+            border-radius: 30px; border: none; cursor: pointer; text-decoration: none;
+            box-shadow: 0 0 35px var(--cyan-glow); transition: all 0.3s; display: inline-flex; align-items: center; gap: 10px;
         }
+        .btn-primary:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 0 50px var(--cyan); }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(99, 102, 241, 0.6);
+        /* 21st.dev Interactive Holographic Command Console */
+        .console-card {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 32px; padding: 30px; backdrop-filter: blur(25px);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.9), 0 0 40px var(--cyan-glow);
+            position: relative; overflow: hidden;
         }
+        .console-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 16px; margin-bottom: 20px; font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+        
+        .console-tabs { display: flex; gap: 8px; margin-bottom: 20px; }
+        .console-tab { background: rgba(0,0,0,0.5); border: 1px solid var(--border-light); color: var(--text-muted); padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: 800; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; gap: 6px; }
+        .console-tab.active { background: var(--cyan); color: #000; box-shadow: 0 0 15px var(--cyan-glow); border-color: #fff; }
 
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.05);
-            color: white;
-            border: 1px solid var(--border-color);
+        .terminal-screen {
+            background: #020408; border: 1px solid rgba(0,240,255,0.2); border-radius: 18px;
+            padding: 20px; font-family: var(--font-mono); font-size: 12px; color: #34d399;
+            height: 280px; overflow-y: auto; line-height: 1.6; display: flex; flex-direction: column; gap: 8px;
         }
+        .log-line { display: flex; gap: 10px; }
+        .log-tag { background: rgba(0, 240, 255, 0.15); color: var(--cyan); padding: 2px 6px; border-radius: 4px; font-weight: 800; font-size: 10px; flex-shrink: 0; }
+        .log-tag.sdr { background: rgba(255, 0, 127, 0.15); color: var(--pink); }
+        .log-tag.deploy { background: rgba(255, 215, 0, 0.15); color: var(--gold); }
 
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
+        /* THE 4 AUTONOMOUS AGENTS BENTO GRID PRO MAX */
+        .section-box { max-width: 1400px; margin: 0 auto 90px; padding: 0 24px; position: relative; z-index: 10; }
+        .section-title { text-align: center; font-family: var(--font-display); font-size: 42px; font-weight: 900; margin-bottom: 14px; }
+        .section-sub { text-align: center; color: var(--text-muted); font-size: 17px; max-width: 800px; margin: 0 auto 50px; line-height: 1.8; }
+
+        .bento-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+        @media (max-width: 1100px) { .bento-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 600px) { .bento-grid { grid-template-columns: 1fr; } }
+        
+        .bento-card {
+            background: var(--surface-card); border: 1px solid var(--border-light); border-radius: 30px;
+            padding: 28px; position: relative; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); display: flex; flex-direction: column; justify-content: space-between;
         }
+        .bento-card:hover { border-color: var(--cyan); transform: translateY(-8px); box-shadow: 0 25px 50px rgba(0,0,0,0.8), 0 0 35px var(--cyan-glow); }
+        .bento-hero { grid-column: span 2; background: linear-gradient(135deg, #0d1628, #180d22); border-color: var(--cyan); }
+        @media (max-width: 600px) { .bento-hero { grid-column: span 1; } }
+        
+        .agent-badge { position: absolute; top: 18px; right: 18px; background: rgba(16, 185, 129, 0.15); border: 1px solid #10b981; color: #34d399; font-size: 11px; font-weight: 800; padding: 4px 12px; border-radius: 20px; display: flex; align-items: center; gap: 6px; }
+        .agent-icon { font-size: 38px; margin-bottom: 16px; }
+        .agent-name { font-family: var(--font-display); font-size: 22px; font-weight: 900; color: #fff; margin-bottom: 10px; }
+        .agent-desc { font-size: 14px; color: var(--text-muted); line-height: 1.7; margin-bottom: 20px; }
+        .agent-task { font-family: var(--font-mono); font-size: 12px; background: rgba(0,0,0,0.6); padding: 12px; border-radius: 14px; color: var(--cyan); font-weight: 700; border-left: 3px solid var(--cyan); }
 
-        /* Hero Section */
-        .hero {
-            padding: 100px 80px 80px 80px;
-            max-width: 1200px;
-            margin: 0 auto;
-            text-align: center;
-            position: relative;
+        /* INTERACTIVE ENGINE #2: DYNAMIC INDUSTRY PARADIGM SYNTHESIZER */
+        .paradigm-box {
+            background: linear-gradient(135deg, #080d1a, #1b0a1a); border: 2px solid var(--pink);
+            border-radius: 36px; padding: 46px; box-shadow: 0 30px 80px rgba(0,0,0,0.9), 0 0 50px var(--pink-glow);
         }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -100px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 600px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(3, 7, 18, 0) 70%);
-            z-index: -1;
-            pointer-events: none;
+        .paradigm-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; margin-bottom: 28px; flex-wrap: wrap; gap: 14px; }
+        .paradigm-title { font-family: var(--font-display); font-size: 28px; font-weight: 900; color: #fff; display: flex; align-items: center; gap: 12px; }
+        
+        .industry-tabs { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 28px; }
+        .ind-btn {
+            background: rgba(0,0,0,0.5); border: 1px solid var(--border-light); color: var(--text-muted);
+            padding: 12px 22px; border-radius: 24px; font-weight: 800; font-size: 14px; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; gap: 8px;
         }
+        .ind-btn:hover, .ind-btn.active { background: var(--pink); color: #fff; box-shadow: 0 0 20px var(--pink-glow); border-color: #fff; }
 
-        .hero-badge {
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            color: #818cf8;
-            padding: 6px 16px;
-            border-radius: 30px;
-            font-size: 12px;
-            font-weight: 700;
-            display: inline-block;
-            margin-bottom: 24px;
-            letter-spacing: 0.5px;
+        .paradigm-monitor {
+            background: #020408; border: 1px solid var(--border); border-radius: 26px; padding: 30px;
+            display: grid; grid-template-columns: 1fr 1.3fr; gap: 40px; align-items: center;
         }
+        @media (max-width: 900px) { .paradigm-monitor { grid-template-columns: 1fr; text-align: center; } }
+        
+        .monitor-badge { display: inline-block; background: rgba(255,0,127,0.15); border: 1px solid var(--pink); color: var(--pink); padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 800; margin-bottom: 14px; }
+        .monitor-h3 { font-family: var(--font-display); font-size: 26px; font-weight: 900; color: #fff; margin-bottom: 12px; }
+        .monitor-p { font-size: 14px; color: var(--text-muted); line-height: 1.8; margin-bottom: 22px; }
 
-        .hero h1 {
-            font-size: 56px;
-            font-weight: 800;
-            line-height: 1.15;
-            margin-bottom: 24px;
-            background: linear-gradient(to right, #fff 40%, #a5b4fc, #ec4899);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .preview-card-frame {
+            background: var(--surface); border: 2px solid var(--cyan); border-radius: 24px; padding: 24px;
+            text-align: center; box-shadow: 0 15px 40px rgba(0,0,0,0.8), 0 0 30px var(--cyan-glow);
         }
+        .preview-val { font-family: var(--font-display); font-size: 40px; font-weight: 900; color: var(--cyan); margin: 10px 0; }
 
-        .hero p {
-            font-size: 18px;
-            color: var(--text-gray);
-            max-width: 760px;
-            margin: 0 auto 40px auto;
+        /* LIVE FREE TRIAL LEAD MAGNET STUDIO */
+        .studio-box {
+            background: linear-gradient(135deg, #091426, #002b28); border: 2px solid var(--cyan);
+            border-radius: 36px; padding: 46px; box-shadow: 0 30px 80px rgba(0,0,0,0.9), 0 0 50px var(--cyan-glow);
         }
+        .studio-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 40px; align-items: center; margin-top: 24px; }
+        @media (max-width: 992px) { .studio-grid { grid-template-columns: 1fr; } }
 
-        .hero-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-            margin-bottom: 60px;
+        .form-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
+        .form-group label { font-size: 14px; font-weight: 800; color: #fff; }
+        .form-input { width: 100%; padding: 16px 20px; background: rgba(0,0,0,0.6); border: 1px solid var(--border-light); border-radius: 16px; color: #fff; font-size: 15px; font-weight: 700; outline: none; transition: all 0.3s; }
+        .form-input:focus { border-color: var(--cyan); box-shadow: 0 0 15px var(--cyan-glow); }
+
+        .btn-generate {
+            background: linear-gradient(135deg, var(--cyan), var(--gold)); color: #000;
+            font-weight: 900; font-size: 16px; padding: 18px; border-radius: 20px; border: none;
+            cursor: pointer; transition: all 0.3s; width: 100%; box-shadow: 0 0 35px var(--cyan-glow); display: flex; align-items: center; justify-content: center; gap: 10px;
         }
+        .btn-generate:hover { transform: translateY(-2px); box-shadow: 0 0 50px var(--cyan); }
 
-        /* Embedded Terminal Mockup (Interactive!) */
-        .demo-container {
-            max-width: 900px;
-            margin: 0 auto;
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-            overflow: hidden;
-            text-align: left;
-        }
-
-        .demo-header {
-            background-color: #060a13;
-            padding: 14px 20px;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .window-dots {
-            display: flex;
-            gap: 6px;
-        }
-
-        .dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-        }
-        .dot-red { background-color: #ef4444; }
-        .dot-yellow { background-color: #f59e0b; }
-        .dot-green { background-color: #10b981; }
-
-        .demo-terminal {
-            padding: 24px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 13px;
-            color: var(--success);
-            height: 350px;
-            overflow-y: auto;
-            background-color: #03060c;
-        }
-
-        .log-line {
-            margin-bottom: 10px;
-            line-height: 1.5;
-        }
-
-        .log-timestamp {
-            color: var(--accent);
-            margin-right: 10px;
-        }
-
-        .log-tag {
-            background: #1e293b;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 11px;
-            margin-right: 10px;
-            font-weight: bold;
-        }
-
-        .log-tag.prospector { color: #f59e0b; }
-        .log-tag.researcher { color: #3b82f6; }
-        .log-tag.copywriter { color: #ec4899; }
-        .log-tag.booking { color: #10b981; }
-
-        /* How It Works Section */
-        .features {
-            padding: 100px 80px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .section-header h2 {
-            font-size: 36px;
-            font-weight: 800;
-            margin-bottom: 16px;
-        }
-
-        .section-header p {
-            color: var(--text-gray);
-            font-size: 16px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-        }
-
-        .feature-card {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 32px;
-            transition: all 0.3s;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
-            box-shadow: 0 10px 30px var(--accent-glow);
-        }
-
-        .feature-icon {
-            width: 48px;
-            height: 48px;
-            background-color: rgba(99, 102, 241, 0.1);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--accent);
-            margin-bottom: 24px;
-            font-weight: bold;
-            font-size: 20px;
-        }
-
-        .feature-card h3 {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
-
-        .feature-card p {
-            color: var(--text-gray);
-            font-size: 14px;
-        }
-
-        /* Live Free Trial Lead Magnet */
-        .lead-magnet {
-            padding: 80px;
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(236, 72, 153, 0.05) 100%);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            border-radius: 24px;
-            max-width: 1000px;
-            margin: 80px auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 40px;
-        }
-
-        @media (max-width: 768px) {
-            .lead-magnet {
-                flex-direction: column;
-                padding: 40px;
-            }
-        }
-
-        .magnet-text h3 {
-            font-size: 28px;
-            font-weight: 800;
-            margin-bottom: 12px;
-        }
-
-        .magnet-text p {
-            color: var(--text-gray);
-            font-size: 15px;
-            max-width: 480px;
-        }
-
-        .magnet-form {
-            background-color: var(--bg-dark);
-            padding: 32px;
-            border-radius: 16px;
-            border: 1px solid var(--border-color);
-            width: 100%;
-            max-width: 420px;
-        }
-
-        .form-group {
-            margin-bottom: 16px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 12px;
-            color: var(--text-gray);
-            margin-bottom: 6px;
-            font-weight: 600;
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 12px 16px;
-            background-color: rgba(255,255,255,0.03);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            color: white;
-            font-size: 14px;
-            outline: none;
-        }
-
-        .form-input:focus {
-            border-color: var(--accent);
-        }
-
-        /* Pricing Section */
-        .pricing {
-            padding: 80px 24px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 32px;
-            margin-top: 40px;
-        }
-
-        .price-card {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 40px;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .price-card.popular {
-            border-color: var(--accent);
-            box-shadow: 0 10px 40px rgba(99, 102, 241, 0.2);
-        }
-
-        .popular-badge {
-            position: absolute;
-            top: -15px;
-            right: 30px;
-            background: linear-gradient(135deg, var(--accent), var(--pink-accent));
-            color: white;
-            font-size: 11px;
-            font-weight: 700;
-            padding: 4px 12px;
-            border-radius: 20px;
-            text-transform: uppercase;
-        }
-
-        .price-header h3 {
-            font-size: 20px;
-            margin-bottom: 8px;
-        }
-
-        .price-amount {
-            font-size: 44px;
-            font-weight: 800;
-            margin: 20px 0;
-        }
-
-        .price-amount span {
-            font-size: 14px;
-            color: var(--text-gray);
-            font-weight: 500;
-        }
-
-        .price-features {
-            list-style: none;
-            margin: 24px 0 40px 0;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .price-features li {
-            font-size: 14px;
-            color: var(--text-gray);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .price-features li::before {
-            content: "✔";
-            color: var(--success);
-            font-weight: bold;
+        .email-output {
+            background: #020408; border: 1px solid var(--border); border-radius: 24px; padding: 26px;
+            font-family: var(--font-mono); font-size: 13px; color: #f8fafc; min-height: 380px; display: flex; flex-direction: column; justify-content: space-between;
         }
 
         /* Footer */
-        footer {
-            padding: 60px 80px;
-            border-top: 1px solid var(--border-color);
-            text-align: center;
-        }
-
-        .footer-logo {
-            display: inline-flex;
-            margin-bottom: 24px;
-        }
-
-        .footer-text {
-            color: var(--text-gray);
-            font-size: 14px;
-            margin-bottom: 24px;
-        }
-
-        .payment-logos {
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-            color: var(--text-gray);
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .payment-badge {
-            background-color: rgba(255,255,255,0.05);
-            padding: 4px 10px;
-            border-radius: 4px;
-            border: 1px solid var(--border-color);
-        }
+        footer { padding: 60px 40px; background: #010307; border-top: 1px solid var(--border-light); text-align: center; color: var(--text-muted); font-size: 14px; }
+        
+        /* GSAP Reveal */
+        .gsap-reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s ease; }
+        .gsap-reveal.active { opacity: 1; transform: translateY(0); }
     </style>
 </head>
 <body>
 
-    <!-- Navigation -->
+    <!-- Top Announcement Banner -->
+    <div class="top-banner">
+        <span class="banner-pulse"></span>
+        <span>⚡ LEADFLOW.AI PRO MAX v5.0 | REBUILT WITH MASTER AI WEB SUPER STACK (/impeccable, 21st.dev, /motion.dev, Higgsfield MCP, taste skill)</span>
+    </div>
+
+    <!-- Navbar -->
     <nav>
-        <a href="#" class="logo">
-            <div class="logo-icon">LF</div>
+        <a href="#" class="brand">
+            <div class="brand-logo">LF</div>
             <span>LeadFlow.AI</span>
         </a>
+
         <ul class="nav-links">
-            <li><a href="#how-it-works">How It Works</a></li>
-            <li><a href="#pricing">Pricing</a></li>
-            <li><a href="#demo">Live Agent Demo</a></li>
-            <li><a href="onboard.html" style="color: var(--accent); font-weight: 700;">🚀 Client Onboarding</a></li>
-            <li><a href="miner.html" style="color: #00f0ff; font-weight: 700;">⚡ Shadow Infiltrator</a></li>
+            <li><a href="#agents">The 4 Autonomous Agents</a></li>
+            <li><a href="#paradigm-studio">Dynamic Paradigm Engine</a></li>
+            <li><a href="#email-studio">Live Free Trial Studio</a></li>
+            <li><a href="onboard.html" style="color: var(--pink);">🚀 Client Onboarding</a></li>
+            <li><a href="miner.html" style="color: var(--cyan);">⚡ Shadow Infiltrator</a></li>
         </ul>
-        <a href="onboard.html" class="btn btn-primary">Start Free Trial</a>
+
+        <a href="onboard.html" class="btn-nav">✨ Deploy Your Agent</a>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- HERO SECTION - ASYMMETRICAL 21ST.DEV METAVERSE DECK -->
     <header class="hero">
-        <span class="hero-badge">REVOLUTIONIZING B2B SALES</span>
-        <h1>Your Next High-Performing SDR <br>is an Autonomous AI Agent</h1>
-        <p>LeadFlow.AI deploys intelligent AI SDRs that scrape targets, deeply analyze company websites, and write ultra-personalized cold outreach that books meetings on autopilot. 24/7. At 1/10th the cost of human SDRs.</p>
-        <div class="hero-buttons">
-            <a href="#free-trial" class="btn btn-primary">Deploy Your First Agent</a>
-            <button onclick="startVisualDemo()" class="btn btn-secondary">Watch Agent Live Run</button>
+        <div class="gsap-reveal">
+            <div class="hero-tag">⚡ REVOLUTIONIZING B2B SALES & WEB AGENCIES</div>
+            <h1>Your Next High-Performing <br>SDR & Web Agency is an <br><span class="highlight">Autonomous AI Workforce</span></h1>
+            <p class="lead">LeadFlow.AI deploys autonomous AI agents that scrape target decision-makers, deeply analyze company websites, generate custom 3D portals for any trade in 10 seconds, and book meetings on autopilot. 24/7. At 1/10th human overhead.</p>
+            <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+                <a href="onboard.html" class="btn-primary">🚀 Deploy Your First Agent ←</a>
+                <a href="miner.html" style="background: rgba(255,255,255,0.06); border: 1px solid var(--border-light); color: #fff; padding: 18px 32px; border-radius: 30px; text-decoration: none; font-weight: 800; font-size: 15px; display: inline-flex; align-items: center; gap: 8px;">⚡ Launch Shadow Infiltrator</a>
+            </div>
         </div>
 
-        <!-- Terminal Demo Box -->
-        <div class="demo-container" id="demo">
-            <div class="demo-header">
-                <div class="window-dots">
-                    <span class="dot dot-red"></span>
-                    <span class="dot dot-yellow"></span>
-                    <span class="dot dot-green"></span>
-                </div>
-                <div style="font-size: 11px; color: var(--text-gray); font-weight: 600;">AGENT MONITOR: ACTIVE_SESSION</div>
-                <div><span style="color: var(--success); font-weight: bold; font-size: 12px;">● LIVE RUNNING</span></div>
+        <div class="console-card gsap-reveal" id="tilt-card">
+            <div class="console-header">
+                <div><span>💻</span> <span>AUTONOMOUS AGENT MONITOR: ACTIVE_SESSION</span></div>
+                <div style="color: #34d399; font-weight: 800;"><span class="banner-pulse" style="display: inline-block;"></span> LIVE RUNNING</div>
             </div>
-            <div class="demo-terminal" id="terminal-screen">
-                <div class="log-line"><span class="log-timestamp">[08:21:05]</span><span class="log-tag prospector">PROSPECTOR</span>Booting outbound agent queue. Targeting: B2B Technology & SaaS founders...</div>
-                <div class="log-line"><span class="log-timestamp">[08:21:20]</span><span class="log-tag researcher">RESEARCHER</span>Scraped "CloudBase Systems". Extracted metadata: Cloud backup platform. News: Recruited new VP of Engineering last week.</div>
-                <div class="log-line"><span class="log-timestamp">[08:21:44]</span><span class="log-tag copywriter">COPYWRITER</span>Generated custom email for "Alex Turner" (CEO of CloudBase) based on VP hiring signal.</div>
-                <div class="log-line"><span class="log-timestamp">[08:22:00]</span><span class="log-tag booking">BOOKING</span>Email sent successfully. Real-time inbox tracking activated...</div>
+
+            <div class="console-tabs">
+                <button class="console-tab active" onclick="switchConsoleTab('sdr', this)">🤖 SDR Email Engine</button>
+                <button class="console-tab" onclick="switchConsoleTab('deploy', this)">🌐 0-to-100 Cloud Deployer</button>
+                <button class="console-tab" onclick="switchConsoleTab('audit', this)">🛡️ Tron USDT Auditor</button>
+            </div>
+
+            <div class="terminal-screen" id="console-logs">
+                <div class="log-line"><span class="log-tag sdr">PROSPECTOR</span><span>Booting outbound agent queue. Targeting: B2B Technology & SaaS founders...</span></div>
+                <div class="log-line"><span class="log-tag sdr">RESEARCHER</span><span>Scraped "CloudBase Systems". Extracted metadata: Cloud backup platform. News: Recruited new VP of Engineering last week.</span></div>
+                <div class="log-line"><span class="log-tag sdr">COPYWRITER</span><span>Generated custom email for "Alex Turner" (CEO of CloudBase) based on VP hiring signal.</span></div>
+                <div class="log-line"><span class="log-tag deploy">DEPLOYER</span><span>Provisioned live cloud URL: maryamghabel2-cloud.github.io/leadflow/live_demos/cloudbase_live.html</span></div>
+                <div class="log-line"><span class="log-tag">AUDITOR</span><span>Verified $499 USDT TRC-20 deposit on Tronscan ledger. Unlocked handover ZIP bundle!</span></div>
+            </div>
+            
+            <div style="margin-top: 16px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.08); font-size: 11px; color: var(--text-muted); display: flex; justify-content: space-between;">
+                <span>● ARCHITECTURE: /IMPECCABLE & 21ST.DEV</span>
+                <span style="color: var(--cyan); font-weight: 800;">💡 MOVE MOUSE FOR 3D TILT EFFECT</span>
             </div>
         </div>
     </header>
 
-    <!-- How It Works -->
-    <section class="features" id="how-it-works">
-        <div class="section-header">
-            <h2>Our AI SDR Pipeline in Action</h2>
-            <p>Four autonomous agents collaborating in real-time to fill your sales pipeline with qualified meetings.</p>
-        </div>
+    <!-- THE 4 AUTONOMOUS AGENTS BENTO GRID PRO MAX -->
+    <section class="section-box" id="agents">
+        <div class="section-title gsap-reveal">The Autonomous Agency Workforce</div>
+        <div class="section-sub gsap-reveal">Four specialized AI agents collaborating in real-time to fill your sales pipeline with qualified meetings and generate instant $499 client website upgrades.</div>
+        
+        <div class="bento-grid">
+            <!-- Agent 1 Hero -->
+            <div class="bento-card bento-hero gsap-reveal">
+                <span class="agent-badge">● Engine #2: The $499 Upsell Funnel</span>
+                <div class="agent-icon">⚡</div>
+                <h3 class="agent-name">Shadow Infiltrator & No-Website Miner</h3>
+                <p class="agent-desc">Scans local cities (Toronto, London, Dubai) via OpenStreetMap/Overpass API for established businesses with zero online presence. Automatically synthesizes bespoke 3D interactive portals in 10 seconds and pitches them for instant $499 sales!</p>
+                <div class="agent-task">// RECENT WIN: Built & deployed live 3D portal for "Titan Gym & Fitness" in 8 seconds. Generated $499 USDT sale!</div>
+            </div>
 
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">1</div>
-                <h3>Autopilot Prospecting</h3>
-                <p>Our agents scrape directories, social profiles, and job boards to find perfect decision-makers matching your exact ICP.</p>
+            <!-- Agent 2 -->
+            <div class="bento-card gsap-reveal">
+                <span class="agent-badge">● Live Web Crawler</span>
+                <div class="agent-icon">🕷️</div>
+                <h3 class="agent-name">Researcher Agent</h3>
+                <p class="agent-desc">Crawls target company websites in real-time using Requests & BeautifulSoup. Extracts H1/H2 headers, meta descriptions, and core value propositions.</p>
+                <div class="agent-task">// OUTPUT: Extracted business signals without human intervention.</div>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon">2</div>
-                <h3>Deep Web Research</h3>
-                <p>Instead of sending generic templates, our agent reads their homepage, blog, and news to extract actual buying signals.</p>
+
+            <!-- Agent 3 -->
+            <div class="bento-card gsap-reveal">
+                <span class="agent-badge">● LLM Copywriter</span>
+                <div class="agent-icon">✍️</div>
+                <h3 class="agent-name">Copywriter Agent (Elena)</h3>
+                <p class="agent-desc">Synthesizes research intelligence into hyper-personalized, human-like B2B cold emails referencing exact website findings and recent signals.</p>
+                <div class="agent-task">// OUTPUT: Zero corporate fluff or spammy templates. 40%+ reply rate.</div>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon">3</div>
-                <h3>AI Personalized Copywriting</h3>
-                <p>We craft emails tailored specifically to their situation. No corporate fluff, just highly relevant human-like messages.</p>
+
+            <!-- Agent 4 -->
+            <div class="bento-card gsap-reveal">
+                <span class="agent-badge">● 0-to-100 Cloud Infrastructure</span>
+                <div class="agent-icon">🌐</div>
+                <h3 class="agent-name">0-to-100 Cloud Deployer</h3>
+                <p class="agent-desc">Executes automated git commit & push to provision live GitHub Pages demo URLs and compiles client handover ZIP packages with 1-click Vercel/Docker setup.</p>
+                <div class="agent-task">// OUTPUT: Instant SSL-secured live URLs in under 10 seconds.</div>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon">4</div>
-                <h3>Automated Response Booking</h3>
-                <p>We analyze incoming responses. If they are interested, our booking agent automatically shares your calendar and schedules the meeting.</p>
+        </div>
+    </section>
+
+    <!-- INTERACTIVE ENGINE #2: DYNAMIC INDUSTRY PARADIGM SYNTHESIZER -->
+    <section class="section-box" id="paradigm-studio">
+        <div class="paradigm-box gsap-reveal">
+            <div class="paradigm-header">
+                <div class="paradigm-title"><span>🎛️</span> <span>Engine #2 Live Test: Dynamic Industry Paradigm Synthesizer</span></div>
+                <span style="background: var(--pink); color: #fff; font-size: 12px; font-weight: 800; padding: 6px 16px; border-radius: 20px;">● Open-Ended Multi-Profession Architecture</span>
+            </div>
+
+            <p style="color: var(--text-muted); font-size: 15px; margin-bottom: 24px;">LeadFlow is no longer restricted to 4 fixed paradigms! Click any profession below to watch the Synthesizer dynamically reconfigure color palettes, layout structures, and conversion calculators in real-time:</p>
+
+            <div class="industry-tabs">
+                <button class="ind-btn active" onclick="testParadigm('dental', this)">🦷 Dental & Medical Clinics</button>
+                <button class="ind-btn" onclick="testParadigm('dining', this)">🍽️ Fine Dining & Gourmet</button>
+                <button class="ind-btn" onclick="testParadigm('legal', this)">⚖️ Law Firms & Attorneys</button>
+                <button class="ind-btn" onclick="testParadigm('realty', this)">🏙️ Real Estate & Architecture</button>
+                <button class="ind-btn" onclick="testParadigm('gym', this)">💪 Fitness Club & Gym</button>
+                <button class="ind-btn" onclick="testParadigm('saas', this)">💻 Tech SaaS & AI Platform</button>
+            </div>
+
+            <div class="paradigm-monitor" id="paradigm-display">
+                <div>
+                    <span class="monitor-badge" id="ind-badge">HOLOGRAPHIC CYBER-BLUE PARADIGM</span>
+                    <h3 class="monitor-h3" id="ind-title">Apex Dental Lounge - 3D Anatomical Suite</h3>
+                    <p class="monitor-p" id="ind-desc">Specialized architecture featuring WebGL 3D tooth & molecule scanning, instant patient appointment scheduling, and Before/After smile whitening comparison sliders.</p>
+                    <div style="display: flex; gap: 12px; font-family: var(--font-mono); font-size: 12px; color: #34d399; font-weight: 800;">
+                        <span>✔ 0-to-100 Handover ZIP Ready</span>
+                        <span>✔ SSL GitHub Pages Live URL Active</span>
+                    </div>
+                </div>
+
+                <div class="preview-card-frame" id="ind-card">
+                    <div style="font-size: 13px; font-weight: 800; color: var(--text-muted);">INTERACTIVE PATIENT VALUE CALCULATOR</div>
+                    <div class="preview-val" id="ind-val">$184,000 / yr</div>
+                    <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;" id="ind-sub">Estimated Annual Revenue Growth with 3D Booking Concierge</div>
+                    <a href="miner.html" class="btn-primary" style="width: 100%; justify-content: center; padding: 14px; font-size: 14px;">⚡ Launch in Shadow Infiltrator →</a>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Live Free Trial Lead Magnet -->
-    <section class="lead-magnet" id="free-trial">
-        <div class="magnet-text">
-            <h3>Get a Free Custom AI Cold Email Draft</h3>
-            <p>Enter your target company URL and email, and our AI SDR Agent will scrape your prospect's site and generate a highly personalized cold email draft in real-time. Experience the magic instantly.</p>
-        </div>
-        <div class="magnet-form">
-            <div class="form-group">
-                <label for="comp-url">Target Prospect Website URL</label>
-                <input type="text" id="comp-url" class="form-input" placeholder="e.g., example.com">
+    <!-- LIVE FREE TRIAL LEAD MAGNET STUDIO -->
+    <section class="section-box" id="email-studio">
+        <div class="studio-box gsap-reveal">
+            <div class="paradigm-header" style="border-bottom-color: rgba(0,240,255,0.2);">
+                <div class="paradigm-title" style="color: var(--cyan);"><span>⚡</span> <span>Live Free Trial: Autonomous AI SDR Draft Studio</span></div>
+                <span style="background: var(--cyan); color: #000; font-size: 12px; font-weight: 900; padding: 6px 16px; border-radius: 20px;">● Connected to Python /api/analyze</span>
             </div>
-            <div class="form-group">
-                <label for="prosp-name">Prospect Name & Role</label>
-                <input type="text" id="prosp-name" class="form-input" placeholder="e.g., David (CEO)">
-            </div>
-            <button class="btn btn-primary" style="width: 100%; justify-content: center;" onclick="requestCustomEmail()">Generate Draft with AI</button>
-        </div>
-    </section>
 
-    <!-- Pricing Section -->
-    <section class="pricing" id="pricing">
-        <div class="section-header">
-            <h2>Flexible, High-ROI Plans</h2>
-            <p>Deploy AI SDR agents to scale your pipeline at a fraction of the cost of hiring human sales development reps.</p>
-        </div>
+            <p style="color: var(--text-muted); font-size: 15px;">Enter any target company URL and decision-maker name below. Our live Researcher Agent will crawl the site and generate a hyper-personalized cold outreach draft in real-time:</p>
 
-        <div class="pricing-grid">
-            <div class="price-card">
-                <div class="price-header">
-                    <h3>Starter Agent</h3>
-                    <p>Perfect for solo founders & startups.</p>
-                    <div class="price-amount">$499<span>/month</span></div>
+            <div class="studio-grid">
+                <div>
+                    <div class="form-group">
+                        <label>1. Target Prospect Website URL:</label>
+                        <input type="text" class="form-input" id="comp-url" value="github.com" placeholder="e.g. github.com, stripe.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label>2. Prospect Name & Role:</label>
+                        <input type="text" class="form-input" id="prosp-name" value="David (CEO)" placeholder="e.g. David (CEO), Marcus (Founder)">
+                    </div>
+
+                    <button class="btn-generate" onclick="requestCustomEmail()">
+                        ⚡ Crawl Site & Generate AI Outreach Draft Now
+                    </button>
                 </div>
-                <ul class="price-features">
-                    <li>1 Active AI SDR Agent</li>
-                    <li>1,000 Personalized Emails / mo</li>
-                    <li>Standard Prospecting API</li>
-                    <li>Inbox Monitoring & Sentiment analysis</li>
-                    <li>Email Deliverability Warmup</li>
-                </ul>
-                <a href="onboard.html" class="btn btn-secondary" style="width: 100%; justify-content: center;">Deploy Starter Agent</a>
-            </div>
 
-            <div class="price-card popular">
-                <span class="popular-badge">Most Popular</span>
-                <div class="price-header">
-                    <h3>Growth Team</h3>
-                    <p>Perfect for scaling agencies & SaaS companies.</p>
-                    <div class="price-amount">$1,499<span>/month</span></div>
-                </div>
-                <ul class="price-features">
-                    <li>3 Active AI SDR Agents</li>
-                    <li>4,000 Personalized Emails / mo</li>
-                    <li>Deep Web Scraping & Research Agent</li>
-                    <li>Objection Handling & Automated Booking</li>
-                    <li>Custom CRM Integrations (Hubspot/Zapier)</li>
-                </ul>
-                <a href="onboard.html" class="btn btn-primary" style="width: 100%; justify-content: center;">Deploy Growth Team</a>
-            </div>
+                <!-- Email Output Console -->
+                <div class="email-output" id="email-panel">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px; margin-bottom: 16px; color: var(--cyan); font-weight: 800;">
+                            <span>📩 GENERATED OUTREACH CAMPAIGN</span>
+                            <span id="email-status">Ready for Input</span>
+                        </div>
+                        <div id="email-body" style="white-space: pre-wrap; line-height: 1.7; color: #fff;">
+Subject: Quick question for David regarding github.com's outbound growth
 
-            <div class="price-card">
-                <div class="price-header">
-                    <h3>Enterprise Cloud</h3>
-                    <p>For high-volume enterprise pipelines.</p>
-                    <div class="price-amount">Custom<span>/pricing</span></div>
+Hi David,
+
+I was reviewing github.com's online presence and was really impressed by how you focus on search code, repositories, users, issues, pull requests....
+
+Usually, the biggest operational challenge for CEOs in your space is scaling a consistent, high-ticket B2B sales pipeline without incurring the $5,000+/mo overhead of traditional human sales SDRs.
+
+We build Autonomous AI SDR Agents (like myself) that deeply scrape your target market's websites, write hyper-personalized outreach based on live signals, and book qualified sales meetings directly onto your calendar 24/7.
+
+Would you be open to a quick 5-minute chat next Tuesday at 3 PM?
+
+Best regards,
+Elena | Autonomous AI SDR Agent | LeadFlow.AI
+                        </div>
+                    </div>
+                    <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 14px; display: flex; justify-content: space-between; align-items: center;">
+                        <span style="color: #34d399;">✔ Scraped 4 paragraphs & 6 headers</span>
+                        <button onclick="copyDraft()" style="background: rgba(0,240,255,0.15); border: 1px solid var(--cyan); color: var(--cyan); padding: 8px 16px; border-radius: 12px; font-weight: 800; cursor: pointer;">📋 Copy Draft</button>
+                    </div>
                 </div>
-                <ul class="price-features">
-                    <li>Unlimited AI SDR Agents</li>
-                    <li>Custom volume of emails</li>
-                    <li>Private Dedicated IPs & Domains</li>
-                    <li>Custom Fine-Tuned Copywriting Models</li>
-                    <li>Dedicated Customer Success Manager</li>
-                </ul>
-                <a href="#free-trial" class="btn btn-secondary" style="width: 100%; justify-content: center;">Contact Sales</a>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer>
-        <div class="footer-logo">
-            <div class="logo-icon">LF</div>
-            <span style="font-weight: 800; font-size: 20px; margin-left: 10px;">LeadFlow.AI</span>
-        </div>
-        <div class="footer-text">
-            © 2026 LeadFlow.AI. All rights reserved. Deploying the future of B2B outbound marketing.
-        </div>
-        <div class="payment-logos">
-            <span>Accepted Globally:</span>
-            <span class="payment-badge">Credit Card / Stripe</span>
-            <span class="payment-badge">PayPal</span>
-            <span class="payment-badge">Tether (USDT) / BTC</span>
-        </div>
+        <p style="font-family: var(--font-display); font-size: 24px; color: #fff; font-weight: 900; margin-bottom: 10px;">LEADFLOW.AI - AUTONOMOUS SDR & WEB AGENCY PLATFORM</p>
+        <p style="margin-bottom: 20px;">Deploying intelligent AI SDRs that scrape targets, analyze websites, build instant $499 client portals, and book sales meetings on autopilot.</p>
+        <p style="color: var(--cyan); font-weight: 800; margin-bottom: 24px;">«Rebuilt with Master AI Web Super Stack: /impeccable, 21st.dev, /motion.dev, Higgsfield MCP, taste skill»</p>
+        <p>© 2026 LeadFlow.AI. All rights reserved. Deployed on Autonomous Cloud Infrastructure.</p>
     </footer>
 
-    <!-- Interactive Simulation Scripts -->
+    <!-- Interactive Scripts -->
     <script>
-        const names = ["Robert", "Helena", "Satoshi", "Maria", "Gary"];
-        const companies = ["FinTech Labs", "Nexus Soft", "Decentral Inc.", "CyberSec Global", "MarketScale"];
-        const signals = [
-            "raising seed funding of $2M",
-            "hiring 5 new account managers in Europe",
-            "launching an updated website structure",
-            "publishing their new enterprise security whitepaper",
-            "announcing expansion into APAC markets"
-        ];
+        // 1. Scroll Reveal Engine
+        function initReveal() {
+            if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+                gsap.registerPlugin(ScrollTrigger);
+                document.querySelectorAll('.gsap-reveal').forEach(el => {
+                    gsap.fromTo(el, { opacity: 0, y: 40 }, {
+                        opacity: 1, y: 0, duration: 0.8,
+                        scrollTrigger: { trigger: el, start: "top 85%" }
+                    });
+                });
+            } else {
+                const checkScroll = () => {
+                    document.querySelectorAll('.gsap-reveal').forEach(el => {
+                        if (el.getBoundingClientRect().top < window.innerHeight - 60) el.classList.add('active');
+                    });
+                };
+                window.addEventListener('scroll', checkScroll);
+                checkScroll();
+            }
+        }
+        window.addEventListener('DOMContentLoaded', initReveal);
 
-        function appendLiveLog(agent, msg) {
-            const screen = document.getElementById('terminal-screen');
-            const now = new Date();
-            const timeStr = now.toTimeString().split(' ')[0];
-            
-            const line = document.createElement('div');
-            line.className = 'log-line';
-            line.style.animation = "fadeIn 0.5s ease";
-            line.innerHTML = `<span class="log-timestamp">[${timeStr}]</span><span class="log-tag ${agent}">${agent.toUpperCase()}</span>${msg}`;
-            
-            screen.appendChild(line);
-            screen.scrollTop = screen.scrollHeight;
+        // 2. 3D Card Tilt Effect
+        const tiltCard = document.getElementById('tilt-card');
+        if (tiltCard) {
+            tiltCard.addEventListener('mousemove', e => {
+                const rect = tiltCard.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                tiltCard.style.transform = `rotateY(${x * 0.04}deg) rotateX(${-y * 0.04}deg) scale(1.02)`;
+            });
+            tiltCard.addEventListener('mouseleave', () => {
+                tiltCard.style.transform = 'rotateY(0deg) rotateX(0deg)';
+            });
         }
 
-        let demoInterval;
-        function startVisualDemo() {
-            const screen = document.getElementById('terminal-screen');
-            screen.innerHTML = `<div class="log-line"><span class="log-timestamp">[System]</span><span class="log-tag prospector">SYSTEM</span>Autonomous AI campaign stream initialized. Processing queue...</div>`;
+        // 3. Console Tabs Switcher
+        function switchConsoleTab(tab, btn) {
+            document.querySelectorAll('.console-tab').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const box = document.getElementById('console-logs');
+            box.innerHTML = '';
             
-            if(demoInterval) clearInterval(demoInterval);
-
-            let steps = 0;
-            demoInterval = setInterval(() => {
-                const idx = Math.floor(Math.random() * names.length);
-                const name = names[idx];
-                const company = companies[idx];
-                const signal = signals[idx];
-
-                if(steps % 4 === 0) {
-                    appendLiveLog("prospector", `Discovered high-fit lead: ${name} (Head of Outbound @ ${company})`);
-                } else if(steps % 4 === 1) {
-                    appendLiveLog("researcher", `Crawled ${company}.io. Discovered active signal: ${signal}`);
-                } else if(steps % 4 === 2) {
-                    appendLiveLog("copywriter", `Generated hyper-personalized draft for ${name} referencing "${signal}"`);
-                } else if(steps % 4 === 3) {
-                    appendLiveLog("booking", `Warm email successfully dispatched to ${name.toLowerCase()}@${company.toLowerCase()}.io`);
-                }
-                steps++;
-            }, 2500);
-
-            // Scroll to terminal box
-            document.getElementById('demo').scrollIntoView({ behavior: 'smooth' });
+            if (tab === 'sdr') {
+                box.innerHTML = `
+                    <div class="log-line"><span class="log-tag sdr">PROSPECTOR</span><span>Booting outbound agent queue. Targeting: B2B Technology & SaaS founders...</span></div>
+                    <div class="log-line"><span class="log-tag sdr">RESEARCHER</span><span>Scraped "CloudBase Systems". Extracted metadata: Cloud backup platform. News: VP hiring.</span></div>
+                    <div class="log-line"><span class="log-tag sdr">COPYWRITER</span><span>Generated custom email for "Alex Turner" referencing VP hiring signal.</span></div>
+                    <div class="log-line"><span class="log-tag sdr">BOOKING</span><span>Warm email dispatched. Real-time inbox sentiment tracking activated.</span></div>
+                `;
+            } else if (tab === 'deploy') {
+                box.innerHTML = `
+                    <div class="log-line"><span class="log-tag deploy">DEPLOYER</span><span>Initiated 0-to-100 CloudDeploymentEngine for client "Titan Gym & Fitness".</span></div>
+                    <div class="log-line"><span class="log-tag deploy">GIT_PUSH</span><span>Executed automated git add, commit, & push to GitHub Pages edge servers.</span></div>
+                    <div class="log-line"><span class="log-tag deploy">LIVE_URL</span><span>Provisioned SSL URL: maryamghabel2-cloud.github.io/leadflow/live_demos/titan_gym_live.html</span></div>
+                    <div class="log-line"><span class="log-tag deploy">ZIP_PACK</span><span>Compiled handover bundle: titan_gym_full_deployment_package.zip with Vercel & cPanel setup.</span></div>
+                `;
+            } else {
+                box.innerHTML = `
+                    <div class="log-line"><span class="log-tag">AUDITOR</span><span>Connecting to Tronscan public API (apilist.tronscan.org) to audit USDT deposit...</span></div>
+                    <div class="log-line"><span class="log-tag">LEDGER</span><span>Scanning transaction hash: 853793d552635f533aa982b92b35b00e63a1c1a...</span></div>
+                    <div class="log-line"><span class="log-tag">SUCCESS</span><span>Verified 499.00 USDT TRC-20 transfer from wallet TR7NHqje... to LeadFlow vault.</span></div>
+                    <div class="log-line"><span class="log-tag">HANDOVER</span><span>Unlocked domain CNAME mapping and transmitted deployment ZIP to client!</span></div>
+                `;
+            }
         }
 
+        // 4. Dynamic Industry Paradigm Synthesizer
+        function testParadigm(ind, btn) {
+            document.querySelectorAll('.ind-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            const badge = document.getElementById('ind-badge');
+            const title = document.getElementById('ind-title');
+            const desc = document.getElementById('ind-desc');
+            const val = document.getElementById('ind-val');
+            const sub = document.getElementById('ind-sub');
+            const card = document.getElementById('ind-card');
+
+            if (ind === 'dental') {
+                badge.innerText = "HOLOGRAPHIC CYBER-BLUE PARADIGM";
+                badge.style.borderColor = "#00f0ff"; badge.style.color = "#00f0ff"; badge.style.background = "rgba(0,240,255,0.15)";
+                title.innerText = "Apex Dental Lounge - 3D Anatomical Suite";
+                desc.innerText = "Specialized architecture featuring WebGL 3D tooth & molecule scanning, instant patient appointment scheduling, and Before/After smile whitening comparison sliders.";
+                val.innerText = "$184,000 / yr"; val.style.color = "#00f0ff";
+                sub.innerText = "Estimated Annual Revenue Growth with 3D Booking Concierge";
+                card.style.borderColor = "#00f0ff";
+            } else if (ind === 'dining') {
+                badge.innerText = "OBSIDIAN GOLD & EMBER PARADIGM";
+                badge.style.borderColor = "#ffd700"; badge.style.color = "#ffd700"; badge.style.background = "rgba(255,215,0,0.15)";
+                title.innerText = "Lumiere Fine Dining - Michelin Lounge";
+                desc.innerText = "Specialized architecture featuring ambient firefly ember canvas, interactive 12-course tasting menu Bento Grid, and private sommelier table reservation funnels.";
+                val.innerText = "$340,000 / yr"; val.style.color = "#ffd700";
+                sub.innerText = "Estimated Annual Revenue Growth with Private Chef Table Funnel";
+                card.style.borderColor = "#ffd700";
+            } else if (ind === 'legal') {
+                badge.innerText = "PLATINUM EDITORIAL MAGAZINE PARADIGM";
+                badge.style.borderColor = "#e2e8f0"; badge.style.color = "#e2e8f0"; badge.style.background = "rgba(226,232,240,0.15)";
+                title.innerText = "Vanguard Legal Counsel - Litigation Group";
+                desc.innerText = "Specialized high-fashion editorial serif layout (zero rounded bubbly cards!), interactive legal case valuation calculator, and courtroom victory credentials.";
+                val.innerText = "$1,500,000+"; val.style.color = "#e2e8f0";
+                sub.innerText = "Estimated Settlement Recovery Value Calculated by Interactive Tool";
+                card.style.borderColor = "#e2e8f0";
+            } else if (ind === 'realty') {
+                badge.innerText = "ARCHITECTURAL GOLD & EMERALD PARADIGM";
+                badge.style.borderColor = "#10b981"; badge.style.color = "#10b981"; badge.style.background = "rgba(16,185,129,0.15)";
+                title.innerText = "Skyline Real Estate - Metaverse Group";
+                desc.innerText = "Specialized architecture featuring 3D metaverse virtual property tours, interactive mortgage & rental yield ROI calculator, and off-market VIP lockboxes.";
+                val.innerText = "8.5% Yield"; val.style.color = "#10b981";
+                sub.innerText = "Estimated Annual Net Rental Return Calculated by Realty Engine";
+                card.style.borderColor = "#10b981";
+            } else if (ind === 'gym') {
+                badge.innerText = "HIGH-ENERGY CYBER FITNESS PARADIGM";
+                badge.style.borderColor = "#ff007f"; badge.style.color = "#ff007f"; badge.style.background = "rgba(255,0,127,0.15)";
+                title.innerText = "Titan Gym & Fitness Club - 3D Training Rig";
+                desc.innerText = "Specialized architecture featuring interactive BMI & calorie calculators, live personal trainer booking funnels, and 3D workout class visualizers.";
+                val.innerText = "3.8x Members"; val.style.color = "#ff007f";
+                sub.innerText = "Estimated Annual Membership Retention Growth";
+                card.style.borderColor = "#ff007f";
+            } else {
+                badge.innerText = "CYBERPUNK BENTO SAAS PRO PARADIGM";
+                badge.style.borderColor = "#f59e0b"; badge.style.color = "#f59e0b"; badge.style.background = "rgba(245,158,11,0.15)";
+                title.innerText = "CloudBase Tech - AI Workflow Suite";
+                desc.innerText = "Specialized architecture featuring interactive SaaS pricing calculators, live API endpoint monitors, and holographic feature grids.";
+                val.innerText = "10x Velocity"; val.style.color = "#f59e0b";
+                sub.innerText = "Estimated Development Speed Multiplier with Autonomous AI";
+                card.style.borderColor = "#f59e0b";
+            }
+        }
+
+        // 5. Live Free Trial Email Studio
         async function requestCustomEmail() {
-            const url = document.getElementById('comp-url').value || "techstart.com";
-            const name = document.getElementById('prosp-name').value || "Marcus (Founder)";
-            
-            alert(`AI SDR Agent starting live research on: ${url} for ${name}...\n\nWatch the console at the top for real-time scraping & LLM copywriting logs!`);
-            
-            document.getElementById('demo').scrollIntoView({ behavior: 'smooth' });
-            
-            appendLiveLog("researcher", `[LIVE AGENT INIT] Connecting to ${url} to extract business metadata & H1/H2 signals...`);
+            const url = document.getElementById('comp-url').value.trim() || "github.com";
+            const name = document.getElementById('prosp-name').value.trim() || "David (CEO)";
+            const status = document.getElementById('email-status');
+            const body = document.getElementById('email-body');
+
+            status.innerText = "⌛ Crawling Live Site...";
+            status.style.color = "#f59e0b";
+            body.innerText = `[LIVE AGENT INIT] Connecting to ${url} via Python Researcher Agent...\n\nExtracting H1/H2 metadata, meta descriptions, and business signals...`;
 
             try {
-                // Call real Python FastAPI AI Agent Backend
                 const response = await fetch('/api/analyze', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -757,38 +601,31 @@
                 
                 const data = await response.json();
                 
-                if(response.ok && data.status === "success") {
+                if (response.ok && data.status === "success") {
                     setTimeout(() => {
-                        appendLiveLog("researcher", `[SCRAPED DATA] Domain: ${data.research.domain} | Title: "${data.research.title.substring(0, 45)}..."`);
+                        status.innerText = "✔ Draft Synthesized";
+                        status.style.color = "#34d399";
+                        body.innerText = `Subject: ${data.campaign.subject}\n\n${data.campaign.body}\n\n// REASONING LOGS:\n${data.campaign.reasoning_logs.join('\n')}`;
+                        if (typeof confetti !== 'undefined') confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
                     }, 1200);
-
-                    setTimeout(() => {
-                        appendLiveLog("copywriter", `[LLM REASONING] Synthesizing hook around: "${data.research.value_proposition.substring(0, 55)}..."`);
-                    }, 2800);
-
-                    setTimeout(() => {
-                        const emailFormatted = `Subject: ${data.campaign.subject}\n\n${data.campaign.body}`;
-                        appendLiveLog("booking", `[LIVE GENERATED DRAFT]\n\n${emailFormatted}`);
-                    }, 4500);
                 } else {
-                    throw new Error(data.detail || "Agent response error");
+                    throw new Error(data.detail || "API Error");
                 }
             } catch(e) {
-                // Fallback for static preview without active local server
-                console.warn("Live API fallback mode:", e);
+                console.warn("API fallback mode:", e);
                 setTimeout(() => {
-                    appendLiveLog("researcher", `[CUSTOM REQUEST] Crawling submitted URL: ${url}... (Simulated Fallback)`);
-                }, 1000);
-
-                setTimeout(() => {
-                    appendLiveLog("copywriter", `[CUSTOM REQUEST] Writing customized email draft for ${name}...`);
-                }, 3000);
-
-                setTimeout(() => {
-                    const customDraft = `Subject: Scaling client acquisition for your team, ${name.split(' ')[0]}\n\nHi ${name.split(' ')[0]},\n\nI was browsing ${url} and was impressed by your automated service offerings.\n\nUsually, the biggest challenge for businesses like yours is scaling the outbound B2B sales pipeline without inflating human hiring costs. We build Autonomous AI SDRs that research and email your target clients with highly-relevant messages, booking meetings on your calendar.\n\nWould you be open to a quick 5-minute call next Tuesday at 3 PM to see the AI workflow we used to research ${url}?\n\nBest,\nElena\nAutonomous AI SDR Agent | LeadFlow.AI`;
-                    appendLiveLog("booking", `[DRAFT GENERATED]\n\n${customDraft}`);
-                }, 5000);
+                    status.innerText = "✔ Draft Synthesized (Simulated)";
+                    status.style.color = "#34d399";
+                    body.innerText = `Subject: Scaling client acquisition for your team, ${name.split(' ')[0]}\n\nHi ${name.split(' ')[0]},\n\nI was browsing ${url} and was impressed by your online presence and automated offerings.\n\nUsually, the biggest operational challenge for executives in your space is scaling a consistent, high-ticket B2B sales pipeline without incurring the $5,000+/mo overhead of traditional human sales SDRs.\n\nWe build Autonomous AI SDR Agents (like myself) that deeply scrape your target market's websites, write hyper-personalized outreach based on live signals, and book qualified sales meetings directly onto your calendar 24/7.\n\nWould you be open to a quick 5-minute chat next Tuesday at 3 PM to see the AI workflow we used to analyze ${url}?\n\nBest regards,\nElena\nAutonomous AI SDR Agent | LeadFlow.AI`;
+                    if (typeof confetti !== 'undefined') confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+                }, 1500);
             }
+        }
+
+        function copyDraft() {
+            const txt = document.getElementById('email-body').innerText;
+            navigator.clipboard.writeText(txt);
+            alert("✨ AI Outreach Draft copied to clipboard! Ready to send.");
         }
     </script>
 </body>
