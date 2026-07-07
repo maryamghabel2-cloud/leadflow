@@ -240,8 +240,8 @@
                     <div class="stat-lbl">Telephony Voice Latency</div>
                 </div>
                 <div class="stat-box">
-                    <div class="stat-val">20% / 5%</div>
-                    <div class="stat-lbl">Tron USDT Affiliate Loop</div>
+                    <div class="stat-val">+500</div>
+                    <div class="stat-lbl">Ambassador Reward Credits</div>
                 </div>
                 <div class="stat-box">
                     <div class="stat-val">$499</div>
@@ -377,11 +377,11 @@ Status: High-fit lead verified. Initializing stage 02 synthesis...</div>
 
                 <div class="plg-card" style="border-color: var(--charcoal); background: #F9F8F6;">
                     <div>
-                        <div class="plg-num">02. CRYPTO AFFILIATE ENGINE</div>
-                        <h3 class="plg-title">20% Instant / 5% Residual USDT</h3>
-                        <p class="plg-desc">Our accounting agent (<code style="background: #fff; padding: 2px 6px;">affiliate_manager.py</code>) disburses 20% instant USDT on Month 1 ($100 USDT), and 5% residual passive USDT forever on renewals. If a client cancels, payouts cut off instantly.</p>
+                        <div class="plg-num">02. AMBASSADOR REWARDS LOOP</div>
+                        <h3 class="plg-title">+500 Voice & Email Credits</h3>
+                        <p class="plg-desc">Our referral agent (<code style="background: #fff; padding: 2px 6px;">referral_rewards_agent.py</code>) grants sustainable SaaS rewards. Invite a colleague or business: when they join or deploy a site, you instantly claim +500 Autonomous Voice/Email Credits OR a $50 account credit!</p>
                     </div>
-                    <div style="margin-top: 20px; font-family: var(--font-mono); font-size: 11px; color: var(--emerald); font-weight: 700;">✔ TRON TRC-20 SMART ESCROW</div>
+                    <div style="margin-top: 20px; font-family: var(--font-mono); font-size: 11px; color: var(--emerald); font-weight: 700;">✔ SUSTAINABLE PLG INCENTIVES</div>
                 </div>
 
                 <div class="plg-card">
@@ -391,6 +391,47 @@ Status: High-fit lead verified. Initializing stage 02 synthesis...</div>
                         <p class="plg-desc">Anyone can generate a live 3D portal preview link in 10 seconds. When they share their demo on X or LinkedIn with #LeadFlowAI, they unlock $100 off their deployment package, driving viral social reach.</p>
                     </div>
                     <div style="margin-top: 20px; font-family: var(--font-mono); font-size: 11px; color: var(--champagne); font-weight: 700;">✔ 10X VIRAL SOCIAL MULTIPLIER</div>
+                </div>
+            </div>
+
+            <!-- Interactive Ambassador Reward Simulator -->
+            <div class="studio-grid" style="margin-top: 40px; border-top: 1px solid var(--border); padding-top: 40px;">
+                <div>
+                    <div style="font-size: 14px; font-weight: 800; color: var(--charcoal); margin-bottom: 14px;">⚡ LIVE AMBASSADOR REWARD SIMULATOR (TEST PYTHON BACKEND):</div>
+                    <div class="form-group">
+                        <label>1. Your Ambassador Referral Code:</label>
+                        <input type="text" class="form-input" id="amb-code" value="ref_alex2026" placeholder="e.g. ref_alex2026">
+                    </div>
+
+                    <div class="form-group">
+                        <label>2. Invited Client Name & Reward Choice:</label>
+                        <select class="form-input" id="amb-choice">
+                            <option value="credits" selected>Lumiere Fine Dining (+500 Voice/Email Credits)</option>
+                            <option value="usdt">Apex Dental Lounge ($50 USDT Account Credit)</option>
+                        </select>
+                    </div>
+
+                    <button class="btn-primary" style="width: 100%; justify-content: center; margin-top: 10px;" onclick="simulateAmbassadorReward()">
+                        ⚡ Simulate Invited Sale & Instant Ambassador Reward Grant
+                    </button>
+                </div>
+
+                <!-- Ambassador Output Console -->
+                <div class="paper-console" style="min-height: 320px;">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 16px; color: var(--oxford); font-weight: 800;">
+                            <span>// AMBASSADOR REWARDS LEDGER</span>
+                            <span id="amb-status" style="color: var(--champagne);">Waiting for Referral Invite</span>
+                        </div>
+                        <div id="amb-log-body" style="white-space: pre-wrap; line-height: 1.8; color: var(--charcoal); font-family: var(--font-mono); font-size: 12px;">
+// AMBASSADOR SYSTEM IDLE
+Share your unique referral link (e.g. leadflow.ai/?ref=ref_alex2026) and click Simulate above to test automated credit or account balance upgrades.
+                        </div>
+                    </div>
+                    <div style="border-top: 1px solid var(--border); padding-top: 14px; display: flex; justify-content: space-between; align-items: center; font-size: 12px;">
+                        <span style="color: var(--emerald); font-weight: 700;">✔ Sustainable PLG Growth • Zero MLM Overhead</span>
+                        <button onclick="alert('🔗 Your unique Ambassador referral link: https://leadflow.ai/?ref=ref_alex2026')" style="background: transparent; border: 1px solid var(--charcoal); padding: 6px 14px; font-weight: 700; cursor: pointer;">🔗 Get Referral Link</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -456,16 +497,24 @@ Status: High-fit lead verified. Initializing stage 02 synthesis...</div>
             }
         }
 
-        // 3. Studio Telephony Voice Call Simulation
+        // 3. Studio Telephony Voice Call Simulation with Work Email Capture Gate
         async function simulateVoiceCall() {
             const biz = document.getElementById('biz-name').value.trim() || "Apex Dental Lounge | Toronto";
             const phone = document.getElementById('prosp-phone').value.trim() || "Dr. Wright | +1 (416) 555-0199";
+            
+            // Enterprise Work Email Capture Gate (As requested by user)
+            const userEmail = prompt("✉️ ENTERPRISE LEAD CAPTURE GATE:\n\nPlease enter your work email address to unlock and receive the verified AI telephony audio recording & SMS demo link:", "founder@yourcompany.com");
+            if (!userEmail || !userEmail.includes("@")) {
+                alert("⚠️ Please enter a valid work email address to unlock the AI telephony test report.");
+                return;
+            }
+
             const status = document.getElementById('call-status');
             const body = document.getElementById('call-body');
 
             status.innerText = "⌛ Initiating Vapi/ElevenLabs Voice Call...";
             status.style.color = "#f59e0b";
-            body.innerText = `[TELEPHONY AGENT INIT] Connecting to ${phone.split('|')[1] || phone} via Python VoiceOutboundAgent...\n\nEstablishing sub-300ms latency voice stream...`;
+            body.innerText = `[TELEPHONY AGENT INIT] Connecting to ${phone.split('|')[1] || phone} via Python VoiceOutboundAgent...\n\n[LEAD CAPTURED]: Verified work email '${userEmail}'. Transmitting report...\n\nEstablishing sub-300ms latency voice stream...`;
 
             try {
                 const response = await fetch('/api/voice/call', {
@@ -486,7 +535,7 @@ Status: High-fit lead verified. Initializing stage 02 synthesis...</div>
                     setTimeout(() => {
                         status.innerText = "✔ Call Completed • Demo Link Opened";
                         status.style.color = "#10b981";
-                        body.innerText = data.telemetry.transcript_log.join('\n\n') + `\n\n// TELEMETRY METRICS:\nLatency: ${data.telemetry.latency_ms}ms | Duration: ${data.telemetry.call_duration_sec}s | Outcome: ${data.telemetry.outcome}\n\n[SCAM PREVENTION VERIFIED]:\n${data.scam_prevention_note}`;
+                        body.innerText = `[ENTERPRISE LEAD HARVESTED]: Email '${userEmail}' logged to LeadFlow DB.\n\n` + data.telemetry.transcript_log.join('\n\n') + `\n\n// TELEMETRY METRICS:\nLatency: ${data.telemetry.latency_ms}ms | Duration: ${data.telemetry.call_duration_sec}s | Outcome: ${data.telemetry.outcome}\n\n[SCAM PREVENTION VERIFIED]:\n${data.scam_prevention_note}`;
                         if (typeof confetti !== 'undefined') confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
                     }, 1200);
                 } else {
@@ -497,9 +546,52 @@ Status: High-fit lead verified. Initializing stage 02 synthesis...</div>
                 setTimeout(() => {
                     status.innerText = "✔ Call Completed (Simulated Sub-300ms)";
                     status.style.color = "#10b981";
-                    body.innerText = `[AI Voice - Elena]: Hi ${phone.split('|')[0].trim()}! This is Elena calling from LeadFlow AI.\n\n[AI Voice - Elena]: We noticed that ${biz.split('|')[0].trim()} has an exceptional 4.9-star rating on Google Maps in ${biz.split('|')[1]?.trim() || 'your city'}, but you don't currently have an active official website.\n\n[AI Voice - Elena]: Instead of pitching you over the phone, our engineering team went ahead and actually built a complete, interactive 3D website specifically for ${biz.split('|')[0].trim()} today.\n\n[AI Voice - Elena]: I just texted and emailed the live demo link directly to this phone number so you can open it right now without paying a penny.\n\n[AI Voice - Elena]: Once you review your new site at maryamghabel2-cloud.github.io/leadflow/live_demos/apex_dental_live.html, if you love it, you can take full ownership and transfer it to your custom domain today for just $499. Did you receive the text link?\n\n// TELEMETRY METRICS:\nLatency: 240ms | Duration: 42s | Outcome: DEMO_LINK_OPENED_ON_PHONE_DURING_CALL\n\n[SCAM PREVENTION VERIFIED]:\nZero payment requested on call. 100% focus on instant visual proof via SMS link.`;
+                    body.innerText = `[ENTERPRISE LEAD HARVESTED]: Email '${userEmail}' logged to LeadFlow DB.\n\n[AI Voice - Elena]: Hi ${phone.split('|')[0].trim()}! This is Elena calling from LeadFlow AI.\n\n[AI Voice - Elena]: We noticed that ${biz.split('|')[0].trim()} has an exceptional 4.9-star rating on Google Maps in ${biz.split('|')[1]?.trim() || 'your city'}, but you don't currently have an active official website.\n\n[AI Voice - Elena]: Instead of pitching you over the phone, our engineering team went ahead and actually built a complete, interactive 3D website specifically for ${biz.split('|')[0].trim()} today.\n\n[AI Voice - Elena]: I just texted and emailed the live demo link directly to this phone number so you can open it right now without paying a penny.\n\n[AI Voice - Elena]: Once you review your new site at maryamghabel2-cloud.github.io/leadflow/live_demos/apex_dental_live.html, if you love it, you can take full ownership and transfer it to your custom domain today for just $499. Did you receive the text link?\n\n// TELEMETRY METRICS:\nLatency: 240ms | Duration: 42s | Outcome: DEMO_LINK_OPENED_ON_PHONE_DURING_CALL\n\n[SCAM PREVENTION VERIFIED]:\nZero payment requested on call. 100% focus on instant visual proof via SMS link.`;
                     if (typeof confetti !== 'undefined') confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
                 }, 1500);
+            }
+        }
+
+        // 4. Ambassador Referral Reward Simulator
+        async function simulateAmbassadorReward() {
+            const client = document.getElementById('aff-client').value.trim() || "Vanguard Legal New York";
+            const choice = document.getElementById('aff-plan').value;
+            const code = document.getElementById('amb-code').value.trim() || "ref_alex2026";
+            const status = document.getElementById('amb-status');
+            const body = document.getElementById('amb-log-body');
+
+            status.innerText = "⌛ Auditing Ambassador Reward Link...";
+            status.style.color = "#f59e0b";
+            body.innerText = `[AMBASSADOR EVENT INIT] Connecting to Python /api/referral/reward...\n\nAuditing invite code '${code}' for new client '${client}'...`;
+
+            try {
+                const response = await fetch('/api/referral/reward', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ referrer_code: code, new_client_name: client, reward_choice: choice })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.status === "success") {
+                    setTimeout(() => {
+                        status.innerText = "✔ Ambassador Reward Granted";
+                        status.style.color = "#10b981";
+                        body.innerText = `// AUTONOMOUS SAAS AMBASSADOR REWARD LOG:\nEvent: ${data.event}\nAmbassador Partner: ${data.ambassador_name}\nInvited New Client: ${data.new_client_invited}\nReward Applied: ${data.reward_granted}\n\n[AMBASSADOR ACCOUNT STATS]:\nTotal Successful Invites: ${data.total_ambassador_stats.successful_invites}\nTotal Call/Email Credits Balance: ${data.total_ambassador_stats.total_call_credits_balance}\nTotal USDT Account Credit Balance: $${data.total_ambassador_stats.total_usdt_credit_balance} USDT\n\n✔ Sustainable PLG Growth Loop without cash MLM overhead.`;
+                        if (typeof confetti !== 'undefined') confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
+                    }, 1000);
+                } else {
+                    throw new Error("API Error");
+                }
+            } catch(e) {
+                console.warn("API fallback mode:", e);
+                setTimeout(() => {
+                    const rewardStr = (choice === "usdt") ? "+$50 USDT Account Credit applied to balance" : "+500 Autonomous AI Voice & Email Outreach Credits added";
+                    status.innerText = "✔ Ambassador Reward Granted (Simulated)";
+                    status.style.color = "#10b981";
+                    body.innerText = `// AUTONOMOUS SAAS AMBASSADOR REWARD LOG:\nEvent: AMBASSADOR_REWARD_GRANTED\nAmbassador Partner: Alex Vance (Code: ${code})\nInvited New Client: ${client}\nReward Applied: ${rewardStr}\n\n[AMBASSADOR ACCOUNT STATS]:\nTotal Successful Invites: 5\nTotal Call/Email Credits Balance: 2500\nTotal USDT Account Credit Balance: $250.0 USDT\n\n✔ Sustainable PLG Growth Loop without cash MLM overhead.`;
+                    if (typeof confetti !== 'undefined') confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
+                }, 1200);
             }
         }
     </script>

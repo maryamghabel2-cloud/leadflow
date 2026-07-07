@@ -21,6 +21,7 @@ from no_website_miner import NoWebsiteMiner
 from shadow_infiltrator import ShadowInfiltrator
 from affiliate_manager import AffiliateManager
 from voice_outbound_agent import VoiceOutboundAgent
+from referral_rewards_agent import ReferralRewardsAgent
 
 app = FastAPI(
     title="LeadFlow.AI Autonomous SDR & Shadow Infiltrator Engine",
@@ -45,8 +46,20 @@ miner = NoWebsiteMiner(timeout=12)
 infiltrator = ShadowInfiltrator(output_dir="generated_sites")
 affiliate_mgr = AffiliateManager()
 voice_agent = VoiceOutboundAgent()
+referral_agent = ReferralRewardsAgent()
 
 # Request Models
+class LeadCaptureRequest(BaseModel):
+    email: str = Field(..., example="marcus@cloudbase.io")
+    name: str = Field(..., example="Marcus Vance")
+    company: str = Field(..., example="CloudBase Tech")
+    studio_source: str = Field(default="SDR_STUDIO", example="TELEPHONY_STUDIO")
+
+class ReferralRewardRequest(BaseModel):
+    referrer_code: str = Field(..., example="ref_alex2026")
+    new_client_name: str = Field(..., example="Lumiere Fine Dining Paris")
+    reward_choice: str = Field(default="credits", example="credits")
+
 class VoiceCallRequest(BaseModel):
     business_name: str = Field(..., example="Apex Dental Lounge")
     phone: str = Field(..., example="+1 (416) 555-0199")
@@ -205,19 +218,42 @@ async def trigger_voice_outbound_call(request: VoiceCallRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Telephony Error: {str(e)}")
 
+@app.post("/api/lead/capture")
+async def capture_work_email(request: LeadCaptureRequest):
+    """
+    Harvests verified enterprise work emails before unlocking interactive trial reports.
+    """
+    try:
+        res = referral_agent.capture_lead_email(request.email, request.name, request.company, request.studio_source)
+        return res
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Lead Capture Error: {str(e)}")
+
+@app.post("/api/referral/reward")
+async def grant_ambassador_reward(request: ReferralRewardRequest):
+    """
+    Grants sustainable SaaS Ambassador rewards (+500 Voice/Email Credits or $50 credit) per referral.
+    """
+    try:
+        res = referral_agent.process_referral_reward(request.referrer_code, request.new_client_name, request.reward_choice)
+        return res
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Referral Reward Error: {str(e)}")
+
 @app.get("/api/health")
 async def health_check():
     return {
         "status": "online",
-        "service": "LeadFlow.AI Cloud Engine v6.0",
+        "service": "LeadFlow.AI Cloud Engine v7.0",
         "agents": [
             "ResearcherAgent (Live Web Scraper)",
             "CopywriterAgent (LLM Logic)",
             "BlockchainVerifier (Tronscan API)",
             "NoWebsiteMiner (OpenStreetMap / Directory Scraper)",
             "ShadowInfiltrator (Instant 3D Website Generator)",
-            "AffiliateManager (20%/5% Crypto PLG Viral Referral Loop)",
-            "VoiceOutboundAgent (Vapi/Bland AI Telephony Assistant)"
+            "AffiliateManager (20%/5% Crypto PLG Referral Loop)",
+            "VoiceOutboundAgent (Vapi/Bland AI Telephony Assistant)",
+            "ReferralRewardsAgent (SaaS Ambassador Rewards & Email Harvester)"
         ]
     }
 
