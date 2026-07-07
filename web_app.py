@@ -19,6 +19,7 @@ from copywriter_agent import CopywriterAgent
 from blockchain_verifier import BlockchainVerifier
 from no_website_miner import NoWebsiteMiner
 from shadow_infiltrator import ShadowInfiltrator
+from affiliate_manager import AffiliateManager
 
 app = FastAPI(
     title="LeadFlow.AI Autonomous SDR & Shadow Infiltrator Engine",
@@ -41,6 +42,7 @@ copywriter = CopywriterAgent(sender_name="Elena", sender_company="LeadFlow.AI")
 verifier = BlockchainVerifier(timeout=10)
 miner = NoWebsiteMiner(timeout=12)
 infiltrator = ShadowInfiltrator(output_dir="generated_sites")
+affiliate_mgr = AffiliateManager()
 
 # Request Models
 class AnalyzeRequest(BaseModel):
@@ -50,6 +52,11 @@ class AnalyzeRequest(BaseModel):
 class VerifyPaymentRequest(BaseModel):
     tx_hash: str = Field(..., description="Tron (TRC-20) USDT Transaction Hash")
     plan_amount: Optional[float] = Field(default=None, description="Expected USDT plan price (e.g. 199 or 499)")
+
+class RegisterSaleRequest(BaseModel):
+    client_name: str = Field(..., example="Vanguard Legal New York")
+    plan_amount_usdt: float = Field(..., example=499.0)
+    referrer_id: str = Field(default="alex_growth", example="alex_growth")
 
 class MineRequest(BaseModel):
     city: str = Field(default="Toronto", example="London", description="Target geographic city")
@@ -154,17 +161,41 @@ async def generate_luxury_website(request: GenerateSiteRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Shadow Infiltrator Error: {str(e)}")
 
+@app.post("/api/affiliate/register-sale")
+async def register_affiliate_sale(request: RegisterSaleRequest):
+    """
+    Registers a new viral referral sale or site upgrade,
+    triggering instant 20% Month-1 USDT commission payout to Tron wallet.
+    """
+    try:
+        res = affiliate_mgr.register_new_sale(request.client_name, request.plan_amount_usdt, request.referrer_id)
+        return res
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Affiliate Error: {str(e)}")
+
+@app.post("/api/affiliate/process-renewals")
+async def process_affiliate_renewals():
+    """
+    Autonomous monthly cron job: Scans active renewals and pays 5% residual passive crypto commissions.
+    """
+    try:
+        res = affiliate_mgr.process_monthly_renewals()
+        return res
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Renewal Error: {str(e)}")
+
 @app.get("/api/health")
 async def health_check():
     return {
         "status": "online",
-        "service": "LeadFlow.AI Cloud Engine v3.0",
+        "service": "LeadFlow.AI Cloud Engine v5.0",
         "agents": [
             "ResearcherAgent (Live Web Scraper)",
             "CopywriterAgent (LLM Logic)",
             "BlockchainVerifier (Tronscan API)",
             "NoWebsiteMiner (OpenStreetMap / Directory Scraper)",
-            "ShadowInfiltrator (Instant 3D Neon Website Generator)"
+            "ShadowInfiltrator (Instant 3D Neon Website Generator)",
+            "AffiliateManager (20%/5% Crypto PLG Viral Referral Loop)"
         ]
     }
 

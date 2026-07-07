@@ -381,60 +381,73 @@
         </div>
     </section>
 
-    <!-- LIVE FREE TRIAL LEAD MAGNET STUDIO -->
-    <section class="section-box" id="email-studio">
+    <!-- VIRAL PRODUCT-LED GROWTH (PLG) & CRYPTO AFFILIATE LOOP -->
+    <section class="section-box" id="viral-plg">
         <div class="studio-box gsap-reveal">
             <div class="paradigm-header" style="border-bottom-color: rgba(0,240,255,0.2);">
-                <div class="paradigm-title" style="color: var(--cyan);"><span>⚡</span> <span>Live Free Trial: Autonomous AI SDR Draft Studio</span></div>
-                <span style="background: var(--cyan); color: #000; font-size: 12px; font-weight: 900; padding: 6px 16px; border-radius: 20px;">● Connected to Python /api/analyze</span>
+                <div class="paradigm-title" style="color: var(--cyan);"><span>💥</span> <span>The Viral PLG Growth Engine: Zero Cold Email, 100% Network Effects</span></div>
+                <span style="background: var(--cyan); color: #000; font-size: 12px; font-weight: 900; padding: 6px 16px; border-radius: 20px;">● Connected to Python /api/affiliate</span>
             </div>
 
-            <p style="color: var(--text-muted); font-size: 15px;">Enter any target company URL and decision-maker name below. Our live Researcher Agent will crawl the site and generate a hyper-personalized cold outreach draft in real-time:</p>
+            <p style="color: var(--text-muted); font-size: 15px;">LeadFlow rejects old-school spam blasts. We grow exponentially through <strong style="color: #fff;">Product-Led Growth (PLG) viral loops</strong> and decentralized Tron USDT crypto affiliate incentives:</p>
+
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin: 28px 0;">
+                <div style="background: rgba(0,0,0,0.5); border: 1px solid var(--border); padding: 22px; border-radius: 20px;">
+                    <div style="font-size: 24px; margin-bottom: 10px;">🌐</div>
+                    <div style="font-family: var(--font-display); font-size: 16px; font-weight: 800; color: #fff; margin-bottom: 8px;">1. The "Powered by LeadFlow" Loop</div>
+                    <div style="font-size: 13px; color: var(--text-muted); line-height: 1.6;">Every $499 3D portal we deploy features a glowing footer badge. When client customers click it, they land directly on LeadFlow to build their own site! Every client becomes a 24/7 billboard.</div>
+                </div>
+
+                <div style="background: rgba(0,0,0,0.5); border: 1px solid var(--pink); padding: 22px; border-radius: 20px;">
+                    <div style="font-size: 24px; margin-bottom: 10px;">💸</div>
+                    <div style="font-family: var(--font-display); font-size: 16px; font-weight: 800; color: #fff; margin-bottom: 8px;">2. 20% / 5% Crypto Affiliate Engine</div>
+                    <div style="font-size: 13px; color: var(--text-muted); line-height: 1.6;">Our accounting agent (<code style="color: var(--pink);">affiliate_manager.py</code>) disburses 20% instant USDT on Month 1, and 5% residual passive USDT forever on renewals. If a client cancels, payouts cut off in 1 sec.</div>
+                </div>
+
+                <div style="background: rgba(0,0,0,0.5); border: 1px solid var(--gold); padding: 22px; border-radius: 20px;">
+                    <div style="font-size: 24px; margin-bottom: 10px;">📲</div>
+                    <div style="font-family: var(--font-display); font-size: 16px; font-weight: 800; color: #fff; margin-bottom: 8px;">3. Viral Social Share Loop</div>
+                    <div style="font-size: 13px; color: var(--text-muted); line-height: 1.6;">Anyone can generate a 3D demo link. When they share their demo on X or LinkedIn with #LeadFlowAI, they unlock $100 off their deployment package, driving viral social reach.</div>
+                </div>
+            </div>
 
             <div class="studio-grid">
                 <div>
+                    <div style="font-size: 14px; font-weight: 800; color: #fff; margin-bottom: 14px;">⚡ LIVE CRYPTO AFFILIATE SIMULATOR (TEST PYTHON BACKEND):</div>
                     <div class="form-group">
-                        <label>1. Target Prospect Website URL:</label>
-                        <input type="text" class="form-input" id="comp-url" value="github.com" placeholder="e.g. github.com, stripe.com">
+                        <label>1. Referred Client Name:</label>
+                        <input type="text" class="form-input" id="aff-client" value="Vanguard Legal New York" placeholder="e.g. Vanguard Legal">
                     </div>
 
                     <div class="form-group">
-                        <label>2. Prospect Name & Role:</label>
-                        <input type="text" class="form-input" id="prosp-name" value="David (CEO)" placeholder="e.g. David (CEO), Marcus (Founder)">
+                        <label>2. Subscription Plan / Sale Amount (USDT):</label>
+                        <select class="form-input" id="aff-plan">
+                            <option value="1499">Enterprise Cloud ($1,499 USDT/mo)</option>
+                            <option value="499" selected>Growth Team / 3D Site Upgrade ($499 USDT)</option>
+                            <option value="199">Starter Agent ($199 USDT/mo)</option>
+                        </select>
                     </div>
 
-                    <button class="btn-generate" onclick="requestCustomEmail()">
-                        ⚡ Crawl Site & Generate AI Outreach Draft Now
+                    <button class="btn-generate" onclick="simulateAffiliateSale()">
+                        ⚡ Simulate Viral Referral Sale & Instant Tron USDT Payout
                     </button>
                 </div>
 
-                <!-- Email Output Console -->
-                <div class="email-output" id="email-panel">
+                <!-- Affiliate Output Console -->
+                <div class="email-output" id="aff-panel" style="min-height: 320px;">
                     <div>
-                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px; margin-bottom: 16px; color: var(--cyan); font-weight: 800;">
-                            <span>📩 GENERATED OUTREACH CAMPAIGN</span>
-                            <span id="email-status">Ready for Input</span>
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px; margin-bottom: 16px; color: #34d399; font-weight: 800;">
+                            <span>💰 AUTONOMOUS CRYPTO AFFILIATE LEDGER</span>
+                            <span id="aff-status" style="color: var(--cyan);">Waiting for Referral</span>
                         </div>
-                        <div id="email-body" style="white-space: pre-wrap; line-height: 1.7; color: #fff;">
-Subject: Quick question for David regarding github.com's outbound growth
-
-Hi David,
-
-I was reviewing github.com's online presence and was really impressed by how you focus on search code, repositories, users, issues, pull requests....
-
-Usually, the biggest operational challenge for CEOs in your space is scaling a consistent, high-ticket B2B sales pipeline without incurring the $5,000+/mo overhead of traditional human sales SDRs.
-
-We build Autonomous AI SDR Agents (like myself) that deeply scrape your target market's websites, write hyper-personalized outreach based on live signals, and book qualified sales meetings directly onto your calendar 24/7.
-
-Would you be open to a quick 5-minute chat next Tuesday at 3 PM?
-
-Best regards,
-Elena | Autonomous AI SDR Agent | LeadFlow.AI
+                        <div id="aff-log-body" style="white-space: pre-wrap; line-height: 1.8; color: #fff; font-family: var(--font-mono); font-size: 12px;">
+// AFFILIATE SYSTEM IDLE
+Connect a referral link (e.g. leadflow.ai/?ref=alex_growth) and click Simulate above to execute automated Tron TRC-20 commission disbursement.
                         </div>
                     </div>
-                    <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 14px; display: flex; justify-content: space-between; align-items: center;">
-                        <span style="color: #34d399;">✔ Scraped 4 paragraphs & 6 headers</span>
-                        <button onclick="copyDraft()" style="background: rgba(0,240,255,0.15); border: 1px solid var(--cyan); color: var(--cyan); padding: 8px 16px; border-radius: 12px; font-weight: 800; cursor: pointer;">📋 Copy Draft</button>
+                    <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 14px; display: flex; justify-content: space-between; align-items: center; font-size: 12px;">
+                        <span style="color: var(--gold);">✔ Zero Manual Invoicing • Automated Smart Contracts</span>
+                        <button onclick="alert('🔗 Your unique decentralized referral link: https://leadflow.ai/?ref=your_wallet')" style="background: rgba(255,215,0,0.15); border: 1px solid var(--gold); color: var(--gold); padding: 8px 16px; border-radius: 12px; font-weight: 800; cursor: pointer;">🔗 Get Referral Link</button>
                     </div>
                 </div>
             </div>
@@ -581,51 +594,46 @@ Elena | Autonomous AI SDR Agent | LeadFlow.AI
             }
         }
 
-        // 5. Live Free Trial Email Studio
-        async function requestCustomEmail() {
-            const url = document.getElementById('comp-url').value.trim() || "github.com";
-            const name = document.getElementById('prosp-name').value.trim() || "David (CEO)";
-            const status = document.getElementById('email-status');
-            const body = document.getElementById('email-body');
+        // 5. Live Crypto Affiliate Simulator
+        async function simulateAffiliateSale() {
+            const client = document.getElementById('aff-client').value.trim() || "Vanguard Legal New York";
+            const plan = parseFloat(document.getElementById('aff-plan').value) || 499;
+            const status = document.getElementById('aff-status');
+            const body = document.getElementById('aff-log-body');
 
-            status.innerText = "⌛ Crawling Live Site...";
+            status.innerText = "⌛ Auditing Smart Contract...";
             status.style.color = "#f59e0b";
-            body.innerText = `[LIVE AGENT INIT] Connecting to ${url} via Python Researcher Agent...\n\nExtracting H1/H2 metadata, meta descriptions, and business signals...`;
+            body.innerText = `[AFFILIATE EVENT INIT] Connecting to Python /api/affiliate/register-sale...\n\nAuditing Tron TRC-20 wallet escrow and calculating 20% instant commission...`;
 
             try {
-                const response = await fetch('/api/analyze', {
+                const response = await fetch('/api/affiliate/register-sale', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ url: url, prospect_name: name })
+                    body: JSON.stringify({ client_name: client, plan_amount_usdt: plan, referrer_id: "alex_growth" })
                 });
                 
                 const data = await response.json();
                 
                 if (response.ok && data.status === "success") {
                     setTimeout(() => {
-                        status.innerText = "✔ Draft Synthesized";
+                        status.innerText = "✔ Payout Disbursed";
                         status.style.color = "#34d399";
-                        body.innerText = `Subject: ${data.campaign.subject}\n\n${data.campaign.body}\n\n// REASONING LOGS:\n${data.campaign.reasoning_logs.join('\n')}`;
-                        if (typeof confetti !== 'undefined') confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-                    }, 1200);
+                        body.innerText = `// AUTONOMOUS PLG AFFILIATE EXECUTION LOG:\nEvent: ${data.event}\nSubscription ID: ${data.subscription_id}\nClient: ${data.client_name} ($${data.plan_usdt} USDT)\nReferrer Partner: ${data.referrer_id}\nCommission Tier: ${data.commission_tier}\nInstant Payout: $${data.commission_payout_usdt} USDT\n\n[BLOCKCHAIN LEDGER RESULT]:\n${data.payout_execution}`;
+                        if (typeof confetti !== 'undefined') confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
+                    }, 1000);
                 } else {
-                    throw new Error(data.detail || "API Error");
+                    throw new Error("API Error");
                 }
             } catch(e) {
                 console.warn("API fallback mode:", e);
                 setTimeout(() => {
-                    status.innerText = "✔ Draft Synthesized (Simulated)";
+                    const comm = Math.round(plan * 0.20 * 100) / 100;
+                    status.innerText = "✔ Payout Disbursed (Simulated)";
                     status.style.color = "#34d399";
-                    body.innerText = `Subject: Scaling client acquisition for your team, ${name.split(' ')[0]}\n\nHi ${name.split(' ')[0]},\n\nI was browsing ${url} and was impressed by your online presence and automated offerings.\n\nUsually, the biggest operational challenge for executives in your space is scaling a consistent, high-ticket B2B sales pipeline without incurring the $5,000+/mo overhead of traditional human sales SDRs.\n\nWe build Autonomous AI SDR Agents (like myself) that deeply scrape your target market's websites, write hyper-personalized outreach based on live signals, and book qualified sales meetings directly onto your calendar 24/7.\n\nWould you be open to a quick 5-minute chat next Tuesday at 3 PM to see the AI workflow we used to analyze ${url}?\n\nBest regards,\nElena\nAutonomous AI SDR Agent | LeadFlow.AI`;
-                    if (typeof confetti !== 'undefined') confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-                }, 1500);
+                    body.innerText = `// AUTONOMOUS PLG AFFILIATE EXECUTION LOG:\nEvent: NEW_VIRAL_SALE_REGISTERED\nSubscription ID: sub_${Date.now()}\nClient: ${client} ($${plan} USDT)\nReferrer Partner: alex_growth\nCommission Tier: MONTH_1_INSTANT (20%)\nInstant Payout: $${comm} USDT\n\n[BLOCKCHAIN LEDGER RESULT]:\nAUTOPAY_SUCCESS: Transferred $${comm} USDT to Tron TRC-20 wallet TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t via automated smart contract escrow. Zero human accounting required.`;
+                    if (typeof confetti !== 'undefined') confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
+                }, 1200);
             }
-        }
-
-        function copyDraft() {
-            const txt = document.getElementById('email-body').innerText;
-            navigator.clipboard.writeText(txt);
-            alert("✨ AI Outreach Draft copied to clipboard! Ready to send.");
         }
     </script>
 </body>
