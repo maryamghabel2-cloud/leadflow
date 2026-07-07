@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeadFlow.AI | Enterprise Autonomous Sales Infrastructure</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+        
+        :root {
+            --bg-alabaster: #FBFBF9;
+            --surface-stone: #F2EFE9;
+            --surface-card: #FFFFFF;
+            --charcoal: #18181B;
+            --oxford: #0F172A;
+            --slate: #475569;
+            --muted: #78716C;
+            --champagne: #B8860B;
+            --champagne-light: #DFCA9D;
+            --border: #E5E0D8;
+            --border-dark: #27272A;
+            --font-serif: 'Cinzel', serif;
+            --font-sans: 'Plus Jakarta Sans', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-sans); }
+        
+        body {
+            background-color: var(--bg-alabaster);
+            color: var(--charcoal);
+            overflow-x: hidden;
+            line-height: 1.8;
+            border-top: 4px solid var(--charcoal);
+        }
+
+        /* Swiss International Minimalist Header */
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 32px 80px; border-bottom: 1px solid var(--border);
+            background: rgba(251, 251, 249, 0.95); backdrop-filter: blur(20px);
+            position: sticky; top: 0; z-index: 100;
+        }
+        @media (max-width: 900px) { header { padding: 20px 24px; flex-direction: column; gap: 16px; } }
+
+        .brand-box { text-decoration: none; display: flex; align-items: center; gap: 14px; }
+        .brand-mark { width: 36px; height: 36px; background: var(--charcoal); color: #fff; display: flex; align-items: center; justify-content: center; font-family: var(--font-serif); font-size: 18px; font-weight: 700; }
+        .brand-text { font-family: var(--font-serif); font-size: 20px; font-weight: 800; letter-spacing: 5px; color: var(--charcoal); }
+
+        .nav-list { display: flex; gap: 40px; list-style: none; }
+        .nav-list a { color: var(--slate); text-decoration: none; font-size: 13px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; transition: color 0.3s; }
+        .nav-list a:hover { color: var(--charcoal); }
+        @media (max-width: 800px) { .nav-list { display: none; } }
+
+        .btn-minimal {
+            background: transparent; border: 1px solid var(--charcoal); color: var(--charcoal);
+            padding: 12px 28px; font-size: 12px; font-weight: 700; cursor: pointer;
+            transition: all 0.3s; letter-spacing: 2px; text-transform: uppercase; text-decoration: none;
+        }
+        .btn-minimal:hover { background: var(--charcoal); color: #fff; }
+
+        /* HERO SECTION - ARCHITECTURAL EDITORIAL MONOCHROME */
+        .hero {
+            padding: 100px 80px 120px; max-width: 1400px; margin: 0 auto;
+            display: grid; grid-template-columns: 1.2fr 1fr; align-items: center; gap: 80px;
+            border-bottom: 1px solid var(--border);
+        }
+        @media (max-width: 992px) { .hero { grid-template-columns: 1fr; text-align: center; padding: 60px 24px; } }
+
+        .edition-tag {
+            font-family: var(--font-mono); font-size: 11px; letter-spacing: 4px;
+            color: var(--champagne); text-transform: uppercase; margin-bottom: 24px; font-weight: 700;
+            display: flex; align-items: center; gap: 8px;
+        }
+        @media (max-width: 992px) { .edition-tag { justify-content: center; } }
+        
+        h1 {
+            font-size: 58px; font-weight: 800; color: var(--charcoal);
+            line-height: 1.15; margin-bottom: 28px; letter-spacing: -1px;
+        }
+        @media (max-width: 768px) { h1 { font-size: 38px; } }
+        h1 span { font-family: var(--font-serif); font-weight: 700; font-style: italic; color: var(--oxford); }
+
+        p.lead {
+            font-size: 18px; color: var(--slate); max-width: 580px; margin-bottom: 40px; font-weight: 400; line-height: 1.9;
+        }
+        @media (max-width: 992px) { p.lead { margin: 0 auto 40px; } }
+
+        .btn-primary {
+            background: var(--charcoal); color: #fff; padding: 18px 42px;
+            font-size: 13px; font-weight: 700; letter-spacing: 2.5px; border: none;
+            cursor: pointer; transition: all 0.3s; width: max-content; text-transform: uppercase;
+            text-decoration: none; display: inline-flex; align-items: center; gap: 12px;
+        }
+        .btn-primary:hover { background: var(--champagne); color: #000; transform: translateY(-2px); }
+
+        /* Editorial Monitor Card (Right) */
+        .editorial-card {
+            background: var(--surface-stone); border: 1px solid var(--border);
+            padding: 40px; position: relative;
+        }
+        .editorial-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 16px; margin-bottom: 24px; font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+        
+        .stat-grid-hero { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 28px; }
+        .stat-box { background: #fff; border: 1px solid var(--border); padding: 24px; }
+        .stat-val { font-family: var(--font-serif); font-size: 36px; font-weight: 700; color: var(--charcoal); margin-bottom: 4px; }
+        .stat-lbl { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+
+        .manifesto-quote { font-size: 14px; font-style: italic; color: var(--charcoal); border-left: 2px solid var(--champagne); padding-left: 16px; line-height: 1.8; }
+
+        /* INTERACTIVE SDR OUTBOUND PIPELINE ANALYZER (SWISS EDITORIAL ARCHITECTURE) */
+        .pipeline-section { padding: 120px 80px; background: #fff; border-bottom: 1px solid var(--border); }
+        @media (max-width: 768px) { .pipeline-section { padding: 60px 24px; } }
+        
+        .pipeline-container { max-width: 1300px; margin: 0 auto; }
+        .section-tag { font-family: var(--font-mono); font-size: 11px; letter-spacing: 4px; color: var(--champagne); margin-bottom: 12px; display: block; text-transform: uppercase; }
+        h2 { font-size: 40px; font-weight: 800; color: var(--charcoal); margin-bottom: 16px; line-height: 1.25; }
+        
+        .pipeline-tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); margin: 40px 0; }
+        @media (max-width: 900px) { .pipeline-tabs { grid-template-columns: 1fr; } }
+        
+        .pipe-tab {
+            background: #fff; padding: 28px 24px; cursor: pointer; transition: all 0.3s;
+            display: flex; flex-direction: column; justify-content: space-between; min-height: 140px;
+        }
+        .pipe-tab:hover, .pipe-tab.active { background: var(--charcoal); color: #fff; }
+        .pipe-tab.active .pipe-num { color: var(--champagne); }
+        .pipe-num { font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: var(--muted); margin-bottom: 12px; }
+        .pipe-title { font-size: 18px; font-weight: 700; }
+
+        .pipe-display {
+            background: var(--surface-stone); border: 1px solid var(--border); padding: 60px;
+            display: grid; grid-template-columns: 1.3fr 1fr; gap: 60px; align-items: center;
+        }
+        @media (max-width: 900px) { .pipe-display { grid-template-columns: 1fr; padding: 30px; } }
+        .pipe-desc-box h3 { font-family: var(--font-serif); font-size: 28px; font-weight: 700; margin-bottom: 16px; color: var(--charcoal); }
+        .pipe-desc-box p { font-size: 16px; color: var(--slate); line-height: 2; margin-bottom: 24px; }
+        
+        .code-paper {
+            background: #fff; border: 1px solid var(--border); padding: 28px;
+            font-family: var(--font-mono); font-size: 13px; color: var(--charcoal); line-height: 1.8;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.03);
+        }
+
+        /* INTERACTIVE ENGINE #2 BUSINESS CASE ESTIMATOR (STONE/MARBLE VIBE) */
+        .estimator-section { padding: 120px 80px; background: var(--bg-alabaster); border-bottom: 1px solid var(--border); }
+        @media (max-width: 768px) { .estimator-section { padding: 60px 24px; } }
+        
+        .estimator-box {
+            max-width: 1100px; margin: 0 auto; background: #fff; border: 1px solid var(--border);
+            padding: 60px; display: grid; grid-template-columns: 1.1fr 1fr; gap: 60px; align-items: center;
+        }
+        @media (max-width: 900px) { .estimator-box { grid-template-columns: 1fr; padding: 30px; text-align: center; } }
+        
+        .est-slider { width: 100%; height: 6px; background: var(--border); outline: none; margin: 30px 0; accent-color: var(--charcoal); cursor: pointer; }
+        
+        .est-output-card { background: var(--surface-stone); border: 1px solid var(--border); padding: 40px; text-align: center; }
+        .est-val { font-family: var(--font-serif); font-size: 56px; font-weight: 800; color: var(--charcoal); margin: 12px 0; }
+        .est-lbl { font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: 2px; }
+
+        /* LIVE FREE TRIAL STUDIO (SWISS PAPER EDITION) */
+        .studio-section { padding: 120px 80px; background: #fff; border-bottom: 1px solid var(--border); }
+        @media (max-width: 768px) { .studio-section { padding: 60px 24px; } }
+        
+        .studio-container { max-width: 1300px; margin: 0 auto; }
+        .studio-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 60px; align-items: start; margin-top: 40px; }
+        @media (max-width: 992px) { .studio-grid { grid-template-columns: 1fr; } }
+        
+        .form-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; }
+        .form-group label { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--charcoal); }
+        .form-input { width: 100%; padding: 16px 20px; background: var(--surface-stone); border: 1px solid var(--border); font-size: 15px; color: var(--charcoal); outline: none; transition: all 0.3s; }
+        .form-input:focus { border-color: var(--charcoal); background: #fff; }
+
+        .paper-console {
+            background: var(--surface-stone); border: 1px solid var(--border); padding: 36px;
+            font-family: var(--font-mono); font-size: 13px; color: var(--charcoal); min-height: 420px;
+            display: flex; flex-direction: column; justify-content: space-between; line-height: 1.8;
+        }
+
+        /* Footer */
+        footer { padding: 80px; background: var(--charcoal); color: #A1A1AA; text-align: center; }
+        .footer-brand { font-family: var(--font-serif); font-size: 24px; letter-spacing: 8px; color: #fff; margin-bottom: 16px; display: block; }
+        .footer-copy { font-size: 12px; color: #71717A; border-top: 1px solid #27272A; padding-top: 30px; margin-top: 40px; letter-spacing: 1px; }
+        
+        /* GSAP Reveal */
+        .gsap-reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+        .gsap-reveal.active { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body>
+
+    <!-- Swiss Minimalist Header -->
+    <header>
+        <a href="#" class="brand-box">
+            <div class="brand-mark">LF</div>
+            <span class="brand-text">LEADFLOW.AI</span>
+        </a>
+
+        <ul class="nav-list">
+            <li><a href="#pipeline">Autonomous Pipeline</a></li>
+            <li><a href="#estimator">Business Case</a></li>
+            <li><a href="#studio">Outbound Studio</a></li>
+            <li><a href="onboard.html">Client Onboarding</a></li>
+            <li><a href="miner.html">Shadow Infiltrator</a></li>
+        </ul>
+
+        <a href="onboard.html" class="btn-minimal">Deploy Agency Workforce</a>
+    </header>
+
+    <!-- HERO SECTION - ARCHITECTURAL MONOCHROME -->
+    <section class="hero">
+        <div class="gsap-reveal">
+            <div class="edition-tag">
+                <span>●</span>
+                <span>ENTERPRISE AUTONOMOUS ARCHITECTURE 2026</span>
+            </div>
+            <h1>The Next Generation of <br>B2B Outbound is an <br><span>Autonomous Workforce</span></h1>
+            <p class="lead">LeadFlow.AI replaces traditional human sales SDRs with precision-engineered autonomous agents that deeply analyze target company websites, synthesize tailored cold outreach, and book qualified meetings on autopilot. At 1/10th human overhead.</p>
+            <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                <a href="onboard.html" class="btn-primary">Deploy Your First Agent →</a>
+                <a href="miner.html" class="btn-minimal" style="padding: 18px 36px; font-size: 13px;">Launch Shadow Infiltrator</a>
+            </div>
+        </div>
+
+        <div class="editorial-card gsap-reveal">
+            <div class="editorial-header">
+                <span>// AGENCY TELEMETRY AUDIT</span>
+                <span>STATUS: OPERATIONAL</span>
+            </div>
+
+            <div class="stat-grid-hero">
+                <div class="stat-box">
+                    <div class="stat-val">40%+</div>
+                    <div class="stat-lbl">Average Reply Rate</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-val">10 Sec</div>
+                    <div class="stat-lbl">0-to-100 Deploy Speed</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-val">24 / 7</div>
+                    <div class="stat-lbl">Autonomous Execution</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-val">$499</div>
+                    <div class="stat-lbl">Instant Upsell Ticket</div>
+                </div>
+            </div>
+
+            <div class="manifesto-quote">
+                "We rejected generic templates and corporate fluff. Our autonomous SDRs read your target's homepage, news, and technical documentation to craft human-level, hyper-relevant sales dialogue."
+            </div>
+        </div>
+    </section>
+
+    <!-- INTERACTIVE SDR OUTBOUND PIPELINE ANALYZER -->
+    <section class="pipeline-section" id="pipeline">
+        <div class="pipeline-container">
+            <span class="section-tag">METHODOLOGY & ARCHITECTURE</span>
+            <h2>The 4-Stage Autonomous Outbound Pipeline</h2>
+            <p style="color: var(--slate); font-size: 16px; max-width: 650px;">Click through the autonomous execution stages below to explore how LeadFlow transforms raw target domains into booked calendar meetings:</p>
+
+            <div class="pipeline-tabs">
+                <div class="pipe-tab active" onclick="showStage(1, this)">
+                    <div class="pipe-num">STAGE 01</div>
+                    <div class="pipe-title">Autopilot Prospecting</div>
+                </div>
+                <div class="pipe-tab" onclick="showStage(2, this)">
+                    <div class="pipe-num">STAGE 02</div>
+                    <div class="pipe-title">Deep Web Research</div>
+                </div>
+                <div class="pipe-tab" onclick="showStage(3, this)">
+                    <div class="pipe-num">STAGE 03</div>
+                    <div class="pipe-title">LLM Personalized Copy</div>
+                </div>
+                <div class="pipe-tab" onclick="showStage(4, this)">
+                    <div class="pipe-num">STAGE 04</div>
+                    <div class="pipe-title">Automated Meeting Booking</div>
+                </div>
+            </div>
+
+            <div class="pipe-display">
+                <div class="pipe-desc-box">
+                    <h3 id="stage-title">01. Autopilot Prospecting & Directory Mining</h3>
+                    <p id="stage-desc">Our autonomous prospector agents scan public directories, social profiles, and industry databases to identify high-fit decision-makers (CEOs, VPs of Sales, Heads of Growth) matching your exact Ideal Customer Profile (ICP).</p>
+                    <div style="font-family: var(--font-mono); font-size: 12px; color: var(--champagne); font-weight: 700;">
+                        ✔ ZERO HUMAN MANUAL SEARCH REQUIRED<br>
+                        ✔ 100% VERIFIED BUSINESS EMAIL EXTRACTION
+                    </div>
+                </div>
+
+                <div class="code-paper">
+                    <div style="color: var(--muted); font-size: 11px; border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-bottom: 12px;">// AGENT EXECUTION LOG</div>
+                    <div id="stage-log" style="white-space: pre-wrap;">[PROSPECTOR AGENT ACTIVE]
+Target ICP: B2B SaaS & Technology Founders
+Scanning directory node: London Metro Area...
+Discovered: Marcus Vance (Founder @ CloudBase.io)
+Status: High-fit lead verified. Initializing stage 02...</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INTERACTIVE ENGINE #2 BUSINESS CASE ESTIMATOR -->
+    <section class="estimator-section" id="estimator">
+        <div class="estimator-box gsap-reveal">
+            <div>
+                <span class="section-tag">ENGINE #2: $499 UPSELL REVENUE MODEL</span>
+                <h2>Calculate Your Agency Profit Multiplier</h2>
+                <p style="color: var(--slate); font-size: 16px; margin-top: 12px; line-height: 1.8;">Our Shadow Infiltrator agent scans local cities for established businesses without websites, synthesizes bespoke 3D portals in 10 seconds, and pitches them for instant $499 sales. Drag the slider to estimate your annual profit:</p>
+                
+                <div style="font-weight: 700; font-size: 15px; margin-top: 30px; color: var(--oxford);">Monthly Automated Website Pitches Sent: <strong style="color: var(--champagne); font-size: 22px;" id="pitch-val">40</strong> Business Leads</div>
+                <input type="range" class="est-slider" min="10" max="200" step="10" value="40" oninput="updateEstimator(this.value)">
+                
+                <div style="font-size: 13px; color: var(--muted);">
+                    * Based on an average 15% conversion rate for instant $499 live cloud demo upgrades.
+                </div>
+            </div>
+
+            <div class="est-output-card">
+                <div class="est-lbl">Estimated Annual Net Revenue</div>
+                <div class="est-val" id="rev-val">$35,928</div>
+                <div style="font-size: 14px; font-weight: 700; color: var(--oxford); margin-bottom: 24px;">72 Automated $499 Client Sales / yr</div>
+                <a href="miner.html" class="btn-primary" style="width: 100%; justify-content: center; padding: 16px;">Launch Shadow Infiltrator →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- LIVE FREE TRIAL STUDIO (SWISS PAPER EDITION) -->
+    <section class="studio-section" id="studio">
+        <div class="studio-container">
+            <div style="text-align: center; max-width: 700px; margin: 0 auto;">
+                <span class="section-tag">LIVE AGENT DEMONSTRATION</span>
+                <h2>Test Our Outbound Copywriter Studio</h2>
+                <p style="color: var(--slate); font-size: 16px;">Enter any target company domain and prospect name below. Watch our Python Researcher Agent analyze their live site and synthesize an editorial sales draft:</p>
+            </div>
+
+            <div class="studio-grid">
+                <div>
+                    <div class="form-group">
+                        <label>1. Target Prospect Website URL</label>
+                        <input type="text" class="form-input" id="comp-url" value="github.com" placeholder="e.g. github.com, stripe.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label>2. Prospect Name & Role</label>
+                        <input type="text" class="form-input" id="prosp-name" value="David (CEO)" placeholder="e.g. David (CEO), Marcus (Founder)">
+                    </div>
+
+                    <button class="btn-primary" style="width: 100%; justify-content: center; margin-top: 12px;" onclick="requestCustomEmail()">
+                        ⚡ Analyze Domain & Synthesize Outreach
+                    </button>
+                </div>
+
+                <div class="paper-console">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 16px; font-weight: 700; color: var(--oxford);">
+                            <span>// GENERATED OUTREACH DRAFT</span>
+                            <span id="email-status" style="color: var(--champagne);">Ready for Input</span>
+                        </div>
+                        <div id="email-body" style="white-space: pre-wrap;">
+Subject: Quick question for David regarding github.com's outbound growth
+
+Hi David,
+
+I was reviewing github.com's online presence and was really impressed by how you focus on search code, repositories, users, issues, pull requests....
+
+Usually, the biggest operational challenge for CEOs in your space is scaling a consistent, high-ticket B2B sales pipeline without incurring the $5,000+/mo overhead of traditional human sales SDRs.
+
+We build Autonomous AI SDR Agents (like myself) that deeply scrape your target market's websites, write hyper-personalized outreach based on live signals, and book qualified sales meetings directly onto your calendar 24/7.
+
+Would you be open to a quick 5-minute chat next Tuesday at 3 PM?
+
+Best regards,
+Elena | Autonomous AI SDR Agent | LeadFlow.AI
+                        </div>
+                    </div>
+                    <div style="border-top: 1px solid var(--border); padding-top: 14px; display: flex; justify-content: space-between; align-items: center; font-size: 12px;">
+                        <span style="color: #10b981;">✔ 100% Impeccable Editorial Polish</span>
+                        <button onclick="copyDraft()" style="background: transparent; border: 1px solid var(--charcoal); padding: 6px 14px; font-weight: 700; cursor: pointer;">Copy Draft</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <span class="footer-brand">LEADFLOW.AI</span>
+        <p style="margin-bottom: 16px; color: #D4D4D8;">Enterprise Autonomous AI SDR & Web Agency Infrastructure</p>
+        <p style="color: var(--champagne); font-size: 13px;">«Designed with Swiss Minimalist Monochrome & Editorial Architecture: Zero Neon Glow»</p>
+        <div class="footer-copy">© 2026 LeadFlow.AI. All rights reserved. Deployed on Autonomous Edge Infrastructure.</div>
+    </footer>
+
+    <!-- Interactive Scripts -->
+    <script>
+        // 1. Scroll Reveal
+        function initReveal() {
+            if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+                gsap.registerPlugin(ScrollTrigger);
+                document.querySelectorAll('.gsap-reveal').forEach(el => {
+                    gsap.fromTo(el, { opacity: 0, y: 30 }, {
+                        opacity: 1, y: 0, duration: 0.8,
+                        scrollTrigger: { trigger: el, start: "top 85%" }
+                    });
+                });
+            } else {
+                const checkScroll = () => {
+                    document.querySelectorAll('.gsap-reveal').forEach(el => {
+                        if (el.getBoundingClientRect().top < window.innerHeight - 60) el.classList.add('active');
+                    });
+                };
+                window.addEventListener('scroll', checkScroll);
+                checkScroll();
+            }
+        }
+        window.addEventListener('DOMContentLoaded', initReveal);
+
+        // 2. Pipeline Stage Switcher
+        function showStage(stage, btn) {
+            document.querySelectorAll('.pipe-tab').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const title = document.getElementById('stage-title');
+            const desc = document.getElementById('stage-desc');
+            const log = document.getElementById('stage-log');
+
+            if (stage === 1) {
+                title.innerText = "01. Autopilot Prospecting & Directory Mining";
+                desc.innerText = "Our autonomous prospector agents scan public directories, social profiles, and industry databases to identify high-fit decision-makers (CEOs, VPs of Sales, Heads of Growth) matching your exact Ideal Customer Profile (ICP).";
+                log.innerText = "[PROSPECTOR AGENT ACTIVE]\nTarget ICP: B2B SaaS & Technology Founders\nScanning directory node: London Metro Area...\nDiscovered: Marcus Vance (Founder @ CloudBase.io)\nStatus: High-fit lead verified. Initializing stage 02...";
+            } else if (stage === 2) {
+                title.innerText = "02. Deep Web Research & Signal Extraction";
+                desc.innerText = "Instead of relying on generic databases, our Researcher Agent crawls the target's live homepage, technical documentation, and news releases using BeautifulSoup and LLM extraction to uncover actual buying signals.";
+                log.innerText = "[RESEARCHER AGENT ACTIVE]\nCrawling target URL: https://cloudbase.io...\nExtracted Title: CloudBase - Enterprise Cloud Backup & DR\nExtracted Signal: Recruited new VP of Engineering 4 days ago.\nSynthesized Pain Point: Scaling infrastructure team without inflating headcount.";
+            } else if (stage === 3) {
+                title.innerText = "03. LLM Hyper-Personalized Copywriting";
+                desc.innerText = "Our Copywriter Agent (Elena) takes the extracted intelligence and crafts human-level, conversational outreach. Zero corporate fluff, zero generic templates—only highly relevant messages that demand a response.";
+                log.innerText = "[COPYWRITER AGENT ACTIVE]\nPersona: Elena (SDR) | Tone: Conversational & Direct\nSynthesizing hook around VP of Engineering hiring signal...\nDrafting email body with 30-day ROI proof points...\nStatus: 100% Impeccable editorial polish verified.";
+            } else {
+                title.innerText = "04. Automated Response & Meeting Booking";
+                desc.innerText = "When a prospect replies, our Inbox Monitoring Agent analyzes the sentiment using natural language processing. If interested, it shares your calendar link and automatically schedules the VIP sales meeting.";
+                log.innerText = "[INBOX MONITOR AGENT ACTIVE]\nReceived incoming reply from marcus@cloudbase.io\nSentiment Analysis: POSITIVE_INTEREST ('Sounds interesting, let's talk next week')\nAction: Dispatched automated calendar invite for Tuesday 3:00 PM EST.\nResult: MEETING_BOOKED.";
+            }
+        }
+
+        // 3. Estimator Slider
+        function updateEstimator(val) {
+            document.getElementById('pitch-val').innerText = val;
+            // 15% conversion rate * $499 * 12 months
+            const sales = Math.round(val * 0.15 * 12);
+            const rev = sales * 499;
+            document.getElementById('rev-val').innerText = `$${rev.toLocaleString()}`;
+            document.querySelector('.est-output-card div:nth-child(3)').innerText = `${sales} Automated $499 Client Sales / yr`;
+        }
+
+        // 4. Studio Email Generation
+        async function requestCustomEmail() {
+            const url = document.getElementById('comp-url').value.trim() || "github.com";
+            const name = document.getElementById('prosp-name').value.trim() || "David (CEO)";
+            const status = document.getElementById('email-status');
+            const body = document.getElementById('email-body');
+
+            status.innerText = "⌛ Crawling Domain...";
+            status.style.color = "#f59e0b";
+            body.innerText = `[LIVE AGENT INIT] Connecting to ${url} via Python Researcher Agent...\n\nExtracting H1/H2 metadata and business signals...`;
+
+            try {
+                const response = await fetch('/api/analyze', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url: url, prospect_name: name })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.status === "success") {
+                    setTimeout(() => {
+                        status.innerText = "✔ Editorial Draft Synthesized";
+                        status.style.color = "#10b981";
+                        body.innerText = `Subject: ${data.campaign.subject}\n\n${data.campaign.body}\n\n// REASONING LOGS:\n${data.campaign.reasoning_logs.join('\n')}`;
+                        if (typeof confetti !== 'undefined') confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+                    }, 1200);
+                } else {
+                    throw new Error("API Error");
+                }
+            } catch(e) {
+                console.warn("API fallback mode:", e);
+                setTimeout(() => {
+                    status.innerText = "✔ Editorial Draft Synthesized (Simulated)";
+                    status.style.color = "#10b981";
+                    body.innerText = `Subject: Scaling client acquisition for your team, ${name.split(' ')[0]}\n\nHi ${name.split(' ')[0]},\n\nI was browsing ${url} and was impressed by your online presence and automated offerings.\n\nUsually, the biggest operational challenge for executives in your space is scaling a consistent, high-ticket B2B sales pipeline without incurring the $5,000+/mo overhead of traditional human sales SDRs.\n\nWe build Autonomous AI SDR Agents (like myself) that deeply scrape your target market's websites, write hyper-personalized outreach based on live signals, and book qualified sales meetings directly onto your calendar 24/7.\n\nWould you be open to a quick 5-minute chat next Tuesday at 3 PM to see the AI workflow we used to analyze ${url}?\n\nBest regards,\nElena\nAutonomous AI SDR Agent | LeadFlow.AI`;
+                    if (typeof confetti !== 'undefined') confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+                }, 1500);
+            }
+        }
+
+        function copyDraft() {
+            const txt = document.getElementById('email-body').innerText;
+            navigator.clipboard.writeText(txt);
+            alert("✨ Editorial Outreach Draft copied to clipboard! Ready to send.");
+        }
+    </script>
+</body>
+</html>
