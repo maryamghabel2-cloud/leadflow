@@ -74,6 +74,9 @@ class AnalyzeRequest(BaseModel):
 class VerifyPaymentRequest(BaseModel):
     tx_hash: str = Field(..., description="Tron (TRC-20) USDT Transaction Hash")
     plan_amount: Optional[float] = Field(default=None, description="Expected USDT plan price (e.g. 199 or 499)")
+    client_name: Optional[str] = Field(default="New Enterprise Client", description="Client or company name")
+    plan_name: Optional[str] = Field(default="0-to-100 Cloud Web Agency Package", description="Purchased service tier")
+    referrer_id: Optional[str] = Field(default=None, description="Affiliate referrer code for PLG commissions")
 
 class RegisterSaleRequest(BaseModel):
     client_name: str = Field(..., example="Vanguard Legal New York")
@@ -152,13 +155,47 @@ async def analyze_prospect(request: AnalyzeRequest):
 @app.post("/api/verify-payment")
 async def verify_payment(request: VerifyPaymentRequest):
     """
-    Audits Tron USDT payment on-chain via Tronscan API.
+    Audits Tron USDT payment on-chain via Tronscan API and triggers instant Telegram broadcast!
     """
     try:
-        audit_result = verifier.verify_usdt_transaction(request.tx_hash, request.plan_amount)
+        client_info = {"client_name": request.client_name, "plan_name": request.plan_name}
+        audit_result = verifier.verify_usdt_transaction(request.tx_hash, request.plan_amount, client_info=client_info)
+        
+        # If payment successful and referrer_id present, trigger PLG affiliate commission!
+        if audit_result.get("status") == "success" and request.referrer_id:
+            try:
+                affiliate_mgr.register_new_sale(
+                    client_name=request.client_name or "New Client",
+                    plan_amount_usdt=audit_result.get("amount_usdt", request.plan_amount or 499.0),
+                    referrer_id=request.referrer_id
+                )
+            except Exception as aff_e:
+                print(f"⚠️ Affiliate commission log warning: {aff_e}")
+                
         return audit_result
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Blockchain Audit Error: {str(e)}")
+
+@app.post("/api/webhook/tron-deposit")
+async def tron_deposit_webhook(payload: Dict[str, Any] = Body(...)):
+    """
+    Live Blockchain Webhook endpoint for Tronscan / TronGrid node notifications.
+    Automatically audits transaction and broadcasts Telegram alert upon receiving USDT transfer.
+    """
+    try:
+        tx_hash = payload.get("tx_hash") or payload.get("hash") or payload.get("transaction_id", "")
+        plan_amount = float(payload.get("amount", 499.0))
+        client_name = payload.get("client_name", payload.get("sender", "Webhook Enterprise Client"))
+        plan_name = payload.get("plan_name", "Autonomous AI Agency Tier")
+        
+        if not tx_hash:
+            raise HTTPException(status_code=400, detail="Missing tx_hash in webhook payload.")
+            
+        client_info = {"client_name": client_name, "plan_name": plan_name}
+        audit_result = verifier.verify_usdt_transaction(tx_hash, plan_amount, client_info=client_info)
+        return {"webhook_status": "received_and_processed", "audit": audit_result}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Tron Webhook Error: {str(e)}")
 
 @app.post("/api/mine-businesses")
 async def mine_no_website_businesses(request: MineRequest):

@@ -1,0 +1,25 @@
+# Render Cloud Deployment Blueprint for LeadFlow.AI
+# Deploy directly from GitHub repo: https://github.com/maryamghabel2-cloud/leadflow
+services:
+  - type: web
+    name: leadflow-ai-cloud-engine
+    env: docker
+    region: frankfurt
+    plan: starter
+    branch: main
+    dockerfilePath: ./Dockerfile
+    autoDeploy: true
+    healthCheckPath: /docs
+    envVars:
+      - key: PORT
+        value: "8000"
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: ADMIN_CHAT_ID
+        sync: false
+      - key: ELEVENLABS_API_KEY
+        sync: false
+      - key: VAPI_API_KEY
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false

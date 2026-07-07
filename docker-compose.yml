@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  leadflow-engine:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: leadflow_ai_cloud
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN:-DEMO_HITL_BOT_TOKEN_2026}
+      - ADMIN_CHAT_ID=${ADMIN_CHAT_ID:-123456789}
+      - VAPI_API_KEY=${VAPI_API_KEY:-demo_key}
+      - ELEVENLABS_API_KEY=${ELEVENLABS_API_KEY:-demo_key}
+    volumes:
+      - ./generated_sites:/app/generated_sites
+      - ./uploads:/app/uploads
+      - ./leadflow_agency.db:/app/leadflow_agency.db
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/docs"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
