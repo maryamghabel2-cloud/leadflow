@@ -519,21 +519,22 @@
                         <span style="font-size: 12px; color: var(--text-gray);">Instant Automated Verification</span>
                     </div>
                     <div class="wallet-address">
-                        <span id="wallet-str">TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t</span>
+                        <span id="wallet-str">LOADING_TREASURY_WALLET...</span>
                         <button class="copy-btn" onclick="copyWallet()">COPY</button>
                     </div>
-                    <p style="font-size: 13px; color: var(--text-gray); line-height: 1.5;">
-                        Transfer your selected plan amount in <strong>USDT (TRC-20)</strong> to the wallet above. Once sent, paste the Tron Transaction Hash (TXID) below for automated blockchain verification.
+                    <p id="wallet-help" style="font-size: 13px; color: var(--text-gray); line-height: 1.5;">
+                        Transfer the selected amount in <strong>USDT (TRC-20)</strong> to the LeadFlow treasury wallet above (never the USDT contract address). Then paste the Tron TXID for automated verification.
                     </p>
+                    <p id="wallet-warning" style="display:none;font-size:13px;color:#f87171;margin-top:8px;"></p>
                 </div>
 
                 <div class="form-grid">
                     <div class="form-group">
                         <label for="plan-select">Selected Plan Tier *</label>
                         <select id="plan-select" class="form-select">
-                            <option value="199">Starter Agent ($199 / mo - Special Promotional Rate)</option>
-                            <option value="499" selected>Growth Team ($499 / mo - Most Popular)</option>
-                            <option value="1499">Enterprise Cloud ($1,499 / mo)</option>
+                            <option value="499" selected>Premium Website Package ($499 USDT one-time)</option>
+                            <option value="199">Starter Landing Page ($199 USDT one-time)</option>
+                            <option value="1499">Enterprise Bundle + 30-day support ($1,499 USDT one-time)</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -577,6 +578,34 @@
             nextStep(step);
         }
 
+        
+        // Load treasury wallet from backend public config — never hardcode USDT contract as deposit address
+        async function loadPublicPaymentConfig() {
+            const walletEl = document.getElementById('wallet-str');
+            const warnEl = document.getElementById('wallet-warning');
+            try {
+                const res = await fetch('/api/config/public');
+                const cfg = await res.json();
+                if (cfg.treasury_configured && cfg.treasury_wallet) {
+                    walletEl.innerText = cfg.treasury_wallet;
+                    if (warnEl) { warnEl.style.display = 'none'; warnEl.innerText = ''; }
+                } else {
+                    walletEl.innerText = 'PAYMENTS_DISABLED_SET_TRON_TREASURY_WALLET_ADDRESS';
+                    if (warnEl) {
+                        warnEl.style.display = 'block';
+                        warnEl.innerText = cfg.warning || 'Treasury wallet is not configured. Do not send funds.';
+                    }
+                }
+            } catch (e) {
+                walletEl.innerText = 'CONFIG_UNAVAILABLE';
+                if (warnEl) {
+                    warnEl.style.display = 'block';
+                    warnEl.innerText = 'Could not load payment config. Start the API server and set TRON_TREASURY_WALLET_ADDRESS.';
+                }
+            }
+        }
+        document.addEventListener('DOMContentLoaded', loadPublicPaymentConfig);
+
         function copyWallet() {
             const txt = document.getElementById('wallet-str').innerText;
             navigator.clipboard.writeText(txt);
@@ -593,6 +622,15 @@
         async function verifyAndDeploy() {
             const txHash = document.getElementById('tx-hash').value.trim();
             const planAmount = parseFloat(document.getElementById('plan-select').value);
+            const walletNow = (document.getElementById('wallet-str').innerText || '').trim();
+            if (!walletNow || walletNow.includes('PAYMENTS_DISABLED') || walletNow.includes('LOADING') || walletNow.includes('CONFIG_UNAVAILABLE')) {
+                showAlert('Payments are disabled until TRON_TREASURY_WALLET_ADDRESS is configured on the server.', false);
+                return;
+            }
+            if (walletNow === 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t') {
+                showAlert('Misconfiguration: USDT contract address cannot be used as deposit wallet.', false);
+                return;
+            }
             const companyName = document.getElementById('company-name').value.trim() || "Your Company";
             const btn = document.getElementById('verify-btn');
 

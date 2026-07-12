@@ -7,3 +7,8 @@ env/
 venv/
 .env
 .DS_Store
+
+leadflow_payments.db
+.venv/
+.env
+*.db-journal

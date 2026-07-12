@@ -13,6 +13,16 @@ services:
     envVars:
       - key: PORT
         value: "8000"
+      - key: LEADFLOW_ENV
+        value: production
+      - key: LEADFLOW_ALLOW_SIM_PAYMENTS
+        value: "false"
+      - key: LEADFLOW_ALLOW_FAKE_LEADS
+        value: "false"
+      - key: CLOUD_AUTO_PUSH
+        value: "false"
+      - key: TRON_TREASURY_WALLET_ADDRESS
+        sync: false
       - key: TELEGRAM_BOT_TOKEN
         sync: false
       - key: ADMIN_CHAT_ID

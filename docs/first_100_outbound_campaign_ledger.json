@@ -8,9 +8,13 @@
     "telephony_calls_initiated": 100,
     "sms_demo_links_delivered": 100,
     "closed_won_deals": 4,
-    "total_cash_revenue_usdt": 1996.0,
+    "total_cash_revenue_usdt": 0.0,
     "scam_suspicion_incidents": 0,
-    "affiliate_commissions_paid_usdt": 399.20000000000005
+    "affiliate_commissions_paid_usdt": 399.20000000000005,
+    "mode": "SIMULATION_ONLY",
+    "real_cash_revenue_usdt": 0.0,
+    "note": "All closed_won deals used SIM_TRON_ bypass. Not real money. Real live demos count is ~17 HTML files, not 100.",
+    "total_cash_revenue_usdt_SIMULATED": 1996.0
   },
   "campaign_ledger": [
     {

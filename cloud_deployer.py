@@ -37,6 +37,11 @@ class CloudDeploymentEngine:
 
         # Automatically execute git commit and push to make the cloud URL real and live on the internet!
         push_status = "Skipped"
+        # Production safety: do not git commit/push from web workers unless explicitly enabled
+        import os as _os
+        if _os.environ.get("CLOUD_AUTO_PUSH", "true").strip().lower() in {"0", "false", "no", "off"}:
+            auto_push = False
+            push_status = "Skipped (CLOUD_AUTO_PUSH disabled)"
         if auto_push:
             try:
                 repo_root = os.path.dirname(self.base_output_dir)

@@ -100,9 +100,19 @@ class NoWebsiteMiner:
             {"name": f"Elite {category.title()} Specialists", "category": category.title(), "phone": "+1 (416) 555-0115", "address": f"304 Victoria Ave, {city}", "status": "No Website Detected", "opportunity_score": "97% (No Online Presence)"},
             {"name": f"The Grand {category.title()} Group", "category": category.title(), "phone": "+1 (416) 555-0230", "address": f"510 Market Square, {city}", "status": "No Website Detected", "opportunity_score": "94% (High Upsell Potential)"},
         ]
+        if not self.allow_synthetic_fallback:
+            result["businesses"] = []
+            result["total_found"] = 0
+            result["status"] = "error_no_fallback"
+            result["message"] = (
+                "Live directory/Overpass lookup failed and synthetic fallback is disabled in this environment. "
+                "Provide real leads manually or fix API connectivity."
+            )
+            return result
         result["businesses"] = fallback_data[:limit]
         result["total_found"] = len(result["businesses"])
         result["status"] = "success_fallback"
+        result["message"] = "WARNING: synthetic demo businesses (not real). Do not use for outbound."
         return result
 
 if __name__ == "__main__":
