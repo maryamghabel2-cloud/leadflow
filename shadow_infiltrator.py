@@ -1,13 +1,17 @@
 """
-LeadFlow.AI - Shadow Infiltrator (Editorial Monochrome Generator)
-Generates premium local-business websites in the same Swiss/editorial design language
-as the LeadFlow flagship portal — zero neon cyan / cyber glow.
+LeadFlow.AI - Shadow Infiltrator
+Industry-specific creative website generator.
+
+Design principle:
+- Each profession gets a DISTINCT visual system tailored to buyer psychology.
+- Not a clone of the LeadFlow product UI.
+- Not neon/cyber cyan glow kitsch.
 """
 
 from __future__ import annotations
 
 import os
-from typing import Dict, Any
+from typing import Dict, Any, List, Tuple
 from cloud_deployer import CloudDeploymentEngine
 
 
@@ -33,22 +37,37 @@ class ShadowInfiltrator:
         if custom_domain is None:
             custom_domain = f"{slug}.com"
 
-        cat_lower = (category or "").lower()
-        if any(w in cat_lower for w in ["dental", "clinic", "doctor", "health", "medical", "vet", "veterinary"]):
-            html_content = self._generate_medical_site(business_name, category, city, phone)
-            paradigm = "Medical & Wellness (Editorial Clinical)"
-        elif any(w in cat_lower for w in ["restaurant", "dining", "food", "lounge", "bistro", "cafe"]):
-            html_content = self._generate_dining_site(business_name, category, city, phone)
-            paradigm = "Fine Dining (Editorial Hospitality)"
-        elif any(w in cat_lower for w in ["law", "legal", "attorney", "lawyer", "justice"]):
-            html_content = self._generate_legal_site(business_name, category, city, phone)
-            paradigm = "Law Firm (Editorial Counsel)"
-        elif any(w in cat_lower for w in ["estate", "realty", "property", "architecture", "builder"]):
-            html_content = self._generate_realty_site(business_name, category, city, phone)
-            paradigm = "Real Estate (Editorial Property)"
+        cat = (category or "").lower()
+        name_l = business_name.lower()
+        blob = f"{cat} {name_l}"
+
+        if any(w in blob for w in ["dental", "clinic", "doctor", "health", "medical", "vet", "veterinary", "hospital"]):
+            html_content = self._medical(business_name, category, city, phone)
+            paradigm = "Healthcare · clinical calm (trust / hygiene / clarity)"
+        elif any(w in blob for w in ["restaurant", "dining", "food", "lounge", "bistro", "cafe", "gourmet"]):
+            html_content = self._dining(business_name, category, city, phone)
+            paradigm = "Hospitality · warm nocturnal fine dining"
+        elif any(w in blob for w in ["law", "legal", "attorney", "lawyer", "justice", "counsel"]):
+            html_content = self._legal(business_name, category, city, phone)
+            paradigm = "Legal · authoritative editorial counsel"
+        elif any(w in blob for w in ["estate", "realty", "property", "architecture", "builder", "architectural"]):
+            html_content = self._realty(business_name, category, city, phone)
+            paradigm = "Property · architectural photography magazine"
+        elif any(w in blob for w in ["gym", "fitness", "performance", "sport", "training"]):
+            html_content = self._gym(business_name, category, city, phone)
+            paradigm = "Fitness · bold athletic energy"
+        elif any(w in blob for w in ["spa", "aesthetic", "salon", "beauty", "wellness", "sanctuary"]):
+            html_content = self._spa(business_name, category, city, phone)
+            paradigm = "Wellness · soft sanctuary ritual"
+        elif any(w in blob for w in ["jewelry", "jewel", "watch", "diamond", "crown"]):
+            html_content = self._jewelry(business_name, category, city, phone)
+            paradigm = "Jewelry · high jewelry atelier"
+        elif any(w in blob for w in ["wealth", "advisory", "finance", "private", "capital", "invest"]):
+            html_content = self._wealth(business_name, category, city, phone)
+            paradigm = "Wealth · private bank discretion"
         else:
-            html_content = self._generate_universal_dynamic_site(business_name, category, city, phone)
-            paradigm = f"Universal Editorial ({(category or 'Services').title()})"
+            html_content = self._universal(business_name, category, city, phone)
+            paradigm = f"Services · category-tuned studio ({(category or 'professional').title()})"
 
         with open(filepath, "w", encoding="utf-8") as f:
             f.write(html_content.strip())
@@ -70,330 +89,809 @@ class ShadowInfiltrator:
             "custom_domain_configured": custom_domain,
             "upsell_pitch": (
                 f"Hi {business_name} team,\n\n"
-                f"We noticed your establishment in {city} has a strong local reputation but currently lacks a polished official website.\n\n"
-                f"Our team prepared a free live preview tailored for your profession ({paradigm}):\n"
-                f"LIVE DEMO: {demo_res['live_cloud_url']}\n\n"
-                f"If you love it, you can take ownership and receive the full deployment ZIP for your domain `{custom_domain}`.\n"
-                f"Happy to adjust services, photos, or colors on request."
+                f"We built a free live website preview tailored for your industry in {city}:\n"
+                f"{demo_res['live_cloud_url']}\n\n"
+                f"Design direction: {paradigm}.\n"
+                f"If you want ownership + deployment package for `{custom_domain}`, we can transfer it after payment.\n"
+                f"Happy to adjust copy, services, or colors."
             ),
         }
 
-    def _shell(
-        self,
-        name: str,
-        city: str,
-        phone: str,
-        title: str,
-        kicker: str,
-        headline: str,
-        lead: str,
-        cta: str,
-        cards: list,
-        tool_title: str,
-        tool_body: str,
-        tool_js: str,
-        tool_html: str,
-        modal_title: str,
-    ) -> str:
-        cards_html = ""
-        for i, (t, d) in enumerate(cards, 1):
-            cards_html += f"""
-            <div class="card">
-                <div class="card-kicker">0{i}</div>
-                <h3>{t}</h3>
-                <p>{d}</p>
-            </div>"""
+    # ------------------------------------------------------------------ helpers
+    def _esc(self, s: str) -> str:
+        return (
+            (s or "")
+            .replace("&", "&amp;")
+            .replace("<", "&lt;")
+            .replace(">", "&gt;")
+            .replace('"', "&quot;")
+        )
 
+    def _cards(self, items: List[Tuple[str, str]], card_class: str = "card") -> str:
+        out = []
+        for t, d in items:
+            out.append(f'<article class="{card_class}"><h3>{self._esc(t)}</h3><p>{self._esc(d)}</p></article>')
+        return "\n".join(out)
+
+    # ================================================================== MEDICAL
+    def _medical(self, name: str, cat: str, city: str, phone: str) -> str:
+        n, c, p = self._esc(name), self._esc(city), self._esc(phone)
+        cards = self._cards([
+            ("Gentle diagnostics", "Clear explanations, digital charting, and zero-rush consults."),
+            ("Restorative artistry", "Natural-looking results planned around facial harmony."),
+            ("Family continuity", "Recall systems and prevention that keep care simple over years."),
+        ])
         return f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{title}</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
-        :root {{
-            --bg: #FBFBF9; --stone: #F2EFE9; --card: #FFFFFF; --charcoal: #18181B;
-            --slate: #475569; --muted: #78716C; --champagne: #B8860B; --border: #E5E0D8;
-            --font-serif: 'Cinzel', serif; --font-sans: 'Plus Jakarta Sans', sans-serif; --font-mono: 'JetBrains Mono', monospace;
-        }}
-        * {{ margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-sans); }}
-        body {{ background: var(--bg); color: var(--charcoal); line-height: 1.75; border-top: 4px solid var(--charcoal); }}
-        header {{
-            display: flex; justify-content: space-between; align-items: center; gap: 16px;
-            padding: 22px 48px; border-bottom: 1px solid var(--border); background: rgba(251,251,249,0.96);
-            position: sticky; top: 0; z-index: 50;
-        }}
-        @media (max-width: 720px) {{ header {{ padding: 16px 18px; flex-direction: column; }} }}
-        .brand {{ display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }}
-        .mark {{ width: 34px; height: 34px; background: var(--charcoal); color: #fff; display: flex; align-items: center; justify-content: center; font-family: var(--font-serif); font-weight: 700; }}
-        .brand-text {{ font-family: var(--font-serif); letter-spacing: 3px; font-weight: 800; font-size: 16px; }}
-        .btn {{
-            border: 1px solid var(--charcoal); background: var(--charcoal); color: #fff;
-            padding: 12px 20px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px;
-            text-transform: uppercase; cursor: pointer; text-decoration: none; display: inline-flex;
-        }}
-        .btn:hover {{ background: var(--champagne); color: #000; }}
-        .btn-ghost {{ background: transparent; color: var(--charcoal); }}
-        .btn-ghost:hover {{ background: var(--stone); color: var(--charcoal); }}
-        .hero {{
-            max-width: 1180px; margin: 0 auto; padding: 72px 24px 64px;
-            display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: center;
-            border-bottom: 1px solid var(--border);
-        }}
-        @media (max-width: 900px) {{ .hero {{ grid-template-columns: 1fr; padding: 40px 20px; }} }}
-        .kicker {{
-            font-family: var(--font-mono); font-size: 11px; letter-spacing: 2.5px; color: var(--champagne);
-            text-transform: uppercase; font-weight: 700; margin-bottom: 14px;
-        }}
-        h1 {{ font-size: 44px; line-height: 1.15; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 16px; }}
-        @media (max-width: 640px) {{ h1 {{ font-size: 32px; }} }}
-        h1 em {{ font-family: var(--font-serif); font-style: italic; font-weight: 700; color: #0F172A; }}
-        .lead {{ color: var(--slate); font-size: 16px; max-width: 560px; margin-bottom: 28px; }}
-        .actions {{ display: flex; gap: 12px; flex-wrap: wrap; }}
-        .panel {{
-            background: var(--stone); border: 1px solid var(--border); padding: 28px;
-        }}
-        .panel h3 {{ font-family: var(--font-serif); font-size: 20px; margin-bottom: 8px; }}
-        .panel p {{ color: var(--slate); font-size: 14px; margin-bottom: 18px; }}
-        .section {{ max-width: 1180px; margin: 0 auto; padding: 64px 24px; }}
-        .section h2 {{ font-size: 30px; font-weight: 800; margin-bottom: 8px; }}
-        .section .sub {{ color: var(--slate); margin-bottom: 28px; }}
-        .grid {{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }}
-        @media (max-width: 900px) {{ .grid {{ grid-template-columns: 1fr; }} }}
-        .card {{ background: #fff; border: 1px solid var(--border); padding: 24px; }}
-        .card-kicker {{ font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 1px; margin-bottom: 10px; }}
-        .card h3 {{ font-size: 18px; margin-bottom: 8px; }}
-        .card p {{ color: var(--slate); font-size: 14px; }}
-        .tool {{
-            max-width: 900px; margin: 0 auto; background: #fff; border: 1px solid var(--border);
-            padding: 36px; text-align: center;
-        }}
-        .tool .kicker {{ margin-bottom: 10px; }}
-        .tool h2 {{ font-size: 28px; margin-bottom: 10px; }}
-        .tool p {{ color: var(--slate); margin-bottom: 18px; }}
-        .tool input[type=range] {{ width: min(100%, 520px); accent-color: var(--charcoal); margin: 14px 0 20px; }}
-        .tool-val {{ font-family: var(--font-serif); font-size: 36px; font-weight: 700; margin: 8px 0 6px; }}
-        footer {{
-            border-top: 1px solid var(--border); padding: 40px 24px; text-align: center; color: var(--muted); font-size: 13px;
-            background: #fff;
-        }}
-        footer strong {{ color: var(--charcoal); }}
-        .modal-bg {{
-            display: none; position: fixed; inset: 0; background: rgba(24,24,27,0.45);
-            align-items: center; justify-content: center; padding: 18px; z-index: 100;
-        }}
-        .modal-bg.open {{ display: flex; }}
-        .modal {{ width: min(480px, 100%); background: #fff; border: 1px solid var(--border); padding: 28px; position: relative; }}
-        .modal h3 {{ font-family: var(--font-serif); font-size: 22px; margin-bottom: 8px; }}
-        .modal p {{ color: var(--slate); font-size: 14px; margin-bottom: 16px; }}
-        .modal input, .modal select {{
-            width: 100%; border: 1px solid var(--border); background: var(--bg); padding: 12px 14px;
-            margin-bottom: 12px; font-size: 14px; outline: none;
-        }}
-        .modal input:focus, .modal select:focus {{ border-color: var(--charcoal); background: #fff; }}
-        .close {{ position: absolute; top: 12px; right: 14px; border: 0; background: transparent; font-size: 22px; cursor: pointer; color: var(--muted); }}
-    </style>
-</head>
-<body>
-    <header>
-        <a class="brand" href="#">
-            <div class="mark">L</div>
-            <div class="brand-text">{name[:18].upper()}</div>
-        </a>
-        <button class="btn" onclick="openModal()">{cta}</button>
-    </header>
-
-    <section class="hero">
-        <div>
-            <div class="kicker">{kicker} · {city}</div>
-            <h1>{headline}</h1>
-            <p class="lead">{lead}</p>
-            <div class="actions">
-                <button class="btn" onclick="openModal()">{cta}</button>
-                <a class="btn btn-ghost" href="#services">View services</a>
-            </div>
-        </div>
-        <div class="panel">
-            <div class="kicker">At a glance</div>
-            <h3>{name}</h3>
-            <p>Premium local presence for clients in {city}. Built as a clean editorial website — easy to read, easy to book, easy to trust.</p>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-                <div style="background:#fff;border:1px solid var(--border);padding:14px;">
-                    <div style="font-family:var(--font-serif);font-size:24px;font-weight:700;">4.9</div>
-                    <div style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">Client rating</div>
-                </div>
-                <div style="background:#fff;border:1px solid var(--border);padding:14px;">
-                    <div style="font-family:var(--font-serif);font-size:24px;font-weight:700;">24h</div>
-                    <div style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">Response goal</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section" id="services">
-        <h2>What we offer</h2>
-        <p class="sub">Clear services presented with editorial restraint — no neon chrome, no visual noise.</p>
-        <div class="grid">{cards_html}
-        </div>
-    </section>
-
-    <section class="section">
-        <div class="tool">
-            <div class="kicker">Interactive preview</div>
-            <h2>{tool_title}</h2>
-            <p>{tool_body}</p>
-            {tool_html}
-            <div style="margin-top:18px;">
-                <button class="btn" onclick="openModal()">Continue with {name}</button>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <div style="font-family:var(--font-serif);font-size:20px;color:var(--charcoal);margin-bottom:8px;">{name}</div>
-        <div>{city} · Direct line: <strong>{phone}</strong></div>
-        <div style="margin-top:10px;">Preview site prepared with LeadFlow editorial engine</div>
-    </footer>
-
-    <div class="modal-bg" id="modal">
-        <div class="modal">
-            <button class="close" onclick="closeModal()">×</button>
-            <h3>{modal_title}</h3>
-            <p>Share your details and the {name} team will follow up.</p>
-            <form onsubmit="handleBooking(event)">
-                <input type="text" placeholder="Full name *" required>
-                <input type="tel" placeholder="Phone / WhatsApp *" required>
-                <input type="email" placeholder="Email (optional)">
-                <button class="btn" style="width:100%;justify-content:center;" type="submit">Submit request</button>
-            </form>
-        </div>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{n} · Care in {c}</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap');
+:root{{--bg:#F7FBFA;--ink:#16302B;--mute:#5B726C;--line:#D7E5E1;--sea:#2F6F68;--sea-soft:#E4F3F0;--sand:#FFF9F2}}
+*{{box-sizing:border-box;margin:0;padding:0}}
+body{{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}}
+.nav{{display:flex;justify-content:space-between;align-items:center;padding:20px 7vw;background:rgba(247,251,250,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}}
+.logo{{font-family:'Fraunces',serif;font-size:1.35rem;font-weight:700;color:var(--ink);text-decoration:none}}
+.btn{{background:var(--sea);color:#fff;border:0;padding:12px 20px;border-radius:999px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block}}
+.btn:hover{{filter:brightness(1.05)}}
+.btn-soft{{background:var(--sea-soft);color:var(--sea)}}
+.hero{{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;padding:70px 7vw;align-items:center}}
+@media(max-width:900px){{.hero{{grid-template-columns:1fr;padding:40px 6vw}}}}
+.pill{{display:inline-block;background:var(--sea-soft);color:var(--sea);padding:6px 12px;border-radius:999px;font-size:.78rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-bottom:14px}}
+h1{{font-family:'Fraunces',serif;font-size:clamp(2.2rem,4vw,3.4rem);line-height:1.12;margin-bottom:16px;font-weight:700}}
+.lead{{color:var(--mute);font-size:1.08rem;max-width:34rem;margin-bottom:28px}}
+.actions{{display:flex;gap:12px;flex-wrap:wrap}}
+.side{{background:linear-gradient(160deg,var(--sand),#fff);border:1px solid var(--line);border-radius:28px;padding:28px;box-shadow:0 18px 50px rgba(22,48,43,.06)}}
+.metric{{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}}
+.metric div{{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px}}
+.metric strong{{display:block;font-family:'Fraunces',serif;font-size:1.6rem}}
+.metric span{{color:var(--mute);font-size:.82rem}}
+.section{{padding:20px 7vw 70px}}
+.section h2{{font-family:'Fraunces',serif;font-size:2rem;margin-bottom:8px}}
+.section .sub{{color:var(--mute);margin-bottom:24px}}
+.grid{{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}}
+@media(max-width:900px){{.grid{{grid-template-columns:1fr}}}}
+.card{{background:#fff;border:1px solid var(--line);border-radius:22px;padding:24px}}
+.card h3{{font-size:1.1rem;margin-bottom:8px}}
+.card p{{color:var(--mute);font-size:.95rem}}
+.tool{{margin:10px 7vw 70px;background:#fff;border:1px solid var(--line);border-radius:28px;padding:36px;text-align:center}}
+.tool h2{{font-family:'Fraunces',serif;margin-bottom:8px}}
+.val{{font-family:'Fraunces',serif;font-size:2.2rem;color:var(--sea);margin:14px 0}}
+input[type=range]{{width:min(100%,420px);accent-color:var(--sea)}}
+footer{{padding:40px 7vw;border-top:1px solid var(--line);color:var(--mute);text-align:center;background:#fff}}
+.modal{{display:none;position:fixed;inset:0;background:rgba(22,48,43,.45);align-items:center;justify-content:center;padding:18px;z-index:50}}
+.modal.open{{display:flex}}
+.modal-card{{background:#fff;border-radius:22px;padding:28px;width:min(440px,100%);position:relative}}
+.modal-card input{{width:100%;margin:8px 0;padding:12px 14px;border:1px solid var(--line);border-radius:12px}}
+.close{{position:absolute;right:14px;top:10px;border:0;background:none;font-size:1.4rem;cursor:pointer;color:var(--mute)}}
+</style></head><body>
+<nav><a class="logo" href="#">{n}</a><button class="btn" onclick="openM()">Book visit</button></nav>
+<section class="hero">
+  <div>
+    <div class="pill">Healthcare · {c}</div>
+    <h1>Care that feels calm, clear, and human</h1>
+    <p class="lead">{n} is built for patients who want modern clinical standards without the clinical coldness — in the heart of {c}.</p>
+    <div class="actions">
+      <button class="btn" onclick="openM()">Request appointment</button>
+      <a class="btn btn-soft" href="#services">Explore services</a>
     </div>
+  </div>
+  <aside class="side">
+    <div class="pill">Patient desk</div>
+    <h2 style="font-family:'Fraunces',serif;font-size:1.5rem;margin:8px 0 10px">Same-week consults</h2>
+    <p style="color:var(--mute);margin-bottom:8px">Direct line: <strong style="color:var(--ink)">{p}</strong></p>
+    <div class="metric">
+      <div><strong>4.9</strong><span>avg. patient rating</span></div>
+      <div><strong>15m</strong><span>on-time arrival goal</span></div>
+    </div>
+  </aside>
+</section>
+<section class="section" id="services">
+  <h2>Services designed around comfort</h2>
+  <p class="sub">Healthcare UX: soft color, high readability, obvious next step — because anxious patients scan, they don’t study.</p>
+  <div class="grid">{cards}</div>
+</section>
+<section class="tool">
+  <div class="pill">Interactive preview</div>
+  <h2>Smile brightness planner</h2>
+  <p style="color:var(--mute)">A simple visual for whitening conversations — not a medical claim, a conversation starter.</p>
+  <div class="val" id="v">70% brighter target</div>
+  <input type="range" min="20" max="100" value="70" oninput="document.getElementById('v').textContent=this.value+'% brighter target'">
+  <div style="margin-top:18px"><button class="btn" onclick="openM()">Discuss this plan</button></div>
+</section>
+<footer><strong style="color:var(--ink);font-family:'Fraunces',serif;font-size:1.2rem">{n}</strong><br>{c} · {p}</footer>
+<div class="modal" id="m"><div class="modal-card">
+  <button class="close" onclick="closeM()">×</button>
+  <h3 style="font-family:'Fraunces',serif;margin-bottom:8px">Request a visit</h3>
+  <p style="color:var(--mute);font-size:.92rem;margin-bottom:10px">We’ll confirm availability with {n}.</p>
+  <form onsubmit="event.preventDefault();closeM();alert('Request received. {n} will follow up.');">
+    <input placeholder="Full name *" required>
+    <input placeholder="Phone *" required>
+    <input placeholder="Preferred time window">
+    <button class="btn" style="width:100%;margin-top:8px">Send request</button>
+  </form>
+</div></div>
+<script>function openM(){{document.getElementById('m').classList.add('open')}}function closeM(){{document.getElementById('m').classList.remove('open')}}</script>
+</body></html>"""
 
-    <script>
-        function openModal() {{ document.getElementById('modal').classList.add('open'); }}
-        function closeModal() {{ document.getElementById('modal').classList.remove('open'); }}
-        function handleBooking(e) {{
-            e.preventDefault(); closeModal();
-            alert('Thank you. Your request for {name} has been recorded.');
-        }}
-        {tool_js}
-    </script>
-</body>
-</html>"""
+    # ================================================================== DINING
+    def _dining(self, name: str, cat: str, city: str, phone: str) -> str:
+        n, c, p = self._esc(name), self._esc(city), self._esc(phone)
+        cards = self._cards([
+            ("Seasonal tasting", "A kitchen-led sequence that changes with the market, not the calendar app."),
+            ("Cellar pairing", "Bottles chosen to support the plate — quiet luxury, not spectacle."),
+            ("Chef’s table", "Intimate service for celebrations and client dinners."),
+        ], "mc")
+        return f"""<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{n} · {c}</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Outfit:wght@300;400;500;600&display=swap');
+:root{{--bg:#14110F;--panel:#1C1816;--ink:#F4EFE6;--mute:#B7A99A;--line:rgba(244,239,230,.12);--ember:#C45C26;--gold:#D8B56A}}
+*{{box-sizing:border-box;margin:0;padding:0}}
+body{{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--ink);line-height:1.75}}
+.nav{{display:flex;justify-content:space-between;align-items:center;padding:22px 7vw;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(20,17,15,.9);backdrop-filter:blur(12px);z-index:20}}
+.logo{{font-family:'Cormorant Garamond',serif;font-size:1.7rem;letter-spacing:.04em;color:var(--ink);text-decoration:none}}
+.btn{{background:var(--ember);color:#fff;border:0;padding:12px 22px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:.72rem;cursor:pointer}}
+.btn:hover{{background:var(--gold);color:#1a1208}}
+.hero{{min-height:72vh;display:grid;place-items:center;text-align:center;padding:80px 7vw;background:
+ radial-gradient(ellipse at 50% 0%, rgba(196,92,38,.22), transparent 55%),
+ linear-gradient(180deg,#1a1512 0%, #14110F 70%);}}
+.kicker{{color:var(--gold);letter-spacing:.28em;text-transform:uppercase;font-size:.72rem;margin-bottom:18px}}
+h1{{font-family:'Cormorant Garamond',serif;font-size:clamp(2.8rem,7vw,5rem);font-weight:500;line-height:1.05;margin-bottom:18px}}
+h1 em{{font-style:italic;color:var(--gold)}}
+.lead{{color:var(--mute);max-width:36rem;margin:0 auto 30px;font-weight:300;font-size:1.08rem}}
+.section{{padding:70px 7vw}}
+.section h2{{font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:500;margin-bottom:10px;text-align:center}}
+.sub{{color:var(--mute);text-align:center;margin-bottom:34px}}
+.grid{{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}}
+@media(max-width:900px){{.grid{{grid-template-columns:1fr}}}}
+.mc{{background:var(--panel);border:1px solid var(--line);padding:28px}}
+.mc h3{{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:500;margin-bottom:10px;color:var(--gold)}}
+.mc p{{color:var(--mute);font-weight:300}}
+.tool{{margin:0 7vw 70px;border:1px solid var(--line);background:var(--panel);padding:42px;text-align:center}}
+.val{{font-family:'Cormorant Garamond',serif;font-size:2.6rem;color:var(--gold);margin:12px 0}}
+input[type=range]{{width:min(100%,420px);accent-color:var(--ember)}}
+footer{{padding:42px 7vw;border-top:1px solid var(--line);text-align:center;color:var(--mute);font-weight:300}}
+.modal{{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);align-items:center;justify-content:center;padding:18px;z-index:40}}
+.modal.open{{display:flex}}
+.modal-card{{background:#1C1816;border:1px solid var(--line);padding:28px;width:min(440px,100%);position:relative}}
+.modal-card input{{width:100%;margin:8px 0;padding:12px;background:#14110F;border:1px solid var(--line);color:var(--ink)}}
+.close{{position:absolute;right:12px;top:8px;border:0;background:none;color:var(--mute);font-size:1.4rem;cursor:pointer}}
+</style></head><body>
+<nav><a class="logo" href="#">{n}</a><button class="btn" onclick="openM()">Reserve</button></nav>
+<section class="hero">
+  <div>
+    <div class="kicker">Dining room · {c}</div>
+    <h1>An evening of <em>fire, craft & quiet luxury</em></h1>
+    <p class="lead">{n} is a warm nocturnal dining room — ember light, considered pacing, and plates built for memory, not trends.</p>
+    <button class="btn" onclick="openM()">Request a table</button>
+  </div>
+</section>
+<section class="section">
+  <h2>The room, the kitchen, the cellar</h2>
+  <p class="sub">Hospitality design: dark timber mood, serif romance, restrained gold — appetite without neon carnival.</p>
+  <div class="grid">{cards}</div>
+</section>
+<section class="tool">
+  <div class="kicker">Private dining</div>
+  <h2 style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:500;margin:8px 0">Guest count estimator</h2>
+  <p class="sub" style="margin-bottom:8px">Estimate a tasting package for your celebration.</p>
+  <div class="val" id="v">12 guests · ~$4,560</div>
+  <input type="range" min="2" max="40" value="12" oninput="document.getElementById('v').textContent=this.value+' guests · ~$'+(this.value*380).toLocaleString()">
+  <div style="margin-top:18px"><button class="btn" onclick="openM()">Hold a private room</button></div>
+</section>
+<footer>{n} · {c} · Reservations {p}</footer>
+<div class="modal" id="m"><div class="modal-card">
+  <button class="close" onclick="closeM()">×</button>
+  <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;margin-bottom:8px">Table request</h3>
+  <form onsubmit="event.preventDefault();closeM();alert('Reservation request sent to {n}.');">
+    <input placeholder="Name *" required><input placeholder="Phone *" required><input placeholder="Date / time preference">
+    <button class="btn" style="width:100%;margin-top:8px">Send</button>
+  </form>
+</div></div>
+<script>function openM(){{document.getElementById('m').classList.add('open')}}function closeM(){{document.getElementById('m').classList.remove('open')}}</script>
+</body></html>"""
 
-    def _generate_medical_site(self, name: str, cat: str, city: str, phone: str) -> str:
-        return self._shell(
-            name=name,
-            city=city,
-            phone=phone,
-            title=f"{name} · Medical & Dental · {city}",
-            kicker="Clinical practice",
-            headline="Calm, precise care<br>for modern patients",
-            lead=f"{name} brings clinic-grade expertise and a composed patient experience to {city} — from first consult to follow-up.",
-            cta="Book consultation",
-            cards=[
-                ("Diagnostics", "Clear assessments and treatment planning without rushed appointments."),
-                ("Restorative care", "Durable, natural-looking results designed around your comfort."),
-                ("Prevention", "Maintenance programs that keep outcomes stable over time."),
-            ],
-            tool_title="Treatment brightness preview",
-            tool_body="Slide to preview the kind of whitening outcome patients often aim for in a single visit package.",
-            tool_html='<div class="tool-val" id="tool-val">70% brighter</div><input type="range" min="10" max="100" value="70" oninput="updateTool(this.value)">',
-            tool_js="function updateTool(v){ document.getElementById('tool-val').innerText = v + '% brighter'; }",
-            modal_title="Request a consultation",
-        )
+    # ================================================================== LEGAL
+    def _legal(self, name: str, cat: str, city: str, phone: str) -> str:
+        n, c, p = self._esc(name), self._esc(city), self._esc(phone)
+        cards = self._cards([
+            ("Disputes", "Commercial and civil matters with disciplined case architecture."),
+            ("Counsel", "Contracts and governance before conflict becomes expensive."),
+            ("Confidential matters", "Discreet engagement for executives and family offices."),
+        ])
+        return f"""<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{n} · Counsel · {c}</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@400;600;700&display=swap');
+:root{{--bg:#F7F4EF;--ink:#1B1A17;--mute:#6B6560;--line:#E4DDD2;--navy:#1F2A44;--brass:#9C7A3C}}
+*{{box-sizing:border-box;margin:0;padding:0}}
+body{{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--ink);line-height:1.75}}
+header{{display:flex;justify-content:space-between;align-items:center;padding:26px 8vw;border-bottom:1px solid var(--line);background:#FFFEFB;position:sticky;top:0;z-index:10}}
+.logo{{font-family:'Libre Baskerville',serif;font-size:1.15rem;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;color:var(--navy)}}
+.btn{{background:var(--navy);color:#fff;border:0;padding:12px 18px;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}}
+.btn.gold{{background:var(--brass);color:#fff}}
+.hero{{display:grid;grid-template-columns:1.2fr .8fr;gap:48px;padding:80px 8vw;align-items:start;border-bottom:1px solid var(--line);background:#FFFEFB}}
+@media(max-width:900px){{.hero{{grid-template-columns:1fr;padding:40px 6vw}}}}
+.k{{color:var(--brass);font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:14px}}
+h1{{font-family:'Libre Baskerville',serif;font-size:clamp(2rem,4vw,3.2rem);line-height:1.2;color:var(--navy);margin-bottom:18px}}
+.lead{{color:var(--mute);max-width:34rem;margin-bottom:28px;font-size:1.05rem}}
+.panel{{border:1px solid var(--line);background:var(--bg);padding:28px}}
+.panel h3{{font-family:'Libre Baskerville',serif;font-size:1.25rem;margin-bottom:10px;color:var(--navy)}}
+.section{{padding:64px 8vw}}
+.section h2{{font-family:'Libre Baskerville',serif;font-size:1.9rem;color:var(--navy);margin-bottom:8px}}
+.sub{{color:var(--mute);margin-bottom:24px}}
+.grid{{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}}
+@media(max-width:900px){{.grid{{grid-template-columns:1fr}}}}
+.card{{background:#FFFEFB;border:1px solid var(--line);padding:24px}}
+.card h3{{font-family:'Libre Baskerville',serif;font-size:1.15rem;margin-bottom:8px;color:var(--navy)}}
+.card p{{color:var(--mute)}}
+.tool{{margin:0 8vw 70px;background:#FFFEFB;border:1px solid var(--line);padding:36px;text-align:center}}
+.val{{font-family:'Libre Baskerville',serif;font-size:2rem;color:var(--brass);margin:12px 0}}
+input[type=range]{{width:min(100%,420px);accent-color:var(--navy)}}
+footer{{background:var(--navy);color:#C9C4B8;padding:42px 8vw;text-align:center}}
+.modal{{display:none;position:fixed;inset:0;background:rgba(27,26,23,.5);align-items:center;justify-content:center;padding:18px;z-index:40}}
+.modal.open{{display:flex}}
+.modal-card{{background:#FFFEFB;padding:28px;width:min(440px,100%);border:1px solid var(--line);position:relative}}
+.modal-card input{{width:100%;margin:8px 0;padding:12px;border:1px solid var(--line)}}
+.close{{position:absolute;right:12px;top:8px;border:0;background:none;font-size:1.4rem;cursor:pointer;color:var(--mute)}}
+</style></head><body>
+<header><a class="logo" href="#">{n}</a><button class="btn" onclick="openM()">Consultation</button></header>
+<section class="hero">
+  <div>
+    <div class="k">Counsel · {c}</div>
+    <h1>Advocacy with composure. Strategy without theatrics.</h1>
+    <p class="lead">{n} advises and represents clients who value preparation, discretion, and direct communication.</p>
+    <button class="btn gold" onclick="openM()">Schedule evaluation</button>
+  </div>
+  <aside class="panel">
+    <div class="k">Intake</div>
+    <h3>Privileged first conversation</h3>
+    <p style="color:var(--mute);margin-bottom:14px">Direct attorney line: <strong style="color:var(--ink)">{p}</strong></p>
+    <p style="color:var(--mute);font-size:.92rem">Legal design language: paper, brass, navy — authority that feels institutional, not flashy.</p>
+  </aside>
+</section>
+<section class="section">
+  <h2>Practice focus</h2>
+  <p class="sub">Structured for trust: long-form readability, serif headlines, zero gimmicks.</p>
+  <div class="grid">{cards}</div>
+</section>
+<section class="tool">
+  <div class="k">Matter scale</div>
+  <h2 style="font-family:'Libre Baskerville',serif;font-size:1.6rem;color:var(--navy);margin:8px 0">Confidential range indicator</h2>
+  <div class="val" id="v">$1,500,000 matter scale</div>
+  <input type="range" min="100000" max="10000000" step="100000" value="1500000" oninput="document.getElementById('v').textContent='$'+parseInt(this.value).toLocaleString()+' matter scale'">
+  <div style="margin-top:16px"><button class="btn" onclick="openM()">Begin confidential inquiry</button></div>
+</section>
+<footer>{n}<br>{c} · {p}</footer>
+<div class="modal" id="m"><div class="modal-card">
+  <button class="close" onclick="closeM()">×</button>
+  <h3 style="font-family:'Libre Baskerville',serif;margin-bottom:8px">Confidential inquiry</h3>
+  <form onsubmit="event.preventDefault();closeM();alert('Inquiry received by {n}.');">
+    <input placeholder="Name *" required><input placeholder="Phone *" required><input placeholder="Brief matter summary">
+    <button class="btn" style="width:100%;margin-top:8px">Submit</button>
+  </form>
+</div></div>
+<script>function openM(){{document.getElementById('m').classList.add('open')}}function closeM(){{document.getElementById('m').classList.remove('open')}}</script>
+</body></html>"""
 
-    def _generate_dining_site(self, name: str, cat: str, city: str, phone: str) -> str:
-        return self._shell(
-            name=name,
-            city=city,
-            phone=phone,
-            title=f"{name} · Dining · {city}",
-            kicker="Hospitality",
-            headline="An evening shaped<br>by craft and calm",
-            lead=f"{name} is a refined dining room in {city} — seasonal plates, considered service, and reservations that feel effortless.",
-            cta="Reserve a table",
-            cards=[
-                ("Seasonal menu", "A rotating selection built around peak ingredients and restrained plating."),
-                ("Wine & pairing", "Curated bottles chosen to support the kitchen, not overshadow it."),
-                ("Private dining", "Quiet rooms for celebrations and client dinners."),
-            ],
-            tool_title="Private dining estimator",
-            tool_body="Adjust guest count to estimate a tasting-menu package for your group.",
-            tool_html='<div class="tool-val" id="tool-val">12 guests · est. $4,560</div><input type="range" min="2" max="40" value="12" oninput="updateTool(this.value)">',
-            tool_js="function updateTool(v){ document.getElementById('tool-val').innerText = v + ' guests · est. $' + (v*380).toLocaleString(); }",
-            modal_title="Reservation request",
-        )
+    # ================================================================== REALTY
+    def _realty(self, name: str, cat: str, city: str, phone: str) -> str:
+        n, c, p = self._esc(name), self._esc(city), self._esc(phone)
+        return f"""<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{n} · Properties · {c}</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&display=swap');
+:root{{--bg:#F3EFE7;--ink:#1C1916;--mute:#6F675E;--line:#DDD4C6;--forest:#2F4F3E;--clay:#A56B45}}
+*{{box-sizing:border-box;margin:0;padding:0}}
+body{{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}}
+.nav{{display:flex;justify-content:space-between;align-items:center;padding:18px 6vw;position:absolute;left:0;right:0;top:0;z-index:5;color:#fff}}
+.logo{{font-family:'Instrument Serif',serif;font-size:1.6rem;color:#fff;text-decoration:none}}
+.btn{{background:#fff;color:var(--ink);border:0;padding:11px 18px;font-weight:700;font-size:.78rem;letter-spacing:.04em;text-transform:uppercase;cursor:pointer}}
+.btn.dark{{background:var(--forest);color:#fff}}
+.hero{{min-height:78vh;display:flex;align-items:flex-end;padding:0 6vw 70px;background:
+ linear-gradient(180deg,rgba(28,25,22,.15),rgba(28,25,22,.72)),
+ url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="%233a4d3f"/><stop offset="1" stop-color="%237a5a3a"/></linearGradient></defs><rect width="100%" height="100%" fill="url(%23g)"/><circle cx="70%" cy="30%" r="220" fill="%23ffffff11"/><rect x="8%" y="48%" width="38%" height="28%" fill="%2300000018"/></svg>');
+ background-size:cover;color:#fff}}
+.hero .k{{letter-spacing:.22em;text-transform:uppercase;font-size:.72rem;opacity:.85;margin-bottom:12px}}
+.hero h1{{font-family:'Instrument Serif',serif;font-size:clamp(2.6rem,6vw,4.6rem);line-height:1.05;max-width:14ch;font-weight:400;margin-bottom:14px}}
+.hero p{{max-width:34rem;opacity:.9;margin-bottom:22px}}
+.section{{padding:70px 6vw}}
+.section h2{{font-family:'Instrument Serif',serif;font-size:2.4rem;font-weight:400;margin-bottom:8px}}
+.sub{{color:var(--mute);margin-bottom:26px}}
+.listings{{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}}
+@media(max-width:900px){{.listings{{grid-template-columns:1fr}}}}
+.photo{{min-height:320px;background:linear-gradient(135deg,#6d7f6a,#c2a27a);border:1px solid var(--line);padding:24px;display:flex;flex-direction:column;justify-content:flex-end;color:#fff}}
+.photo h3{{font-family:'Instrument Serif',serif;font-size:2rem;font-weight:400}}
+.side-card{{background:#fff;border:1px solid var(--line);padding:24px}}
+.side-card + .side-card{{margin-top:14px}}
+.price{{font-family:'Instrument Serif',serif;font-size:1.8rem;color:var(--forest);margin-top:8px}}
+.tool{{margin:0 6vw 70px;background:#fff;border:1px solid var(--line);padding:36px;text-align:center}}
+.val{{font-family:'Instrument Serif',serif;font-size:2.2rem;color:var(--clay);margin:12px 0}}
+input[type=range]{{width:min(100%,440px);accent-color:var(--forest)}}
+footer{{padding:40px 6vw;border-top:1px solid var(--line);color:var(--mute);text-align:center}}
+.modal{{display:none;position:fixed;inset:0;background:rgba(28,25,22,.5);align-items:center;justify-content:center;padding:18px;z-index:40}}
+.modal.open{{display:flex}}
+.modal-card{{background:#fff;padding:28px;width:min(440px,100%);position:relative;border:1px solid var(--line)}}
+.modal-card input{{width:100%;margin:8px 0;padding:12px;border:1px solid var(--line)}}
+.close{{position:absolute;right:12px;top:8px;border:0;background:none;font-size:1.4rem;cursor:pointer}}
+</style></head><body>
+<nav><a class="logo" href="#">{n}</a><button class="btn" onclick="openM()">Book showing</button></nav>
+<section class="hero">
+  <div>
+    <div class="k">Property · {c}</div>
+    <h1>Spaces with architecture, light, and long views</h1>
+    <p>{n} curates residences and investments for buyers who care about proportion, materials, and neighborhood texture — not listing spam.</p>
+    <button class="btn dark" onclick="openM()">Request private shortlist</button>
+  </div>
+</section>
+<section class="section">
+  <h2>Selected inventory mood</h2>
+  <p class="sub">Real-estate design: large hero, material palette, magazine serif — like an architecture folio.</p>
+  <div class="listings">
+    <div class="photo">
+      <div class="k">Featured</div>
+      <h3>Skyline residence</h3>
+      <p style="opacity:.9;max-width:28rem">Open plan, stone kitchen, evening terrace light. Built for slow living above the city.</p>
+    </div>
+    <div>
+      <div class="side-card">
+        <div class="k" style="color:var(--mute)">Listing study</div>
+        <h3 style="font-family:'Instrument Serif',serif;font-size:1.5rem;font-weight:400">Waterfront house</h3>
+        <p style="color:var(--mute)">Dock access, garden rooms, quiet morning light.</p>
+        <div class="price">$7.2M</div>
+      </div>
+      <div class="side-card">
+        <div class="k" style="color:var(--mute)">Advisory</div>
+        <h3 style="font-family:'Instrument Serif',serif;font-size:1.5rem;font-weight:400">Yield framing</h3>
+        <p style="color:var(--mute)">We help investors read a property beyond the brochure.</p>
+        <p style="margin-top:10px"><strong>Desk:</strong> {p}</p>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="tool">
+  <div class="k" style="letter-spacing:.18em;text-transform:uppercase;font-size:.72rem;color:var(--mute)">Yield sketch</div>
+  <h2 style="font-family:'Instrument Serif',serif;font-size:2rem;font-weight:400;margin:8px 0">Purchase price → annual yield</h2>
+  <div class="val" id="v">$2,500,000 · ~$212,500 / yr</div>
+  <input type="range" min="500000" max="12000000" step="100000" value="2500000" oninput="const y=Math.round(this.value*0.085);document.getElementById('v').textContent='$'+parseInt(this.value).toLocaleString()+' · ~$'+y.toLocaleString()+' / yr'">
+  <div style="margin-top:16px"><button class="btn dark" onclick="openM()">Talk to an advisor</button></div>
+</section>
+<footer>{n} · {c} · {p}</footer>
+<div class="modal" id="m"><div class="modal-card">
+  <button class="close" onclick="closeM()">×</button>
+  <h3 style="font-family:'Instrument Serif',serif;font-size:1.6rem;margin-bottom:8px">Showing request</h3>
+  <form onsubmit="event.preventDefault();closeM();alert('Request sent to {n}.');">
+    <input placeholder="Name *" required><input placeholder="Phone *" required><input placeholder="Budget window">
+    <button class="btn dark" style="width:100%;margin-top:8px">Submit</button>
+  </form>
+</div></div>
+<script>function openM(){{document.getElementById('m').classList.add('open')}}function closeM(){{document.getElementById('m').classList.remove('open')}}</script>
+</body></html>"""
 
-    def _generate_legal_site(self, name: str, cat: str, city: str, phone: str) -> str:
-        return self._shell(
-            name=name,
-            city=city,
-            phone=phone,
-            title=f"{name} · Legal Counsel · {city}",
-            kicker="Counsel",
-            headline="Clear advocacy.<br>Measured strategy.",
-            lead=f"{name} represents clients in {city} with disciplined preparation, direct communication, and discreet handling of complex matters.",
-            cta="Request consultation",
-            cards=[
-                ("Dispute resolution", "Commercial and civil matters handled with structured case planning."),
-                ("Advisory", "Contracts, governance, and risk guidance before conflict escalates."),
-                ("Confidential matters", "Private engagement model for executives and family offices."),
-            ],
-            tool_title="Case scale indicator",
-            tool_body="Slide to express approximate dispute scale for a confidential intake conversation.",
-            tool_html='<div class="tool-val" id="tool-val">$1,500,000 matter scale</div><input type="range" min="100000" max="10000000" step="100000" value="1500000" oninput="updateTool(this.value)">',
-            tool_js="function updateTool(v){ document.getElementById('tool-val').innerText = '$' + parseInt(v).toLocaleString() + ' matter scale'; }",
-            modal_title="Confidential inquiry",
-        )
+    # ================================================================== GYM
+    def _gym(self, name: str, cat: str, city: str, phone: str) -> str:
+        n, c, p = self._esc(name), self._esc(city), self._esc(phone)
+        cards = self._cards([
+            ("Strength programming", "Progressive blocks for real lifts, not random workouts."),
+            ("Conditioning", "Engine work that respects joints and recovery."),
+            ("Coaching desk", "Form checks, accountability, and measurable PRs."),
+        ])
+        return f"""<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{n} · Training · {c}</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+:root{{--bg:#0B0B0C;--panel:#141416;--ink:#F5F5F5;--mute:#A1A1AA;--line:#27272A;--volt:#FF4D00}}
+*{{box-sizing:border-box;margin:0;padding:0}}
+body{{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--ink);line-height:1.65}}
+.nav{{display:flex;justify-content:space-between;align-items:center;padding:18px 6vw;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(11,11,12,.92);z-index:10}}
+.logo{{font-family:'Archivo Black',sans-serif;font-size:1.1rem;letter-spacing:.02em;text-decoration:none;color:#fff}}
+.btn{{background:var(--volt);color:#000;border:0;padding:12px 18px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:.75rem;cursor:pointer}}
+.hero{{padding:80px 6vw 60px;display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:end;border-bottom:1px solid var(--line)}}
+@media(max-width:900px){{.hero{{grid-template-columns:1fr;padding:50px 6vw}}}}
+.k{{color:var(--volt);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.75rem;margin-bottom:14px}}
+h1{{font-family:'Archivo Black',sans-serif;font-size:clamp(2.6rem,7vw,4.8rem);line-height:.95;text-transform:uppercase;margin-bottom:18px}}
+.lead{{color:var(--mute);max-width:32rem;margin-bottom:24px}}
+.statbox{{background:var(--panel);border:1px solid var(--line);padding:24px}}
+.statbox strong{{display:block;font-family:'Archivo Black',sans-serif;font-size:2.4rem;color:var(--volt)}}
+.section{{padding:60px 6vw}}
+.section h2{{font-family:'Archivo Black',sans-serif;text-transform:uppercase;font-size:1.8rem;margin-bottom:8px}}
+.sub{{color:var(--mute);margin-bottom:22px}}
+.grid{{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}}
+@media(max-width:900px){{.grid{{grid-template-columns:1fr}}}}
+.card{{background:var(--panel);border:1px solid var(--line);padding:22px}}
+.card h3{{font-size:1.05rem;margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em}}
+.card p{{color:var(--mute)}}
+.tool{{margin:0 6vw 70px;border:1px solid var(--line);background:var(--panel);padding:34px;text-align:center}}
+.val{{font-family:'Archivo Black',sans-serif;font-size:2.4rem;color:var(--volt);margin:12px 0}}
+input[type=range]{{width:min(100%,420px);accent-color:var(--volt)}}
+footer{{padding:36px 6vw;border-top:1px solid var(--line);color:var(--mute);text-align:center}}
+.modal{{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);align-items:center;justify-content:center;padding:18px;z-index:40}}
+.modal.open{{display:flex}}
+.modal-card{{background:#141416;border:1px solid var(--line);padding:26px;width:min(440px,100%);position:relative}}
+.modal-card input{{width:100%;margin:8px 0;padding:12px;background:#0B0B0C;border:1px solid var(--line);color:#fff}}
+.close{{position:absolute;right:12px;top:8px;border:0;background:none;color:var(--mute);font-size:1.4rem;cursor:pointer}}
+</style></head><body>
+<nav><a class="logo" href="#">{n}</a><button class="btn" onclick="openM()">Join / Trial</button></nav>
+<section class="hero">
+  <div>
+    <div class="k">Training floor · {c}</div>
+    <h1>Train hard.<br>Recover smarter.</h1>
+    <p class="lead">{n} is an athletic room for people who want strength, sweat, and accountability — bold type, high contrast, zero pastel fluff.</p>
+    <button class="btn" onclick="openM()">Start a trial week</button>
+  </div>
+  <div class="statbox">
+    <div class="k">Floor metrics</div>
+    <strong>240+</strong>
+    <span style="color:var(--mute)">active members pushing weekly PRs</span>
+    <p style="margin-top:16px;color:var(--mute)">Coach line: <span style="color:#fff">{p}</span></p>
+  </div>
+</section>
+<section class="section">
+  <h2>Programming pillars</h2>
+  <p class="sub">Fitness psychology: urgency, power, clarity. Orange voltage on black — energy without cyber neon.</p>
+  <div class="grid">{cards}</div>
+</section>
+<section class="tool">
+  <div class="k">Session builder</div>
+  <h2 style="font-family:'Archivo Black',sans-serif;text-transform:uppercase;font-size:1.5rem;margin:8px 0">Weekly training days</h2>
+  <div class="val" id="v">4 days / week</div>
+  <input type="range" min="2" max="6" value="4" oninput="document.getElementById('v').textContent=this.value+' days / week'">
+  <div style="margin-top:16px"><button class="btn" onclick="openM()">Lock my plan</button></div>
+</section>
+<footer>{n} · {c} · {p}</footer>
+<div class="modal" id="m"><div class="modal-card">
+  <button class="close" onclick="closeM()">×</button>
+  <h3 style="text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Trial request</h3>
+  <form onsubmit="event.preventDefault();closeM();alert('Trial request sent to {n}.');">
+    <input placeholder="Name *" required><input placeholder="Phone *" required><input placeholder="Goal (strength / fat loss / hybrid)">
+    <button class="btn" style="width:100%;margin-top:8px">Send</button>
+  </form>
+</div></div>
+<script>function openM(){{document.getElementById('m').classList.add('open')}}function closeM(){{document.getElementById('m').classList.remove('open')}}</script>
+</body></html>"""
 
-    def _generate_realty_site(self, name: str, cat: str, city: str, phone: str) -> str:
-        return self._shell(
-            name=name,
-            city=city,
-            phone=phone,
-            title=f"{name} · Property · {city}",
-            kicker="Property desk",
-            headline="Residences and<br>investments, curated",
-            lead=f"{name} helps buyers and investors in {city} evaluate properties with calm clarity — architecture, location, and long-term yield.",
-            cta="Book a showing",
-            cards=[
-                ("Residential search", "Private shortlists matched to lifestyle and budget."),
-                ("Investment analysis", "Simple yield framing before you commit capital."),
-                ("Off-market access", "Quiet introductions when discretion matters."),
-            ],
-            tool_title="Yield sketch",
-            tool_body="Adjust assumed purchase price to sketch an annual net yield at 8.5%.",
-            tool_html='<div class="tool-val" id="tool-val">$2,500,000 · ~$212,500 / yr</div><input type="range" min="500000" max="12000000" step="100000" value="2500000" oninput="updateTool(this.value)">',
-            tool_js="function updateTool(v){ const y=Math.round(v*0.085); document.getElementById('tool-val').innerText = '$' + parseInt(v).toLocaleString() + ' · ~$' + y.toLocaleString() + ' / yr'; }",
-            modal_title="Showing request",
-        )
+    # ================================================================== SPA
+    def _spa(self, name: str, cat: str, city: str, phone: str) -> str:
+        n, c, p = self._esc(name), self._esc(city), self._esc(phone)
+        cards = self._cards([
+            ("Facial rituals", "Skin-first protocols with unhurried pacing."),
+            ("Body treatments", "Tension release and recovery in quiet rooms."),
+            ("Membership calm", "Recurring care without membership pressure theater."),
+        ])
+        return f"""<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{n} · Sanctuary · {c}</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600&family=Nunito+Sans:wght@300;400;600;700&display=swap');
+:root{{--bg:#F8F1EC;--ink:#3D2C29;--mute:#8A736C;--line:#E8D8D0;--rose:#C9897B;--cream:#FFFCF9}}
+*{{box-sizing:border-box;margin:0;padding:0}}
+body{{font-family:'Nunito Sans',sans-serif;background:var(--bg);color:var(--ink);line-height:1.8}}
+.nav{{display:flex;justify-content:space-between;align-items:center;padding:22px 7vw;background:rgba(248,241,236,.9);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}}
+.logo{{font-family:'Cormorant',serif;font-size:1.7rem;font-weight:500;text-decoration:none;color:var(--ink)}}
+.btn{{background:var(--rose);color:#fff;border:0;padding:12px 20px;border-radius:999px;font-weight:700;cursor:pointer}}
+.hero{{padding:70px 7vw;display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:center}}
+@media(max-width:900px){{.hero{{grid-template-columns:1fr;padding:40px 6vw}}}}
+.k{{color:var(--rose);letter-spacing:.18em;text-transform:uppercase;font-size:.72rem;font-weight:700;margin-bottom:12px}}
+h1{{font-family:'Cormorant',serif;font-size:clamp(2.4rem,5vw,3.8rem);font-weight:500;line-height:1.12;margin-bottom:14px}}
+.lead{{color:var(--mute);margin-bottom:24px;font-weight:300;font-size:1.05rem}}
+.blob{{min-height:340px;border-radius:40% 60% 55% 45% / 50% 40% 60% 50%;background:
+ radial-gradient(circle at 30% 30%, #fff, transparent 45%),
+ linear-gradient(160deg,#E7C4B8,#F3E0D6 55%, #D9B7A8);border:1px solid var(--line)}}
+.section{{padding:20px 7vw 70px}}
+.section h2{{font-family:'Cormorant',serif;font-size:2.2rem;font-weight:500;margin-bottom:8px}}
+.sub{{color:var(--mute);margin-bottom:22px}}
+.grid{{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}}
+@media(max-width:900px){{.grid{{grid-template-columns:1fr}}}}
+.card{{background:var(--cream);border:1px solid var(--line);border-radius:24px;padding:24px}}
+.card h3{{font-family:'Cormorant',serif;font-size:1.45rem;font-weight:500;margin-bottom:8px}}
+.card p{{color:var(--mute);font-weight:300}}
+.tool{{margin:0 7vw 70px;background:var(--cream);border:1px solid var(--line);border-radius:28px;padding:36px;text-align:center}}
+.val{{font-family:'Cormorant',serif;font-size:2.2rem;color:var(--rose);margin:12px 0}}
+input[type=range]{{width:min(100%,400px);accent-color:var(--rose)}}
+footer{{padding:40px 7vw;text-align:center;color:var(--mute);border-top:1px solid var(--line)}}
+.modal{{display:none;position:fixed;inset:0;background:rgba(61,44,41,.35);align-items:center;justify-content:center;padding:18px;z-index:40}}
+.modal.open{{display:flex}}
+.modal-card{{background:var(--cream);border-radius:22px;padding:28px;width:min(440px,100%);position:relative;border:1px solid var(--line)}}
+.modal-card input{{width:100%;margin:8px 0;padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff}}
+.close{{position:absolute;right:12px;top:8px;border:0;background:none;font-size:1.4rem;cursor:pointer;color:var(--mute)}}
+</style></head><body>
+<nav><a class="logo" href="#">{n}</a><button class="btn" onclick="openM()">Book ritual</button></nav>
+<section class="hero">
+  <div>
+    <div class="k">Sanctuary · {c}</div>
+    <h1>Soft rooms. Slow rituals. Skin that looks rested.</h1>
+    <p class="lead">{n} is a wellness house for people who want restoration without clinical coldness or flashy spa clichés.</p>
+    <button class="btn" onclick="openM()">Reserve a treatment</button>
+  </div>
+  <div class="blob" aria-hidden="true"></div>
+</section>
+<section class="section">
+  <h2>Rituals</h2>
+  <p class="sub">Wellness design: blush, cream, organic curves — parasympathetic, not promotional neon.</p>
+  <div class="grid">{cards}</div>
+</section>
+<section class="tool">
+  <div class="k">Session length</div>
+  <h2 style="font-family:'Cormorant',serif;font-size:1.8rem;font-weight:500;margin:8px 0">How long do you want to unplug?</h2>
+  <div class="val" id="v">75 minutes</div>
+  <input type="range" min="45" max="120" step="15" value="75" oninput="document.getElementById('v').textContent=this.value+' minutes'">
+  <div style="margin-top:16px"><button class="btn" onclick="openM()">Book this length</button></div>
+</section>
+<footer>{n} · {c} · {p}</footer>
+<div class="modal" id="m"><div class="modal-card">
+  <button class="close" onclick="closeM()">×</button>
+  <h3 style="font-family:'Cormorant',serif;font-size:1.6rem;margin-bottom:8px">Treatment request</h3>
+  <form onsubmit="event.preventDefault();closeM();alert('Request received by {n}.');">
+    <input placeholder="Name *" required><input placeholder="Phone *" required><input placeholder="Treatment interest">
+    <button class="btn" style="width:100%;margin-top:8px">Send</button>
+  </form>
+</div></div>
+<script>function openM(){{document.getElementById('m').classList.add('open')}}function closeM(){{document.getElementById('m').classList.remove('open')}}</script>
+</body></html>"""
 
-    def _generate_universal_dynamic_site(self, name: str, cat: str, city: str, phone: str) -> str:
-        cat_title = (cat or "Professional Services").title()
-        return self._shell(
-            name=name,
-            city=city,
-            phone=phone,
-            title=f"{name} · {cat_title} · {city}",
-            kicker=cat_title,
-            headline=f"A clearer digital<br>home for {cat_title.lower()}",
-            lead=f"{name} serves clients in {city} with a focused offer, trustworthy presentation, and a booking path that feels simple.",
-            cta="Get in touch",
-            cards=[
-                ("Signature service", f"Core {cat_title.lower()} work delivered with consistency and care."),
-                ("Client experience", "Transparent communication from inquiry to completion."),
-                ("Local presence", f"Built for people searching in and around {city}."),
-            ],
-            tool_title="Engagement scale",
-            tool_body="Slide to indicate the approximate size of project you have in mind.",
-            tool_html='<div class="tool-val" id="tool-val">Medium engagement</div><input type="range" min="1" max="5" value="3" oninput="updateTool(this.value)">',
-            tool_js="function updateTool(v){ const m={1:'Starter',2:'Focused',3:'Medium engagement',4:'Growth',5:'Enterprise'}; document.getElementById('tool-val').innerText = m[v]||'Medium engagement'; }",
-            modal_title="Contact request",
-        )
+    # ================================================================== JEWELRY
+    def _jewelry(self, name: str, cat: str, city: str, phone: str) -> str:
+        n, c, p = self._esc(name), self._esc(city), self._esc(phone)
+        return f"""<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{n} · Atelier · {c}</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,500;6..96,600&family=Inter:wght@300;400;500;600&display=swap');
+:root{{--bg:#0E0E0F;--ink:#F7F3EA;--mute:#A39E93;--line:rgba(247,243,234,.14);--gold:#C2A46B}}
+*{{box-sizing:border-box;margin:0;padding:0}}
+body{{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);line-height:1.75}}
+.nav{{display:flex;justify-content:space-between;align-items:center;padding:22px 7vw;border-bottom:1px solid var(--line)}}
+.logo{{font-family:'Bodoni Moda',serif;font-size:1.5rem;letter-spacing:.08em;text-decoration:none;color:var(--ink)}}
+.btn{{border:1px solid var(--gold);color:var(--gold);background:transparent;padding:11px 18px;letter-spacing:.12em;text-transform:uppercase;font-size:.68rem;cursor:pointer}}
+.btn.fill{{background:var(--gold);color:#111}}
+.hero{{padding:90px 7vw;text-align:center;border-bottom:1px solid var(--line)}}
+.k{{color:var(--gold);letter-spacing:.28em;text-transform:uppercase;font-size:.7rem;margin-bottom:18px}}
+h1{{font-family:'Bodoni Moda',serif;font-size:clamp(2.6rem,6vw,4.4rem);font-weight:500;line-height:1.08;margin-bottom:16px}}
+.lead{{color:var(--mute);max-width:34rem;margin:0 auto 28px;font-weight:300}}
+.ring{{width:min(280px,70vw);height:min(280px,70vw);margin:30px auto 10px;border-radius:50%;border:1px solid var(--gold);box-shadow:inset 0 0 0 18px rgba(194,164,107,.08);position:relative}}
+.ring:after{{content:"";position:absolute;inset:28%;border-radius:50%;border:1px solid rgba(194,164,107,.35)}}
+.section{{padding:70px 7vw}}
+.grid{{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}}
+@media(max-width:900px){{.grid{{grid-template-columns:1fr}}}}
+.card{{border:1px solid var(--line);padding:26px;text-align:center}}
+.card h3{{font-family:'Bodoni Moda',serif;font-size:1.5rem;font-weight:500;margin-bottom:8px;color:var(--gold)}}
+.card p{{color:var(--mute);font-weight:300;font-size:.95rem}}
+.tool{{margin:0 7vw 70px;border:1px solid var(--line);padding:40px;text-align:center}}
+.val{{font-family:'Bodoni Moda',serif;font-size:2.2rem;color:var(--gold);margin:12px 0}}
+input[type=range]{{width:min(100%,400px);accent-color:var(--gold)}}
+footer{{padding:40px 7vw;border-top:1px solid var(--line);text-align:center;color:var(--mute);font-weight:300}}
+.modal{{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);align-items:center;justify-content:center;padding:18px;z-index:40}}
+.modal.open{{display:flex}}
+.modal-card{{background:#141414;border:1px solid var(--line);padding:28px;width:min(440px,100%);position:relative}}
+.modal-card input{{width:100%;margin:8px 0;padding:12px;background:#0E0E0F;border:1px solid var(--line);color:var(--ink)}}
+.close{{position:absolute;right:12px;top:8px;border:0;background:none;color:var(--mute);font-size:1.4rem;cursor:pointer}}
+</style></head><body>
+<nav><a class="logo" href="#">{n}</a><button class="btn" onclick="openM()">Private viewing</button></nav>
+<section class="hero">
+  <div class="k">High jewelry · {c}</div>
+  <h1>Quiet brilliance. Precise craft.</h1>
+  <p class="lead">{n} presents jewels with atelier restraint — black field, ivory type, thin gold lines. Luxury that whispers.</p>
+  <div class="ring" aria-hidden="true"></div>
+  <button class="btn fill" onclick="openM()">Request a viewing</button>
+</section>
+<section class="section">
+  <div class="grid">
+    <article class="card"><h3>Bridal</h3><p>Engagement studies and eternity lines with measured sparkle.</p></article>
+    <article class="card"><h3>Atelier custom</h3><p>Bespoke commissions guided by stone, proportion, and story.</p></article>
+    <article class="card"><h3>Heritage service</h3><p>Resetting, polishing, and confidential evaluations.</p></article>
+  </div>
+</section>
+<section class="tool">
+  <div class="k">Carat conversation</div>
+  <h2 style="font-family:'Bodoni Moda',serif;font-size:1.8rem;font-weight:500;margin:8px 0">Center-stone preference</h2>
+  <div class="val" id="v">1.50 ct</div>
+  <input type="range" min="50" max="500" value="150" oninput="document.getElementById('v').textContent=(this.value/100).toFixed(2)+' ct'">
+  <div style="margin-top:16px"><button class="btn fill" onclick="openM()">Discuss this stone</button></div>
+</section>
+<footer>{n} · {c} · {p}</footer>
+<div class="modal" id="m"><div class="modal-card">
+  <button class="close" onclick="closeM()">×</button>
+  <h3 style="font-family:'Bodoni Moda',serif;font-size:1.5rem;margin-bottom:8px">Private viewing</h3>
+  <form onsubmit="event.preventDefault();closeM();alert('Viewing request sent to {n}.');">
+    <input placeholder="Name *" required><input placeholder="Phone *" required><input placeholder="Interest (bridal / custom / service)">
+    <button class="btn fill" style="width:100%;margin-top:8px">Send</button>
+  </form>
+</div></div>
+<script>function openM(){{document.getElementById('m').classList.add('open')}}function closeM(){{document.getElementById('m').classList.remove('open')}}</script>
+</body></html>"""
+
+    # ================================================================== WEALTH
+    def _wealth(self, name: str, cat: str, city: str, phone: str) -> str:
+        n, c, p = self._esc(name), self._esc(city), self._esc(phone)
+        cards = self._cards([
+            ("Portfolio architecture", "Allocation frameworks matched to time horizon and risk."),
+            ("Family office liaison", "Multi-generational planning with discreet coordination."),
+            ("Liquidity events", "Pre- and post-exit structuring conversations."),
+        ])
+        return f"""<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{n} · Private advisory · {c}</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
+:root{{--bg:#F2EFE8;--ink:#171A21;--mute:#667084;--line:#D9D3C7;--navy:#18233A;--gold:#8E7340}}
+*{{box-sizing:border-box;margin:0;padding:0}}
+body{{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--ink);line-height:1.75}}
+.nav{{display:flex;justify-content:space-between;align-items:center;padding:20px 7vw;background:rgba(242,239,232,.94);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}}
+.logo{{font-family:'Newsreader',serif;font-size:1.35rem;text-decoration:none;color:var(--navy);font-weight:600}}
+.btn{{background:var(--navy);color:#fff;border:0;padding:12px 18px;font-size:.78rem;font-weight:600;letter-spacing:.04em;cursor:pointer}}
+.hero{{padding:70px 7vw;display:grid;grid-template-columns:1.15fr .85fr;gap:36px;align-items:center}}
+@media(max-width:900px){{.hero{{grid-template-columns:1fr;padding:40px 6vw}}}}
+.k{{color:var(--gold);font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;margin-bottom:12px}}
+h1{{font-family:'Newsreader',serif;font-size:clamp(2.2rem,4.5vw,3.3rem);line-height:1.15;color:var(--navy);margin-bottom:14px;font-weight:600}}
+.lead{{color:var(--mute);margin-bottom:24px;font-weight:300;max-width:34rem}}
+.panel{{background:#FFFEFA;border:1px solid var(--line);padding:26px}}
+.panel h3{{font-family:'Newsreader',serif;font-size:1.35rem;margin-bottom:8px;color:var(--navy)}}
+.section{{padding:20px 7vw 70px}}
+.section h2{{font-family:'Newsreader',serif;font-size:2rem;color:var(--navy);margin-bottom:8px}}
+.sub{{color:var(--mute);margin-bottom:22px}}
+.grid{{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}}
+@media(max-width:900px){{.grid{{grid-template-columns:1fr}}}}
+.card{{background:#FFFEFA;border:1px solid var(--line);padding:22px}}
+.card h3{{font-family:'Newsreader',serif;font-size:1.15rem;margin-bottom:8px;color:var(--navy)}}
+.card p{{color:var(--mute);font-weight:300}}
+.tool{{margin:0 7vw 70px;background:#FFFEFA;border:1px solid var(--line);padding:34px;text-align:center}}
+.val{{font-family:'Newsreader',serif;font-size:2rem;color:var(--gold);margin:12px 0}}
+input[type=range]{{width:min(100%,420px);accent-color:var(--navy)}}
+footer{{background:var(--navy);color:#B7BFCLE;color:#B7BFC9;padding:40px 7vw;text-align:center}}
+.modal{{display:none;position:fixed;inset:0;background:rgba(23,26,33,.45);align-items:center;justify-content:center;padding:18px;z-index:40}}
+.modal.open{{display:flex}}
+.modal-card{{background:#FFFEFA;padding:28px;width:min(440px,100%);border:1px solid var(--line);position:relative}}
+.modal-card input{{width:100%;margin:8px 0;padding:12px;border:1px solid var(--line)}}
+.close{{position:absolute;right:12px;top:8px;border:0;background:none;font-size:1.4rem;cursor:pointer;color:var(--mute)}}
+</style></head><body>
+<nav><a class="logo" href="#">{n}</a><button class="btn" onclick="openM()">Private intro</button></nav>
+<section class="hero">
+  <div>
+    <div class="k">Private advisory · {c}</div>
+    <h1>Stewardship for capital that must outlast the moment.</h1>
+    <p class="lead">{n} works with families and principals who prefer measured process, plain language, and rooms that feel like a private bank — not a fintech billboard.</p>
+    <button class="btn" onclick="openM()">Request an introduction</button>
+  </div>
+  <aside class="panel">
+    <div class="k">Desk</div>
+    <h3>Confidential first meeting</h3>
+    <p style="color:var(--mute);margin-bottom:10px">Direct line: <strong style="color:var(--ink)">{p}</strong></p>
+    <p style="color:var(--mute);font-size:.92rem;font-weight:300">Design cues: parchment, navy, restrained brass — institutional calm.</p>
+  </aside>
+</section>
+<section class="section">
+  <h2>Advisory pillars</h2>
+  <p class="sub">Wealth UX: trust density over visual excitement.</p>
+  <div class="grid">{cards}</div>
+</section>
+<section class="tool">
+  <div class="k">Planning horizon</div>
+  <h2 style="font-family:'Newsreader',serif;font-size:1.6rem;color:var(--navy);margin:8px 0">Years under consideration</h2>
+  <div class="val" id="v">15-year horizon</div>
+  <input type="range" min="3" max="40" value="15" oninput="document.getElementById('v').textContent=this.value+'-year horizon'">
+  <div style="margin-top:16px"><button class="btn" onclick="openM()">Discuss this horizon</button></div>
+</section>
+<footer>{n}<br>{c} · {p}</footer>
+<div class="modal" id="m"><div class="modal-card">
+  <button class="close" onclick="closeM()">×</button>
+  <h3 style="font-family:'Newsreader',serif;margin-bottom:8px">Private introduction</h3>
+  <form onsubmit="event.preventDefault();closeM();alert('Introduction request received by {n}.');">
+    <input placeholder="Name *" required><input placeholder="Phone *" required><input placeholder="Context (family / liquidity / portfolio)">
+    <button class="btn" style="width:100%;margin-top:8px">Submit</button>
+  </form>
+</div></div>
+<script>function openM(){{document.getElementById('m').classList.add('open')}}function closeM(){{document.getElementById('m').classList.remove('open')}}</script>
+</body></html>"""
+
+    # ================================================================== UNIVERSAL
+    def _universal(self, name: str, cat: str, city: str, phone: str) -> str:
+        n, c, p = self._esc(name), self._esc(city), self._esc(phone)
+        cat_title = self._esc((cat or "Professional Services").title())
+        cards = self._cards([
+            (f"Core {cat_title}", f"Signature {cat_title.lower()} work delivered with consistency."),
+            ("Client path", "Clear inquiry → consult → delivery without friction."),
+            ("Local trust", f"Built for people searching around {c}."),
+        ])
+        # Distinct from LeadFlow product: deep ink + electric indigo accent (not cyan neon)
+        return f"""<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{n} · {cat_title} · {c}</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;600&display=swap');
+:root{{--bg:#F4F6FB;--ink:#12141C;--mute:#5C6478;--line:#D9DEEA;--ind:#3B4CCA;--soft:#E8EBFF}}
+*{{box-sizing:border-box;margin:0;padding:0}}
+body{{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}}
+.nav{{display:flex;justify-content:space-between;align-items:center;padding:18px 6vw;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}}
+.logo{{font-family:'Sora',sans-serif;font-weight:700;text-decoration:none;color:var(--ink)}}
+.btn{{background:var(--ind);color:#fff;border:0;padding:12px 18px;border-radius:12px;font-weight:700;cursor:pointer}}
+.hero{{padding:70px 6vw;display:grid;grid-template-columns:1.15fr .85fr;gap:28px;align-items:center}}
+@media(max-width:900px){{.hero{{grid-template-columns:1fr;padding:40px 6vw}}}}
+.k{{display:inline-block;background:var(--soft);color:var(--ind);padding:6px 10px;border-radius:999px;font-size:.75rem;font-weight:700;margin-bottom:12px}}
+h1{{font-family:'Sora',sans-serif;font-size:clamp(2rem,4vw,3rem);line-height:1.15;margin-bottom:14px}}
+.lead{{color:var(--mute);margin-bottom:22px;max-width:34rem}}
+.panel{{background:#fff;border:1px solid var(--line);border-radius:20px;padding:24px}}
+.section{{padding:20px 6vw 70px}}
+.section h2{{font-family:'Sora',sans-serif;font-size:1.7rem;margin-bottom:8px}}
+.sub{{color:var(--mute);margin-bottom:20px}}
+.grid{{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}}
+@media(max-width:900px){{.grid{{grid-template-columns:1fr}}}}
+.card{{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px}}
+.card h3{{font-family:'Sora',sans-serif;font-size:1.05rem;margin-bottom:8px}}
+.card p{{color:var(--mute)}}
+.tool{{margin:0 6vw 70px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:32px;text-align:center}}
+.val{{font-family:'Sora',sans-serif;font-size:1.8rem;color:var(--ind);margin:12px 0}}
+input[type=range]{{width:min(100%,400px);accent-color:var(--ind)}}
+footer{{padding:36px 6vw;border-top:1px solid var(--line);text-align:center;color:var(--mute);background:#fff}}
+.modal{{display:none;position:fixed;inset:0;background:rgba(18,20,28,.4);align-items:center;justify-content:center;padding:18px;z-index:40}}
+.modal.open{{display:flex}}
+.modal-card{{background:#fff;border-radius:18px;padding:26px;width:min(440px,100%);position:relative;border:1px solid var(--line)}}
+.modal-card input{{width:100%;margin:8px 0;padding:12px;border:1px solid var(--line);border-radius:10px}}
+.close{{position:absolute;right:12px;top:8px;border:0;background:none;font-size:1.4rem;cursor:pointer;color:var(--mute)}}
+</style></head><body>
+<nav><a class="logo" href="#">{n}</a><button class="btn" onclick="openM()">Contact</button></nav>
+<section class="hero">
+  <div>
+    <div class="k">{cat_title} · {c}</div>
+    <h1>A sharper digital front door for {cat_title.lower()}</h1>
+    <p class="lead">{n} helps clients in {c} understand the offer fast, trust the process, and take the next step without friction.</p>
+    <button class="btn" onclick="openM()">Start a conversation</button>
+  </div>
+  <aside class="panel">
+    <div class="k">Studio notes</div>
+    <h3 style="font-family:'Sora',sans-serif;margin:8px 0">Category-tuned layout</h3>
+    <p style="color:var(--mute)">This template deliberately does <em>not</em> copy the LeadFlow product skin. Indigo studio system for general services.</p>
+    <p style="margin-top:12px;color:var(--mute)">Line: <strong style="color:var(--ink)">{p}</strong></p>
+  </aside>
+</section>
+<section class="section">
+  <h2>What clients get</h2>
+  <p class="sub">Clear modules, product-like spacing, conversion-focused CTA.</p>
+  <div class="grid">{cards}</div>
+</section>
+<section class="tool">
+  <div class="k">Engagement size</div>
+  <h2 style="font-family:'Sora',sans-serif;font-size:1.4rem;margin:8px 0">Project scale</h2>
+  <div class="val" id="v">Medium</div>
+  <input type="range" min="1" max="5" value="3" oninput="const m={{1:'Starter',2:'Focused',3:'Medium',4:'Growth',5:'Enterprise'}};document.getElementById('v').textContent=m[this.value]">
+  <div style="margin-top:16px"><button class="btn" onclick="openM()">Match me to a plan</button></div>
+</section>
+<footer>{n} · {c} · {p}</footer>
+<div class="modal" id="m"><div class="modal-card">
+  <button class="close" onclick="closeM()">×</button>
+  <h3 style="font-family:'Sora',serif;font-family:'Sora',sans-serif;margin-bottom:8px">Contact</h3>
+  <form onsubmit="event.preventDefault();closeM();alert('Message sent to {n}.');">
+    <input placeholder="Name *" required><input placeholder="Phone *" required><input placeholder="What do you need?">
+    <button class="btn" style="width:100%;margin-top:8px">Send</button>
+  </form>
+</div></div>
+<script>function openM(){{document.getElementById('m').classList.add('open')}}function closeM(){{document.getElementById('m').classList.remove('open')}}</script>
+</body></html>"""
 
 
 if __name__ == "__main__":
     g = ShadowInfiltrator()
-    print(g.generate_luxury_site("Apex Dental Lounge", "Dental Clinic", "Toronto", "+1 416 555 0199")["live_cloud_demo_url"])
+    for args in [
+        ("Apex Dental Lounge", "Dental Clinic", "Toronto", "+1 416 555 0199"),
+        ("Lumiere Fine Dining", "Restaurant", "Paris", "+33 1 42 68 55 00"),
+        ("Vanguard Legal Counsel", "Law Firm", "New York", "+1 212 555 0100"),
+        ("Skyline Real Estate", "Real Estate", "Dubai", "+971 4 318 8888"),
+        ("Titan Elite Performance Gym", "Gym", "London", "+44 20 5555 0100"),
+        ("Aura Aesthetic Spa", "Spa", "Munich", "+49 89 555 0100"),
+        ("Royal Crown Fine Jewelry", "Jewelry", "Singapore", "+65 6555 0100"),
+        ("Horizon Private Wealth Advisory", "Wealth", "Melbourne", "+61 3 5550 0100"),
+    ]:
+        r = g.generate_luxury_site(*args)
+        print(r["industry_paradigm_applied"], "->", r["live_cloud_demo_url"])

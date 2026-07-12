@@ -1,192 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vanguard Corporate & Civil Law · Legal Counsel · New York</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
-        :root {
-            --bg: #FBFBF9; --stone: #F2EFE9; --card: #FFFFFF; --charcoal: #18181B;
-            --slate: #475569; --muted: #78716C; --champagne: #B8860B; --border: #E5E0D8;
-            --font-serif: 'Cinzel', serif; --font-sans: 'Plus Jakarta Sans', sans-serif; --font-mono: 'JetBrains Mono', monospace;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-sans); }
-        body { background: var(--bg); color: var(--charcoal); line-height: 1.75; border-top: 4px solid var(--charcoal); }
-        header {
-            display: flex; justify-content: space-between; align-items: center; gap: 16px;
-            padding: 22px 48px; border-bottom: 1px solid var(--border); background: rgba(251,251,249,0.96);
-            position: sticky; top: 0; z-index: 50;
-        }
-        @media (max-width: 720px) { header { padding: 16px 18px; flex-direction: column; } }
-        .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
-        .mark { width: 34px; height: 34px; background: var(--charcoal); color: #fff; display: flex; align-items: center; justify-content: center; font-family: var(--font-serif); font-weight: 700; }
-        .brand-text { font-family: var(--font-serif); letter-spacing: 3px; font-weight: 800; font-size: 16px; }
-        .btn {
-            border: 1px solid var(--charcoal); background: var(--charcoal); color: #fff;
-            padding: 12px 20px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px;
-            text-transform: uppercase; cursor: pointer; text-decoration: none; display: inline-flex;
-        }
-        .btn:hover { background: var(--champagne); color: #000; }
-        .btn-ghost { background: transparent; color: var(--charcoal); }
-        .btn-ghost:hover { background: var(--stone); color: var(--charcoal); }
-        .hero {
-            max-width: 1180px; margin: 0 auto; padding: 72px 24px 64px;
-            display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: center;
-            border-bottom: 1px solid var(--border);
-        }
-        @media (max-width: 900px) { .hero { grid-template-columns: 1fr; padding: 40px 20px; } }
-        .kicker {
-            font-family: var(--font-mono); font-size: 11px; letter-spacing: 2.5px; color: var(--champagne);
-            text-transform: uppercase; font-weight: 700; margin-bottom: 14px;
-        }
-        h1 { font-size: 44px; line-height: 1.15; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 16px; }
-        @media (max-width: 640px) { h1 { font-size: 32px; } }
-        h1 em { font-family: var(--font-serif); font-style: italic; font-weight: 700; color: #0F172A; }
-        .lead { color: var(--slate); font-size: 16px; max-width: 560px; margin-bottom: 28px; }
-        .actions { display: flex; gap: 12px; flex-wrap: wrap; }
-        .panel {
-            background: var(--stone); border: 1px solid var(--border); padding: 28px;
-        }
-        .panel h3 { font-family: var(--font-serif); font-size: 20px; margin-bottom: 8px; }
-        .panel p { color: var(--slate); font-size: 14px; margin-bottom: 18px; }
-        .section { max-width: 1180px; margin: 0 auto; padding: 64px 24px; }
-        .section h2 { font-size: 30px; font-weight: 800; margin-bottom: 8px; }
-        .section .sub { color: var(--slate); margin-bottom: 28px; }
-        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-        @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
-        .card { background: #fff; border: 1px solid var(--border); padding: 24px; }
-        .card-kicker { font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 1px; margin-bottom: 10px; }
-        .card h3 { font-size: 18px; margin-bottom: 8px; }
-        .card p { color: var(--slate); font-size: 14px; }
-        .tool {
-            max-width: 900px; margin: 0 auto; background: #fff; border: 1px solid var(--border);
-            padding: 36px; text-align: center;
-        }
-        .tool .kicker { margin-bottom: 10px; }
-        .tool h2 { font-size: 28px; margin-bottom: 10px; }
-        .tool p { color: var(--slate); margin-bottom: 18px; }
-        .tool input[type=range] { width: min(100%, 520px); accent-color: var(--charcoal); margin: 14px 0 20px; }
-        .tool-val { font-family: var(--font-serif); font-size: 36px; font-weight: 700; margin: 8px 0 6px; }
-        footer {
-            border-top: 1px solid var(--border); padding: 40px 24px; text-align: center; color: var(--muted); font-size: 13px;
-            background: #fff;
-        }
-        footer strong { color: var(--charcoal); }
-        .modal-bg {
-            display: none; position: fixed; inset: 0; background: rgba(24,24,27,0.45);
-            align-items: center; justify-content: center; padding: 18px; z-index: 100;
-        }
-        .modal-bg.open { display: flex; }
-        .modal { width: min(480px, 100%); background: #fff; border: 1px solid var(--border); padding: 28px; position: relative; }
-        .modal h3 { font-family: var(--font-serif); font-size: 22px; margin-bottom: 8px; }
-        .modal p { color: var(--slate); font-size: 14px; margin-bottom: 16px; }
-        .modal input, .modal select {
-            width: 100%; border: 1px solid var(--border); background: var(--bg); padding: 12px 14px;
-            margin-bottom: 12px; font-size: 14px; outline: none;
-        }
-        .modal input:focus, .modal select:focus { border-color: var(--charcoal); background: #fff; }
-        .close { position: absolute; top: 12px; right: 14px; border: 0; background: transparent; font-size: 22px; cursor: pointer; color: var(--muted); }
-    </style>
-</head>
-<body>
-    <header>
-        <a class="brand" href="#">
-            <div class="mark">L</div>
-            <div class="brand-text">VANGUARD CORPORATE</div>
-        </a>
-        <button class="btn" onclick="openModal()">Request consultation</button>
-    </header>
-
-    <section class="hero">
-        <div>
-            <div class="kicker">Counsel · New York</div>
-            <h1>Clear advocacy.<br>Measured strategy.</h1>
-            <p class="lead">Vanguard Corporate & Civil Law represents clients in New York with disciplined preparation, direct communication, and discreet handling of complex matters.</p>
-            <div class="actions">
-                <button class="btn" onclick="openModal()">Request consultation</button>
-                <a class="btn btn-ghost" href="#services">View services</a>
-            </div>
-        </div>
-        <div class="panel">
-            <div class="kicker">At a glance</div>
-            <h3>Vanguard Corporate & Civil Law</h3>
-            <p>Premium local presence for clients in New York. Built as a clean editorial website — easy to read, easy to book, easy to trust.</p>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-                <div style="background:#fff;border:1px solid var(--border);padding:14px;">
-                    <div style="font-family:var(--font-serif);font-size:24px;font-weight:700;">4.9</div>
-                    <div style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">Client rating</div>
-                </div>
-                <div style="background:#fff;border:1px solid var(--border);padding:14px;">
-                    <div style="font-family:var(--font-serif);font-size:24px;font-weight:700;">24h</div>
-                    <div style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">Response goal</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section" id="services">
-        <h2>What we offer</h2>
-        <p class="sub">Clear services presented with editorial restraint — no neon chrome, no visual noise.</p>
-        <div class="grid">
-            <div class="card">
-                <div class="card-kicker">01</div>
-                <h3>Dispute resolution</h3>
-                <p>Commercial and civil matters handled with structured case planning.</p>
-            </div>
-            <div class="card">
-                <div class="card-kicker">02</div>
-                <h3>Advisory</h3>
-                <p>Contracts, governance, and risk guidance before conflict escalates.</p>
-            </div>
-            <div class="card">
-                <div class="card-kicker">03</div>
-                <h3>Confidential matters</h3>
-                <p>Private engagement model for executives and family offices.</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="section">
-        <div class="tool">
-            <div class="kicker">Interactive preview</div>
-            <h2>Case scale indicator</h2>
-            <p>Slide to express approximate dispute scale for a confidential intake conversation.</p>
-            <div class="tool-val" id="tool-val">$1,500,000 matter scale</div><input type="range" min="100000" max="10000000" step="100000" value="1500000" oninput="updateTool(this.value)">
-            <div style="margin-top:18px;">
-                <button class="btn" onclick="openModal()">Continue with Vanguard Corporate & Civil Law</button>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <div style="font-family:var(--font-serif);font-size:20px;color:var(--charcoal);margin-bottom:8px;">Vanguard Corporate & Civil Law</div>
-        <div>New York · Direct line: <strong>+1 (555) 010-0000</strong></div>
-        <div style="margin-top:10px;">Preview site prepared with LeadFlow editorial engine</div>
-    </footer>
-
-    <div class="modal-bg" id="modal">
-        <div class="modal">
-            <button class="close" onclick="closeModal()">×</button>
-            <h3>Confidential inquiry</h3>
-            <p>Share your details and the Vanguard Corporate & Civil Law team will follow up.</p>
-            <form onsubmit="handleBooking(event)">
-                <input type="text" placeholder="Full name *" required>
-                <input type="tel" placeholder="Phone / WhatsApp *" required>
-                <input type="email" placeholder="Email (optional)">
-                <button class="btn" style="width:100%;justify-content:center;" type="submit">Submit request</button>
-            </form>
-        </div>
-    </div>
-
-    <script>
-        function openModal() { document.getElementById('modal').classList.add('open'); }
-        function closeModal() { document.getElementById('modal').classList.remove('open'); }
-        function handleBooking(e) {
-            e.preventDefault(); closeModal();
-            alert('Thank you. Your request for Vanguard Corporate & Civil Law has been recorded.');
-        }
-        function updateTool(v){ document.getElementById('tool-val').innerText = '$' + parseInt(v).toLocaleString() + ' matter scale'; }
-    </script>
-</body>
-</html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vanguard Corporate &amp; Civil Law · Counsel · New York</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@400;600;700&display=swap');
+:root{--bg:#F7F4EF;--ink:#1B1A17;--mute:#6B6560;--line:#E4DDD2;--navy:#1F2A44;--brass:#9C7A3C}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--ink);line-height:1.75}
+header{display:flex;justify-content:space-between;align-items:center;padding:26px 8vw;border-bottom:1px solid var(--line);background:#FFFEFB;position:sticky;top:0;z-index:10}
+.logo{font-family:'Libre Baskerville',serif;font-size:1.15rem;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;color:var(--navy)}
+.btn{background:var(--navy);color:#fff;border:0;padding:12px 18px;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+.btn.gold{background:var(--brass);color:#fff}
+.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:48px;padding:80px 8vw;align-items:start;border-bottom:1px solid var(--line);background:#FFFEFB}
+@media(max-width:900px){.hero{grid-template-columns:1fr;padding:40px 6vw}}
+.k{color:var(--brass);font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:14px}
+h1{font-family:'Libre Baskerville',serif;font-size:clamp(2rem,4vw,3.2rem);line-height:1.2;color:var(--navy);margin-bottom:18px}
+.lead{color:var(--mute);max-width:34rem;margin-bottom:28px;font-size:1.05rem}
+.panel{border:1px solid var(--line);background:var(--bg);padding:28px}
+.panel h3{font-family:'Libre Baskerville',serif;font-size:1.25rem;margin-bottom:10px;color:var(--navy)}
+.section{padding:64px 8vw}
+.section h2{font-family:'Libre Baskerville',serif;font-size:1.9rem;color:var(--navy);margin-bottom:8px}
+.sub{color:var(--mute);margin-bottom:24px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+.card{background:#FFFEFB;border:1px solid var(--line);padding:24px}
+.card h3{font-family:'Libre Baskerville',serif;font-size:1.15rem;margin-bottom:8px;color:var(--navy)}
+.card p{color:var(--mute)}
+.tool{margin:0 8vw 70px;background:#FFFEFB;border:1px solid var(--line);padding:36px;text-align:center}
+.val{font-family:'Libre Baskerville',serif;font-size:2rem;color:var(--brass);margin:12px 0}
+input[type=range]{width:min(100%,420px);accent-color:var(--navy)}
+footer{background:var(--navy);color:#C9C4B8;padding:42px 8vw;text-align:center}
+.modal{display:none;position:fixed;inset:0;background:rgba(27,26,23,.5);align-items:center;justify-content:center;padding:18px;z-index:40}
+.modal.open{display:flex}
+.modal-card{background:#FFFEFB;padding:28px;width:min(440px,100%);border:1px solid var(--line);position:relative}
+.modal-card input{width:100%;margin:8px 0;padding:12px;border:1px solid var(--line)}
+.close{position:absolute;right:12px;top:8px;border:0;background:none;font-size:1.4rem;cursor:pointer;color:var(--mute)}
+</style></head><body>
+<header><a class="logo" href="#">Vanguard Corporate &amp; Civil Law</a><button class="btn" onclick="openM()">Consultation</button></header>
+<section class="hero">
+  <div>
+    <div class="k">Counsel · New York</div>
+    <h1>Advocacy with composure. Strategy without theatrics.</h1>
+    <p class="lead">Vanguard Corporate &amp; Civil Law advises and represents clients who value preparation, discretion, and direct communication.</p>
+    <button class="btn gold" onclick="openM()">Schedule evaluation</button>
+  </div>
+  <aside class="panel">
+    <div class="k">Intake</div>
+    <h3>Privileged first conversation</h3>
+    <p style="color:var(--mute);margin-bottom:14px">Direct attorney line: <strong style="color:var(--ink)">+1 (555) 010-0000</strong></p>
+    <p style="color:var(--mute);font-size:.92rem">Legal design language: paper, brass, navy — authority that feels institutional, not flashy.</p>
+  </aside>
+</section>
+<section class="section">
+  <h2>Practice focus</h2>
+  <p class="sub">Structured for trust: long-form readability, serif headlines, zero gimmicks.</p>
+  <div class="grid"><article class="card"><h3>Disputes</h3><p>Commercial and civil matters with disciplined case architecture.</p></article>
+<article class="card"><h3>Counsel</h3><p>Contracts and governance before conflict becomes expensive.</p></article>
+<article class="card"><h3>Confidential matters</h3><p>Discreet engagement for executives and family offices.</p></article></div>
+</section>
+<section class="tool">
+  <div class="k">Matter scale</div>
+  <h2 style="font-family:'Libre Baskerville',serif;font-size:1.6rem;color:var(--navy);margin:8px 0">Confidential range indicator</h2>
+  <div class="val" id="v">$1,500,000 matter scale</div>
+  <input type="range" min="100000" max="10000000" step="100000" value="1500000" oninput="document.getElementById('v').textContent='$'+parseInt(this.value).toLocaleString()+' matter scale'">
+  <div style="margin-top:16px"><button class="btn" onclick="openM()">Begin confidential inquiry</button></div>
+</section>
+<footer>Vanguard Corporate &amp; Civil Law<br>New York · +1 (555) 010-0000</footer>
+<div class="modal" id="m"><div class="modal-card">
+  <button class="close" onclick="closeM()">×</button>
+  <h3 style="font-family:'Libre Baskerville',serif;margin-bottom:8px">Confidential inquiry</h3>
+  <form onsubmit="event.preventDefault();closeM();alert('Inquiry received by Vanguard Corporate &amp; Civil Law.');">
+    <input placeholder="Name *" required><input placeholder="Phone *" required><input placeholder="Brief matter summary">
+    <button class="btn" style="width:100%;margin-top:8px">Submit</button>
+  </form>
+</div></div>
+<script>function openM(){document.getElementById('m').classList.add('open')}function closeM(){document.getElementById('m').classList.remove('open')}</script>
+</body></html>
