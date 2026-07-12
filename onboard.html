@@ -3,595 +3,392 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LeadFlow.AI - Client Onboarding & Campaign Setup</title>
+    <title>LeadFlow.AI | Deploy Your First Agent</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
-        
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
         :root {
-            --bg-dark: #030712;
-            --bg-card: #0b1120;
-            --accent: #6366f1;
-            --accent-glow: rgba(99, 102, 241, 0.25);
-            --pink-accent: #ec4899;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --text-white: #f9fafb;
-            --text-gray: #9ca3af;
-            --border-color: #1f2937;
+            --bg-alabaster: #FBFBF9;
+            --surface-stone: #F2EFE9;
+            --surface-card: #FFFFFF;
+            --charcoal: #18181B;
+            --oxford: #0F172A;
+            --slate: #475569;
+            --muted: #78716C;
+            --champagne: #B8860B;
+            --champagne-light: #DFCA9D;
+            --emerald: #10B981;
+            --danger: #B91C1C;
+            --border: #E5E0D8;
+            --font-serif: 'Cinzel', serif;
+            --font-sans: 'Plus Jakarta Sans', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-sans); }
         body {
-            background-color: var(--bg-dark);
-            color: var(--text-white);
+            background: var(--bg-alabaster);
+            color: var(--charcoal);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            background-image: 
-                radial-gradient(circle at 15% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 85% 80%, rgba(236, 72, 153, 0.12) 0%, transparent 40%);
+            line-height: 1.7;
+            border-top: 4px solid var(--charcoal);
         }
 
-        /* Nav */
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 24px 60px;
-            border-bottom: 1px solid var(--border-color);
-            background: rgba(3, 7, 18, 0.8);
-            backdrop-filter: blur(10px);
-            position: sticky;
-            top: 0;
-            z-index: 100;
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 22px 48px; border-bottom: 1px solid var(--border);
+            background: rgba(251,251,249,0.96); backdrop-filter: blur(16px);
+            position: sticky; top: 0; z-index: 50;
         }
+        @media (max-width: 720px) { header { padding: 16px 20px; flex-direction: column; gap: 12px; } }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-            color: var(--text-white);
-            font-weight: 800;
-            font-size: 22px;
-            letter-spacing: -0.5px;
+        .brand-box { text-decoration: none; display: flex; align-items: center; gap: 12px; color: inherit; }
+        .brand-mark {
+            width: 36px; height: 36px; background: var(--charcoal); color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            font-family: var(--font-serif); font-size: 18px; font-weight: 700;
         }
-
-        .logo-icon {
-            background: linear-gradient(135deg, var(--accent), var(--pink-accent));
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 16px;
-            color: white;
-            box-shadow: 0 0 20px var(--accent-glow);
-        }
+        .brand-text { font-family: var(--font-serif); font-size: 18px; font-weight: 800; letter-spacing: 4px; }
 
         .back-link {
-            color: var(--text-gray);
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 600;
-            transition: color 0.2s;
+            color: var(--slate); text-decoration: none; font-size: 12px; font-weight: 700;
+            letter-spacing: 1.5px; text-transform: uppercase;
         }
+        .back-link:hover { color: var(--charcoal); }
 
-        .back-link:hover {
-            color: var(--text-white);
+        .container { max-width: 880px; margin: 0 auto; padding: 48px 24px 80px; }
+
+        .page-kicker {
+            font-family: var(--font-mono); font-size: 11px; letter-spacing: 3px;
+            color: var(--champagne); text-transform: uppercase; font-weight: 700; margin-bottom: 12px;
         }
-
-        /* Container */
-        .container {
-            max-width: 900px;
-            margin: 50px auto;
-            padding: 0 24px;
-            flex: 1;
-            width: 100%;
+        h1 {
+            font-size: 34px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 10px; line-height: 1.2;
         }
+        @media (max-width: 640px) { h1 { font-size: 26px; } }
+        .lead { color: var(--slate); font-size: 16px; max-width: 620px; margin-bottom: 36px; }
 
-        .header-section {
-            text-align: center;
-            margin-bottom: 40px;
+        .progress {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 28px;
         }
-
-        .header-section h1 {
-            font-size: 38px;
-            font-weight: 800;
-            margin-bottom: 12px;
-            background: linear-gradient(to right, #fff 40%, #a5b4fc, #ec4899);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .header-section p {
-            color: var(--text-gray);
-            font-size: 16px;
-        }
-
-        /* Step Progress */
-        .progress-bar {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 40px;
-            position: relative;
-        }
-
-        .progress-bar::before {
-            content: "";
-            position: absolute;
-            top: 20px;
-            left: 10%;
-            right: 10%;
-            height: 2px;
-            background: var(--border-color);
-            z-index: 1;
-        }
-
+        @media (max-width: 640px) { .progress { grid-template-columns: 1fr; } }
         .step {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-            z-index: 2;
+            border: 1px solid var(--border); background: #fff; padding: 14px 16px;
+            display: flex; align-items: center; gap: 12px;
         }
+        .step.active { border-color: var(--charcoal); background: var(--surface-stone); }
+        .step.completed { border-color: var(--emerald); }
+        .step-num {
+            width: 28px; height: 28px; border: 1px solid var(--charcoal);
+            display: flex; align-items: center; justify-content: center;
+            font-family: var(--font-mono); font-size: 12px; font-weight: 700; flex-shrink: 0;
+        }
+        .step.active .step-num { background: var(--charcoal); color: #fff; }
+        .step.completed .step-num { background: var(--emerald); border-color: var(--emerald); color: #fff; }
+        .step-label { font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); }
+        .step.active .step-label, .step.completed .step-label { color: var(--charcoal); }
 
-        .step-circle {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            background: var(--bg-card);
-            border: 2px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 15px;
-            color: var(--text-gray);
-            transition: all 0.3s;
-            margin-bottom: 8px;
+        .card {
+            background: #fff; border: 1px solid var(--border); padding: 36px;
         }
+        @media (max-width: 640px) { .card { padding: 22px; } }
 
-        .step.active .step-circle {
-            border-color: var(--accent);
-            background: var(--accent);
-            color: white;
-            box-shadow: 0 0 20px var(--accent-glow);
-        }
-
-        .step.completed .step-circle {
-            border-color: var(--success);
-            background: var(--success);
-            color: white;
-        }
-
-        .step-label {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-gray);
-        }
-
-        .step.active .step-label {
-            color: var(--text-white);
-        }
-
-        /* Form Card */
-        .form-card {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 24px;
-            padding: 40px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .form-section {
-            display: none;
-            animation: fadeIn 0.4s ease;
-        }
-
-        .form-section.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .form-section { display: none; }
+        .form-section.active { display: block; animation: fadeIn 0.25s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
         .form-title {
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: white;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            font-family: var(--font-serif); font-size: 22px; font-weight: 700; margin-bottom: 8px;
         }
+        .form-subtitle { color: var(--slate); font-size: 14px; margin-bottom: 28px; }
 
-        .form-subtitle {
-            font-size: 14px;
-            color: var(--text-gray);
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--border-color);
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+        @media (max-width: 640px) { .form-grid { grid-template-columns: 1fr; } }
+        .form-group { display: flex; flex-direction: column; gap: 8px; }
+        .form-group.full { grid-column: 1 / -1; }
+        label {
+            font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted);
         }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        @media (max-width: 640px) {
-            .form-grid { grid-template-columns: 1fr; }
-            nav { padding: 20px; }
-            .form-card { padding: 24px; }
-        }
-
-        .form-group {
-            margin-bottom: 24px;
-        }
-
-        .form-group.full-width {
-            grid-column: 1 / -1;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 13px;
-            color: var(--text-gray);
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-
         .form-input, .form-select, .form-textarea {
-            width: 100%;
-            padding: 14px 18px;
-            background-color: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            color: white;
-            font-size: 15px;
-            outline: none;
-            transition: all 0.2s;
+            width: 100%; border: 1px solid var(--border); background: var(--bg-alabaster);
+            padding: 13px 14px; font-size: 14px; color: var(--charcoal); outline: none;
+        }
+        .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--charcoal); background: #fff; }
+        .form-textarea { min-height: 100px; resize: vertical; }
+
+        .plan-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 8px 0 22px; }
+        @media (max-width: 800px) { .plan-grid { grid-template-columns: 1fr; } }
+        .plan-card {
+            border: 1px solid var(--border); background: var(--surface-stone); padding: 20px 18px;
+            cursor: pointer; transition: 0.2s; position: relative;
+        }
+        .plan-card:hover { border-color: #c4b8a8; }
+        .plan-card.selected {
+            border-color: var(--charcoal); background: #fff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        .plan-card.selected::after {
+            content: "SELECTED";
+            position: absolute; top: 10px; right: 10px;
+            font-size: 9px; letter-spacing: 1px; font-weight: 800;
+            background: var(--charcoal); color: #fff; padding: 3px 7px;
+        }
+        .plan-name { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+        .plan-price { font-family: var(--font-serif); font-size: 30px; font-weight: 700; margin-bottom: 6px; }
+        .plan-note { font-size: 12px; color: var(--slate); line-height: 1.5; }
+        .plan-badge {
+            display: inline-block; margin-bottom: 10px; font-size: 10px; font-weight: 800;
+            letter-spacing: 1px; text-transform: uppercase; background: var(--champagne-light);
+            color: var(--charcoal); padding: 3px 8px;
         }
 
-        .form-input:focus, .form-select:focus, .form-textarea:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
-            background-color: rgba(255, 255, 255, 0.05);
+        .wallet-box {
+            border: 1px solid var(--border); background: var(--surface-stone); padding: 20px; margin-bottom: 22px;
         }
-
-        .form-textarea {
-            resize: vertical;
-            min-height: 100px;
+        .wallet-head {
+            display: flex; justify-content: space-between; gap: 12px; align-items: center;
+            margin-bottom: 12px; flex-wrap: wrap;
         }
-
-        .form-select option {
-            background-color: var(--bg-card);
-            color: white;
+        .wallet-head span:first-child {
+            font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: var(--emerald);
         }
-
-        /* Blockchain verification box */
-        .crypto-box {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(99, 102, 241, 0.08) 100%);
-            border: 1px dashed rgba(16, 185, 129, 0.4);
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 30px;
+        .wallet-addr {
+            display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+            background: #fff; border: 1px solid var(--border); padding: 12px 14px;
+            font-family: var(--font-mono); font-size: 13px; word-break: break-all;
         }
-
-        .crypto-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 12px;
-        }
-
-        .wallet-address {
-            font-family: 'Courier New', monospace;
-            background: rgba(0,0,0,0.4);
-            padding: 10px 14px;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            color: var(--success);
-            font-size: 13px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-
         .copy-btn {
-            background: rgba(255,255,255,0.1);
-            border: none;
-            color: white;
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 11px;
-            cursor: pointer;
-            font-weight: 600;
+            border: 1px solid var(--charcoal); background: transparent; color: var(--charcoal);
+            padding: 8px 12px; font-size: 11px; font-weight: 700; letter-spacing: 1px;
+            text-transform: uppercase; cursor: pointer;
         }
+        .copy-btn:hover { background: var(--charcoal); color: #fff; }
 
-        /* Buttons */
-        .btn-container {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid var(--border-color);
-        }
-
+        .btn-row { display: flex; justify-content: space-between; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
         .btn {
-            padding: 14px 28px;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 15px;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            border: 1px solid var(--charcoal); padding: 14px 22px; font-size: 12px; font-weight: 700;
+            letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer; text-decoration: none;
+            display: inline-flex; align-items: center; justify-content: center;
         }
+        .btn-secondary { background: transparent; color: var(--charcoal); }
+        .btn-secondary:hover { background: var(--surface-stone); }
+        .btn-primary { background: var(--charcoal); color: #fff; }
+        .btn-primary:hover { background: var(--champagne); color: #000; }
+        .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
 
-        .btn-secondary {
-            background-color: rgba(255, 255, 255, 0.05);
-            color: var(--text-white);
-            border: 1px solid var(--border-color);
-        }
-
-        .btn-secondary:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--accent), var(--pink-accent));
-            color: white;
-            box-shadow: 0 10px 25px var(--accent-glow);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 30px rgba(99, 102, 241, 0.4);
-        }
-
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none !important;
-        }
-
-        /* Status alerts */
         .alert {
-            padding: 16px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            display: none;
+            display: none; padding: 14px 16px; margin-bottom: 18px; border: 1px solid var(--border);
+            font-size: 14px; line-height: 1.5;
         }
-        .alert-success {
-            background: rgba(16, 185, 129, 0.15);
-            border: 1px solid var(--success);
-            color: #34d399;
-        }
-        .alert-error {
-            background: rgba(239, 68, 68, 0.15);
-            border: 1px solid var(--danger);
-            color: #f87171;
+        .alert-success { display: block; background: #ECFDF5; border-color: #A7F3D0; color: #065F46; }
+        .alert-error { display: block; background: #FEF2F2; border-color: #FECACA; color: #991B1B; }
+
+        footer {
+            border-top: 1px solid var(--border); text-align: center; padding: 28px 20px;
+            color: var(--muted); font-size: 12px;
         }
     </style>
 </head>
 <body>
-
-    <nav>
-        <a href="index.html" class="logo">
-            <div class="logo-icon">LF</div>
-            <span>LeadFlow.AI</span>
+    <header>
+        <a href="/" class="brand-box">
+            <div class="brand-mark">L</div>
+            <div class="brand-text">LEADFLOW</div>
         </a>
-        <div style="display: flex; gap: 20px; align-items: center;">
-            <a href="miner.html" style="color: #00f0ff; text-decoration: none; font-weight: 700; font-size: 14px;">⚡ Shadow Infiltrator</a>
-            <a href="index.html" class="back-link">← Return to Main Homepage</a>
-        </div>
-    </nav>
+        <a href="/" class="back-link">← Return to homepage</a>
+    </header>
 
-    
-        <div id="price-banner" style="max-width: 920px; margin: 0 auto 24px; padding: 18px 22px; border: 1px solid rgba(184,134,11,0.35); background: rgba(184,134,11,0.08); border-radius: 12px;">
-            <div style="font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: #B8860B; font-weight: 700; margin-bottom: 6px;">Checkout · USDT TRC-20</div>
-            <div style="font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 6px;">Pay once → own your website package</div>
-            <div style="font-size: 14px; color: #94a3b8; line-height: 1.6;">
-                <strong style="color:#fff;">$199</strong> Starter ·
-                <strong style="color:#fff;">$499</strong> Premium (most popular) ·
-                <strong style="color:#fff;">$1,499</strong> Enterprise<br>
-                1) Choose plan below · 2) Send USDT to treasury wallet · 3) Paste TXID · 4) Auto-verify unlocks delivery
-            </div>
-        </div>
+    <div class="container">
+        <div class="page-kicker">Client onboarding · Agent deployment</div>
+        <h1>Deploy Your First Agent</h1>
+        <p class="lead">
+            Configure your company profile and ideal customer profile, choose a deployment package,
+            then verify your USDT (TRC-20) transfer to activate delivery.
+        </p>
 
-<div class="container">
-        <div class="header-section">
-            <h1>Deploy Your Autonomous AI SDR</h1>
-            <p>Complete your campaign specifications to initiate AI training and web scraping pipeline.</p>
-        </div>
-
-        <div class="progress-bar">
+        <div class="progress">
             <div class="step active" id="step-nav-1">
-                <div class="step-circle">1</div>
-                <div class="step-label">Company Profile</div>
+                <div class="step-num">1</div>
+                <div class="step-label">Company</div>
             </div>
             <div class="step" id="step-nav-2">
-                <div class="step-circle">2</div>
-                <div class="step-label">Target ICP & Logic</div>
+                <div class="step-num">2</div>
+                <div class="step-label">Target ICP</div>
             </div>
             <div class="step" id="step-nav-3">
-                <div class="step-circle">3</div>
-                <div class="step-label">USDT Verification</div>
+                <div class="step-num">3</div>
+                <div class="step-label">Plan & Payment</div>
             </div>
         </div>
 
-        <div class="form-card">
-            <!-- Alert box -->
+        <div class="card">
             <div id="status-alert" class="alert"></div>
 
             <!-- STEP 1 -->
             <div class="form-section active" id="section-1">
-                <div class="form-title">🏢 Step 1: Your Company Profile</div>
-                <div class="form-subtitle">Tell us about your business so our AI can learn your value propositions and tone of voice.</div>
-                
+                <div class="form-title">Company profile</div>
+                <div class="form-subtitle">So the agent can match your tone, offer, and brand context.</div>
                 <div class="form-grid">
                     <div class="form-group">
-                        <label for="company-name">Company Name *</label>
-                        <input type="text" id="company-name" class="form-input" placeholder="e.g. CloudBase Systems" required>
+                        <label for="company-name">Company name</label>
+                        <input id="company-name" class="form-input" type="text" placeholder="e.g. CloudBase Systems">
                     </div>
                     <div class="form-group">
-                        <label for="company-url">Official Website URL *</label>
-                        <input type="text" id="company-url" class="form-input" placeholder="e.g. https://cloudbase.io" required>
+                        <label for="company-url">Website</label>
+                        <input id="company-url" class="form-input" type="text" placeholder="e.g. https://cloudbase.io">
                     </div>
                     <div class="form-group">
-                        <label for="sender-name">AI SDR Persona Name</label>
-                        <input type="text" id="sender-name" class="form-input" value="Elena (AI SDR)" placeholder="e.g. Elena or Marcus">
+                        <label for="sender-name">Sender / agent name</label>
+                        <input id="sender-name" class="form-input" type="text" value="Elena (AI SDR)">
                     </div>
                     <div class="form-group">
-                        <label for="sender-email">Your Notification Email *</label>
-                        <input type="email" id="sender-email" class="form-input" placeholder="e.g. founder@cloudbase.io" required>
+                        <label for="sender-email">Work email</label>
+                        <input id="sender-email" class="form-input" type="email" placeholder="founder@yourcompany.com">
                     </div>
-                    <div class="form-group full-width">
-                        <label for="value-prop">Core Value Proposition / Elevator Pitch *</label>
-                        <textarea id="value-prop" class="form-textarea" placeholder="Describe what problem you solve and how you help your clients save time or increase revenue..."></textarea>
+                    <div class="form-group full">
+                        <label for="value-prop">Value proposition</label>
+                        <textarea id="value-prop" class="form-textarea" placeholder="What problem do you solve for customers?"></textarea>
                     </div>
                 </div>
-
-                <div class="btn-container" style="justify-content: flex-end;">
+                <div class="btn-row" style="justify-content: flex-end;">
                     <button type="button" class="btn btn-primary" onclick="nextStep(2)">Next: Target ICP →</button>
                 </div>
             </div>
 
             <!-- STEP 2 -->
             <div class="form-section" id="section-2">
-                <div class="form-title">🎯 Step 2: Ideal Customer Profile (ICP)</div>
-                <div class="form-subtitle">Define who our AI SDR should search for, scrape, and contact on your behalf.</div>
-                
+                <div class="form-title">Ideal customer profile</div>
+                <div class="form-subtitle">Who should the autonomous workforce research and contact?</div>
                 <div class="form-grid">
                     <div class="form-group">
-                        <label for="target-industry">Target Industry / Niche *</label>
-                        <input type="text" id="target-industry" class="form-input" placeholder="e.g. B2B SaaS, FinTech, E-commerce Agencies">
+                        <label for="target-industry">Industry / niche</label>
+                        <input id="target-industry" class="form-input" type="text" placeholder="e.g. Dental clinics, boutique gyms">
                     </div>
                     <div class="form-group">
-                        <label for="target-titles">Decision Maker Job Titles *</label>
-                        <input type="text" id="target-titles" class="form-input" placeholder="e.g. CEO, Founder, VP of Outbound, CMO">
+                        <label for="target-titles">Decision-maker titles</label>
+                        <input id="target-titles" class="form-input" type="text" placeholder="e.g. Owner, Founder, Practice Manager">
                     </div>
                     <div class="form-group">
-                        <label for="target-geo">Geographic Focus</label>
+                        <label for="target-geo">Primary geography</label>
                         <select id="target-geo" class="form-select">
-                            <option value="Global (English)">Global (English Speaking)</option>
-                            <option value="North America">North America (USA & Canada)</option>
-                            <option value="Europe / UK">Europe & UK</option>
-                            <option value="Middle East / UAE">Middle East & UAE</option>
+                            <option>North America</option>
+                            <option>Europe</option>
+                            <option>Middle East</option>
+                            <option>Asia-Pacific</option>
+                            <option>Global</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="outreach-tone">Outreach Email Tone</label>
+                        <label for="outreach-tone">Outreach tone</label>
                         <select id="outreach-tone" class="form-select">
-                            <option value="Conversational & Direct">Conversational & Direct (Recommended)</option>
-                            <option value="Formal & Executive">Formal & Executive</option>
-                            <option value="Curious & Question-based">Curious & Question-Based Hook</option>
+                            <option>Professional & warm</option>
+                            <option>Direct & concise</option>
+                            <option>Consultative / premium</option>
                         </select>
                     </div>
-                    <div class="form-group full-width">
-                        <label for="custom-instructions">Special Instructions for AI Copywriter (Optional)</label>
-                        <textarea id="custom-instructions" class="form-textarea" placeholder="e.g. Always mention our 30-day money back guarantee. Do not contact companies with under 10 employees."></textarea>
+                    <div class="form-group full">
+                        <label for="custom-instructions">Special instructions</label>
+                        <textarea id="custom-instructions" class="form-textarea" placeholder="Optional constraints, offers, or exclusions..."></textarea>
                     </div>
                 </div>
-
-                <div class="btn-container">
+                <div class="btn-row">
                     <button type="button" class="btn btn-secondary" onclick="prevStep(1)">← Back</button>
-                    <button type="button" class="btn btn-primary" onclick="nextStep(3)">Next: Crypto Verification →</button>
+                    <button type="button" class="btn btn-primary" onclick="nextStep(3)">Next: Choose Plan →</button>
                 </div>
             </div>
 
-            <!-- STEP 3 -->
+            <!-- STEP 3: PLAN + PAYMENT (prices only here) -->
             <div class="form-section" id="section-3">
-                <div class="form-title">🛡️ Step 3: Blockchain Payment Audit</div>
-                <div class="form-subtitle">To activate your autonomous agent, verify your Tether (USDT TRC-20) payment hash.</div>
-                
-                <div class="crypto-box">
-                    <div class="crypto-header">
-                        <span style="font-weight: 700; font-size: 14px; color: #34d399;">● TRON (TRC-20) DEPOSIT WALLET</span>
-                        <span style="font-size: 12px; color: var(--text-gray);">Instant Automated Verification</span>
+                <div class="form-title">Choose your plan & verify payment</div>
+                <div class="form-subtitle">
+                    Select a package, send the matching amount in USDT (TRC-20) to the treasury wallet,
+                    then paste the transaction hash for automated verification.
+                </div>
+
+                <label style="margin-bottom: 10px; display: block;">Deployment package</label>
+                <div class="plan-grid" id="plan-grid">
+                    <div class="plan-card" data-amount="199" onclick="selectPlan(this)">
+                        <div class="plan-name">Starter</div>
+                        <div class="plan-price">$199</div>
+                        <div class="plan-note">Landing-page package · live demo path · handover ZIP · one-time USDT</div>
                     </div>
-                    <div class="wallet-address">
-                        <span id="wallet-str">LOADING_TREASURY_WALLET...</span>
-                        <button class="copy-btn" onclick="copyWallet()">COPY</button>
+                    <div class="plan-card selected" data-amount="499" onclick="selectPlan(this)">
+                        <div class="plan-badge">Most popular</div>
+                        <div class="plan-name">Premium</div>
+                        <div class="plan-price">$499</div>
+                        <div class="plan-note">Full interactive portal · cloud demo · full 0-to-100 ZIP · deploy guide</div>
                     </div>
-                    <p id="wallet-help" style="font-size: 13px; color: var(--text-gray); line-height: 1.5;">
-                        Transfer the selected amount in <strong>USDT (TRC-20)</strong> to the LeadFlow treasury wallet above (never the USDT contract address). Then paste the Tron TXID for automated verification.
+                    <div class="plan-card" data-amount="1499" onclick="selectPlan(this)">
+                        <div class="plan-name">Enterprise</div>
+                        <div class="plan-price">$1,499</div>
+                        <div class="plan-note">Premium plus multi-location pack · 30-day support · brand polish pass</div>
+                    </div>
+                </div>
+                <input type="hidden" id="plan-select" value="499">
+
+                <div class="wallet-box">
+                    <div class="wallet-head">
+                        <span>● TRON (TRC-20) treasury wallet</span>
+                        <span style="font-size:12px;color:var(--muted);">Send USDT only · network TRC-20</span>
+                    </div>
+                    <div class="wallet-addr">
+                        <span id="wallet-str" style="flex:1;">LOADING_TREASURY_WALLET...</span>
+                        <button type="button" class="copy-btn" onclick="copyWallet()">Copy</button>
+                    </div>
+                    <p id="wallet-help" style="margin-top:12px;font-size:13px;color:var(--slate);">
+                        Transfer the selected plan amount in <strong>USDT (TRC-20)</strong> to this wallet.
+                        Never send to the USDT contract address. Then paste the TXID below.
                     </p>
-                    <p id="wallet-warning" style="display:none;font-size:13px;color:#f87171;margin-top:8px;"></p>
+                    <p id="wallet-warning" style="display:none;margin-top:10px;font-size:13px;color:var(--danger);"></p>
                 </div>
 
                 <div class="form-grid">
-                    <div class="form-group">
-                        <label for="plan-select">Selected Plan Tier *</label>
-                        <select id="plan-select" class="form-select">
-                            <option value="499" selected>Premium Website Package ($499 USDT one-time)</option>
-                            <option value="199">Starter Landing Page ($199 USDT one-time)</option>
-                            <option value="1499">Enterprise Bundle + 30-day support ($1,499 USDT one-time)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="tx-hash">Tron Transaction Hash (TXID) *</label>
-                        <input type="text" id="tx-hash" class="form-input" placeholder="e.g. 853793d552635f533aa982b92b35b00e63a1c1a..." required>
+                    <div class="form-group full">
+                        <label for="tx-hash">Tron transaction hash (TXID)</label>
+                        <input id="tx-hash" class="form-input" type="text" placeholder="Paste your TRC-20 USDT transaction hash">
                     </div>
                 </div>
 
-                <div class="btn-container">
+                <div class="btn-row">
                     <button type="button" class="btn btn-secondary" onclick="prevStep(2)">← Back</button>
                     <button type="button" id="verify-btn" class="btn btn-primary" onclick="verifyAndDeploy()">
-                        🛡️ Verify Hash & Deploy AI Agent
+                        Verify payment & deploy agent
                     </button>
                 </div>
             </div>
         </div>
     </div>
 
+    <footer>© 2026 LeadFlow.AI · Editorial monochrome onboarding · Zero neon UI</footer>
+
     <script>
         function nextStep(step) {
             document.querySelectorAll('.form-section').forEach(el => el.classList.remove('active'));
             document.getElementById(`section-${step}`).classList.add('active');
-            
-            for(let i=1; i<=3; i++) {
+            for (let i = 1; i <= 3; i++) {
                 const nav = document.getElementById(`step-nav-${i}`);
-                if(i < step) {
+                const num = nav.querySelector('.step-num');
+                if (i < step) {
                     nav.className = 'step completed';
-                    nav.querySelector('.step-circle').innerHTML = '✔';
-                } else if(i === step) {
+                    num.innerHTML = '✓';
+                } else if (i === step) {
                     nav.className = 'step active';
-                    nav.querySelector('.step-circle').innerHTML = i;
+                    num.innerHTML = String(i);
                 } else {
                     nav.className = 'step';
-                    nav.querySelector('.step-circle').innerHTML = i;
+                    num.innerHTML = String(i);
                 }
             }
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+        function prevStep(step) { nextStep(step); }
 
-        function prevStep(step) {
-            nextStep(step);
+        function selectPlan(card) {
+            document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            document.getElementById('plan-select').value = card.getAttribute('data-amount');
         }
 
-        
-        // Load treasury wallet from backend public config — never hardcode USDT contract as deposit address
         async function loadPublicPaymentConfig() {
             const walletEl = document.getElementById('wallet-str');
             const warnEl = document.getElementById('wallet-warning');
@@ -612,7 +409,7 @@
                 walletEl.innerText = 'CONFIG_UNAVAILABLE';
                 if (warnEl) {
                     warnEl.style.display = 'block';
-                    warnEl.innerText = 'Could not load payment config. Start the API server and set TRON_TREASURY_WALLET_ADDRESS.';
+                    warnEl.innerText = 'Could not load payment config from server.';
                 }
             }
         }
@@ -620,8 +417,11 @@
 
         function copyWallet() {
             const txt = document.getElementById('wallet-str').innerText;
-            navigator.clipboard.writeText(txt);
-            alert("Tron (TRC-20) Wallet Address copied to clipboard!");
+            navigator.clipboard.writeText(txt).then(() => {
+                alert('Treasury wallet copied.');
+            }).catch(() => {
+                alert(txt);
+            });
         }
 
         function showAlert(msg, isSuccess = false) {
@@ -635,6 +435,9 @@
             const txHash = document.getElementById('tx-hash').value.trim();
             const planAmount = parseFloat(document.getElementById('plan-select').value);
             const walletNow = (document.getElementById('wallet-str').innerText || '').trim();
+            const companyName = document.getElementById('company-name').value.trim() || 'Your Company';
+            const btn = document.getElementById('verify-btn');
+
             if (!walletNow || walletNow.includes('PAYMENTS_DISABLED') || walletNow.includes('LOADING') || walletNow.includes('CONFIG_UNAVAILABLE')) {
                 showAlert('Payments are disabled until TRON_TREASURY_WALLET_ADDRESS is configured on the server.', false);
                 return;
@@ -643,50 +446,44 @@
                 showAlert('Misconfiguration: USDT contract address cannot be used as deposit wallet.', false);
                 return;
             }
-            const companyName = document.getElementById('company-name').value.trim() || "Your Company";
-            const btn = document.getElementById('verify-btn');
-
-            if(!txHash || txHash.length < 10) {
-                showAlert("Please enter a valid Tron Transaction Hash (TXID) before deploying.", false);
+            if (!txHash || txHash.length < 10) {
+                showAlert('Please enter a valid Tron transaction hash (TXID).', false);
                 return;
             }
 
             btn.disabled = true;
-            btn.innerHTML = "⌛ Auditing Tron Blockchain Ledger...";
-            showAlert("Connecting to Tronscan public API to audit USDT transfer...", true);
+            btn.innerHTML = 'Auditing blockchain…';
+            showAlert('Connecting to Tronscan to audit USDT transfer…', true);
 
             try {
-                // Call our live Python FastAPI backend
                 const response = await fetch('/api/verify-payment', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         tx_hash: txHash,
-                        plan_amount: planAmount
+                        plan_amount: planAmount,
+                        client_name: companyName,
+                        plan_name: planAmount + ' USDT package'
                     })
                 });
-
                 const result = await response.json();
 
-                if(response.ok && result.status === "success") {
-                    showAlert(`🎉 <strong>SUCCESS!</strong> Blockchain audit confirmed ${result.amount_usdt} USDT from wallet ${result.sender}. Deploying autonomous SDR agents for ${companyName}...`, true);
-                    btn.innerHTML = "✔ Agent Deployed Successfully";
+                if (response.ok && result.status === 'success') {
+                    showAlert(`Success. Verified ${result.amount_usdt} USDT. Deploying agent package for ${companyName}…`, true);
+                    btn.innerHTML = 'Agent deployed';
                     setTimeout(() => {
-                        alert(`Congratulations! Your autonomous AI SDR campaign for "${companyName}" has been initialized in our cloud infrastructure.`);
-                        window.location.href = "index.html";
-                    }, 2500);
+                        alert(`Deployment initialized for "${companyName}".`);
+                        window.location.href = '/';
+                    }, 2000);
                 } else {
-                    // Display specific verification error from Tronscan API
-                    showAlert(`⚠️ <strong>Blockchain Audit Notice:</strong> ${result.message || "Transaction not found or unconfirmed on chain."}`, false);
+                    showAlert(`Blockchain audit notice: ${result.message || 'Transaction not verified.'}`, false);
                     btn.disabled = false;
-                    btn.innerHTML = "🔄 Retry Blockchain Verification";
+                    btn.innerHTML = 'Retry verification';
                 }
             } catch (err) {
-                // Fallback if backend server isn't running locally during frontend preview
-                console.warn("Backend API not reachable, simulating offline demo fallback.", err);
-                showAlert(`⚠️ <strong>Simulated Audit Mode:</strong> Unable to reach Tronscan live engine (${err.message}). In live server mode, this hash will be verified instantly. Campaign preferences saved!`, false);
+                showAlert(`Could not reach payment API (${err.message}).`, false);
                 btn.disabled = false;
-                btn.innerHTML = "🛡️ Verify Hash & Deploy AI Agent";
+                btn.innerHTML = 'Verify payment & deploy agent';
             }
         }
     </script>

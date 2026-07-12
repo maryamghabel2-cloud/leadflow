@@ -3,630 +3,246 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LeadFlow.AI - Shadow Infiltrator & No-Website Miner</title>
+    <title>LeadFlow.AI | Shadow Infiltrator Studio</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
-        
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
         :root {
-            --bg-dark: #030712;
-            --bg-card: #0b1120;
-            --accent: #6366f1;
-            --accent-glow: rgba(99, 102, 241, 0.25);
-            --pink-accent: #ec4899;
-            --neon-cyan: #00f0ff;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --text-white: #f9fafb;
-            --text-gray: #9ca3af;
-            --border-color: #1f2937;
+            --bg-alabaster: #FBFBF9;
+            --surface-stone: #F2EFE9;
+            --charcoal: #18181B;
+            --slate: #475569;
+            --muted: #78716C;
+            --champagne: #B8860B;
+            --emerald: #10B981;
+            --border: #E5E0D8;
+            --font-serif: 'Cinzel', serif;
+            --font-sans: 'Plus Jakarta Sans', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
         }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Plus Jakarta Sans', sans-serif;
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-sans); }
+        body { background: var(--bg-alabaster); color: var(--charcoal); min-height: 100vh; border-top: 4px solid var(--charcoal); line-height: 1.7; }
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 22px 48px; border-bottom: 1px solid var(--border);
+            background: rgba(251,251,249,0.96); position: sticky; top: 0; z-index: 40;
         }
-
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-white);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(0, 240, 255, 0.1) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(236, 72, 153, 0.1) 0%, transparent 40%);
+        @media (max-width: 720px) { header { padding: 16px 20px; flex-direction: column; gap: 12px; } }
+        .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
+        .brand-mark { width: 36px; height: 36px; background: var(--charcoal); color: #fff; display: flex; align-items: center; justify-content: center; font-family: var(--font-serif); font-weight: 700; }
+        .brand-text { font-family: var(--font-serif); letter-spacing: 4px; font-weight: 800; font-size: 18px; }
+        .nav-links { display: flex; gap: 18px; align-items: center; }
+        .nav-links a { color: var(--slate); text-decoration: none; font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+        .nav-links a:hover { color: var(--charcoal); }
+        .wrap { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
+        .kicker { font-family: var(--font-mono); font-size: 11px; letter-spacing: 3px; color: var(--champagne); text-transform: uppercase; font-weight: 700; margin-bottom: 10px; }
+        h1 { font-size: 34px; font-weight: 800; margin-bottom: 10px; }
+        .lead { color: var(--slate); max-width: 680px; margin-bottom: 32px; }
+        .panel { background: #fff; border: 1px solid var(--border); padding: 28px; margin-bottom: 24px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 14px; align-items: end; }
+        @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+        label { display: block; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+        input, select {
+            width: 100%; border: 1px solid var(--border); background: var(--bg-alabaster);
+            padding: 12px 14px; font-size: 14px; outline: none;
         }
-
-        /* Nav */
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 24px 60px;
-            border-bottom: 1px solid var(--border-color);
-            background: rgba(3, 7, 18, 0.8);
-            backdrop-filter: blur(10px);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-            color: var(--text-white);
-            font-weight: 800;
-            font-size: 22px;
-        }
-
-        .logo-icon {
-            background: linear-gradient(135deg, var(--neon-cyan), var(--accent));
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 16px;
-            color: #000;
-            box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 24px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--text-gray);
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 600;
-            transition: color 0.2s;
-        }
-
-        .nav-links a:hover, .nav-links a.active {
-            color: var(--neon-cyan);
-        }
-
-        /* Container */
-        .container {
-            max-width: 1200px;
-            margin: 50px auto;
-            padding: 0 24px;
-            flex: 1;
-            width: 100%;
-        }
-
-        .header-section {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .header-section .badge {
-            display: inline-block;
-            background: rgba(0, 240, 255, 0.1);
-            border: 1px solid var(--neon-cyan);
-            color: var(--neon-cyan);
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .header-section h1 {
-            font-size: 42px;
-            font-weight: 800;
-            margin-bottom: 12px;
-            background: linear-gradient(to right, #fff 40%, var(--neon-cyan), #ec4899);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .header-section p {
-            color: var(--text-gray);
-            font-size: 16px;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        /* Search Filter Box */
-        .filter-box {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 40px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-            display: flex;
-            gap: 20px;
-            align-items: flex-end;
-        }
-
-        @media (max-width: 768px) {
-            .filter-box { flex-direction: column; align-items: stretch; }
-            nav { padding: 20px; }
-        }
-
-        .form-group {
-            flex: 1;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 13px;
-            color: var(--text-gray);
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-
-        .form-input, .form-select {
-            width: 100%;
-            padding: 14px 18px;
-            background-color: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            color: white;
-            font-size: 15px;
-            outline: none;
-            transition: all 0.2s;
-        }
-
-        .form-input:focus, .form-select:focus {
-            border-color: var(--neon-cyan);
-            box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.15);
-        }
-
-        .form-select option {
-            background-color: var(--bg-card);
-            color: white;
-        }
-
+        input:focus, select:focus { border-color: var(--charcoal); background: #fff; }
         .btn {
-            padding: 14px 28px;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 15px;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            white-space: nowrap;
+            border: 1px solid var(--charcoal); background: var(--charcoal); color: #fff;
+            padding: 13px 18px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px;
+            text-transform: uppercase; cursor: pointer; white-space: nowrap;
         }
-
-        .btn-mine {
-            background: linear-gradient(135deg, var(--neon-cyan), var(--accent));
-            color: #000;
-            box-shadow: 0 10px 25px rgba(0, 240, 255, 0.2);
+        .btn:hover { background: var(--champagne); color: #000; }
+        .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        .btn-ghost { background: transparent; color: var(--charcoal); }
+        .btn-ghost:hover { background: var(--surface-stone); color: var(--charcoal); }
+        .results { display: grid; gap: 14px; }
+        .biz {
+            border: 1px solid var(--border); background: #fff; padding: 18px 20px;
+            display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: center;
         }
-
-        .btn-mine:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 35px rgba(0, 240, 255, 0.4);
+        @media (max-width: 700px) { .biz { grid-template-columns: 1fr; } }
+        .biz h3 { font-size: 17px; margin-bottom: 4px; }
+        .meta { color: var(--slate); font-size: 13px; }
+        .tag {
+            display: inline-block; margin-top: 8px; font-size: 11px; font-weight: 700;
+            letter-spacing: 1px; text-transform: uppercase; color: var(--muted);
+            border: 1px solid var(--border); padding: 3px 8px; background: var(--surface-stone);
         }
-
-        /* Results Grid */
-        .results-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-            gap: 24px;
-            margin-bottom: 60px;
+        .status { font-family: var(--font-mono); font-size: 12px; color: var(--muted); margin-bottom: 14px; }
+        .modal-bg {
+            display: none; position: fixed; inset: 0; background: rgba(24,24,27,0.45);
+            align-items: center; justify-content: center; padding: 20px; z-index: 100;
         }
-
-        .lead-card {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 28px;
-            position: relative;
-            transition: all 0.3s;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .lead-card:hover {
-            border-color: var(--neon-cyan);
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 240, 255, 0.1);
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 16px;
-        }
-
-        .biz-name {
-            font-size: 20px;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 4px;
-        }
-
-        .biz-cat {
-            font-size: 13px;
-            color: var(--text-gray);
-            font-weight: 600;
-        }
-
-        .status-badge {
-            background: rgba(239, 68, 68, 0.15);
-            border: 1px solid var(--danger);
-            color: #f87171;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-        .biz-details {
-            margin: 20px 0;
-            font-size: 14px;
-            color: var(--text-gray);
-            line-height: 1.8;
-            border-top: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--border-color);
-            padding: 16px 0;
-        }
-
-        .biz-details strong {
-            color: var(--text-white);
-        }
-
-        .score-box {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            font-size: 13px;
-        }
-
-        .score-val {
-            color: var(--success);
-            font-weight: 700;
-        }
-
-        .btn-generate {
-            width: 100%;
-            background: rgba(236, 72, 153, 0.15);
-            border: 1px solid var(--pink-accent);
-            color: #f472b6;
-            padding: 12px;
-            border-radius: 10px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .btn-generate:hover {
-            background: var(--pink-accent);
-            color: white;
-            box-shadow: 0 0 20px rgba(236, 72, 153, 0.4);
-        }
-
-        /* Modal / Pitch box */
-        .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(8px);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            padding: 20px;
-        }
-
+        .modal-bg.open { display: flex; }
         .modal {
-            background: var(--bg-card);
-            border: 1px solid var(--neon-cyan);
-            border-radius: 24px;
-            max-width: 700px;
-            width: 100%;
-            padding: 36px;
-            box-shadow: 0 0 50px rgba(0, 240, 255, 0.2);
-            position: relative;
-            max-height: 90vh;
-            overflow-y: auto;
+            width: min(560px, 100%); background: #fff; border: 1px solid var(--border); padding: 28px;
         }
-
-        .close-btn {
-            position: absolute;
-            top: 20px; right: 20px;
-            background: none; border: none;
-            color: var(--text-gray);
-            font-size: 24px; cursor: pointer;
+        .modal h2 { font-family: var(--font-serif); font-size: 22px; margin-bottom: 10px; }
+        .modal p { color: var(--slate); font-size: 14px; margin-bottom: 16px; }
+        .modal pre {
+            background: var(--surface-stone); border: 1px solid var(--border);
+            padding: 14px; font-family: var(--font-mono); font-size: 12px; white-space: pre-wrap;
+            max-height: 180px; overflow: auto; margin-bottom: 16px;
         }
-
-        .modal h2 {
-            font-size: 24px;
-            margin-bottom: 8px;
-            color: var(--neon-cyan);
-        }
-
-        .modal p {
-            color: var(--text-gray);
-            font-size: 14px;
-            margin-bottom: 20px;
-        }
-
-        .pitch-box {
-            background: #03060c;
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 18px;
-            font-family: 'Courier New', monospace;
-            font-size: 13px;
-            color: #34d399;
-            margin-bottom: 24px;
-            white-space: pre-wrap;
-            line-height: 1.6;
-        }
-
-        .modal-buttons {
-            display: flex;
-            gap: 16px;
-        }
+        .modal-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+        footer { border-top: 1px solid var(--border); text-align: center; padding: 24px; color: var(--muted); font-size: 12px; }
     </style>
 </head>
 <body>
-
-    <nav>
-        <a href="index.html" class="logo">
-            <div class="logo-icon">LF</div>
-            <span>LeadFlow.AI</span>
+    <header>
+        <a class="brand" href="/">
+            <div class="brand-mark">L</div>
+            <div class="brand-text">LEADFLOW</div>
         </a>
-        <ul class="nav-links">
-            <li><a href="index.html">Main Homepage</a></li>
-            <li><a href="onboard.html">Client Onboarding</a></li>
-            <li><a href="miner.html" class="active" style="color: var(--neon-cyan);">⚡ Shadow Infiltrator</a></li>
-        </ul>
-    </nav>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/onboard">Deploy Agent</a>
+        </div>
+    </header>
 
-    <div class="container">
-        <div class="header-section">
-            <span class="badge">ENGINE #2: THE $499 UPSELL FUNNEL</span>
-            <h1>Shadow Infiltrator & Website Miner</h1>
-            <p>Scan local cities for established businesses with zero online presence. Automatically generate Awwwards-style 3D neon websites in 1 second and pitch them for instant $499 sales.</p>
+    <div class="wrap">
+        <div class="kicker">Shadow Infiltrator · No-website miner</div>
+        <h1>Find local businesses & generate live demos</h1>
+        <p class="lead">
+            Discover prospects in a city/category, then generate an editorial-quality demo site package.
+            This studio matches the LeadFlow monochrome product surface — no neon chrome.
+        </p>
+
+        <div class="panel">
+            <div class="grid">
+                <div>
+                    <label for="city">City</label>
+                    <input id="city" value="Toronto" placeholder="e.g. Paris">
+                </div>
+                <div>
+                    <label for="category">Category</label>
+                    <select id="category">
+                        <option value="clinic">Clinic / Dental</option>
+                        <option value="restaurant">Restaurant / Dining</option>
+                        <option value="law">Law firm</option>
+                        <option value="realty">Real estate</option>
+                        <option value="gym">Gym / Fitness</option>
+                        <option value="spa">Spa / Aesthetics</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="limit">Limit</label>
+                    <select id="limit">
+                        <option value="3">3</option>
+                        <option value="6" selected>6</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+                <button class="btn" id="mine-btn" onclick="startMining()">Mine businesses</button>
+            </div>
+            <div class="status" id="status">Ready.</div>
         </div>
 
-        <!-- Filter Box -->
-        <div class="filter-box">
-            <div class="form-group">
-                <label for="city-input">Target City / Metro Area</label>
-                <input type="text" id="city-input" class="form-input" value="Toronto" placeholder="e.g. Toronto, London, Dubai, New York">
-            </div>
-            <div class="form-group">
-                <label for="category-select">Business Category / Niche</label>
-                <select id="category-select" class="form-select">
-                    <option value="clinic">Dental & Medical Clinics</option>
-                    <option value="restaurant">Fine Dining & Restaurants</option>
-                    <option value="salon">Luxury Salons & Spas</option>
-                    <option value="lawyer">Law Firms & Legal Offices</option>
-                    <option value="estate_agent">Real Estate Agencies</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="limit-select">Scan Batch Size</label>
-                <select id="limit-select" class="form-select">
-                    <option value="3">3 High-Fit Opportunities</option>
-                    <option value="6" selected>6 High-Fit Opportunities</option>
-                    <option value="12">12 High-Fit Opportunities</option>
-                </select>
-            </div>
-            <button class="btn btn-mine" onclick="startMining()">
-                🕷️ Scan City Now
-            </button>
-        </div>
-
-        <div id="status-text" style="text-align: center; margin-bottom: 24px; font-weight: 600; color: var(--neon-cyan); display: none;"></div>
-
-        <!-- Results Grid -->
-        <div class="results-grid" id="results-container">
-            <!-- Populated via JS -->
-        </div>
+        <div class="results" id="results"></div>
     </div>
 
-    <!-- Modal for Generated Site Pitch -->
-    <div class="modal-overlay" id="pitch-modal">
+    <div class="modal-bg" id="modal">
         <div class="modal">
-            <button class="close-btn" onclick="closeModal()">×</button>
-            <h2>⚡ 3D Luxury Website Synthesized!</h2>
-            <p id="modal-subtitle">Our Shadow Infiltrator has compiled a responsive 3D animated neon site ready for deployment.</p>
-            
-            <div style="font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 8px;">📩 AUTOMATED UPSELL OUTREACH PITCH:</div>
-            <div class="pitch-box" id="modal-pitch-text"></div>
-
-            <div class="modal-buttons">
-                <button class="btn btn-mine" style="flex: 1;" onclick="copyPitch()">📋 Copy Pitch Email</button>
-                <button class="btn" style="flex: 1; background: rgba(0, 240, 255, 0.2); border: 1px solid #00f0ff; color: white;" id="btn-open-site" onclick="openGeneratedSite()">🌐 Open Live Cloud Demo</button>
-                <button class="btn" style="flex: 1; background: rgba(16, 185, 129, 0.2); border: 1px solid #10b981; color: white;" id="btn-dl-zip" onclick="downloadZipPackage()">📦 Download 0-to-100 Handover ZIP</button>
+            <h2 id="modal-title">Demo ready</h2>
+            <p id="modal-body">Your package has been generated.</p>
+            <pre id="modal-pitch"></pre>
+            <div class="modal-actions">
+                <button class="btn" onclick="openGeneratedSite()">Open live demo</button>
+                <button class="btn btn-ghost" onclick="downloadZipPackage()">Download ZIP</button>
+                <button class="btn btn-ghost" onclick="copyPitch()">Copy pitch</button>
+                <button class="btn btn-ghost" onclick="closeModal()">Close</button>
             </div>
         </div>
     </div>
+
+    <footer>© 2026 LeadFlow.AI · Editorial monochrome studio</footer>
 
     <script>
-        let currentGeneratedFile = "";
-
-        window.addEventListener('DOMContentLoaded', () => {
-            // Run default mining on load for instant satisfaction
-            startMining();
-        });
+        let lastSite = null;
 
         async function startMining() {
-            const city = document.getElementById('city-input').value.trim() || "Toronto";
-            const category = document.getElementById('category-select').value;
-            const limit = parseInt(document.getElementById('limit-select').value);
-            const container = document.getElementById('results-container');
-            const statusText = document.getElementById('status-text');
-
-            statusText.style.display = 'block';
-            statusText.innerHTML = `⌛ Connecting to OpenStreetMap / Directory servers to mine businesses in ${city}...`;
-            container.innerHTML = "";
-
+            const city = document.getElementById('city').value.trim() || 'Toronto';
+            const category = document.getElementById('category').value;
+            const limit = parseInt(document.getElementById('limit').value, 10) || 6;
+            const btn = document.getElementById('mine-btn');
+            const status = document.getElementById('status');
+            const results = document.getElementById('results');
+            btn.disabled = true;
+            status.textContent = 'Mining directory signals…';
+            results.innerHTML = '';
             try {
                 const res = await fetch('/api/mine-businesses', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ city, category, limit })
                 });
-
                 const data = await res.json();
-                statusText.style.display = 'none';
-
-                if(data.businesses && data.businesses.length > 0) {
-                    data.businesses.forEach(biz => {
-                        const card = document.createElement('div');
-                        card.className = 'lead-card';
-                        card.innerHTML = `
-                            <div>
-                                <div class="card-header">
-                                    <div>
-                                        <div class="biz-name">${biz.name}</div>
-                                        <div class="biz-cat">Category: ${biz.category}</div>
-                                    </div>
-                                    <span class="status-badge">🔴 NO WEBSITE</span>
-                                </div>
-                                <div class="biz-details">
-                                    <div>📍 <strong>Address:</strong> ${biz.address}</div>
-                                    <div>📞 <strong>Phone:</strong> ${biz.phone}</div>
-                                    <div>🏙️ <strong>Target City:</strong> ${biz.city}</div>
-                                </div>
-                                <div class="score-box">
-                                    <span>Upsell Opportunity:</span>
-                                    <span class="score-val">${biz.opportunity_score}</span>
-                                </div>
-                            </div>
-                            <button class="btn-generate" onclick="generateSite('${biz.name.replace(/'/g, "\\'")}', '${biz.category}', '${biz.city}', '${biz.phone}')">
-                                🎨 Generate 3D Neon Site ($499 Upsell)
-                            </button>
-                        `;
-                        container.appendChild(card);
-                    });
+                const list = data.businesses || [];
+                status.textContent = `Status: ${data.status || 'ok'} · Found ${list.length}`;
+                if (!list.length) {
+                    results.innerHTML = '<div class="panel">No businesses returned. In production, synthetic fallback is disabled — try another city or add leads manually.</div>';
                 } else {
-                    container.innerHTML = `<p style="color: var(--text-gray); grid-column: 1/-1; text-align: center;">No businesses found. Try another city or category.</p>`;
-                }
-            } catch(e) {
-                console.warn("API fallback mode for Miner:", e);
-                statusText.style.display = 'none';
-                // Simulated fallback rendering
-                const fallbacks = [
-                    {name: `Apex ${category.toUpperCase()} & Lounge`, category: category.toUpperCase(), phone: "+1 (416) 555-0142", address: `142 Queen Street West, ${city}`, city: city, opportunity_score: "99% (Immediate Pitch)"},
-                    {name: `${city} Premium ${category.toUpperCase()} Studio`, category: category.toUpperCase(), phone: "+1 (416) 555-0189", address: `88 King Street East, ${city}`, city: city, opportunity_score: "95% (High Upsell Potential)"},
-                    {name: `Elite ${category.toUpperCase()} Specialists`, category: category.toUpperCase(), phone: "+1 (416) 555-0115", address: `304 Victoria Ave, ${city}`, city: city, opportunity_score: "97% (No Online Presence)"}
-                ];
-                fallbacks.forEach(biz => {
-                    const card = document.createElement('div');
-                    card.className = 'lead-card';
-                    card.innerHTML = `
-                        <div>
-                            <div class="card-header">
-                                <div>
-                                    <div class="biz-name">${biz.name}</div>
-                                    <div class="biz-cat">Category: ${biz.category}</div>
-                                </div>
-                                <span class="status-badge">🔴 NO WEBSITE</span>
+                    results.innerHTML = list.map((b, i) => `
+                        <div class="biz">
+                            <div>
+                                <h3>${escapeHtml(b.name || 'Business')}</h3>
+                                <div class="meta">${escapeHtml(b.category || category)} · ${escapeHtml(b.phone || 'n/a')}<br>${escapeHtml(b.address || city)}</div>
+                                <span class="tag">${escapeHtml(b.status || 'Prospect')}</span>
                             </div>
-                            <div class="biz-details">
-                                <div>📍 <strong>Address:</strong> ${biz.address}</div>
-                                <div>📞 <strong>Phone:</strong> ${biz.phone}</div>
-                                <div>🏙️ <strong>Target City:</strong> ${biz.city}</div>
-                            </div>
-                            <div class="score-box">
-                                <span>Upsell Opportunity:</span>
-                                <span class="score-val">${biz.opportunity_score}</span>
-                            </div>
+                            <button class="btn" onclick='generateSite(${JSON.stringify(b.name || "Business")}, ${JSON.stringify(b.category || category)}, ${JSON.stringify(city)}, ${JSON.stringify(b.phone || "+1 555 000 0000")})'>Generate demo</button>
                         </div>
-                        <button class="btn-generate" onclick="generateSite('${biz.name.replace(/'/g, "\\'")}', '${biz.category}', '${biz.city}', '${biz.phone}')">
-                            🎨 Generate 3D Neon Site ($499 Upsell)
-                        </button>
-                    `;
-                    container.appendChild(card);
-                });
+                    `).join('');
+                }
+            } catch (e) {
+                status.textContent = 'Mine failed: ' + e.message;
+            } finally {
+                btn.disabled = false;
             }
         }
 
-        let currentLiveUrl = "";
-        let currentZipPackage = "";
-
         async function generateSite(name, category, city, phone) {
+            const status = document.getElementById('status');
+            status.textContent = `Generating demo for ${name}…`;
             try {
                 const res = await fetch('/api/generate-website', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        business_name: name,
-                        category: category,
-                        city: city,
-                        phone: phone
-                    })
+                    body: JSON.stringify({ business_name: name, category, city, phone })
                 });
-
                 const data = await res.json();
-                if(res.ok && data.status === "success") {
-                    currentGeneratedFile = data.generated_filename;
-                    currentLiveUrl = data.live_cloud_demo_url || `/live_demos/${data.generated_filename.replace('_luxury.html', '_live.html')}`;
-                    currentZipPackage = data.client_handover_zip || `/handover_packages/${data.generated_filename.replace('_luxury.html', '_full_deployment_package.zip')}`;
-                    
-                    document.getElementById('modal-subtitle').innerText = `3D Portal compiled for "${name}" (${city}). Paradigm: ${data.industry_paradigm_applied}`;
-                    document.getElementById('modal-pitch-text').innerText = data.upsell_pitch || `Subject: Your new live 3D portal preview for ${name}\n\nHi ${name} Team,\n\nNotice you don't have an active website in ${city}. Our autonomous agency built and deployed a live SSL-secured 3D portal specifically for your profession:\n👉 LIVE DEMO: ${currentLiveUrl}\n\nWe have your full 0-to-100 deployment package (ZIP) ready for 1-click transfer. You can own this site today for $499 USDT.\n\nBest,\nElena | LeadFlow.AI`;
-                    
-                    document.getElementById('pitch-modal').style.display = 'flex';
-                }
-            } catch(e) {
-                console.warn("Fallback mode generate:", e);
-                currentGeneratedFile = `${name.toLowerCase().replace(/[^a-z0-9]/g, '_')}_luxury.html`;
-                currentLiveUrl = `https://maryamghabel2-cloud.github.io/leadflow/generated_sites/live_demos/${currentGeneratedFile.replace('_luxury.html', '_live.html')}`;
-                currentZipPackage = `/handover_packages/${currentGeneratedFile.replace('_luxury.html', '_full_deployment_package.zip')}`;
-                
-                document.getElementById('modal-subtitle').innerText = `3D Portal compiled for "${name}" (${city}). (Simulated Fallback)`;
-                document.getElementById('modal-pitch-text').innerText = `Subject: Your new live 3D portal preview for ${name}\n\nHi ${name} Team,\n\nNotice you don't have an active website in ${city}. Our autonomous agency built and deployed a live SSL-secured 3D portal specifically for your profession:\n👉 LIVE DEMO: ${currentLiveUrl}\n\nWe have your full 0-to-100 deployment package (ZIP) ready for 1-click transfer. You can own this site today for $499 USDT.\n\nBest,\nElena | LeadFlow.AI`;
-                document.getElementById('pitch-modal').style.display = 'flex';
+                if (!res.ok) throw new Error(data.detail || 'generate failed');
+                lastSite = data;
+                document.getElementById('modal-title').textContent = data.business_name || name;
+                document.getElementById('modal-body').textContent = data.industry_paradigm_applied || 'Demo generated';
+                document.getElementById('modal-pitch').textContent = data.upsell_pitch || data.live_cloud_demo_url || '';
+                document.getElementById('modal').classList.add('open');
+                status.textContent = 'Demo ready.';
+            } catch (e) {
+                status.textContent = 'Generate failed: ' + e.message;
+                alert('Generate failed: ' + e.message);
             }
         }
 
-        function closeModal() {
-            document.getElementById('pitch-modal').style.display = 'none';
-        }
-
+        function closeModal() { document.getElementById('modal').classList.remove('open'); }
         function copyPitch() {
-            const txt = document.getElementById('modal-pitch-text').innerText;
+            const txt = document.getElementById('modal-pitch').textContent;
             navigator.clipboard.writeText(txt);
-            alert("Upsell pitch copied to clipboard! Ready to send.");
+            alert('Pitch copied');
         }
-
         function openGeneratedSite() {
-            if(currentLiveUrl) {
-                window.open(currentLiveUrl, '_blank');
-            } else if(currentGeneratedFile) {
-                window.open(`/generated/${currentGeneratedFile}`, '_blank');
-            } else {
-                alert("Please generate a site first.");
-            }
+            if (!lastSite) return;
+            const url = lastSite.live_cloud_demo_url || ('/live_demos/' + (lastSite.generated_filename || '').replace('_luxury', '_live'));
+            window.open(url, '_blank');
         }
-
         function downloadZipPackage() {
-            if(currentZipPackage) {
-                window.location.href = currentZipPackage;
-            } else {
-                alert("0-to-100 Handover ZIP package is being generated by CloudEngine...");
-            }
+            if (!lastSite) return;
+            const path = lastSite.client_handover_zip || '';
+            const file = path.split('/').pop();
+            if (file) window.open('/handover_packages/' + file, '_blank');
+            else alert('ZIP path unavailable');
+        }
+        function escapeHtml(s) {
+            return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
         }
     </script>
 </body>

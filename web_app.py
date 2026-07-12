@@ -139,6 +139,25 @@ async def serve_onboard():
     return {"message": "Onboard interface not found. Please create onboard.html."}
 
 
+
+@app.get("/agency")
+async def serve_agency():
+    if os.path.exists("agency_dashboard.html"):
+        return FileResponse("agency_dashboard.html")
+    return {"message": "Agency dashboard not found."}
+
+@app.get("/metaverse")
+async def serve_metaverse():
+    if os.path.exists("index_metaverse_3d.html"):
+        return FileResponse("index_metaverse_3d.html")
+    return {"message": "Metaverse page not found."}
+
+@app.get("/enterprise")
+async def serve_enterprise():
+    if os.path.exists("index_enterprise_minimal.html"):
+        return FileResponse("index_enterprise_minimal.html")
+    return {"message": "Enterprise page not found."}
+
 @app.get("/miner")
 async def serve_miner():
     if os.path.exists("miner.html"):

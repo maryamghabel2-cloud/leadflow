@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LeadFlow.AI - 3D Quantum Metaverse & Autonomous Agent Swarm</title>
+    <title>LeadFlow.AI - 3D Spatial Experience & Autonomous Agent Swarm</title>
     <!-- Three.js, GSAP & Confetti -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -13,9 +13,9 @@
         
         :root {
             --bg: #010308;
-            --cyan: #00f0ff;
+            --cyan: #B8860B;
             --cyan-glow: rgba(0, 240, 255, 0.45);
-            --magenta: #ff007f;
+            --magenta: #18181B;
             --magenta-glow: rgba(255, 0, 127, 0.45);
             --gold: #ffd700;
             --gold-glow: rgba(255, 215, 0, 0.45);
@@ -233,13 +233,13 @@
 
     <!-- Floating Header -->
     <header>
-        <a href="index.html" class="brand">
+        <a href="/" class="brand">
             <div class="brand-logo">LF</div>
             <span>LEADFLOW.AI 3D</span>
         </a>
         <div class="nav-actions">
-            <a href="index.html" class="btn-portal">← Return to Flagship Portal</a>
-            <a href="onboard.html" class="btn-launch">✨ Deploy Swarm Now</a>
+            <a href="/" class="btn-portal">← Return to Flagship Portal</a>
+            <a href="/onboard" class="btn-launch">✨ Deploy Swarm Now</a>
         </div>
     </header>
 
@@ -336,7 +336,7 @@
                 img: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80",
                 vidLabel: "WATCH LIVE AGENT RUN (60 FPS)",
                 s1Val: "40%+", s1Lbl: "Average Reply Rate", s2Val: "24/7", s2Lbl: "Autonomous Autopilot",
-                color: 0x00f0ff, border: "#00f0ff"
+                color: 0xB8860B, border: "#B8860B"
             },
             {
                 id: "// NODE_02_TELEMETRY", title: "SHADOW INFILTRATOR ($499 UPSELL)",
@@ -344,7 +344,7 @@
                 img: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
                 vidLabel: "WATCH 3D PORTAL SYNTHESIS (10S)",
                 s1Val: "$499", s1Lbl: "Instant Upsell Value", s2Val: "10 Sec", s2Lbl: "Synthesis Speed",
-                color: 0xff007f, border: "#ff007f"
+                color: 0xff007f, border: "#18181B"
             },
             {
                 id: "// NODE_03_TELEMETRY", title: "0-TO-100 CLOUD DEPLOYER",
@@ -383,7 +383,7 @@
                 const ambient = new THREE.AmbientLight(0xffffff, 0.5);
                 scene.add(ambient);
 
-                const point1 = new THREE.PointLight(0x00f0ff, 2, 80);
+                const point1 = new THREE.PointLight(0xB8860B, 2, 80);
                 point1.position.set(20, 20, 20);
                 scene.add(point1);
 
@@ -401,7 +401,7 @@
                 sphereGroup.add(mesh1);
 
                 const geom2 = new THREE.IcosahedronGeometry(9, 1);
-                const mat2 = new THREE.MeshStandardMaterial({ color: 0x00f0ff, wireframe: true, roughness: 0.2 });
+                const mat2 = new THREE.MeshStandardMaterial({ color: 0xB8860B, wireframe: true, roughness: 0.2 });
                 const mesh2 = new THREE.Mesh(geom2, mat2);
                 sphereGroup.add(mesh2);
 
@@ -424,7 +424,7 @@
                 }
 
                 // 3. Create 4 Clickable Agent Nodes orbiting the sphere
-                const nodeColors = [0x00f0ff, 0xff007f, 0xffd700, 0x10b981];
+                const nodeColors = [0xB8860B, 0xff007f, 0xffd700, 0x10b981];
                 const angles = [0, Math.PI/2, Math.PI, Math.PI*1.5];
                 
                 for(let i=0; i<4; i++) {
@@ -454,7 +454,7 @@
                     posArray[i+2] = (Math.random() - 0.5) * 140;
                 }
                 partGeom.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-                const partMat = new THREE.PointsMaterial({ size: 0.6, color: 0x00f0ff, transparent: true, opacity: 0.6 });
+                const partMat = new THREE.PointsMaterial({ size: 0.6, color: 0xB8860B, transparent: true, opacity: 0.6 });
                 const starField = new THREE.Points(partGeom, partMat);
                 scene.add(starField);
 
@@ -511,7 +511,7 @@
                 container.appendChild(canvas);
                 const ctx = canvas.getContext('2d');
                 let ang = 0;
-                const colors = ['#00f0ff', '#ff007f', '#ffd700', '#10b981'];
+                const colors = ['#B8860B', '#18181B', '#ffd700', '#10b981'];
                 
                 const drawFallback = () => {
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -519,9 +519,9 @@
                     ang += 0.015;
 
                     // Draw center glowing sphere
-                    ctx.strokeStyle = '#00f0ff'; ctx.lineWidth = 2;
+                    ctx.strokeStyle = '#B8860B'; ctx.lineWidth = 2;
                     ctx.beginPath(); ctx.arc(cx, cy, 100, 0, Math.PI*2); ctx.stroke();
-                    ctx.strokeStyle = '#ff007f'; ctx.lineWidth = 1;
+                    ctx.strokeStyle = '#18181B'; ctx.lineWidth = 1;
                     ctx.beginPath(); ctx.arc(cx, cy, 70, 0, Math.PI*2); ctx.stroke();
 
                     // Draw 4 orbiting nodes

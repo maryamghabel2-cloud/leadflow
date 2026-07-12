@@ -1,113 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LeadFlow.AI (Project Shadow) | Zero-Cost Agency Operating Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeadFlow.AI | Agency Operating Dashboard</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
-        body { background: #030712; color: #f8fafc; padding: 40px 60px; line-height: 1.8; }
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+        :root {
+            --bg: #FBFBF9; --stone: #F2EFE9; --charcoal: #18181B; --slate: #475569;
+            --muted: #78716C; --champagne: #B8860B; --border: #E5E0D8;
+            --font-serif: 'Cinzel', serif; --font-sans: 'Plus Jakarta Sans', sans-serif; --font-mono: 'JetBrains Mono', monospace;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-sans); }
+        body { background: var(--bg); color: var(--charcoal); padding: 40px 48px; line-height: 1.7; border-top: 4px solid var(--charcoal); }
         @media (max-width: 768px) { body { padding: 20px; } }
-        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #6366f1; padding-bottom: 20px; margin-bottom: 30px; flex-wrap: wrap; gap: 16px; }
-        .badge { background: #6366f1; color: #fff; padding: 6px 16px; border-radius: 20px; font-weight: 800; font-size: 13px; }
-        .card { background: #0b1120; border: 1px solid rgba(99, 102, 241, 0.3); border-radius: 24px; padding: 30px; margin-bottom: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
-        h2 { font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
-        table { width: 100%; border-collapse: collapse; text-align: left; margin-top: 14px; font-size: 14px; }
-        th { background: #111827; padding: 14px 12px; color: #6366f1; font-weight: 800; border-bottom: 2px solid #6366f1; }
-        .btn-live { background: linear-gradient(135deg, #6366f1, #ec4899); color: #fff; font-weight: 800; padding: 12px 24px; border-radius: 20px; text-decoration: none; display: inline-block; }
+        .header { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 28px; flex-wrap: wrap; }
+        h1 { font-family: var(--font-serif); font-size: 28px; letter-spacing: 1px; }
+        .sub { color: var(--slate); font-size: 14px; margin-top: 6px; }
+        .badge { border: 1px solid var(--charcoal); padding: 6px 12px; font-size: 11px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
+        .btn { display: inline-block; text-decoration: none; background: var(--charcoal); color: #fff; padding: 12px 18px; font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+        .btn:hover { background: var(--champagne); color: #000; }
+        .card { background: #fff; border: 1px solid var(--border); padding: 24px; margin-bottom: 22px; }
+        h2 { font-size: 18px; margin-bottom: 10px; }
+        p.note { color: var(--slate); font-size: 13px; margin-bottom: 14px; }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        th { text-align: left; padding: 12px 10px; border-bottom: 1px solid var(--border); color: var(--muted); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
+        td { padding: 12px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+        .mono { font-family: var(--font-mono); font-size: 12px; color: var(--slate); }
+        footer { margin-top: 28px; color: var(--muted); font-size: 12px; }
     </style>
 </head>
 <body>
     <div class="header">
         <div>
-            <h1 style="font-size: 32px; font-weight: 800; color: #fff;">🚀 LeadFlow.AI (Project Shadow) Agency OS</h1>
-            <p style="color: #94a3b8; font-size: 14px; margin-top: 6px;">Zero-Cost ($0 Budget) Double-Engine Business Managed by Chief AI Project Manager</p>
+            <h1>LeadFlow Agency OS</h1>
+            <p class="sub">Operational dashboard · monochrome editorial surface · zero neon chrome</p>
         </div>
-        <div style="display: flex; gap: 12px; align-items: center;">
-            <span class="badge">● 100% OPERATIONAL & LIVE</span>
-            <a href="index.html" class="btn-live">🌟 View Main Landing Page ←</a>
+        <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+            <span class="badge">Operational</span>
+            <a class="btn" href="/">Main landing</a>
+            <a class="btn" href="/onboard" style="background:transparent;color:var(--charcoal);border:1px solid var(--charcoal);">Deploy agent</a>
         </div>
     </div>
 
     <div class="card">
-        <h2>📧 Engine 1: Autonomous SDR Outbound Campaign Queue ($199-$1,499/mo)</h2>
-        <p style="color: #94a3b8; font-size: 13px;">Live scraped intelligence and personalized sales hooks generated by Elena AI without human overhead:</p>
-        <div style="overflow-x: auto;">
+        <h2>Engine 1 · SDR outbound queue</h2>
+        <p class="note">Research + copywriting pipeline outputs (sample operational view).</p>
+        <div style="overflow-x:auto;">
             <table>
                 <thead>
-                    <tr><th>Prospect Decision Maker</th><th>Target Domain</th><th>Synthesized Subject Line</th><th>Queue Status</th></tr>
+                    <tr><th>Prospect</th><th>Domain</th><th>Subject</th><th>Status</th></tr>
                 </thead>
                 <tbody>
-            <tr style="border-bottom: 1px solid #1f2937;">
-                <td style="padding: 12px; font-weight: bold; color: #6366f1;">Elena (VP of Outbound)</td>
-                <td style="padding: 12px; color: #fff;">render.com</td>
-                <td style="padding: 12px; color: #9ca3af;">Scaling client pipeline for render.com (Elena)</td>
-                <td style="padding: 12px; font-weight: bold; color: #10b981;">Ready for Dispatch</td>
-            </tr>
-            
-            <tr style="border-bottom: 1px solid #1f2937;">
-                <td style="padding: 12px; font-weight: bold; color: #6366f1;">Marcus (Founder)</td>
-                <td style="padding: 12px; color: #fff;">vercel.com</td>
-                <td style="padding: 12px; color: #9ca3af;">Quick question for Marcus regarding vercel.com's outbound growth</td>
-                <td style="padding: 12px; font-weight: bold; color: #10b981;">Ready for Dispatch</td>
-            </tr>
-            
-            <tr style="border-bottom: 1px solid #1f2937;">
-                <td style="padding: 12px; font-weight: bold; color: #6366f1;">Sarah (Head of Growth)</td>
-                <td style="padding: 12px; color: #fff;">stripe.com</td>
-                <td style="padding: 12px; color: #9ca3af;">Scaling client pipeline for stripe.com (Sarah)</td>
-                <td style="padding: 12px; font-weight: bold; color: #10b981;">Ready for Dispatch</td>
-            </tr>
-            
-            <tr style="border-bottom: 1px solid #1f2937;">
-                <td style="padding: 12px; font-weight: bold; color: #6366f1;">David (CEO)</td>
-                <td style="padding: 12px; color: #fff;">github.com</td>
-                <td style="padding: 12px; color: #9ca3af;">Quick question for David regarding github.com's outbound growth</td>
-                <td style="padding: 12px; font-weight: bold; color: #10b981;">Ready for Dispatch</td>
-            </tr>
-            
-            <tr style="border-bottom: 1px solid #1f2937;">
-                <td style="padding: 12px; font-weight: bold; color: #6366f1;">Elena (VP of Outbound)</td>
-                <td style="padding: 12px; color: #fff;">render.com</td>
-                <td style="padding: 12px; color: #9ca3af;">Scaling client pipeline for render.com (Elena)</td>
-                <td style="padding: 12px; font-weight: bold; color: #10b981;">Ready for Dispatch</td>
-            </tr>
-            
-            <tr style="border-bottom: 1px solid #1f2937;">
-                <td style="padding: 12px; font-weight: bold; color: #6366f1;">Marcus (Founder)</td>
-                <td style="padding: 12px; color: #fff;">vercel.com</td>
-                <td style="padding: 12px; color: #9ca3af;">Quick question for Marcus regarding vercel.com's outbound growth</td>
-                <td style="padding: 12px; font-weight: bold; color: #10b981;">Ready for Dispatch</td>
-            </tr>
-            
-            <tr style="border-bottom: 1px solid #1f2937;">
-                <td style="padding: 12px; font-weight: bold; color: #6366f1;">Sarah (Head of Growth)</td>
-                <td style="padding: 12px; color: #fff;">stripe.com</td>
-                <td style="padding: 12px; color: #9ca3af;">Scaling client pipeline for stripe.com (Sarah)</td>
-                <td style="padding: 12px; font-weight: bold; color: #10b981;">Ready for Dispatch</td>
-            </tr>
-            
-            <tr style="border-bottom: 1px solid #1f2937;">
-                <td style="padding: 12px; font-weight: bold; color: #6366f1;">David (CEO)</td>
-                <td style="padding: 12px; color: #fff;">github.com</td>
-                <td style="padding: 12px; color: #9ca3af;">Quick question for David regarding github.com's outbound growth</td>
-                <td style="padding: 12px; font-weight: bold; color: #10b981;">Ready for Dispatch</td>
-            </tr>
-            </tbody>
+                    <tr><td>David (CEO)</td><td class="mono">github.com</td><td>Quick question regarding outbound growth</td><td>Ready for Dispatch</td></tr>
+                    <tr><td>Sarah (Head of Growth)</td><td class="mono">stripe.com</td><td>Scaling client pipeline</td><td>Ready for Dispatch</td></tr>
+                    <tr><td>Marcus (Founder)</td><td class="mono">vercel.com</td><td>Autonomous workforce preview</td><td>Draft</td></tr>
+                </tbody>
             </table>
         </div>
     </div>
 
     <div class="card">
-        <h2>📜 Live Agency Audit Trail & Engine Health Logs</h2>
-        <div style="background: #020408; border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 20px; max-height: 280px; overflow-y: auto;">
-            <div style="margin-bottom: 8px; font-family: monospace; font-size: 12px;"><span style="color: #64748b;">[2026-07-05 23:04:35]</span> <strong style="color: #6366f1;">Deployer (PROVISIONED):</strong> <span style="color: #e2e8f0;">Skyline Real Estate -> Real Estate & Architecture (Architectural Gold & Metaverse Property Tours) | Live URL: https://maryamghabel2-cloud.github.io/leadflow/generated_sites/live_demos/skyline_real_estate_live.html</span></div><div style="margin-bottom: 8px; font-family: monospace; font-size: 12px;"><span style="color: #64748b;">[2026-07-05 23:04:35]</span> <strong style="color: #6366f1;">Deployer (PROVISIONED):</strong> <span style="color: #e2e8f0;">Vanguard Legal Counsel -> Law Firm & Attorney (Platinum Editorial Magazine Serif & Case Valuation) | Live URL: https://maryamghabel2-cloud.github.io/leadflow/generated_sites/live_demos/vanguard_legal_counsel_live.html</span></div><div style="margin-bottom: 8px; font-family: monospace; font-size: 12px;"><span style="color: #64748b;">[2026-07-05 23:04:34]</span> <strong style="color: #6366f1;">Deployer (PROVISIONED):</strong> <span style="color: #e2e8f0;">Lumiere Fine Dining -> Fine Dining & Gourmet Lounge (Obsidian Gold & Sizzling Embers) | Live URL: https://maryamghabel2-cloud.github.io/leadflow/generated_sites/live_demos/lumiere_fine_dining_live.html</span></div><div style="margin-bottom: 8px; font-family: monospace; font-size: 12px;"><span style="color: #64748b;">[2026-07-05 23:04:34]</span> <strong style="color: #6366f1;">Deployer (PROVISIONED):</strong> <span style="color: #e2e8f0;">Apex Dental Clinic -> Medical & Dental Clinic (Holographic Cyber-Blue & 3D Anatomy) | Live URL: https://maryamghabel2-cloud.github.io/leadflow/generated_sites/live_demos/apex_dental_clinic_live.html</span></div><div style="margin-bottom: 8px; font-family: monospace; font-size: 12px;"><span style="color: #64748b;">[2026-07-05 23:04:33]</span> <strong style="color: #6366f1;">Shadow_Infiltrator (VERIFY_PARADIGMS):</strong> <span style="color: #e2e8f0;">Checking 0-to-100 client deployment infrastructure.</span></div><div style="margin-bottom: 8px; font-family: monospace; font-size: 12px;"><span style="color: #64748b;">[2026-07-05 23:04:33]</span> <strong style="color: #6366f1;">Copywriter (DRAFT_GENERATED):</strong> <span style="color: #e2e8f0;">Crafted tailored cold email for Elena (VP of Outbound) @ render.com</span></div><div style="margin-bottom: 8px; font-family: monospace; font-size: 12px;"><span style="color: #64748b;">[2026-07-05 23:04:33]</span> <strong style="color: #6366f1;">Copywriter (DRAFT_GENERATED):</strong> <span style="color: #e2e8f0;">Crafted tailored cold email for Marcus (Founder) @ vercel.com</span></div><div style="margin-bottom: 8px; font-family: monospace; font-size: 12px;"><span style="color: #64748b;">[2026-07-05 23:04:32]</span> <strong style="color: #6366f1;">Copywriter (DRAFT_GENERATED):</strong> <span style="color: #e2e8f0;">Crafted tailored cold email for Sarah (Head of Growth) @ stripe.com</span></div><div style="margin-bottom: 8px; font-family: monospace; font-size: 12px;"><span style="color: #64748b;">[2026-07-05 23:04:32]</span> <strong style="color: #6366f1;">Copywriter (DRAFT_GENERATED):</strong> <span style="color: #e2e8f0;">Crafted tailored cold email for David (CEO) @ github.com</span></div><div style="margin-bottom: 8px; font-family: monospace; font-size: 12px;"><span style="color: #64748b;">[2026-07-05 23:04:32]</span> <strong style="color: #6366f1;">SDR_Engine (START_CAMPAIGN):</strong> <span style="color: #e2e8f0;">Initiating automated B2B outbound research and copywriting queue.</span></div><div style="margin-bottom: 8px; font-family: monospace; font-size: 12px;"><span style="color: #64748b;">[2026-07-05 23:04:25]</span> <strong style="color: #6366f1;">Deployer (EDGE_DEPLOY):</strong> <span style="color: #e2e8f0;">Automated zero-cost deployment to GitHub Pages -> Staged (fatal: 'origin' does not appear to be a git repository
-fatal)</span></div><div style="margin-bottom: 8px; font-family: monospace; font-size: 12px;"><span style="color: #64748b;">[2026-07-05 23:04:25]</span> <strong style="color: #6366f1;">Dashboard (COMPILED):</strong> <span style="color: #e2e8f0;">Compiled agency_dashboard.html successfully inside repo directory.</span></div><div style="margin-bottom: 8px; font-family: monospace; font-size: 12px;"><span style="color: #64748b;">[2026-07-05 23:04:25]</span> <strong style="color: #6366f1;">Deployer (PROVISIONED):</strong> <span style="color: #e2e8f0;">Skyline Real Estate -> Real Estate & Architecture (Architectural Gold & Metaverse Property Tours) | Live URL: https://maryamghabel2-cloud.github.io/leadflow/generated_sites/live_demos/skyline_real_estate_live.html</span></div><div style="margin-bottom: 8px; font-family: monospace; font-size: 12px;"><span style="color: #64748b;">[2026-07-05 23:04:25]</span> <strong style="color: #6366f1;">Deployer (PROVISIONED):</strong> <span style="color: #e2e8f0;">Vanguard Legal Counsel -> Law Firm & Attorney (Platinum Editorial Magazine Serif & Case Valuation) | Live URL: https://maryamghabel2-cloud.github.io/leadflow/generated_sites/live_demos/vanguard_legal_counsel_live.html</span></div><div style="margin-bottom: 8px; font-family: monospace; font-size: 12px;"><span style="color: #64748b;">[2026-07-05 23:04:25]</span> <strong style="color: #6366f1;">Deployer (PROVISIONED):</strong> <span style="color: #e2e8f0;">Lumiere Fine Dining -> Fine Dining & Gourmet Lounge (Obsidian Gold & Sizzling Embers) | Live URL: https://maryamghabel2-cloud.github.io/leadflow/generated_sites/live_demos/lumiere_fine_dining_live.html</span></div>
+        <h2>Engine 2 · Shadow Infiltrator demos</h2>
+        <p class="note">Live demo provisioning status for local-business website packages.</p>
+        <div style="overflow-x:auto;">
+            <table>
+                <thead>
+                    <tr><th>Business</th><th>Paradigm</th><th>Live demo</th><th>Status</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Apex Dental Lounge</td>
+                        <td>Medical / Dental</td>
+                        <td class="mono"><a href="/live_demos/apex_dental_lounge_live.html">open demo</a></td>
+                        <td>Provisioned</td>
+                    </tr>
+                    <tr>
+                        <td>Lumiere Fine Dining</td>
+                        <td>Dining</td>
+                        <td class="mono"><a href="/live_demos/lumiere_fine_dining_live.html">open demo</a></td>
+                        <td>Provisioned</td>
+                    </tr>
+                    <tr>
+                        <td>Vanguard Legal Counsel</td>
+                        <td>Legal</td>
+                        <td class="mono"><a href="/live_demos/vanguard_legal_counsel_live.html">open demo</a></td>
+                        <td>Provisioned</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 
-    <footer style="text-align: center; color: #64748b; font-size: 13px; padding-top: 20px;">
-        © 2026 LeadFlow.AI (Project Shadow) | Executed with Zero Cost by Chief AI Project Manager | Hosted Free on GitHub Pages SSL Edge
-    </footer>
+    <div class="card">
+        <h2>Payment integrity</h2>
+        <p class="note">Production rules: simulation payments disabled · treasury wallet required · replay protection on.</p>
+        <p class="mono">GET /api/health · GET /api/config/public · POST /api/verify-payment</p>
+    </div>
+
+    <footer>© 2026 LeadFlow.AI · Internal ops view</footer>
 </body>
 </html>
