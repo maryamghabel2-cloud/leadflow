@@ -1,157 +1,192 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apex Dental & Implant Lounge - Premier Medical & Dental Suite in Toronto</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apex Dental & Implant Lounge · Medical & Dental · Toronto</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700;800&display=swap');
-        :root { --bg: #030814; --surface: #0a1329; --primary: #00f0ff; --secondary: #0077ff; --text: #f8fafc; --muted: #94a3b8; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
-        body { background: var(--bg); color: var(--text); overflow-x: hidden; line-height: 1.7; }
-        nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 60px; background: rgba(3,8,20,0.92); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(0,240,255,0.25); position: sticky; top: 0; z-index: 100; }
-        .brand { font-family: 'Space Grotesk', sans-serif; font-size: 26px; font-weight: 800; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 12px; }
-        .brand span { color: var(--primary); }
-        .btn-vip { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #000; font-weight: 800; padding: 14px 30px; border-radius: 30px; text-decoration: none; box-shadow: 0 0 30px rgba(0,240,255,0.4); transition: all 0.3s; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; border: none; font-size: 15px; }
-        .btn-vip:hover { transform: translateY(-3px); box-shadow: 0 0 45px var(--primary); }
-        .hero { padding: 80px 60px 100px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 50px; max-width: 1350px; margin: 0 auto; align-items: center; }
-        @media (max-width: 992px) { .hero { grid-template-columns: 1fr; text-align: center; padding: 40px 20px; } }
-        h1 { font-family: 'Space Grotesk', sans-serif; font-size: 58px; font-weight: 800; line-height: 1.12; margin-bottom: 22px; }
-        h1 span { background: linear-gradient(135deg, var(--primary), #fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 30px rgba(0,240,255,0.3); }
-        .card-3d { background: var(--surface); border: 2px solid var(--primary); border-radius: 32px; padding: 30px; text-align: center; box-shadow: 0 30px 70px rgba(0,0,0,0.9), 0 0 40px rgba(0,240,255,0.3); position: relative; }
-        #canvas-box { width: 100%; height: 320px; background: #02050e; border-radius: 20px; margin-bottom: 18px; border: 1px solid rgba(255,255,255,0.1); }
-        .section-box { padding: 80px 60px; max-width: 1350px; margin: 0 auto; }
-        .bento-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 40px; }
-        @media (max-width: 900px) { .bento-grid { grid-template-columns: 1fr; } }
-        .bento-card { background: var(--surface); border: 1px solid rgba(255,255,255,0.1); border-radius: 28px; padding: 32px; transition: all 0.3s; }
-        .bento-card:hover { border-color: var(--primary); transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 30px rgba(0,240,255,0.25); }
-        .slider-box { background: linear-gradient(135deg, #0a1329, #022336); border: 2px solid var(--primary); border-radius: 36px; padding: 50px; text-align: center; max-width: 1000px; margin: 60px auto; box-shadow: 0 30px 80px rgba(0,0,0,0.8); }
-        .slider-input { width: 100%; max-width: 700px; height: 12px; accent-color: var(--primary); margin: 26px 0; cursor: pointer; }
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); backdrop-filter: blur(15px); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
-        .modal-box { background: #0a1329; border: 2px solid var(--primary); border-radius: 32px; max-width: 520px; width: 100%; padding: 40px; position: relative; box-shadow: 0 0 60px rgba(0,240,255,0.4); }
-        .form-input, .form-select { width: 100%; padding: 14px 18px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.15); border-radius: 14px; color: #fff; font-size: 15px; margin-bottom: 16px; outline: none; }
-        .form-input:focus, .form-select:focus { border-color: var(--primary); }
-        footer { padding: 60px; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); color: var(--muted); background: #02050e; }
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+        :root {
+            --bg: #FBFBF9; --stone: #F2EFE9; --card: #FFFFFF; --charcoal: #18181B;
+            --slate: #475569; --muted: #78716C; --champagne: #B8860B; --border: #E5E0D8;
+            --font-serif: 'Cinzel', serif; --font-sans: 'Plus Jakarta Sans', sans-serif; --font-mono: 'JetBrains Mono', monospace;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-sans); }
+        body { background: var(--bg); color: var(--charcoal); line-height: 1.75; border-top: 4px solid var(--charcoal); }
+        header {
+            display: flex; justify-content: space-between; align-items: center; gap: 16px;
+            padding: 22px 48px; border-bottom: 1px solid var(--border); background: rgba(251,251,249,0.96);
+            position: sticky; top: 0; z-index: 50;
+        }
+        @media (max-width: 720px) { header { padding: 16px 18px; flex-direction: column; } }
+        .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
+        .mark { width: 34px; height: 34px; background: var(--charcoal); color: #fff; display: flex; align-items: center; justify-content: center; font-family: var(--font-serif); font-weight: 700; }
+        .brand-text { font-family: var(--font-serif); letter-spacing: 3px; font-weight: 800; font-size: 16px; }
+        .btn {
+            border: 1px solid var(--charcoal); background: var(--charcoal); color: #fff;
+            padding: 12px 20px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px;
+            text-transform: uppercase; cursor: pointer; text-decoration: none; display: inline-flex;
+        }
+        .btn:hover { background: var(--champagne); color: #000; }
+        .btn-ghost { background: transparent; color: var(--charcoal); }
+        .btn-ghost:hover { background: var(--stone); color: var(--charcoal); }
+        .hero {
+            max-width: 1180px; margin: 0 auto; padding: 72px 24px 64px;
+            display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+        @media (max-width: 900px) { .hero { grid-template-columns: 1fr; padding: 40px 20px; } }
+        .kicker {
+            font-family: var(--font-mono); font-size: 11px; letter-spacing: 2.5px; color: var(--champagne);
+            text-transform: uppercase; font-weight: 700; margin-bottom: 14px;
+        }
+        h1 { font-size: 44px; line-height: 1.15; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 16px; }
+        @media (max-width: 640px) { h1 { font-size: 32px; } }
+        h1 em { font-family: var(--font-serif); font-style: italic; font-weight: 700; color: #0F172A; }
+        .lead { color: var(--slate); font-size: 16px; max-width: 560px; margin-bottom: 28px; }
+        .actions { display: flex; gap: 12px; flex-wrap: wrap; }
+        .panel {
+            background: var(--stone); border: 1px solid var(--border); padding: 28px;
+        }
+        .panel h3 { font-family: var(--font-serif); font-size: 20px; margin-bottom: 8px; }
+        .panel p { color: var(--slate); font-size: 14px; margin-bottom: 18px; }
+        .section { max-width: 1180px; margin: 0 auto; padding: 64px 24px; }
+        .section h2 { font-size: 30px; font-weight: 800; margin-bottom: 8px; }
+        .section .sub { color: var(--slate); margin-bottom: 28px; }
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+        @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+        .card { background: #fff; border: 1px solid var(--border); padding: 24px; }
+        .card-kicker { font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 1px; margin-bottom: 10px; }
+        .card h3 { font-size: 18px; margin-bottom: 8px; }
+        .card p { color: var(--slate); font-size: 14px; }
+        .tool {
+            max-width: 900px; margin: 0 auto; background: #fff; border: 1px solid var(--border);
+            padding: 36px; text-align: center;
+        }
+        .tool .kicker { margin-bottom: 10px; }
+        .tool h2 { font-size: 28px; margin-bottom: 10px; }
+        .tool p { color: var(--slate); margin-bottom: 18px; }
+        .tool input[type=range] { width: min(100%, 520px); accent-color: var(--charcoal); margin: 14px 0 20px; }
+        .tool-val { font-family: var(--font-serif); font-size: 36px; font-weight: 700; margin: 8px 0 6px; }
+        footer {
+            border-top: 1px solid var(--border); padding: 40px 24px; text-align: center; color: var(--muted); font-size: 13px;
+            background: #fff;
+        }
+        footer strong { color: var(--charcoal); }
+        .modal-bg {
+            display: none; position: fixed; inset: 0; background: rgba(24,24,27,0.45);
+            align-items: center; justify-content: center; padding: 18px; z-index: 100;
+        }
+        .modal-bg.open { display: flex; }
+        .modal { width: min(480px, 100%); background: #fff; border: 1px solid var(--border); padding: 28px; position: relative; }
+        .modal h3 { font-family: var(--font-serif); font-size: 22px; margin-bottom: 8px; }
+        .modal p { color: var(--slate); font-size: 14px; margin-bottom: 16px; }
+        .modal input, .modal select {
+            width: 100%; border: 1px solid var(--border); background: var(--bg); padding: 12px 14px;
+            margin-bottom: 12px; font-size: 14px; outline: none;
+        }
+        .modal input:focus, .modal select:focus { border-color: var(--charcoal); background: #fff; }
+        .close { position: absolute; top: 12px; right: 14px; border: 0; background: transparent; font-size: 22px; cursor: pointer; color: var(--muted); }
     </style>
 </head>
 <body>
-    <nav>
-        <a href="#" class="brand">🧬 <span>Apex Dental & Implant Lounge</span></a>
-        <div style="display: flex; gap: 20px; align-items: center;">
-            <a href="#services" style="color: #fff; text-decoration: none; font-weight: 700;">3D Clinical Suite</a>
-            <a href="#whitening" style="color: #fff; text-decoration: none; font-weight: 700;">Whitening Slider</a>
-            <button class="btn-vip" onclick="openModal()">📅 Book VIP Consultation</button>
-        </div>
-    </nav>
+    <header>
+        <a class="brand" href="#">
+            <div class="mark">L</div>
+            <div class="brand-text">APEX DENTAL & IMPL</div>
+        </a>
+        <button class="btn" onclick="openModal()">Book consultation</button>
+    </header>
+
     <section class="hero">
         <div>
-            <span style="background: rgba(0,240,255,0.15); border: 1px solid var(--primary); color: var(--primary); padding: 8px 20px; border-radius: 30px; font-size: 13px; font-weight: 800; letter-spacing: 1px;">🏆 PREMIER MEDICAL & DENTAL EXCELLENCE • TORONTO</span>
-            <h1 style="margin-top: 20px;">Next-Generation <br><span>Precision Healthcare</span></h1>
-            <p style="color: var(--muted); font-size: 18px; margin-bottom: 34px;">Featuring 3D AI anatomical diagnostics, painless robotic precision, and spa-level patient comfort. We transform dental care into a rejuvenating VIP experience.</p>
-            <div style="display: flex; gap: 16px; flex-wrap: wrap;">
-                <button class="btn-vip" onclick="openModal()">✨ Reserve VIP Appointment</button>
-                <a href="#whitening" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 14px 28px; border-radius: 30px; text-decoration: none; font-weight: 800; display: inline-flex; align-items: center; gap: 8px;">😁 Smile Whitening Test ↓</a>
+            <div class="kicker">Clinical practice · Toronto</div>
+            <h1>Calm, precise care<br>for modern patients</h1>
+            <p class="lead">Apex Dental & Implant Lounge brings clinic-grade expertise and a composed patient experience to Toronto — from first consult to follow-up.</p>
+            <div class="actions">
+                <button class="btn" onclick="openModal()">Book consultation</button>
+                <a class="btn btn-ghost" href="#services">View services</a>
             </div>
         </div>
-        <div class="card-3d">
-            <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 800; color: var(--primary); margin-bottom: 12px;">
-                <span>🔬 LIVE 3D BIOMIMETIC SCANNER</span>
-                <span style="color: #34d399;">● 60 FPS ACTIVE</span>
-            </div>
-            <div id="canvas-box"></div>
-            <div style="font-size: 20px; font-weight: 800; color: #fff;">Anatomical Tooth & DNA Visualizer</div>
-            <div style="color: var(--muted); font-size: 13px; margin-top: 6px;">Zero Discomfort • 99.9% Implant Success Rate • 1-Day Recovery</div>
-            <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; color: var(--primary); font-weight: 700;">
-                💡 TIP: MOVE MOUSE OVER CANVAS TO ORBIT 3D MODEL
-            </div>
-        </div>
-    </section>
-    <section class="section-box" id="services">
-        <div style="text-align: center;">
-            <h2 style="font-size: 40px; font-weight: 800; color: #fff;">The 3D Clinical Suite</h2>
-            <p style="color: var(--muted); font-size: 17px; margin-top: 8px;">Every procedure is executed with robotic precision and uncompromised aesthetic mastery.</p>
-        </div>
-        <div class="bento-grid">
-            <div class="bento-card">
-                <div style="font-size: 38px; margin-bottom: 16px;">🧬</div>
-                <h3 style="font-size: 22px; color: #fff; margin-bottom: 10px;">3D Robotic Diagnostics</h3>
-                <p style="color: var(--muted); font-size: 15px;">High-definition anatomical 3D mapping with zero discomfort or radiation. Pre-visualize your new smile before procedure initiation.</p>
-            </div>
-            <div class="bento-card">
-                <div style="font-size: 38px; margin-bottom: 16px;">⚡</div>
-                <h3 style="font-size: 22px; color: #fff; margin-bottom: 10px;">Painless Laser Therapy</h3>
-                <p style="color: var(--muted); font-size: 15px;">State-of-the-art non-invasive treatments designed for rapid tissue healing and complete VIP serenity without needles.</p>
-            </div>
-            <div class="bento-card">
-                <div style="font-size: 38px; margin-bottom: 16px;">💎</div>
-                <h3 style="font-size: 22px; color: #fff; margin-bottom: 10px;">Biomimetic Restoration</h3>
-                <p style="color: var(--muted); font-size: 15px;">Custom ceramic smile redesigns tailored to your unique facial geometry using aerospace-grade zirconia materials.</p>
+        <div class="panel">
+            <div class="kicker">At a glance</div>
+            <h3>Apex Dental & Implant Lounge</h3>
+            <p>Premium local presence for clients in Toronto. Built as a clean editorial website — easy to read, easy to book, easy to trust.</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                <div style="background:#fff;border:1px solid var(--border);padding:14px;">
+                    <div style="font-family:var(--font-serif);font-size:24px;font-weight:700;">4.9</div>
+                    <div style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">Client rating</div>
+                </div>
+                <div style="background:#fff;border:1px solid var(--border);padding:14px;">
+                    <div style="font-family:var(--font-serif);font-size:24px;font-weight:700;">24h</div>
+                    <div style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">Response goal</div>
+                </div>
             </div>
         </div>
     </section>
-    <section class="section-box" id="whitening">
-        <div class="slider-box">
-            <span style="color: var(--primary); font-weight: 800; font-size: 13px; letter-spacing: 2px;">😁 INTERACTIVE CLINICAL TOOL</span>
-            <h2 style="font-size: 36px; font-weight: 800; color: #fff; margin: 12px 0;">3D Laser Smile Whitening Comparison</h2>
-            <p style="color: var(--muted); font-size: 16px; max-width: 650px; margin: 0 auto;">Drag the slider below to simulate the exact enamel brightness improvement achieved in a single 45-minute VIP session at Apex Dental & Implant Lounge:</p>
-            
-            <div style="font-family: 'Space Grotesk', sans-serif; font-size: 52px; font-weight: 800; color: var(--primary); margin: 30px 0 10px; text-shadow: 0 0 25px rgba(0,240,255,0.4);" id="whitening-val">70% Whiter Brightness</div>
-            <input type="range" class="slider-input" min="10" max="100" value="70" oninput="updateWhitening(this.value)">
-            
-            <div style="display: flex; justify-content: space-between; max-width: 700px; margin: 0 auto; color: var(--muted); font-size: 14px; font-weight: 700;">
-                <span>Standard Stained Enamel (10%)</span>
-                <span style="color: #fff;">VIP Pearl White (100%)</span>
+
+    <section class="section" id="services">
+        <h2>What we offer</h2>
+        <p class="sub">Clear services presented with editorial restraint — no neon chrome, no visual noise.</p>
+        <div class="grid">
+            <div class="card">
+                <div class="card-kicker">01</div>
+                <h3>Diagnostics</h3>
+                <p>Clear assessments and treatment planning without rushed appointments.</p>
             </div>
-            <button class="btn-vip" style="margin-top: 30px;" onclick="openModal()">✨ Lock In This Whitening Package</button>
+            <div class="card">
+                <div class="card-kicker">02</div>
+                <h3>Restorative care</h3>
+                <p>Durable, natural-looking results designed around your comfort.</p>
+            </div>
+            <div class="card">
+                <div class="card-kicker">03</div>
+                <h3>Prevention</h3>
+                <p>Maintenance programs that keep outcomes stable over time.</p>
+            </div>
         </div>
     </section>
-    <div class="modal-overlay" id="vip-modal">
-        <div class="modal-box">
-            <button style="position: absolute; top: 20px; right: 20px; background: none; border: none; color: var(--muted); font-size: 26px; cursor: pointer;" onclick="closeModal()">×</button>
-            <div style="font-size: 26px; font-weight: 800; margin-bottom: 8px; color: #fff;">📅 VIP Patient Concierge</div>
-            <p style="color: var(--muted); font-size: 14px; margin-bottom: 24px;">Complete your preferences to secure priority scheduling with Apex Dental & Implant Lounge.</p>
+
+    <section class="section">
+        <div class="tool">
+            <div class="kicker">Interactive preview</div>
+            <h2>Treatment brightness preview</h2>
+            <p>Slide to preview the kind of whitening outcome patients often aim for in a single visit package.</p>
+            <div class="tool-val" id="tool-val">70% brighter</div><input type="range" min="10" max="100" value="70" oninput="updateTool(this.value)">
+            <div style="margin-top:18px;">
+                <button class="btn" onclick="openModal()">Continue with Apex Dental & Implant Lounge</button>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div style="font-family:var(--font-serif);font-size:20px;color:var(--charcoal);margin-bottom:8px;">Apex Dental & Implant Lounge</div>
+        <div>Toronto · Direct line: <strong>+1 (555) 010-0000</strong></div>
+        <div style="margin-top:10px;">Preview site prepared with LeadFlow editorial engine</div>
+    </footer>
+
+    <div class="modal-bg" id="modal">
+        <div class="modal">
+            <button class="close" onclick="closeModal()">×</button>
+            <h3>Request a consultation</h3>
+            <p>Share your details and the Apex Dental & Implant Lounge team will follow up.</p>
             <form onsubmit="handleBooking(event)">
-                <input type="text" class="form-input" placeholder="Patient Full Name *" required>
-                <input type="tel" class="form-input" placeholder="Contact Phone / WhatsApp *" required>
-                <select class="form-select">
-                    <option>✨ Treatment: 3D Laser Smile Whitening</option>
-                    <option>🧬 Treatment: Biomimetic Ceramic Implants</option>
-                    <option>⚡ Treatment: Painless Robotic Diagnostics</option>
-                </select>
-                <button type="submit" class="btn-vip" style="width: 100%; justify-content: center; margin-top: 10px;">🚀 Confirm VIP Priority Reservation</button>
+                <input type="text" placeholder="Full name *" required>
+                <input type="tel" placeholder="Phone / WhatsApp *" required>
+                <input type="email" placeholder="Email (optional)">
+                <button class="btn" style="width:100%;justify-content:center;" type="submit">Submit request</button>
             </form>
         </div>
     </div>
-    <footer>
-        <p style="font-size: 24px; color: #fff; font-weight: 800; margin-bottom: 10px;">Apex Dental & Implant Lounge</p>
-        <p style="margin-bottom: 16px;">Premier Sanctuary in Toronto | Direct Clinical Line: <strong style="color: var(--primary);">+1 (416) 555-0199</strong></p>
-        <p>© 2026 Apex Dental & Implant Lounge. All rights reserved. Architected via LeadFlow.AI 0-to-100 Cloud Engine.</p>
-    </footer>
+
     <script>
-        function updateWhitening(val) {
-            document.getElementById('whitening-val').innerText = `${val}% Whiter Brightness`;
-        }
-        function openModal() { document.getElementById('vip-modal').style.display = 'flex'; }
-        function closeModal() { document.getElementById('vip-modal').style.display = 'none'; }
+        function openModal() { document.getElementById('modal').classList.add('open'); }
+        function closeModal() { document.getElementById('modal').classList.remove('open'); }
         function handleBooking(e) {
             e.preventDefault(); closeModal();
-            if(typeof confetti !== 'undefined') confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
-            setTimeout(() => alert("🎉 VIP APPOINTMENT CONFIRMED!
-
-Your clinical reservation with Apex Dental & Implant Lounge has been logged into the concierge system."), 300);
+            alert('Thank you. Your request for Apex Dental & Implant Lounge has been recorded.');
         }
-        const c = document.getElementById('canvas-box');
-        if(typeof THREE !== 'undefined' && c) {
-            const s = new THREE.Scene(), cam = new THREE.PerspectiveCamera(50, c.clientWidth/c.clientHeight, 0.1, 1000);
-            const r = new THREE.WebGLRenderer({alpha:true, antialias:true}); r.setSize(c.clientWidth, c.clientHeight); c.appendChild(r.domElement);
-            const m = new THREE.Mesh(new THREE.TorusKnotGeometry(3.5, 1.1, 100, 16), new THREE.MeshNormalMaterial({wireframe:true}));
-            s.add(m); cam.position.z = 15;
-            let mx=0, my=0;
-            c.addEventListener('mousemove', e => { const b=c.getBoundingClientRect(); mx=(e.clientX-b.left-b.width/2)*0.01; my=(e.clientY-b.top-b.height/2)*0.01; });
-            const anim = () => { requestAnimationFrame(anim); m.rotation.x+=0.008; m.rotation.y+=0.012; m.position.x+=(mx-m.position.x)*0.05; m.position.y+=(-my-m.position.y)*0.05; r.render(s, cam); }; anim();
-        }
+        function updateTool(v){ document.getElementById('tool-val').innerText = v + '% brighter'; }
     </script>
 </body>
 </html>

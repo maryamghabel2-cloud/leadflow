@@ -3,525 +3,190 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vogue Spa & Salon - Radiant Elegance in London</title>
-    <!-- External CDNs with offline fallbacks -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    <title>Vogue Spa & Salon · Professional Services · Global</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700;800&display=swap');
-        
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
         :root {
-            --bg: #03060d;
-            --surface: #0a1020;
-            --primary: #ff77aa;
-            --secondary: #9900ff;
-            --accent: #00ffff;
-            --glass: rgba(255, 255, 255, 0.04);
-            --border: rgba(255, 255, 255, 0.1);
-            --border-glow: #ff77aa55;
-            --font-main: 'Plus Jakarta Sans', sans-serif;
-            --font-display: 'Space Grotesk', sans-serif;
+            --bg: #FBFBF9; --stone: #F2EFE9; --card: #FFFFFF; --charcoal: #18181B;
+            --slate: #475569; --muted: #78716C; --champagne: #B8860B; --border: #E5E0D8;
+            --font-serif: 'Cinzel', serif; --font-sans: 'Plus Jakarta Sans', sans-serif; --font-mono: 'JetBrains Mono', monospace;
         }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-main); }
-        
-        body {
-            background-color: var(--bg);
-            color: #ffffff;
-            overflow-x: hidden;
-            perspective: 1000px;
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-sans); }
+        body { background: var(--bg); color: var(--charcoal); line-height: 1.75; border-top: 4px solid var(--charcoal); }
+        header {
+            display: flex; justify-content: space-between; align-items: center; gap: 16px;
+            padding: 22px 48px; border-bottom: 1px solid var(--border); background: rgba(251,251,249,0.96);
+            position: sticky; top: 0; z-index: 50;
         }
-
-        /* 3D Canvas Container */
-        #three-canvas-container {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            pointer-events: none; z-index: 0; opacity: 0.65;
+        @media (max-width: 720px) { header { padding: 16px 18px; flex-direction: column; } }
+        .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
+        .mark { width: 34px; height: 34px; background: var(--charcoal); color: #fff; display: flex; align-items: center; justify-content: center; font-family: var(--font-serif); font-weight: 700; }
+        .brand-text { font-family: var(--font-serif); letter-spacing: 3px; font-weight: 800; font-size: 16px; }
+        .btn {
+            border: 1px solid var(--charcoal); background: var(--charcoal); color: #fff;
+            padding: 12px 20px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px;
+            text-transform: uppercase; cursor: pointer; text-decoration: none; display: inline-flex;
         }
-
-        /* Top Banner */
-        .ai-banner {
-            background: linear-gradient(90deg, #0a1020, #1e1b4b, #0a1020);
-            border-bottom: 1px solid var(--border-glow);
-            padding: 10px 20px; text-align: center; font-size: 12px; font-weight: 800;
-            letter-spacing: 2px; color: var(--primary); position: relative; z-index: 100;
-            text-transform: uppercase;
-        }
-
-        /* Navbar */
-        nav {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 24px 60px; background: rgba(3, 6, 13, 0.85);
-            backdrop-filter: blur(20px); border-bottom: 1px solid var(--border);
-            position: sticky; top: 0; z-index: 90;
-        }
-        @media (max-width: 768px) { nav { padding: 18px 24px; flex-direction: column; gap: 14px; } }
-
-        .brand {
-            font-family: var(--font-display); font-size: 26px; font-weight: 800;
-            background: linear-gradient(to right, #ffffff, var(--primary));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            display: flex; align-items: center; gap: 12px;
-        }
-        .brand-logo {
-            width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 12px; display: flex; align-items: center; justify-content: center;
-            color: #000; font-weight: 800; font-size: 18px; box-shadow: 0 0 25px var(--border-glow);
-        }
-
-        .btn-vip {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: #000; font-weight: 800; font-size: 14px; padding: 14px 28px;
-            border-radius: 30px; border: none; cursor: pointer; text-decoration: none;
-            box-shadow: 0 0 30px var(--border-glow); transition: all 0.3s;
-            text-transform: uppercase; letter-spacing: 1px; display: inline-flex; align-items: center; gap: 8px;
-        }
-        .btn-vip:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 0 45px var(--primary); }
-
-        /* SECTION 1: HERO */
+        .btn:hover { background: var(--champagne); color: #000; }
+        .btn-ghost { background: transparent; color: var(--charcoal); }
+        .btn-ghost:hover { background: var(--stone); color: var(--charcoal); }
         .hero {
-            padding: 100px 60px 120px; max-width: 1300px; margin: 0 auto;
-            position: relative; z-index: 10; min-height: 85vh;
-            display: grid; grid-template-columns: 1.2fr 0.8fr; align-items: center; gap: 60px;
+            max-width: 1180px; margin: 0 auto; padding: 72px 24px 64px;
+            display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: center;
+            border-bottom: 1px solid var(--border);
         }
-        @media (max-width: 992px) { .hero { grid-template-columns: 1fr; text-align: center; padding: 60px 24px; } }
-
-        .hero-badge {
-            display: inline-flex; align-items: center; gap: 8px;
-            background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-glow);
-            color: var(--primary); padding: 8px 18px; border-radius: 30px;
-            font-size: 13px; font-weight: 700; margin-bottom: 24px; text-transform: uppercase;
+        @media (max-width: 900px) { .hero { grid-template-columns: 1fr; padding: 40px 20px; } }
+        .kicker {
+            font-family: var(--font-mono); font-size: 11px; letter-spacing: 2.5px; color: var(--champagne);
+            text-transform: uppercase; font-weight: 700; margin-bottom: 14px;
         }
-        h1 { font-family: var(--font-display); font-size: 66px; font-weight: 800; line-height: 1.05; margin-bottom: 24px; }
-        @media (max-width: 768px) { h1 { font-size: 42px; } }
-        h1 span.highlight {
-            background: linear-gradient(135deg, var(--primary), var(--secondary), #fff);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 30px rgba(0,240,255,0.3);
+        h1 { font-size: 44px; line-height: 1.15; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 16px; }
+        @media (max-width: 640px) { h1 { font-size: 32px; } }
+        h1 em { font-family: var(--font-serif); font-style: italic; font-weight: 700; color: #0F172A; }
+        .lead { color: var(--slate); font-size: 16px; max-width: 560px; margin-bottom: 28px; }
+        .actions { display: flex; gap: 12px; flex-wrap: wrap; }
+        .panel {
+            background: var(--stone); border: 1px solid var(--border); padding: 28px;
         }
-        p.lead { font-size: 19px; color: #9ca3af; max-width: 580px; margin-bottom: 40px; line-height: 1.7; }
-        @media (max-width: 992px) { p.lead { margin: 0 auto 40px; } }
-
-        .floating-card-3d {
-            background: rgba(10, 16, 32, 0.75); border: 1px solid var(--border-glow);
-            border-radius: 28px; padding: 36px; backdrop-filter: blur(25px);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.8), 0 0 40px var(--border-glow);
-            transform: rotateY(-12deg) rotateX(8deg); transition: transform 0.2s ease-out;
-            position: relative; overflow: hidden; cursor: pointer;
+        .panel h3 { font-family: var(--font-serif); font-size: 20px; margin-bottom: 8px; }
+        .panel p { color: var(--slate); font-size: 14px; margin-bottom: 18px; }
+        .section { max-width: 1180px; margin: 0 auto; padding: 64px 24px; }
+        .section h2 { font-size: 30px; font-weight: 800; margin-bottom: 8px; }
+        .section .sub { color: var(--slate); margin-bottom: 28px; }
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+        @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+        .card { background: #fff; border: 1px solid var(--border); padding: 24px; }
+        .card-kicker { font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 1px; margin-bottom: 10px; }
+        .card h3 { font-size: 18px; margin-bottom: 8px; }
+        .card p { color: var(--slate); font-size: 14px; }
+        .tool {
+            max-width: 900px; margin: 0 auto; background: #fff; border: 1px solid var(--border);
+            padding: 36px; text-align: center;
         }
-        .floating-card-3d:hover { transform: rotateY(0deg) rotateX(0deg) scale(1.04); }
-        .dot-pulse { width: 10px; height: 10px; background: #34d399; border-radius: 50%; display: inline-block; box-shadow: 0 0 10px #34d399; }
-
-        /* SECTION 2: INFINITE MARQUEE TICKER */
-        .marquee-section {
-            background: rgba(10, 16, 32, 0.9); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
-            padding: 20px 0; overflow: hidden; position: relative; z-index: 10; margin-bottom: 100px;
+        .tool .kicker { margin-bottom: 10px; }
+        .tool h2 { font-size: 28px; margin-bottom: 10px; }
+        .tool p { color: var(--slate); margin-bottom: 18px; }
+        .tool input[type=range] { width: min(100%, 520px); accent-color: var(--charcoal); margin: 14px 0 20px; }
+        .tool-val { font-family: var(--font-serif); font-size: 36px; font-weight: 700; margin: 8px 0 6px; }
+        footer {
+            border-top: 1px solid var(--border); padding: 40px 24px; text-align: center; color: var(--muted); font-size: 13px;
+            background: #fff;
         }
-        .marquee-track { display: flex; gap: 60px; width: max-content; animation: scrollMarquee 25s linear infinite; }
-        @keyframes scrollMarquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        .marquee-item { font-family: var(--font-display); font-size: 18px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 12px; white-space: nowrap; }
-        .marquee-item span { color: var(--primary); }
-
-        /* SECTION 3: BENTO GRID SERVICES */
-        .section-box { padding: 80px 60px; max-width: 1300px; margin: 0 auto; position: relative; z-index: 10; }
-        @media (max-width: 768px) { .section-box { padding: 60px 24px; } }
-        .section-header { text-align: center; margin-bottom: 70px; }
-        .section-header h2 { font-family: var(--font-display); font-size: 44px; font-weight: 800; margin-bottom: 16px; }
-        .section-header p { color: #9ca3af; font-size: 18px; max-width: 650px; margin: 0 auto; }
-
-        .bento-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; }
-        @media (max-width: 768px) { .bento-grid { grid-template-columns: 1fr; } }
-        .bento-card {
-            background: var(--surface); border: 1px solid var(--border); border-radius: 28px;
-            padding: 40px; position: relative; overflow: hidden; transition: all 0.3s;
+        footer strong { color: var(--charcoal); }
+        .modal-bg {
+            display: none; position: fixed; inset: 0; background: rgba(24,24,27,0.45);
+            align-items: center; justify-content: center; padding: 18px; z-index: 100;
         }
-        .bento-card:hover { border-color: var(--primary); transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 30px var(--border-glow); }
-        .card-icon { width: 64px; height: 64px; border-radius: 18px; background: rgba(255,255,255,0.04); border: 1px solid var(--border-glow); display: flex; align-items: center; justify-content: center; font-size: 32px; margin-bottom: 24px; }
-        .bento-card h3 { font-size: 24px; font-weight: 700; margin-bottom: 12px; color: #fff; }
-        .bento-card p { color: #9ca3af; font-size: 16px; line-height: 1.7; }
-
-        /* SECTION 4: INTERACTIVE ROI CALCULATOR */
-        .calc-box {
-            background: linear-gradient(135deg, rgba(10,16,32,0.9), rgba(0,240,255,0.08));
-            border: 1px solid var(--border-glow); border-radius: 36px; padding: 60px;
-            box-shadow: 0 30px 80px rgba(0,0,0,0.8); margin: 60px 0; text-align: center;
+        .modal-bg.open { display: flex; }
+        .modal { width: min(480px, 100%); background: #fff; border: 1px solid var(--border); padding: 28px; position: relative; }
+        .modal h3 { font-family: var(--font-serif); font-size: 22px; margin-bottom: 8px; }
+        .modal p { color: var(--slate); font-size: 14px; margin-bottom: 16px; }
+        .modal input, .modal select {
+            width: 100%; border: 1px solid var(--border); background: var(--bg); padding: 12px 14px;
+            margin-bottom: 12px; font-size: 14px; outline: none;
         }
-        @media (max-width: 768px) { .calc-box { padding: 36px 20px; } }
-        .calc-slider { width: 100%; max-width: 600px; height: 10px; background: #1e293b; border-radius: 10px; outline: none; margin: 30px 0; accent-color: var(--primary); cursor: pointer; }
-        .calc-output { font-family: var(--font-display); font-size: 64px; font-weight: 800; color: var(--primary); text-shadow: 0 0 30px var(--border-glow); margin: 20px 0; }
-
-        /* SECTION 5: BEFORE & AFTER COMPARISON SLIDER */
-        .comp-container {
-            position: relative; width: 100%; max-width: 900px; height: 400px; margin: 40px auto;
-            border-radius: 28px; overflow: hidden; border: 1px solid var(--border-glow);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.8); user-select: none;
-        }
-        @media (max-width: 768px) { .comp-container { height: 300px; } }
-        .comp-layer {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 800; padding: 40px; text-align: center;
-        }
-        .comp-before { background: #111827; color: #9ca3af; width: 100%; }
-        .comp-after { background: linear-gradient(135deg, #0f172a, #1e1b4b); color: var(--primary); width: 50%; overflow: hidden; border-right: 3px solid var(--primary); box-shadow: 5px 0 25px var(--border-glow); }
-        .comp-slider-input {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            opacity: 0; cursor: ew-resize; z-index: 20;
-        }
-
-        /* SECTION 6: 3D FAQ ACCORDION */
-        .faq-item {
-            background: var(--surface); border: 1px solid var(--border); border-radius: 20px;
-            margin-bottom: 16px; overflow: hidden; transition: all 0.3s;
-        }
-        .faq-header { padding: 24px 30px; font-size: 18px; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-        .faq-body { padding: 0 30px; max-height: 0; overflow: hidden; color: #9ca3af; line-height: 1.7; transition: max-height 0.4s ease, padding 0.4s ease; }
-        .faq-item.active { border-color: var(--primary); box-shadow: 0 0 25px rgba(0,240,255,0.15); }
-        .faq-item.active .faq-body { padding-bottom: 24px; max-height: 200px; }
-
-        /* SECTION 7: FLOATING AI CHAT WIDGET */
-        .ai-chat-btn {
-            position: fixed; bottom: 30px; right: 30px; width: 64px; height: 64px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 28px; cursor: pointer; box-shadow: 0 0 30px var(--primary);
-            z-index: 500; transition: transform 0.3s;
-        }
-        .ai-chat-btn:hover { transform: scale(1.1) rotate(10deg); }
-        .ai-chat-window {
-            position: fixed; bottom: 110px; right: 30px; width: 340px; background: #0a1020;
-            border: 1px solid var(--primary); border-radius: 24px; padding: 24px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8); z-index: 500; display: none;
-            flex-direction: column; gap: 16px;
-        }
-
-        /* SECTION 8: VIP BOOKING MODAL */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0,0,0,0.85); backdrop-filter: blur(15px);
-            display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px;
-        }
-        .modal-box {
-            background: #0a1020; border: 1px solid var(--primary); border-radius: 32px;
-            max-width: 520px; width: 100%; padding: 40px; position: relative;
-            box-shadow: 0 0 60px rgba(0,240,255,0.4);
-        }
-        .form-input { width: 100%; padding: 14px 18px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 12px; color: #fff; font-size: 15px; outline: none; margin-bottom: 16px; }
-        .form-input:focus { border-color: var(--primary); }
-
-        /* Scroll Reveal Animation Classes */
-        .gsap-reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s ease; }
-        .gsap-reveal.active { opacity: 1; transform: translateY(0); }
+        .modal input:focus, .modal select:focus { border-color: var(--charcoal); background: #fff; }
+        .close { position: absolute; top: 12px; right: 14px; border: 0; background: transparent; font-size: 22px; cursor: pointer; color: var(--muted); }
     </style>
 </head>
 <body>
-
-    <!-- Three.js / WebGL 3D Canvas -->
-    <div id="three-canvas-container"></div>
-
-    <div class="ai-banner">
-        ⚡ PRO MAX 3D INTERACTIVE MASTERPIECE | ROSE GOLD AURORA SANCTUARY | ADVANCED GSAP & THREE.JS ENGINE ⚡
-    </div>
-
-    <nav>
-        <div class="brand">
-            <div class="brand-logo">VO</div>
-            <span>Vogue Spa & Salon</span>
-        </div>
-        <button class="btn-vip" onclick="openModal()">✨ Book VIP Consultation</button>
-    </nav>
-
-    <!-- SECTION 1: HERO -->
-    <header class="hero">
-        <div class="gsap-reveal">
-            <div class="hero-badge">✨ PREMIER LUXURY BEAUTY & WELLNESS IN LONDON</div>
-            <h1>Elevate Your <br><span class="highlight">Radiant Elegance</span></h1>
-            <p class="lead">An indulgent sanctuary offering cellular skin rejuvenation, celebrity styling, and holistic stress-release therapies.</p>
-            <div style="display: flex; gap: 16px; flex-wrap: wrap;">
-                <button class="btn-vip" style="padding: 16px 36px; font-size: 16px;" onclick="openModal()">🚀 Reserve Your Experience</button>
-                <a href="#calculator" style="color: #fff; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 8px; padding: 16px;">Calculate Savings ↓</a>
-            </div>
-        </div>
-
-        <div class="floating-card-3d gsap-reveal">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <span style="font-weight: 800; font-size: 14px; color: #fff;">LIVE 3D SUITE MONITOR</span>
-                <span style="font-size: 12px; font-weight: 700; color: #34d399;"><span class="dot-pulse"></span> ONLINE</span>
-            </div>
-            <div style="font-size: 24px; font-weight: 800; margin-bottom: 6px; color: #fff;">Vogue Spa & Salon</div>
-            <div style="font-size: 14px; color: #9ca3af; margin-bottom: 24px;">Location: Premier District, London</div>
-            <div style="background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 16px; padding: 16px; display: flex; justify-content: space-between; margin-bottom: 12px;">
-                <span style="font-size: 13px; color: #9ca3af;">Client Satisfaction Rating</span>
-                <span style="font-size: 22px; font-weight: 800; color: var(--primary);">99.9% ★</span>
-            </div>
-            <div style="background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 16px; padding: 16px; display: flex; justify-content: space-between;">
-                <span style="font-size: 13px; color: #9ca3af;">VIP Priority Access</span>
-                <span style="font-size: 22px; font-weight: 800; color: var(--primary);">Instant</span>
-            </div>
-        </div>
+    <header>
+        <a class="brand" href="#">
+            <div class="mark">L</div>
+            <div class="brand-text">VOGUE SPA & SALON</div>
+        </a>
+        <button class="btn" onclick="openModal()">Get in touch</button>
     </header>
 
-    <!-- SECTION 2: INFINITE MARQUEE TICKER -->
-    <div class="marquee-section">
-        <div class="marquee-track">
-            <div class="marquee-item"><span>★</span> 100% VERIFIED VIP EXCELLENCE <span>★</span> FEATURED IN LUXURY DIGEST <span>★</span> STATE-OF-THE-ART 3D TECHNOLOGY <span>★</span> ZERO DISCOMFORT GUARANTEED <span>★</span> 24/7 CONCIERGE SERVICE <span>★</span></div>
-            <div class="marquee-item"><span>★</span> 100% VERIFIED VIP EXCELLENCE <span>★</span> FEATURED IN LUXURY DIGEST <span>★</span> STATE-OF-THE-ART 3D TECHNOLOGY <span>★</span> ZERO DISCOMFORT GUARANTEED <span>★</span> 24/7 CONCIERGE SERVICE <span>★</span></div>
+    <section class="hero">
+        <div>
+            <div class="kicker">Professional Services · Global</div>
+            <h1>A clearer digital<br>home for professional services</h1>
+            <p class="lead">Vogue Spa & Salon serves clients in Global with a focused offer, trustworthy presentation, and a booking path that feels simple.</p>
+            <div class="actions">
+                <button class="btn" onclick="openModal()">Get in touch</button>
+                <a class="btn btn-ghost" href="#services">View services</a>
+            </div>
         </div>
-    </div>
-
-    <!-- SECTION 3: BENTO GRID SERVICES -->
-    <section class="section-box" id="services">
-        <div class="section-header gsap-reveal">
-            <h2>The 3D Excellence Suite</h2>
-            <p>Every service is meticulously tailored using award-winning techniques and ultra-premium craftsmanship.</p>
-        </div>
-        <div class="bento-grid">
-            <div class="bento-card gsap-reveal">
-                <div class="card-icon">🌸</div>
-                <h3>Cellular Skin Infusion</h3>
-                <p>Oxygen and peptide serums restoring youthful luminescence after one session.</p>
-            </div>
-            <div class="bento-card gsap-reveal">
-                <div class="card-icon">✂️</div>
-                <h3>Couture Hair Architecture</h3>
-                <p>Master colorists and stylists crafting tailored looks for your facial structure.</p>
-            </div>
-            <div class="bento-card gsap-reveal">
-                <div class="card-icon">💆‍♀️</div>
-                <h3>Mineral Hydro-Therapy</h3>
-                <p>Aromatherapy immersion and lymphatic drainage designed for profound relaxation.</p>
-            </div>
-            <div class="bento-card gsap-reveal">
-                <div class="card-icon">🔬</div>
-                <h3>AI Skin Diagnostics</h3>
-                <p>Precision dermatological mapping predicting cellular renewal rates.</p>
+        <div class="panel">
+            <div class="kicker">At a glance</div>
+            <h3>Vogue Spa & Salon</h3>
+            <p>Premium local presence for clients in Global. Built as a clean editorial website — easy to read, easy to book, easy to trust.</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                <div style="background:#fff;border:1px solid var(--border);padding:14px;">
+                    <div style="font-family:var(--font-serif);font-size:24px;font-weight:700;">4.9</div>
+                    <div style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">Client rating</div>
+                </div>
+                <div style="background:#fff;border:1px solid var(--border);padding:14px;">
+                    <div style="font-family:var(--font-serif);font-size:24px;font-weight:700;">24h</div>
+                    <div style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">Response goal</div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- SECTION 4: INTERACTIVE ROI CALCULATOR -->
-    <section class="section-box" id="calculator">
-        <div class="calc-box gsap-reveal">
-            <h2 style="font-family: var(--font-display); font-size: 38px; font-weight: 800; margin-bottom: 12px;">Holistic Rejuvenation Value Calculator</h2>
-            <p style="color: #9ca3af; font-size: 16px; margin-bottom: 30px;">Drag the slider below to calculate your estimated growth and time savings with Vogue Spa & Salon:</p>
-            
-            <div style="font-size: 18px; font-weight: 700; color: #fff;">Desired Monthly Treatment Sessions: <span id="calc-val-text" style="color: var(--primary);">4</span> Sessions</div>
-            <input type="range" class="calc-slider" id="roi-slider" min="10" max="500" value="4" step="10" oninput="updateCalc()">
-            
-            <div style="font-size: 16px; color: #9ca3af; margin-top: 20px;">Estimated VIP Membership Value:</div>
-            <div class="calc-output" id="calc-result-text">$174,000 / yr</div>
-            <button class="btn-vip" style="margin-top: 20px;" onclick="openModal()">🚀 Lock In This Value Now</button>
-        </div>
-    </section>
-
-    <!-- SECTION 5: BEFORE & AFTER COMPARISON SLIDER -->
-    <section class="section-box">
-        <div class="section-header gsap-reveal">
-            <h2>Interactive Transformation Comparison</h2>
-            <p>Drag the slider divider left and right to see the immense difference in quality and luxury.</p>
-        </div>
-        <div class="comp-container gsap-reveal">
-            <div class="comp-layer comp-before">❌ Generic Salons & Harsh Chemicals</div>
-            <div class="comp-layer comp-after" id="comp-after-layer">✨ LeadFlow Organic VIP Serenity</div>
-            <input type="range" class="comp-slider-input" min="0" max="100" value="50" oninput="updateComparison(this.value)">
-        </div>
-    </section>
-
-    <!-- SECTION 6: 3D FAQ ACCORDION -->
-    <section class="section-box">
-        <div class="section-header gsap-reveal">
-            <h2>Frequently Asked Questions</h2>
-            <p>Everything you need to know about our VIP consultation process and 3D suite.</p>
-        </div>
-        <div style="max-width: 800px; margin: 0 auto;">
-            <div class="faq-item gsap-reveal" onclick="this.classList.toggle('active')">
-                <div class="faq-header"><span>How fast can I book a VIP session with Vogue Spa & Salon?</span><span>+</span></div>
-                <div class="faq-body">Our concierge system schedules priority appointments immediately. Once you submit the VIP form, our team connects with you in under 1 minute.</div>
+    <section class="section" id="services">
+        <h2>What we offer</h2>
+        <p class="sub">Clear services presented with editorial restraint — no neon chrome, no visual noise.</p>
+        <div class="grid">
+            <div class="card">
+                <div class="card-kicker">01</div>
+                <h3>Signature service</h3>
+                <p>Core professional services work delivered with consistency and care.</p>
             </div>
-            <div class="faq-item gsap-reveal" onclick="this.classList.toggle('active')">
-                <div class="faq-header"><span>What makes the 3D luxury suite different from standard establishments?</span><span>+</span></div>
-                <div class="faq-body">We utilize award-winning biomimetic techniques, state-of-the-art non-invasive technology, and organic premium materials to ensure zero discomfort and 100% satisfaction.</div>
+            <div class="card">
+                <div class="card-kicker">02</div>
+                <h3>Client experience</h3>
+                <p>Transparent communication from inquiry to completion.</p>
             </div>
-            <div class="faq-item gsap-reveal" onclick="this.classList.toggle('active')">
-                <div class="faq-header"><span>Is private off-market consultation available?</span><span>+</span></div>
-                <div class="faq-body">Yes. For high-profile individuals and executives requiring complete confidentiality, we offer exclusive after-hours private suite reservations upon request.</div>
+            <div class="card">
+                <div class="card-kicker">03</div>
+                <h3>Local presence</h3>
+                <p>Built for people searching in and around Global.</p>
             </div>
         </div>
     </section>
 
-    <!-- SECTION 7: FLOATING AI CHAT WIDGET -->
-    <div class="ai-chat-btn" onclick="toggleChat()">🤖</div>
-    <div class="ai-chat-window" id="ai-chat">
-        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 12px;">
-            <span style="font-weight: 800; color: #fff;">Elena AI Concierge</span>
-            <span style="cursor: pointer; color: #9ca3af;" onclick="toggleChat()">×</span>
+    <section class="section">
+        <div class="tool">
+            <div class="kicker">Interactive preview</div>
+            <h2>Engagement scale</h2>
+            <p>Slide to indicate the approximate size of project you have in mind.</p>
+            <div class="tool-val" id="tool-val">Medium engagement</div><input type="range" min="1" max="5" value="3" oninput="updateTool(this.value)">
+            <div style="margin-top:18px;">
+                <button class="btn" onclick="openModal()">Continue with Vogue Spa & Salon</button>
+            </div>
         </div>
-        <div id="chat-messages" style="max-height: 200px; overflow-y: auto; font-size: 13px; color: #9ca3af; display: flex; flex-direction: column; gap: 8px;">
-            <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 12px;">👋 Hello! I am Elena, the AI Concierge for Vogue Spa & Salon. Would you like to book a priority VIP consultation?</div>
-        </div>
-        <div style="display: flex; gap: 8px;">
-            <input type="text" id="chat-input" placeholder="Ask a question..." style="flex: 1; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 8px; padding: 8px; color: #fff; font-size: 12px; outline: none;" onkeypress="if(event.key==='Enter') sendChat()">
-            <button onclick="sendChat()" style="background: var(--primary); border: none; padding: 8px 12px; border-radius: 8px; font-weight: 700; cursor: pointer;">Send</button>
-        </div>
-    </div>
+    </section>
 
-    <!-- SECTION 8: VIP BOOKING MODAL WITH CONFETTI -->
-    <div class="modal-overlay" id="vip-modal">
-        <div class="modal-box">
-            <button style="position: absolute; top: 20px; right: 20px; background: none; border: none; color: #9ca3af; font-size: 24px; cursor: pointer;" onclick="closeModal()">×</button>
-            <div style="font-size: 26px; font-weight: 800; margin-bottom: 8px; color: #fff;">✨ VIP Reservation</div>
-            <p style="color: #9ca3af; font-size: 14px; margin-bottom: 24px;">Secure your priority consultation with Vogue Spa & Salon.</p>
+    <footer>
+        <div style="font-family:var(--font-serif);font-size:20px;color:var(--charcoal);margin-bottom:8px;">Vogue Spa & Salon</div>
+        <div>Global · Direct line: <strong>+1 (555) 010-0000</strong></div>
+        <div style="margin-top:10px;">Preview site prepared with LeadFlow editorial engine</div>
+    </footer>
+
+    <div class="modal-bg" id="modal">
+        <div class="modal">
+            <button class="close" onclick="closeModal()">×</button>
+            <h3>Contact request</h3>
+            <p>Share your details and the Vogue Spa & Salon team will follow up.</p>
             <form onsubmit="handleBooking(event)">
-                <input type="text" class="form-input" placeholder="Full Name *" required>
-                <input type="tel" class="form-input" placeholder="Contact Phone / WhatsApp *" required>
-                <input type="text" class="form-input" placeholder="Preferred Date & Time">
-                <button type="submit" class="btn-vip" style="width: 100%; justify-content: center; margin-top: 10px;">🚀 Confirm VIP Booking & Celebrate</button>
+                <input type="text" placeholder="Full name *" required>
+                <input type="tel" placeholder="Phone / WhatsApp *" required>
+                <input type="email" placeholder="Email (optional)">
+                <button class="btn" style="width:100%;justify-content:center;" type="submit">Submit request</button>
             </form>
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer style="padding: 60px; text-align: center; border-top: 1px solid var(--border); color: #64748b; font-size: 14px;">
-        <p style="font-size: 18px; color: #fff; font-weight: 800; margin-bottom: 8px;">Vogue Spa & Salon</p>
-        <p style="margin-bottom: 20px;">Premier Sanctuary in London | Phone: <strong style="color: var(--primary);">+44 20 7946 0921</strong></p>
-        <p>© 2026 Vogue Spa & Salon. All rights reserved. Powered by LeadFlow.AI Shadow Infiltrator Pro Max.</p>
-    </footer>
-
-    <!-- Interactive Scripts & Robust Fallbacks -->
     <script>
-        // 1. Scroll Reveal Engine (GSAP or Vanilla Fallback)
-        function initReveal() {
-            if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-                gsap.registerPlugin(ScrollTrigger);
-                document.querySelectorAll('.gsap-reveal').forEach(el => {
-                    gsap.fromTo(el, { opacity: 0, y: 40 }, {
-                        opacity: 1, y: 0, duration: 0.8,
-                        scrollTrigger: { trigger: el, start: "top 85%" }
-                    });
-                });
-            } else {
-                // Vanilla Fallback for offline iframe preview
-                const checkScroll = () => {
-                    document.querySelectorAll('.gsap-reveal').forEach(el => {
-                        if (el.getBoundingClientRect().top < window.innerHeight - 60) el.classList.add('active');
-                    });
-                };
-                window.addEventListener('scroll', checkScroll);
-                checkScroll();
-            }
-        }
-        window.addEventListener('DOMContentLoaded', initReveal);
-
-        // 2. Three.js / WebGL 3D Canvas Engine (With Pure Canvas Fallback)
-        function init3D() {
-            const container = document.getElementById('three-canvas-container');
-            if (typeof THREE !== 'undefined') {
-                const scene = new THREE.Scene();
-                const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-                const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-                renderer.setSize(window.innerWidth, window.innerHeight);
-                container.appendChild(renderer.domElement);
-
-                // Create rotating 3D Torus Knot geometric sculpture
-                const geometry = new THREE.TorusKnotGeometry(10, 3, 100, 16);
-                const material = new THREE.MeshNormalMaterial({ wireframe: true });
-                const torusKnot = new THREE.Mesh(geometry, material);
-                scene.add(torusKnot);
-                camera.position.z = 30;
-
-                let mouseX = 0, mouseY = 0;
-                window.addEventListener('mousemove', e => {
-                    mouseX = (e.clientX - window.innerWidth / 2) * 0.05;
-                    mouseY = (e.clientY - window.innerHeight / 2) * 0.05;
-                });
-
-                const animate = () => {
-                    requestAnimationFrame(animate);
-                    torusKnot.rotation.x += 0.005;
-                    torusKnot.rotation.y += 0.01;
-                    torusKnot.position.x += (mouseX - torusKnot.position.x) * 0.05;
-                    torusKnot.position.y += (-mouseY - torusKnot.position.y) * 0.05;
-                    renderer.render(scene, camera);
-                };
-                animate();
-
-                window.addEventListener('resize', () => {
-                    camera.aspect = window.innerWidth / window.innerHeight;
-                    camera.updateProjectionMatrix();
-                    renderer.setSize(window.innerWidth, window.innerHeight);
-                });
-            } else {
-                // Vanilla HTML5 Canvas Fallback for offline preview without CDN
-                const canvas = document.createElement('canvas');
-                canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-                container.appendChild(canvas);
-                const ctx = canvas.getContext('2d');
-                let pts = Array.from({length: 60}, () => ({x: Math.random()*canvas.width, y: Math.random()*canvas.height, vx: (Math.random()-0.5)*1.5, vy: (Math.random()-0.5)*1.5}));
-                const animFallback = () => {
-                    ctx.clearRect(0,0,canvas.width,canvas.height);
-                    ctx.fillStyle = '#ff77aa';
-                    pts.forEach(p => {
-                        p.x += p.vx; p.y += p.vy;
-                        if(p.x<0||p.x>canvas.width) p.vx*=-1;
-                        if(p.y<0||p.y>canvas.height) p.vy*=-1;
-                        ctx.beginPath(); ctx.arc(p.x, p.y, 2, 0, Math.PI*2); ctx.fill();
-                    });
-                    requestAnimationFrame(animFallback);
-                };
-                animFallback();
-            }
-        }
-        window.addEventListener('DOMContentLoaded', init3D);
-
-        // 3. Interactive ROI Calculator
-        function updateCalc() {
-            const val = document.getElementById('roi-slider').value;
-            document.getElementById('calc-val-text').innerText = val;
-            const res = (val * 650).toLocaleString();
-            document.getElementById('calc-result-text').innerText = `$${res} / yr`;
-        }
-        window.addEventListener('DOMContentLoaded', updateCalc);
-
-        // 4. Before & After Slider
-        function updateComparison(val) {
-            document.getElementById('comp-after-layer').style.width = `${val}%`;
-        }
-
-        // 5. AI Chat Assistant
-        function toggleChat() {
-            const win = document.getElementById('ai-chat');
-            win.style.display = win.style.display === 'flex' ? 'none' : 'flex';
-        }
-        function sendChat() {
-            const inp = document.getElementById('chat-input');
-            const txt = inp.value.trim();
-            if (!txt) return;
-            const box = document.getElementById('chat-messages');
-            box.innerHTML += `<div style="background: rgba(0,240,255,0.1); color: #fff; padding: 8px; border-radius: 8px; align-self: flex-end;">${txt}</div>`;
-            inp.value = "";
-            setTimeout(() => {
-                box.innerHTML += `<div style="background: rgba(255,255,255,0.05); padding: 8px; border-radius: 8px;">✨ That is a great question! For "Vogue Spa & Salon", our 3D AI suite automates that entire process. Would you like to click "Book VIP Consultation" above to secure a time?</div>`;
-                box.scrollTop = box.scrollHeight;
-            }, 800);
-        }
-
-        // 6. VIP Booking & Confetti Celebration
-        function openModal() { document.getElementById('vip-modal').style.display = 'flex'; }
-        function closeModal() { document.getElementById('vip-modal').style.display = 'none'; }
+        function openModal() { document.getElementById('modal').classList.add('open'); }
+        function closeModal() { document.getElementById('modal').classList.remove('open'); }
         function handleBooking(e) {
-            e.preventDefault();
-            closeModal();
-            if (typeof confetti !== 'undefined') {
-                confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
-            } else {
-                alert("🎉 CONFETTI CELEBRATION! 🎉");
-            }
-            setTimeout(() => {
-                alert("🎉 VIP RESERVATION CONFIRMED!
-
-Your priority session with Vogue Spa & Salon has been booked into the concierge system.");
-            }, 400);
+            e.preventDefault(); closeModal();
+            alert('Thank you. Your request for Vogue Spa & Salon has been recorded.');
         }
+        function updateTool(v){ const m={1:'Starter',2:'Focused',3:'Medium engagement',4:'Growth',5:'Enterprise'}; document.getElementById('tool-val').innerText = m[v]||'Medium engagement'; }
     </script>
 </body>
 </html>

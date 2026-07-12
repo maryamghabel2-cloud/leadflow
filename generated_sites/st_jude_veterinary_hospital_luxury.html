@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skyline Prestige Real Estate · Property · Dubai</title>
+    <title>St Jude Veterinary Hospital · Medical & Dental · Toronto</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
         :root {
@@ -93,25 +93,25 @@
     <header>
         <a class="brand" href="#">
             <div class="mark">L</div>
-            <div class="brand-text">SKYLINE PRESTIGE R</div>
+            <div class="brand-text">ST JUDE VETERINARY</div>
         </a>
-        <button class="btn" onclick="openModal()">Book a showing</button>
+        <button class="btn" onclick="openModal()">Book consultation</button>
     </header>
 
     <section class="hero">
         <div>
-            <div class="kicker">Property desk · Dubai</div>
-            <h1>Residences and<br>investments, curated</h1>
-            <p class="lead">Skyline Prestige Real Estate helps buyers and investors in Dubai evaluate properties with calm clarity — architecture, location, and long-term yield.</p>
+            <div class="kicker">Clinical practice · Toronto</div>
+            <h1>Calm, precise care<br>for modern patients</h1>
+            <p class="lead">St Jude Veterinary Hospital brings clinic-grade expertise and a composed patient experience to Toronto — from first consult to follow-up.</p>
             <div class="actions">
-                <button class="btn" onclick="openModal()">Book a showing</button>
+                <button class="btn" onclick="openModal()">Book consultation</button>
                 <a class="btn btn-ghost" href="#services">View services</a>
             </div>
         </div>
         <div class="panel">
             <div class="kicker">At a glance</div>
-            <h3>Skyline Prestige Real Estate</h3>
-            <p>Premium local presence for clients in Dubai. Built as a clean editorial website — easy to read, easy to book, easy to trust.</p>
+            <h3>St Jude Veterinary Hospital</h3>
+            <p>Premium local presence for clients in Toronto. Built as a clean editorial website — easy to read, easy to book, easy to trust.</p>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
                 <div style="background:#fff;border:1px solid var(--border);padding:14px;">
                     <div style="font-family:var(--font-serif);font-size:24px;font-weight:700;">4.9</div>
@@ -131,18 +131,18 @@
         <div class="grid">
             <div class="card">
                 <div class="card-kicker">01</div>
-                <h3>Residential search</h3>
-                <p>Private shortlists matched to lifestyle and budget.</p>
+                <h3>Diagnostics</h3>
+                <p>Clear assessments and treatment planning without rushed appointments.</p>
             </div>
             <div class="card">
                 <div class="card-kicker">02</div>
-                <h3>Investment analysis</h3>
-                <p>Simple yield framing before you commit capital.</p>
+                <h3>Restorative care</h3>
+                <p>Durable, natural-looking results designed around your comfort.</p>
             </div>
             <div class="card">
                 <div class="card-kicker">03</div>
-                <h3>Off-market access</h3>
-                <p>Quiet introductions when discretion matters.</p>
+                <h3>Prevention</h3>
+                <p>Maintenance programs that keep outcomes stable over time.</p>
             </div>
         </div>
     </section>
@@ -150,26 +150,26 @@
     <section class="section">
         <div class="tool">
             <div class="kicker">Interactive preview</div>
-            <h2>Yield sketch</h2>
-            <p>Adjust assumed purchase price to sketch an annual net yield at 8.5%.</p>
-            <div class="tool-val" id="tool-val">$2,500,000 · ~$212,500 / yr</div><input type="range" min="500000" max="12000000" step="100000" value="2500000" oninput="updateTool(this.value)">
+            <h2>Treatment brightness preview</h2>
+            <p>Slide to preview the kind of whitening outcome patients often aim for in a single visit package.</p>
+            <div class="tool-val" id="tool-val">70% brighter</div><input type="range" min="10" max="100" value="70" oninput="updateTool(this.value)">
             <div style="margin-top:18px;">
-                <button class="btn" onclick="openModal()">Continue with Skyline Prestige Real Estate</button>
+                <button class="btn" onclick="openModal()">Continue with St Jude Veterinary Hospital</button>
             </div>
         </div>
     </section>
 
     <footer>
-        <div style="font-family:var(--font-serif);font-size:20px;color:var(--charcoal);margin-bottom:8px;">Skyline Prestige Real Estate</div>
-        <div>Dubai · Direct line: <strong>+1 (555) 010-0000</strong></div>
+        <div style="font-family:var(--font-serif);font-size:20px;color:var(--charcoal);margin-bottom:8px;">St Jude Veterinary Hospital</div>
+        <div>Toronto · Direct line: <strong>+1 (555) 010-0000</strong></div>
         <div style="margin-top:10px;">Preview site prepared with LeadFlow editorial engine</div>
     </footer>
 
     <div class="modal-bg" id="modal">
         <div class="modal">
             <button class="close" onclick="closeModal()">×</button>
-            <h3>Showing request</h3>
-            <p>Share your details and the Skyline Prestige Real Estate team will follow up.</p>
+            <h3>Request a consultation</h3>
+            <p>Share your details and the St Jude Veterinary Hospital team will follow up.</p>
             <form onsubmit="handleBooking(event)">
                 <input type="text" placeholder="Full name *" required>
                 <input type="tel" placeholder="Phone / WhatsApp *" required>
@@ -184,9 +184,9 @@
         function closeModal() { document.getElementById('modal').classList.remove('open'); }
         function handleBooking(e) {
             e.preventDefault(); closeModal();
-            alert('Thank you. Your request for Skyline Prestige Real Estate has been recorded.');
+            alert('Thank you. Your request for St Jude Veterinary Hospital has been recorded.');
         }
-        function updateTool(v){ const y=Math.round(v*0.085); document.getElementById('tool-val').innerText = '$' + parseInt(v).toLocaleString() + ' · ~$' + y.toLocaleString() + ' / yr'; }
+        function updateTool(v){ document.getElementById('tool-val').innerText = v + '% brighter'; }
     </script>
 </body>
 </html>

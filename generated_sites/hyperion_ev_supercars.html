@@ -3,301 +3,190 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HYPERION XP-1 | Quantum EV Hypercar Cockpit & Telemetry Interface</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <title>Hyperion Ev Supercars · Professional Services · Global</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700;800&display=swap');
-        
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
         :root {
-            --bg: #020408;
-            --hud: #060c18;
-            --cyan: #00f0ff;
-            --cyan-glow: rgba(0, 240, 255, 0.45);
-            --red: #ff003c;
-            --amber: #f59e0b;
-            --text: #f8fafc;
-            --muted: #64748b;
-            --border: rgba(0, 240, 255, 0.25);
-            --font-main: 'Space Grotesk', sans-serif;
-            --font-mono: 'JetBrains Mono', monospace;
+            --bg: #FBFBF9; --stone: #F2EFE9; --card: #FFFFFF; --charcoal: #18181B;
+            --slate: #475569; --muted: #78716C; --champagne: #B8860B; --border: #E5E0D8;
+            --font-serif: 'Cinzel', serif; --font-sans: 'Plus Jakarta Sans', sans-serif; --font-mono: 'JetBrains Mono', monospace;
         }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-main); user-select: none; }
-        
-        body {
-            background-color: var(--bg);
-            color: var(--text);
-            overflow: hidden;
-            height: 100vh;
-            width: 100vw;
-            display: grid;
-            grid-template-columns: 340px 1fr 380px;
-            grid-template-rows: 70px 1fr 60px;
-            grid-template-areas: 
-                "top top top"
-                "left center right"
-                "bottom bottom bottom";
-            border: 2px solid var(--cyan);
-            box-shadow: inset 0 0 80px rgba(0, 240, 255, 0.15);
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-sans); }
+        body { background: var(--bg); color: var(--charcoal); line-height: 1.75; border-top: 4px solid var(--charcoal); }
+        header {
+            display: flex; justify-content: space-between; align-items: center; gap: 16px;
+            padding: 22px 48px; border-bottom: 1px solid var(--border); background: rgba(251,251,249,0.96);
+            position: sticky; top: 0; z-index: 50;
         }
-        @media (max-width: 1100px) {
-            body { display: flex; flex-direction: column; overflow-y: auto; height: auto; }
+        @media (max-width: 720px) { header { padding: 16px 18px; flex-direction: column; } }
+        .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
+        .mark { width: 34px; height: 34px; background: var(--charcoal); color: #fff; display: flex; align-items: center; justify-content: center; font-family: var(--font-serif); font-weight: 700; }
+        .brand-text { font-family: var(--font-serif); letter-spacing: 3px; font-weight: 800; font-size: 16px; }
+        .btn {
+            border: 1px solid var(--charcoal); background: var(--charcoal); color: #fff;
+            padding: 12px 20px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px;
+            text-transform: uppercase; cursor: pointer; text-decoration: none; display: inline-flex;
         }
-
-        /* TOP HUD HEADER (GRID AREA: TOP) */
-        .hud-top {
-            grid-area: top;
-            background: rgba(6, 12, 24, 0.85);
+        .btn:hover { background: var(--champagne); color: #000; }
+        .btn-ghost { background: transparent; color: var(--charcoal); }
+        .btn-ghost:hover { background: var(--stone); color: var(--charcoal); }
+        .hero {
+            max-width: 1180px; margin: 0 auto; padding: 72px 24px 64px;
+            display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: center;
             border-bottom: 1px solid var(--border);
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 0 30px; font-family: var(--font-mono); font-size: 13px;
         }
-        .hud-brand { font-size: 20px; font-weight: 900; letter-spacing: 6px; color: #fff; display: flex; align-items: center; gap: 12px; }
-        .hud-brand span { color: var(--cyan); text-shadow: 0 0 15px var(--cyan); }
-        .telemetry-status { display: flex; align-items: center; gap: 24px; color: var(--muted); font-size: 12px; }
-        .status-pill { background: rgba(0, 240, 255, 0.15); border: 1px solid var(--cyan); color: var(--cyan); padding: 4px 12px; border-radius: 4px; font-weight: 800; display: flex; align-items: center; gap: 6px; }
-        .dot { width: 8px; height: 8px; background: #34d399; border-radius: 50%; box-shadow: 0 0 10px #34d399; animation: blink 1s infinite; }
-        @keyframes blink { 50% { opacity: 0.3; } }
-
-        /* LEFT TELEMETRY DOCK (GRID AREA: LEFT) */
-        .hud-left {
-            grid-area: left;
-            background: rgba(6, 12, 24, 0.65);
-            border-right: 1px solid var(--border);
-            padding: 24px; display: flex; flex-direction: column; justify-content: space-between;
+        @media (max-width: 900px) { .hero { grid-template-columns: 1fr; padding: 40px 20px; } }
+        .kicker {
+            font-family: var(--font-mono); font-size: 11px; letter-spacing: 2.5px; color: var(--champagne);
+            text-transform: uppercase; font-weight: 700; margin-bottom: 14px;
         }
-        .dock-title { font-family: var(--font-mono); font-size: 11px; color: var(--cyan); letter-spacing: 3px; font-weight: 800; margin-bottom: 16px; border-bottom: 1px dashed var(--border); padding-bottom: 8px; }
-        
-        .metric-box { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.08); padding: 18px; border-radius: 12px; margin-bottom: 14px; position: relative; }
-        .metric-lbl { font-size: 11px; color: var(--muted); font-family: var(--font-mono); }
-        .metric-val { font-size: 34px; font-weight: 900; color: #fff; margin: 4px 0; font-family: var(--font-mono); }
-        .metric-val span { font-size: 14px; color: var(--cyan); }
-        .metric-bar { height: 4px; background: #1e293b; border-radius: 2px; overflow: hidden; margin-top: 8px; }
-        .metric-fill { height: 100%; background: var(--cyan); box-shadow: 0 0 10px var(--cyan); transition: width 0.5s ease; }
-
-        /* CENTER COCKPIT SHOWCASE (GRID AREA: CENTER) */
-        .hud-center {
-            grid-area: center;
-            position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            padding: 20px; background: radial-gradient(circle at 50% 50%, rgba(0, 240, 255, 0.1) 0%, transparent 70%);
+        h1 { font-size: 44px; line-height: 1.15; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 16px; }
+        @media (max-width: 640px) { h1 { font-size: 32px; } }
+        h1 em { font-family: var(--font-serif); font-style: italic; font-weight: 700; color: #0F172A; }
+        .lead { color: var(--slate); font-size: 16px; max-width: 560px; margin-bottom: 28px; }
+        .actions { display: flex; gap: 12px; flex-wrap: wrap; }
+        .panel {
+            background: var(--stone); border: 1px solid var(--border); padding: 28px;
         }
-        .center-img-wrap { width: 100%; max-width: 780px; height: 380px; position: relative; display: flex; align-items: center; justify-content: center; }
-        .hypercar-img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 25px 50px rgba(0,240,255,0.3)); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
-        
-        .mode-selector { display: flex; gap: 16px; margin-top: 24px; background: rgba(0,0,0,0.8); border: 1px solid var(--border); padding: 8px; border-radius: 40px; }
-        .mode-btn { background: transparent; border: none; color: var(--muted); padding: 10px 24px; border-radius: 30px; font-weight: 800; font-size: 13px; cursor: pointer; transition: all 0.3s; letter-spacing: 1px; font-family: var(--font-mono); }
-        .mode-btn.active { background: var(--cyan); color: #000; box-shadow: 0 0 25px var(--cyan-glow); }
-
-        .targeting-reticle { position: absolute; top: 20px; left: 20px; font-family: var(--font-mono); font-size: 11px; color: var(--cyan); opacity: 0.7; }
-        .reticle-tr { position: absolute; top: 20px; right: 20px; font-family: var(--font-mono); font-size: 11px; color: var(--cyan); opacity: 0.7; text-align: right; }
-
-        /* RIGHT CONFIGURATOR DOCK (GRID AREA: RIGHT) */
-        .hud-right {
-            grid-area: right;
-            background: rgba(6, 12, 24, 0.65);
-            border-left: 1px solid var(--border);
-            padding: 24px; display: flex; flex-direction: column; justify-content: space-between;
+        .panel h3 { font-family: var(--font-serif); font-size: 20px; margin-bottom: 8px; }
+        .panel p { color: var(--slate); font-size: 14px; margin-bottom: 18px; }
+        .section { max-width: 1180px; margin: 0 auto; padding: 64px 24px; }
+        .section h2 { font-size: 30px; font-weight: 800; margin-bottom: 8px; }
+        .section .sub { color: var(--slate); margin-bottom: 28px; }
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+        @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+        .card { background: #fff; border: 1px solid var(--border); padding: 24px; }
+        .card-kicker { font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 1px; margin-bottom: 10px; }
+        .card h3 { font-size: 18px; margin-bottom: 8px; }
+        .card p { color: var(--slate); font-size: 14px; }
+        .tool {
+            max-width: 900px; margin: 0 auto; background: #fff; border: 1px solid var(--border);
+            padding: 36px; text-align: center;
         }
-        
-        .config-item { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.08); padding: 16px; border-radius: 14px; margin-bottom: 12px; cursor: pointer; transition: all 0.3s; }
-        .config-item:hover, .config-item.active { border-color: var(--cyan); background: rgba(0, 240, 255, 0.1); transform: translateX(-6px); }
-        .config-title { font-weight: 800; font-size: 15px; color: #fff; display: flex; justify-content: space-between; align-items: center; }
-        .config-sub { font-size: 12px; color: var(--muted); margin-top: 6px; line-height: 1.5; font-family: var(--font-mono); }
-        .config-price { color: var(--cyan); font-family: var(--font-mono); font-weight: 800; }
-
-        .btn-launch {
-            background: linear-gradient(135deg, var(--cyan), #0088ff);
-            color: #000; font-weight: 900; font-size: 16px; padding: 18px;
-            border-radius: 14px; border: none; cursor: pointer; width: 100%;
-            box-shadow: 0 0 35px var(--cyan-glow); font-family: var(--font-mono); letter-spacing: 2px;
-            transition: all 0.3s;
+        .tool .kicker { margin-bottom: 10px; }
+        .tool h2 { font-size: 28px; margin-bottom: 10px; }
+        .tool p { color: var(--slate); margin-bottom: 18px; }
+        .tool input[type=range] { width: min(100%, 520px); accent-color: var(--charcoal); margin: 14px 0 20px; }
+        .tool-val { font-family: var(--font-serif); font-size: 36px; font-weight: 700; margin: 8px 0 6px; }
+        footer {
+            border-top: 1px solid var(--border); padding: 40px 24px; text-align: center; color: var(--muted); font-size: 13px;
+            background: #fff;
         }
-        .btn-launch:hover { transform: scale(1.02); box-shadow: 0 0 50px var(--cyan); }
-
-        /* BOTTOM TELEMETRY FOOTER (GRID AREA: BOTTOM) */
-        .hud-bottom {
-            grid-area: bottom;
-            background: rgba(6, 12, 24, 0.9);
-            border-top: 1px solid var(--border);
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 0 30px; font-family: var(--font-mono); font-size: 12px; color: var(--muted);
+        footer strong { color: var(--charcoal); }
+        .modal-bg {
+            display: none; position: fixed; inset: 0; background: rgba(24,24,27,0.45);
+            align-items: center; justify-content: center; padding: 18px; z-index: 100;
         }
-        .live-log { color: #34d399; display: flex; align-items: center; gap: 8px; }
+        .modal-bg.open { display: flex; }
+        .modal { width: min(480px, 100%); background: #fff; border: 1px solid var(--border); padding: 28px; position: relative; }
+        .modal h3 { font-family: var(--font-serif); font-size: 22px; margin-bottom: 8px; }
+        .modal p { color: var(--slate); font-size: 14px; margin-bottom: 16px; }
+        .modal input, .modal select {
+            width: 100%; border: 1px solid var(--border); background: var(--bg); padding: 12px 14px;
+            margin-bottom: 12px; font-size: 14px; outline: none;
+        }
+        .modal input:focus, .modal select:focus { border-color: var(--charcoal); background: #fff; }
+        .close { position: absolute; top: 12px; right: 14px; border: 0; background: transparent; font-size: 22px; cursor: pointer; color: var(--muted); }
     </style>
 </head>
 <body>
-
-    <!-- TOP HUD HEADER -->
-    <header class="hud-top">
-        <div class="hud-brand">HYPERION <span>XP-1</span></div>
-        <div class="telemetry-status">
-            <span>CHASSIS: #HYP-2026-X09</span>
-            <span>AERO COEFF: 0.18 Cd</span>
-            <div class="status-pill"><span class="dot"></span> QUANTUM CORE ONLINE</div>
-        </div>
+    <header>
+        <a class="brand" href="#">
+            <div class="mark">L</div>
+            <div class="brand-text">HYPERION EV SUPERC</div>
+        </a>
+        <button class="btn" onclick="openModal()">Get in touch</button>
     </header>
 
-    <!-- LEFT TELEMETRY DOCK -->
-    <aside class="hud-left">
+    <section class="hero">
         <div>
-            <div class="dock-title">// LIVE POWERTRAIN TELEMETRY</div>
-            
-            <div class="metric-box">
-                <div class="metric-lbl">TOP VELOCITY</div>
-                <div class="metric-val" id="val-speed">385 <span>KM/H</span></div>
-                <div class="metric-bar"><div class="metric-fill" id="bar-speed" style="width: 85%;"></div></div>
-            </div>
-
-            <div class="metric-box">
-                <div class="metric-lbl">0 - 100 KM/H ACCELERATION</div>
-                <div class="metric-val" id="val-accel">1.85 <span>SEC</span></div>
-                <div class="metric-bar"><div class="metric-fill" style="width: 95%; background: #34d399;"></div></div>
-            </div>
-
-            <div class="metric-box">
-                <div class="metric-lbl">SOLID-STATE RANGE</div>
-                <div class="metric-val" id="val-range">1,200 <span>KM</span></div>
-                <div class="metric-bar"><div class="metric-fill" id="bar-range" style="width: 90%;"></div></div>
-            </div>
-
-            <div class="metric-box">
-                <div class="metric-lbl">G-FORCE LATERAL GRIP</div>
-                <div class="metric-val" id="val-g">2.45 <span>G</span></div>
-                <div class="metric-bar"><div class="metric-fill" style="width: 80%; background: var(--amber);"></div></div>
+            <div class="kicker">Professional Services · Global</div>
+            <h1>A clearer digital<br>home for professional services</h1>
+            <p class="lead">Hyperion Ev Supercars serves clients in Global with a focused offer, trustworthy presentation, and a booking path that feels simple.</p>
+            <div class="actions">
+                <button class="btn" onclick="openModal()">Get in touch</button>
+                <a class="btn btn-ghost" href="#services">View services</a>
             </div>
         </div>
-
-        <div style="font-family: var(--font-mono); font-size: 11px; color: var(--muted); line-height: 1.6; border-top: 1px dashed var(--border); padding-top: 12px;">
-            ● AI TORQUE VECTORING: ACTIVE<br>
-            ● ACTIVE AERO WINGS: DEPLOYED<br>
-            ● CRYOGENIC COOLING: 18°C
-        </div>
-    </aside>
-
-    <!-- CENTER COCKPIT SHOWCASE -->
-    <main class="hud-center">
-        <div class="targeting-reticle">
-            [+] TELEMETRY TRACKING: LOCKED<br>
-            [+] PITCH: 0.0° | ROLL: 0.0°
-        </div>
-        <div class="reticle-tr">
-            [+] LAT/LONG: 35.6895° N, 139.6917° E<br>
-            [+] ALTITUDE: 40m ASL
-        </div>
-
-        <div class="center-img-wrap">
-            <img src="https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=1200&q=80" id="car-img" class="hypercar-img" alt="Hyperion XP-1">
-        </div>
-
-        <!-- Mode Selector -->
-        <div class="mode-selector">
-            <button class="mode-btn active" onclick="switchMode('race', this)">🏎️ AERO RACE MODE</button>
-            <button class="mode-btn" onclick="switchMode('stealth', this)">⚡ STEALTH CYBER MODE</button>
-            <button class="mode-btn" onclick="switchMode('hyper', this)">🛡️ QUANTUM WARP MODE</button>
-        </div>
-    </main>
-
-    <!-- RIGHT CONFIGURATOR DOCK -->
-    <aside class="hud-right">
-        <div>
-            <div class="dock-title">// MODULAR AEROSPACE UPGRADES</div>
-            
-            <div class="config-item active" onclick="toggleUpgrade('aero', 120000, this)">
-                <div class="config-title"><span>Active Carbon Winglets</span><span class="config-price">+$120K</span></div>
-                <div class="config-sub">Dynamic hydraulic air-brakes generating 850kg downforce at 300 km/h.</div>
-            </div>
-
-            <div class="config-item active" onclick="toggleUpgrade('battery', 180000, this)">
-                <div class="config-title"><span>Quantum Solid-State Pack</span><span class="config-price">+$180K</span></div>
-                <div class="config-sub">Ultra-dense 150 kWh solid-state cells extending range to 1,450 km.</div>
-            </div>
-
-            <div class="config-item" onclick="toggleUpgrade('cockpit', 95000, this)">
-                <div class="config-title"><span>Holographic HUD Windshield</span><span class="config-price">+$95K</span></div>
-                <div class="config-sub">Full-bleed augmented reality telemetry projection across entire glass.</div>
-            </div>
-
-            <div class="config-item" onclick="toggleUpgrade('exhaust', 65000, this)">
-                <div class="config-title"><span>Titanium Thruster Exhaust</span><span class="config-price">+$65K</span></div>
-                <div class="config-sub">3D-printed inconel thrusters acoustic tuned for hypersonic resonance.</div>
+        <div class="panel">
+            <div class="kicker">At a glance</div>
+            <h3>Hyperion Ev Supercars</h3>
+            <p>Premium local presence for clients in Global. Built as a clean editorial website — easy to read, easy to book, easy to trust.</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                <div style="background:#fff;border:1px solid var(--border);padding:14px;">
+                    <div style="font-family:var(--font-serif);font-size:24px;font-weight:700;">4.9</div>
+                    <div style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">Client rating</div>
+                </div>
+                <div style="background:#fff;border:1px solid var(--border);padding:14px;">
+                    <div style="font-family:var(--font-serif);font-size:24px;font-weight:700;">24h</div>
+                    <div style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">Response goal</div>
+                </div>
             </div>
         </div>
+    </section>
 
-        <div>
-            <div style="background: rgba(0,0,0,0.6); border: 1px solid var(--border); padding: 16px; border-radius: 12px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; font-family: var(--font-mono);">
-                <span style="font-size: 13px; color: var(--muted);">ESTIMATED BUILD VALUE:</span>
-                <span style="font-size: 24px; font-weight: 900; color: var(--cyan);" id="total-val">$2,550,000</span>
+    <section class="section" id="services">
+        <h2>What we offer</h2>
+        <p class="sub">Clear services presented with editorial restraint — no neon chrome, no visual noise.</p>
+        <div class="grid">
+            <div class="card">
+                <div class="card-kicker">01</div>
+                <h3>Signature service</h3>
+                <p>Core professional services work delivered with consistency and care.</p>
             </div>
-            <button class="btn-launch" onclick="alert('🚀 QUANTUM BUILD CONFIRMED!\n\nYour specification #HYP-2026-X09 has been transmitted to our aerospace manufacturing facility.')">
-                ⚡ INITIATE PRODUCTION
-            </button>
+            <div class="card">
+                <div class="card-kicker">02</div>
+                <h3>Client experience</h3>
+                <p>Transparent communication from inquiry to completion.</p>
+            </div>
+            <div class="card">
+                <div class="card-kicker">03</div>
+                <h3>Local presence</h3>
+                <p>Built for people searching in and around Global.</p>
+            </div>
         </div>
-    </aside>
+    </section>
 
-    <!-- BOTTOM TELEMETRY FOOTER -->
-    <footer class="hud-bottom">
-        <div class="live-log">
-            <span>●</span>
-            <span id="log-text">AI TELEMETRY STREAM: ALL SYSTEMS OPERATING AT OPTIMAL QUANTUM EFFICIENCY</span>
+    <section class="section">
+        <div class="tool">
+            <div class="kicker">Interactive preview</div>
+            <h2>Engagement scale</h2>
+            <p>Slide to indicate the approximate size of project you have in mind.</p>
+            <div class="tool-val" id="tool-val">Medium engagement</div><input type="range" min="1" max="5" value="3" oninput="updateTool(this.value)">
+            <div style="margin-top:18px;">
+                <button class="btn" onclick="openModal()">Continue with Hyperion Ev Supercars</button>
+            </div>
         </div>
-        <div>
-            © 2026 HYPERION AEROSPACE MOTORS | RADICALLY DIFFERENT COCKPIT ARCHITECTURE
-        </div>
+    </section>
+
+    <footer>
+        <div style="font-family:var(--font-serif);font-size:20px;color:var(--charcoal);margin-bottom:8px;">Hyperion Ev Supercars</div>
+        <div>Global · Direct line: <strong>+1 (555) 010-0000</strong></div>
+        <div style="margin-top:10px;">Preview site prepared with LeadFlow editorial engine</div>
     </footer>
 
+    <div class="modal-bg" id="modal">
+        <div class="modal">
+            <button class="close" onclick="closeModal()">×</button>
+            <h3>Contact request</h3>
+            <p>Share your details and the Hyperion Ev Supercars team will follow up.</p>
+            <form onsubmit="handleBooking(event)">
+                <input type="text" placeholder="Full name *" required>
+                <input type="tel" placeholder="Phone / WhatsApp *" required>
+                <input type="email" placeholder="Email (optional)">
+                <button class="btn" style="width:100%;justify-content:center;" type="submit">Submit request</button>
+            </form>
+        </div>
+    </div>
+
     <script>
-        let basePrice = 2250000;
-        let currentPrice = 2550000;
-        let upgrades = { aero: true, battery: true, cockpit: false, exhaust: false };
-        const prices = { aero: 120000, battery: 180000, cockpit: 95000, exhaust: 65000 };
-
-        function switchMode(mode, btn) {
-            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            
-            const img = document.getElementById('car-img');
-            const speed = document.getElementById('val-speed');
-            const speedBar = document.getElementById('bar-speed');
-            const log = document.getElementById('log-text');
-
-            if (mode === 'race') {
-                img.src = "https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=1200&q=80";
-                img.style.filter = "drop-shadow(0 25px 50px rgba(0,240,255,0.3))";
-                speed.innerHTML = "385 <span>KM/H</span>";
-                speedBar.style.width = "85%";
-                log.innerText = "AI TELEMETRY STREAM: AERO RACE MODE ENGAGED. DOWNFORCE MAXIMIZED FOR TRACK.";
-            } else if (mode === 'stealth') {
-                img.src = "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80";
-                img.style.filter = "drop-shadow(0 25px 50px rgba(16,185,129,0.3))";
-                speed.innerHTML = "340 <span>KM/H</span>";
-                speedBar.style.width = "75%";
-                log.innerText = "AI TELEMETRY STREAM: STEALTH MODE ENGAGED. RADAR SIGNATURE & ACOUSTICS MINIMIZED.";
-            } else {
-                img.src = "https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?auto=format&fit=crop&w=1200&q=80";
-                img.style.filter = "drop-shadow(0 25px 50px rgba(255,0,60,0.4))";
-                speed.innerHTML = "420 <span>KM/H</span>";
-                speedBar.style.width = "100%";
-                log.innerText = "AI TELEMETRY STREAM: QUANTUM WARP MODE ENGAGED. ALL THRUSTERS UNLOCKED.";
-            }
+        function openModal() { document.getElementById('modal').classList.add('open'); }
+        function closeModal() { document.getElementById('modal').classList.remove('open'); }
+        function handleBooking(e) {
+            e.preventDefault(); closeModal();
+            alert('Thank you. Your request for Hyperion Ev Supercars has been recorded.');
         }
-
-        function toggleUpgrade(key, val, btn) {
-            upgrades[key] = !upgrades[key];
-            btn.classList.toggle('active');
-            
-            let tot = basePrice;
-            for (let k in upgrades) if (upgrades[k]) tot += prices[k];
-            currentPrice = tot;
-            document.getElementById('total-val').innerText = `$${tot.toLocaleString()}`;
-            
-            if (key === 'battery' && upgrades.battery) {
-                document.getElementById('val-range').innerHTML = "1,450 <span>KM</span>";
-                document.getElementById('bar-range').style.width = "100%";
-            } else if (key === 'battery' && !upgrades.battery) {
-                document.getElementById('val-range').innerHTML = "1,100 <span>KM</span>";
-                document.getElementById('bar-range').style.width = "80%";
-            }
-        }
+        function updateTool(v){ const m={1:'Starter',2:'Focused',3:'Medium engagement',4:'Growth',5:'Enterprise'}; document.getElementById('tool-val').innerText = m[v]||'Medium engagement'; }
     </script>
 </body>
 </html>
