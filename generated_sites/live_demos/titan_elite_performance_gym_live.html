@@ -47,6 +47,22 @@ button,input,select,textarea{font:inherit}
 .tool .val{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;margin:12px 0}
 input[type=range]{width:min(100%,420px)}
 
+.shot{margin:0;border-radius:20px;overflow:hidden}
+.shot img{width:100%;height:100%;object-fit:cover;display:block}
+.shot.tall img{min-height:280px}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:800px){.ba{grid-template-columns:1fr}}
+.ba figure{margin:0;border-radius:18px;overflow:hidden;background:rgba(0,0,0,.03)}
+.ba img{width:100%;height:260px;object-fit:cover;display:block}
+.ba figcaption{padding:10px 12px;font-size:.85rem;font-weight:700}
+.team-card{text-align:center}
+.team-card .avatar{width:96px;height:96px;border-radius:50%;object-fit:cover;margin:0 auto 12px}
+.team-card .role{font-size:.8rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;opacity:.7;margin-bottom:8px}
+.bullets{margin:14px 0 0 1.1rem;line-height:1.8}
+.subnav{display:flex;flex-wrap:wrap;gap:10px 14px;font-size:.86rem;align-items:center}
+.subnav a{text-decoration:none;opacity:.85}
+.subnav a:hover{opacity:1}
+
 :root{--bg:#0B0B0C;--panel:#141416;--ink:#F5F5F5;--mute:#A1A1AA;--line:#27272A;--volt:#F97316}
 body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--ink)}
 .nav{background:rgba(11,11,12,.92);border-bottom:1px solid var(--line)}
@@ -70,7 +86,9 @@ input[type=range]{accent-color:var(--volt)}
 .modal-card input{background:#0B0B0C;border-color:var(--line);color:#fff}
 </style></head><body>
 <div class="stripe"></div>
-<nav class="nav"><a class="logo" href="#">Titan Elite Performance Gym</a><button class="btn primary" onclick="openM()">Join / Trial</button></nav>
+<nav class="nav"><a class="logo" href="#">Titan Elite Performance Gym</a><div class="actions subnav">
+<a href="#about">About</a><a href="#schedule">Schedule</a><a href="#team">Team</a>
+<button class="btn primary" onclick="openM()">Join / Trial</button></div></nav>
 <main class="wrap">
   <section class="hero grid-2">
     <div>
@@ -83,18 +101,34 @@ input[type=range]{accent-color:var(--volt)}
       </div>
     </div>
     <div class="statbox">
-      <div class="pill">Floor metrics</div>
+      <figure class="shot"><img src="https://loremflickr.com/900/560/gym,fitness,training?lock=81" alt="Titan Elite Performance Gym training floor" loading="lazy" width="900" height="560"/></figure>
+      <div class="pill" style="margin-top:12px">Floor metrics</div>
       <strong>240+</strong>
       <span class="muted">active members logging weekly PRs</span>
       <p class="muted" style="margin-top:14px">Coach line: <span style="color:#fff">+1 (555) 010-0000</span></p>
-      <svg viewBox="0 0 320 90" style="margin-top:16px" aria-hidden="true"><polyline fill="none" stroke="#F97316" stroke-width="3" points="0,70 40,60 80,65 120,40 160,48 200,22 240,30 280,12 320,18"/></svg>
     </div>
   </section>
+  
+<section class="section" id="about">
+  <div class="grid-2">
+    <div>
+      <h2>About Titan Elite Performance Gym</h2>
+      <p class="lead">Titan Elite Performance Gym is a serious training room in London for strength, conditioning, and accountability - not mirror-selfie culture.</p>
+      <ul class="bullets">
+        <li>Based in London</li>
+        <li>Appointment-first operations</li>
+        <li>Human follow-up after every inquiry</li>
+      </ul>
+    </div>
+    <figure class="shot tall"><img src="https://loremflickr.com/1200/900/weightlifting,athlete,fitness?lock=18" alt="Titan Elite Performance Gym in London" loading="lazy" width="1200" height="900"/></figure>
+  </div>
+</section>
   <section class="section">
     <h2>Programming pillars</h2>
     <p class="lead">Urgency + clarity. Conversion-first class layout.</p>
     <div class="grid-3"><article class='card'><h3>Strength blocks</h3><p>Progressive programming for real lifts.</p></article><article class='card'><h3>Conditioning</h3><p>Engine work that respects joints.</p></article><article class='card'><h3>Coaching desk</h3><p>Form checks and measurable PRs.</p></article><article class='card'><h3>Open gym</h3><p>Serious floor, no mirror selfies culture.</p></article><article class='card'><h3>Hyrox / hybrid</h3><p>Optional race prep tracks.</p></article><article class='card'><h3>Recovery bay</h3><p>Mobility and down-regulation after hard days.</p></article></div>
   </section>
+  <section class='section' id='team'><h2>Team</h2><p class='lead'>The people clients actually meet.</p><div class='grid-3'><article class='card team-card'><img class='avatar' src='https://loremflickr.com/600/600/team,office,business?lock=41' alt='Chris Vega' loading='lazy'/><h3>Chris Vega</h3><div class='role'>Head coach</div><p>Strength programming and PR tracking.</p></article><article class='card team-card'><img class='avatar' src='https://loremflickr.com/600/600/team,office,business?lock=42' alt='Riley Cho' loading='lazy'/><h3>Riley Cho</h3><div class='role'>Conditioning coach</div><p>Engine work and hybrid prep.</p></article><article class='card team-card'><img class='avatar' src='https://loremflickr.com/600/600/team,office,business?lock=43' alt='Dana Brooks' loading='lazy'/><h3>Dana Brooks</h3><div class='role'>Floor lead</div><p>Onboarding and form standards.</p></article></div></section>
   <section class="section grid-2" id="schedule">
     <div>
       <h2>Sample weekday board</h2>
@@ -127,21 +161,57 @@ input[type=range]{accent-color:var(--volt)}
 
 <div class="modal" id="m" role="dialog" aria-modal="true">
   <div class="modal-card" style="background:#141414;color:#f5f5f5;border-color:rgba(255,255,255,.12)">
-    <button class="close" type="button" onclick="closeM()" aria-label="Close">×</button>
+    <button class="close" type="button" onclick="closeM()" aria-label="Close">x</button>
     <h3>Trial request</h3>
-    <p class="muted">We’ll route this to Titan Elite Performance Gym. No spam — just a real follow-up.</p>
-    <form onsubmit="event.preventDefault();closeM();alert('Request received by Titan Elite Performance Gym.');">
-      <input name="f0" placeholder="Name *" required>
-<input name="f1" placeholder="Phone *" required>
-<input name="f2" placeholder="Goal (strength / fat loss / hybrid)" >
-<input name="f3" placeholder="Preferred time" >
-      <button class="btn primary" type="submit" style="width:100%;margin-top:8px">Send</button>
+    <p class="muted">Sent to Titan Elite Performance Gym. On LeadFlow host this stores via /api/lead/capture.</p>
+    <form id="lead-form" onsubmit="return submitLead(event)">
+      <input name="name" placeholder="Full name *" required>
+      <input name="email" type="email" placeholder="Email *" required>
+      <input name="phone" placeholder="Phone / WhatsApp *" required>
+      <input name="company" type="hidden" value="Titan Elite Performance Gym">
+      <input name="note" placeholder="Preferred time">
+      <button class="btn primary" id="lead-btn" type="submit" style="width:100%;margin-top:8px">Send</button>
+      <p id="lead-status" class="muted" style="margin-top:10px;font-size:.85rem"></p>
     </form>
   </div>
 </div>
 <script>
+const LEAD_STUDIO = 'GYM_DEMO';
+const LEAD_COMPANY = 'Titan Elite Performance Gym';
 function openM(){document.getElementById('m').classList.add('open');}
 function closeM(){document.getElementById('m').classList.remove('open');}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM();});
+async function submitLead(e){
+  e.preventDefault();
+  const form = e.target;
+  const btn = document.getElementById('lead-btn');
+  const status = document.getElementById('lead-status');
+  const payload = {
+    email: form.email.value.trim(),
+    name: form.name.value.trim(),
+    company: form.company.value.trim() || LEAD_COMPANY,
+    studio_source: LEAD_STUDIO + (form.note.value ? (':' + form.note.value.slice(0,80)) : '')
+  };
+  btn.disabled = true; btn.textContent = 'Sending...'; status.textContent = '';
+  try {
+    const res = await fetch('/api/lead/capture', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload)
+    });
+    if(res.ok){
+      status.textContent = 'Request received. We will follow up shortly.';
+      form.reset();
+      setTimeout(()=>{closeM(); btn.disabled=false; btn.textContent='Send'; status.textContent='';}, 1200);
+    } else {
+      throw new Error('API ' + res.status);
+    }
+  } catch (err) {
+    status.textContent = 'Demo note: lead API works on LeadFlow host. UI confirmation saved.';
+    console.warn('lead capture', err);
+    setTimeout(()=>{closeM(); btn.disabled=false; btn.textContent='Send'; status.textContent='';}, 1500);
+  }
+  return false;
+}
 </script>
 </body></html>

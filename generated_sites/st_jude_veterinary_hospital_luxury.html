@@ -47,6 +47,22 @@ button,input,select,textarea{font:inherit}
 .tool .val{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;margin:12px 0}
 input[type=range]{width:min(100%,420px)}
 
+.shot{margin:0;border-radius:20px;overflow:hidden}
+.shot img{width:100%;height:100%;object-fit:cover;display:block}
+.shot.tall img{min-height:280px}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:800px){.ba{grid-template-columns:1fr}}
+.ba figure{margin:0;border-radius:18px;overflow:hidden;background:rgba(0,0,0,.03)}
+.ba img{width:100%;height:260px;object-fit:cover;display:block}
+.ba figcaption{padding:10px 12px;font-size:.85rem;font-weight:700}
+.team-card{text-align:center}
+.team-card .avatar{width:96px;height:96px;border-radius:50%;object-fit:cover;margin:0 auto 12px}
+.team-card .role{font-size:.8rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;opacity:.7;margin-bottom:8px}
+.bullets{margin:14px 0 0 1.1rem;line-height:1.8}
+.subnav{display:flex;flex-wrap:wrap;gap:10px 14px;font-size:.86rem;align-items:center}
+.subnav a{text-decoration:none;opacity:.85}
+.subnav a:hover{opacity:1}
+
 :root{--bg:#F7FBFA;--ink:#16302B;--mute:#5B726C;--line:#D7E5E1;--sea:#0F766E;--soft:#E4F3F0;--sand:#FFF9F2}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}
 .nav{background:rgba(247,251,250,.92);border-bottom:1px solid var(--line)}
@@ -71,7 +87,9 @@ h1,h2,h3,h4{font-family:'Fraunces',serif;font-weight:700}
 .lead,.card p,.section .lead{color:var(--mute)}
 input[type=range]{accent-color:var(--sea)}
 </style></head><body>
-<nav class="nav"><a class="logo" href="#">ST Jude Veterinary Hospital</a><div class="actions"><a class="btn ghost" href="#services">Services</a><button class="btn primary" onclick="openM()">Book visit</button></div></nav>
+<nav class="nav"><a class="logo" href="#">ST Jude Veterinary Hospital</a><div class="actions subnav">
+<a href="#about">About</a><a href="#services">Services</a><a href="#results">Results</a><a href="#team">Team</a><a href="#process">Visit</a>
+<button class="btn primary" onclick="openM()">Book visit</button></div></nav>
 <main class="wrap">
   <section class="hero grid-2">
     <div>
@@ -84,21 +102,7 @@ input[type=range]{accent-color:var(--sea)}
       </div>
     </div>
     <aside class="side">
-      
-<svg viewBox="0 0 640 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Clinical illustration">
-  <defs>
-    <linearGradient id="mg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#E8F7F4"/><stop offset="1" stop-color="#D5EEEA"/></linearGradient>
-  </defs>
-  <rect width="640" height="420" rx="32" fill="url(#mg)"/>
-  <circle cx="470" cy="120" r="70" fill="#B7E2DA"/>
-  <rect x="70" y="80" width="280" height="240" rx="28" fill="#fff" stroke="#C9E5DF" stroke-width="2"/>
-  <rect x="100" y="120" width="160" height="14" rx="7" fill="#2F6F68"/>
-  <rect x="100" y="150" width="200" height="10" rx="5" fill="#D7E5E1"/>
-  <rect x="100" y="175" width="180" height="10" rx="5" fill="#D7E5E1"/>
-  <rect x="100" y="210" width="90" height="40" rx="20" fill="#2F6F68"/>
-  <circle cx="480" cy="270" r="54" fill="#fff" stroke="#2F6F68" stroke-width="6"/>
-  <path d="M455 270h50M480 245v50" stroke="#2F6F68" stroke-width="8" stroke-linecap="round"/>
-</svg>
+      <figure class="shot"><img src="https://loremflickr.com/1000/780/veterinary,clinic,pet?lock=21" alt="ST Jude Veterinary Hospital clinic" loading="lazy" width="1000" height="780"/></figure>
       <div class="metric">
         <div><strong>4.9</strong><span>avg. rating</span></div>
         <div><strong>15m</strong><span>on-time goal</span></div>
@@ -113,6 +117,31 @@ input[type=range]{accent-color:var(--sea)}
     <div class="grid-3"><article class='card'><h3>Wellness exams</h3><p>Gentle exams with time for owner questions.</p></article><article class='card'><h3>Restorative / treatment</h3><p>Plans built around comfort and long-term outcomes.</p></article><article class='card'><h3>Prevention</h3><p>Recalls and maintenance that keep care simple.</p></article><article class='card'><h3>Urgent cases</h3><p>Same-day triage when pets need faster attention.</p></article><article class='card'><h3>Family continuity</h3><p>Notes that follow the patient — not lost in chats.</p></article><article class='card'><h3>Aftercare</h3><p>Written instructions you can actually follow at home.</p></article></div>
   </section>
 
+  
+<section class="section" id="about">
+  <div class="grid-2">
+    <div>
+      <h2>About ST Jude Veterinary Hospital</h2>
+      <p class="lead">ST Jude Veterinary Hospital is a modern practice in Sydney focused on clear communication, gentle care, and transparent options before treatment.</p>
+      <ul class="bullets">
+        <li>Based in Sydney</li>
+        <li>Appointment-first operations</li>
+        <li>Human follow-up after every inquiry</li>
+      </ul>
+    </div>
+    <figure class="shot tall"><img src="https://loremflickr.com/1200/900/veterinary,clinic,pet?lock=5" alt="ST Jude Veterinary Hospital in Sydney" loading="lazy" width="1200" height="900"/></figure>
+  </div>
+</section>
+  
+<section class="section" id="results">
+  <h2>Before / after</h2>
+  <p class="lead">Visual proof clients look for - illustrative demo imagery.</p>
+  <div class="ba">
+    <figure><img src="https://loremflickr.com/900/700/dental,clinic,healthcare?lock=19" alt="Before consult planning" loading="lazy"/><figcaption>Before consult planning</figcaption></figure>
+    <figure><img src="https://loremflickr.com/900/700/dentist,smile,healthcare?lock=26" alt="After restorative / whitening plan" loading="lazy"/><figcaption>After restorative / whitening plan</figcaption></figure>
+  </div>
+</section>
+  <section class='section' id='team'><h2>Team</h2><p class='lead'>The people clients actually meet.</p><div class='grid-3'><article class='card team-card'><img class='avatar' src='https://loremflickr.com/600/600/portrait,professional,business?lock=41' alt='Dr. Maya Chen' loading='lazy'/><h3>Dr. Maya Chen</h3><div class='role'>Lead clinician</div><p>Treatment planning and complex restorative cases.</p></article><article class='card team-card'><img class='avatar' src='https://loremflickr.com/600/600/portrait,professional,business?lock=42' alt='Jordan Lee' loading='lazy'/><h3>Jordan Lee</h3><div class='role'>Patient coordinator</div><p>Booking, insurance questions, and visit prep.</p></article><article class='card team-card'><img class='avatar' src='https://loremflickr.com/600/600/portrait,professional,business?lock=43' alt='Sam Ortiz' loading='lazy'/><h3>Sam Ortiz</h3><div class='role'>Hygiene lead</div><p>Prevention programs and recall systems.</p></article></div></section>
   <section class="section" id="process">
     <h2>Your first visit, simplified</h2>
     <p class="lead">A predictable path reduces anxiety more than any animation ever will.</p>
@@ -163,21 +192,57 @@ input[type=range]{accent-color:var(--sea)}
 
 <div class="modal" id="m" role="dialog" aria-modal="true">
   <div class="modal-card" style="background:#fff;color:#111;border-color:#e5e5e5">
-    <button class="close" type="button" onclick="closeM()" aria-label="Close">×</button>
+    <button class="close" type="button" onclick="closeM()" aria-label="Close">x</button>
     <h3>Request a visit</h3>
-    <p class="muted">We’ll route this to ST Jude Veterinary Hospital. No spam — just a real follow-up.</p>
-    <form onsubmit="event.preventDefault();closeM();alert('Request received by ST Jude Veterinary Hospital.');">
-      <input name="f0" placeholder="Full name *" required>
-<input name="f1" placeholder="Phone *" required>
-<input name="f2" placeholder="Preferred time window" >
-<input name="f3" placeholder="Notes (optional)" >
-      <button class="btn primary" type="submit" style="width:100%;margin-top:8px">Send request</button>
+    <p class="muted">Sent to ST Jude Veterinary Hospital. On LeadFlow host this stores via /api/lead/capture.</p>
+    <form id="lead-form" onsubmit="return submitLead(event)">
+      <input name="name" placeholder="Full name *" required>
+      <input name="email" type="email" placeholder="Email *" required>
+      <input name="phone" placeholder="Phone / WhatsApp *" required>
+      <input name="company" type="hidden" value="ST Jude Veterinary Hospital">
+      <input name="note" placeholder="Notes (optional)">
+      <button class="btn primary" id="lead-btn" type="submit" style="width:100%;margin-top:8px">Send request</button>
+      <p id="lead-status" class="muted" style="margin-top:10px;font-size:.85rem"></p>
     </form>
   </div>
 </div>
 <script>
+const LEAD_STUDIO = 'MEDICAL_DEMO';
+const LEAD_COMPANY = 'ST Jude Veterinary Hospital';
 function openM(){document.getElementById('m').classList.add('open');}
 function closeM(){document.getElementById('m').classList.remove('open');}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM();});
+async function submitLead(e){
+  e.preventDefault();
+  const form = e.target;
+  const btn = document.getElementById('lead-btn');
+  const status = document.getElementById('lead-status');
+  const payload = {
+    email: form.email.value.trim(),
+    name: form.name.value.trim(),
+    company: form.company.value.trim() || LEAD_COMPANY,
+    studio_source: LEAD_STUDIO + (form.note.value ? (':' + form.note.value.slice(0,80)) : '')
+  };
+  btn.disabled = true; btn.textContent = 'Sending...'; status.textContent = '';
+  try {
+    const res = await fetch('/api/lead/capture', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload)
+    });
+    if(res.ok){
+      status.textContent = 'Request received. We will follow up shortly.';
+      form.reset();
+      setTimeout(()=>{closeM(); btn.disabled=false; btn.textContent='Send request'; status.textContent='';}, 1200);
+    } else {
+      throw new Error('API ' + res.status);
+    }
+  } catch (err) {
+    status.textContent = 'Demo note: lead API works on LeadFlow host. UI confirmation saved.';
+    console.warn('lead capture', err);
+    setTimeout(()=>{closeM(); btn.disabled=false; btn.textContent='Send request'; status.textContent='';}, 1500);
+  }
+  return false;
+}
 </script>
 </body></html>

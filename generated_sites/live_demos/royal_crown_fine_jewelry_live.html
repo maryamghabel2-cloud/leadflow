@@ -47,6 +47,22 @@ button,input,select,textarea{font:inherit}
 .tool .val{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;margin:12px 0}
 input[type=range]{width:min(100%,420px)}
 
+.shot{margin:0;border-radius:20px;overflow:hidden}
+.shot img{width:100%;height:100%;object-fit:cover;display:block}
+.shot.tall img{min-height:280px}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:800px){.ba{grid-template-columns:1fr}}
+.ba figure{margin:0;border-radius:18px;overflow:hidden;background:rgba(0,0,0,.03)}
+.ba img{width:100%;height:260px;object-fit:cover;display:block}
+.ba figcaption{padding:10px 12px;font-size:.85rem;font-weight:700}
+.team-card{text-align:center}
+.team-card .avatar{width:96px;height:96px;border-radius:50%;object-fit:cover;margin:0 auto 12px}
+.team-card .role{font-size:.8rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;opacity:.7;margin-bottom:8px}
+.bullets{margin:14px 0 0 1.1rem;line-height:1.8}
+.subnav{display:flex;flex-wrap:wrap;gap:10px 14px;font-size:.86rem;align-items:center}
+.subnav a{text-decoration:none;opacity:.85}
+.subnav a:hover{opacity:1}
+
 :root{--bg:#0E0E0F;--ink:#F7F3EA;--mute:#A39E93;--line:rgba(247,243,234,.14);--gold:#C2A46B}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);font-weight:300}
 .nav{border-bottom:1px solid var(--line);background:rgba(14,14,15,.92)}
@@ -69,7 +85,9 @@ h1,h2,h3{font-family:'Bodoni Moda',serif;font-weight:500}
 input[type=range]{accent-color:var(--gold)}
 .modal-card input{background:#0E0E0F;border-color:var(--line);color:var(--ink)}
 </style></head><body>
-<nav class="nav"><a class="logo" href="#">Royal Crown Fine Jewelry</a><button class="btn ghost" onclick="openM()">Private viewing</button></nav>
+<nav class="nav"><a class="logo" href="#">Royal Crown Fine Jewelry</a><div class="actions subnav">
+<a href="#about">About</a><a href="#collections">Collections</a><a href="#team">Team</a>
+<button class="btn ghost" onclick="openM()">Private viewing</button></div></nav>
 <section class="hero wrap">
   <div class="pill">High jewelry · Singapore</div>
   <h1 style="font-size:clamp(2.6rem,6vw,4.3rem);line-height:1.08;margin:14px 0 12px">Quiet brilliance. Precise craft.</h1>
@@ -78,11 +96,35 @@ input[type=range]{accent-color:var(--gold)}
   <button class="btn primary" onclick="openM()">Request a viewing</button>
 </section>
 <main class="wrap">
-  <section class="section">
+  
+<section class="section" id="about">
+  <div class="grid-2">
+    <div>
+      <h2>About Royal Crown Fine Jewelry</h2>
+      <p class="lead">Royal Crown Fine Jewelry is an appointment-only atelier in Singapore for clients who want quiet brilliance and precise craft.</p>
+      <ul class="bullets">
+        <li>Based in Singapore</li>
+        <li>Appointment-first operations</li>
+        <li>Human follow-up after every inquiry</li>
+      </ul>
+    </div>
+    <figure class="shot tall"><img src="https://loremflickr.com/1200/900/necklace,gold,jewelry?lock=24" alt="Royal Crown Fine Jewelry in Singapore" loading="lazy" width="1200" height="900"/></figure>
+  </div>
+</section>
+  <section class="section" id="collections">
     <h2 style="text-align:center">Collections</h2>
-    <p class="lead" style="text-align:center;margin-left:auto;margin-right:auto">Exaggerated minimalism for jewelry: space, proportion, almost no decoration.</p>
+    <p class="lead" style="text-align:center;margin-left:auto;margin-right:auto">Space, proportion, almost no decoration - jewelry that whispers.</p>
+    <div class="gallery" style="margin-bottom:18px">
+      <figure class="shot g-main"><img src="https://loremflickr.com/1200/800/jewelry,ring,diamond?lock=91" alt="Atelier piece" loading="lazy" width="1200" height="800"/></figure>
+      <div>
+        <figure class="shot g-side"><img src="https://loremflickr.com/800/390/necklace,gold,jewelry?lock=92" alt="Detail" loading="lazy" width="800" height="390"/></figure>
+        <div style="height:12px"></div>
+        <figure class="shot g-side"><img src="https://loremflickr.com/800/390/jewelry,ring,diamond?lock=93" alt="Setting study" loading="lazy" width="800" height="390"/></figure>
+      </div>
+    </div>
     <div class="grid-3"><article class='card'><div class='gem'></div><h3>Solitaire study</h3><p>Quiet brilliance, precise proportions.</p></article><article class='card'><div class='gem'></div><h3>Eternity line</h3><p>Continuous light for everyday wear.</p></article><article class='card'><div class='gem'></div><h3>Atelier custom</h3><p>Stone-first commissions with sketches.</p></article><article class='card'><div class='gem'></div><h3>Heritage reset</h3><p>Modern settings for inherited stones.</p></article><article class='card'><div class='gem'></div><h3>Evening collar</h3><p>Statement geometry without noise.</p></article><article class='card'><div class='gem'></div><h3>Signet revival</h3><p>Personal seals, contemporary weight.</p></article></div>
   </section>
+  <section class='section' id='team'><h2>Team</h2><p class='lead'>The people clients actually meet.</p><div class='grid-3'><article class='card team-card'><img class='avatar' src='https://loremflickr.com/600/600/portrait,professional,business?lock=41' alt='Camille Laurent' loading='lazy'/><h3>Camille Laurent</h3><div class='role'>Creative director</div><p>Stone-first design language.</p></article><article class='card team-card'><img class='avatar' src='https://loremflickr.com/600/600/portrait,professional,business?lock=42' alt='Owen Park' loading='lazy'/><h3>Owen Park</h3><div class='role'>Master setter</div><p>Precision settings and finishes.</p></article><article class='card team-card'><img class='avatar' src='https://loremflickr.com/600/600/portrait,professional,business?lock=43' alt='Hana Ito' loading='lazy'/><h3>Hana Ito</h3><div class='role'>Client advisor</div><p>Private viewings and commissions.</p></article></div></section>
   <section class="section grid-2">
     <div>
       <h2>Atelier process</h2>
@@ -107,21 +149,57 @@ input[type=range]{accent-color:var(--gold)}
 
 <div class="modal" id="m" role="dialog" aria-modal="true">
   <div class="modal-card" style="background:#141414;color:#f5f5f5;border-color:rgba(255,255,255,.12)">
-    <button class="close" type="button" onclick="closeM()" aria-label="Close">×</button>
+    <button class="close" type="button" onclick="closeM()" aria-label="Close">x</button>
     <h3>Private viewing</h3>
-    <p class="muted">We’ll route this to Royal Crown Fine Jewelry. No spam — just a real follow-up.</p>
-    <form onsubmit="event.preventDefault();closeM();alert('Request received by Royal Crown Fine Jewelry.');">
-      <input name="f0" placeholder="Name *" required>
-<input name="f1" placeholder="Phone *" required>
-<input name="f2" placeholder="Interest (bridal / custom / service)" >
-<input name="f3" placeholder="Budget window" >
-      <button class="btn primary" type="submit" style="width:100%;margin-top:8px">Send</button>
+    <p class="muted">Sent to Royal Crown Fine Jewelry. On LeadFlow host this stores via /api/lead/capture.</p>
+    <form id="lead-form" onsubmit="return submitLead(event)">
+      <input name="name" placeholder="Full name *" required>
+      <input name="email" type="email" placeholder="Email *" required>
+      <input name="phone" placeholder="Phone / WhatsApp *" required>
+      <input name="company" type="hidden" value="Royal Crown Fine Jewelry">
+      <input name="note" placeholder="Budget window">
+      <button class="btn primary" id="lead-btn" type="submit" style="width:100%;margin-top:8px">Send</button>
+      <p id="lead-status" class="muted" style="margin-top:10px;font-size:.85rem"></p>
     </form>
   </div>
 </div>
 <script>
+const LEAD_STUDIO = 'JEWELRY_DEMO';
+const LEAD_COMPANY = 'Royal Crown Fine Jewelry';
 function openM(){document.getElementById('m').classList.add('open');}
 function closeM(){document.getElementById('m').classList.remove('open');}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM();});
+async function submitLead(e){
+  e.preventDefault();
+  const form = e.target;
+  const btn = document.getElementById('lead-btn');
+  const status = document.getElementById('lead-status');
+  const payload = {
+    email: form.email.value.trim(),
+    name: form.name.value.trim(),
+    company: form.company.value.trim() || LEAD_COMPANY,
+    studio_source: LEAD_STUDIO + (form.note.value ? (':' + form.note.value.slice(0,80)) : '')
+  };
+  btn.disabled = true; btn.textContent = 'Sending...'; status.textContent = '';
+  try {
+    const res = await fetch('/api/lead/capture', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload)
+    });
+    if(res.ok){
+      status.textContent = 'Request received. We will follow up shortly.';
+      form.reset();
+      setTimeout(()=>{closeM(); btn.disabled=false; btn.textContent='Send'; status.textContent='';}, 1200);
+    } else {
+      throw new Error('API ' + res.status);
+    }
+  } catch (err) {
+    status.textContent = 'Demo note: lead API works on LeadFlow host. UI confirmation saved.';
+    console.warn('lead capture', err);
+    setTimeout(()=>{closeM(); btn.disabled=false; btn.textContent='Send'; status.textContent='';}, 1500);
+  }
+  return false;
+}
 </script>
 </body></html>

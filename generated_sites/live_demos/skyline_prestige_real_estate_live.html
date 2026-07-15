@@ -47,6 +47,22 @@ button,input,select,textarea{font:inherit}
 .tool .val{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;margin:12px 0}
 input[type=range]{width:min(100%,420px)}
 
+.shot{margin:0;border-radius:20px;overflow:hidden}
+.shot img{width:100%;height:100%;object-fit:cover;display:block}
+.shot.tall img{min-height:280px}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:800px){.ba{grid-template-columns:1fr}}
+.ba figure{margin:0;border-radius:18px;overflow:hidden;background:rgba(0,0,0,.03)}
+.ba img{width:100%;height:260px;object-fit:cover;display:block}
+.ba figcaption{padding:10px 12px;font-size:.85rem;font-weight:700}
+.team-card{text-align:center}
+.team-card .avatar{width:96px;height:96px;border-radius:50%;object-fit:cover;margin:0 auto 12px}
+.team-card .role{font-size:.8rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;opacity:.7;margin-bottom:8px}
+.bullets{margin:14px 0 0 1.1rem;line-height:1.8}
+.subnav{display:flex;flex-wrap:wrap;gap:10px 14px;font-size:.86rem;align-items:center}
+.subnav a{text-decoration:none;opacity:.85}
+.subnav a:hover{opacity:1}
+
 :root{--bg:#F3EFE7;--ink:#1C1916;--mute:#6F675E;--line:#DDD4C6;--forest:#0F766E;--clay:#A56B45}
 body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--ink)}
 .nav{position:absolute;left:0;right:0;top:0;background:transparent;color:#fff;border:0}
@@ -62,9 +78,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--ink)}
 .k{letter-spacing:.2em;text-transform:uppercase;font-size:.72rem;opacity:.85}
 h2,h3{font-family:'Instrument Serif',serif;font-weight:400}
 .card{background:#fff;border:1px solid var(--line);border-radius:0;padding:0;overflow:hidden}
-.listing .photo{min-height:170px;background:linear-gradient(135deg,#6d7f6a,#c2a27a)}
-.listing:nth-child(2) .photo{background:linear-gradient(135deg,#4b6b6a,#b9a189)}
-.listing:nth-child(3) .photo{background:linear-gradient(135deg,#7a6a58,#d2c2a8)}
+.listing .photo{min-height:190px;background-size:cover;background-position:center}
 .listing .meta{padding:18px}
 .price{font-family:'Instrument Serif',serif;font-size:1.6rem;color:var(--forest);margin:6px 0}
 .card p,.lead,.muted{color:var(--mute)}
@@ -74,7 +88,9 @@ h2,h3{font-family:'Instrument Serif',serif;font-weight:400}
 .footer{border-top:1px solid var(--line);color:var(--mute)}
 input[type=range]{accent-color:var(--forest)}
 </style></head><body>
-<nav class="nav"><a class="logo" href="#">Skyline Prestige Real Estate</a><button class="btn primary" onclick="openM()">Book showing</button></nav>
+<nav class="nav"><a class="logo" href="#">Skyline Prestige Real Estate</a><div class="actions subnav">
+<a href="#about" style="color:#fff">About</a><a href="#listings" style="color:#fff">Listings</a><a href="#team" style="color:#fff">Team</a>
+<button class="btn primary" onclick="openM()">Book showing</button></div></nav>
 <section class="hero">
   <div>
     <div class="k">Property · Dubai</div>
@@ -84,11 +100,27 @@ input[type=range]{accent-color:var(--forest)}
   </div>
 </section>
 <main class="wrap">
-  <section class="section">
+  
+<section class="section" id="about">
+  <div class="grid-2">
+    <div>
+      <h2>About Skyline Prestige Real Estate</h2>
+      <p class="lead">Skyline Prestige Real Estate is a property desk in Dubai for buyers who care about light, materials, and long-term livability - not spammy listing farms.</p>
+      <ul class="bullets">
+        <li>Based in Dubai</li>
+        <li>Appointment-first operations</li>
+        <li>Human follow-up after every inquiry</li>
+      </ul>
+    </div>
+    <figure class="shot tall"><img src="https://loremflickr.com/1200/900/apartment,living-room,design?lock=14" alt="Skyline Prestige Real Estate in Dubai" loading="lazy" width="1200" height="900"/></figure>
+  </div>
+</section>
+  <section class="section" id="listings">
     <h2>Selected inventory</h2>
-    <p class="lead">Magazine layout: large photography fields, restrained type, Real Estate teal/clay cues.</p>
-    <div class="grid-3"><article class='card listing'><div class='photo'></div><div class='meta'><h3>Skyline residence</h3><div class='price'>$4.5M</div><p>Stone kitchen, evening terrace, private lift lobby.</p></div></article><article class='card listing'><div class='photo'></div><div class='meta'><h3>Waterfront house</h3><div class='price'>$7.2M</div><p>Dock access, garden rooms, quiet morning light.</p></div></article><article class='card listing'><div class='photo'></div><div class='meta'><h3>Courtyard loft</h3><div class='price'>$1.9M</div><p>Double-height volume, raw timber, city quiet.</p></div></article></div>
+    <p class="lead">Magazine layout with real photography fields - architecture first.</p>
+    <div class="grid-3"><article class='card listing'><div class='photo' style="background-image:url('https://loremflickr.com/900/700/interior,architecture,home?lock=61')"></div><div class='meta'><h3>Skyline residence</h3><div class='price'>$4.5M</div><p>Stone kitchen, evening terrace, private lift lobby.</p></div></article><article class='card listing'><div class='photo' style="background-image:url('https://loremflickr.com/900/700/apartment,living-room,design?lock=62')"></div><div class='meta'><h3>Waterfront house</h3><div class='price'>$7.2M</div><p>Dock access, garden rooms, quiet morning light.</p></div></article><article class='card listing'><div class='photo' style="background-image:url('https://loremflickr.com/900/700/house,exterior,architecture?lock=63')"></div><div class='meta'><h3>Courtyard loft</h3><div class='price'>$1.9M</div><p>Double-height volume, raw timber, city quiet.</p></div></article></div>
   </section>
+  <section class='section' id='team'><h2>Team</h2><p class='lead'>The people clients actually meet.</p><div class='grid-3'><article class='card team-card'><img class='avatar' src='https://loremflickr.com/600/600/team,office,business?lock=41' alt='Ava Brooks' loading='lazy'/><h3>Ava Brooks</h3><div class='role'>Principal advisor</div><p>Buyer strategy and off-market access.</p></article><article class='card team-card'><img class='avatar' src='https://loremflickr.com/600/600/team,office,business?lock=42' alt='Noah Patel' loading='lazy'/><h3>Noah Patel</h3><div class='role'>Listing specialist</div><p>Presentation and discreet sale process.</p></article><article class='card team-card'><img class='avatar' src='https://loremflickr.com/600/600/team,office,business?lock=43' alt='Mia Costa' loading='lazy'/><h3>Mia Costa</h3><div class='role'>Client ops</div><p>Showings, logistics, paperwork.</p></article></div></section>
   <section class="section grid-2">
     <div>
       <h2>Neighborhood intelligence</h2>
@@ -121,21 +153,57 @@ input[type=range]{accent-color:var(--forest)}
 
 <div class="modal" id="m" role="dialog" aria-modal="true">
   <div class="modal-card" style="background:#fff;color:#111;border-color:#e5e5e5">
-    <button class="close" type="button" onclick="closeM()" aria-label="Close">×</button>
+    <button class="close" type="button" onclick="closeM()" aria-label="Close">x</button>
     <h3>Showing request</h3>
-    <p class="muted">We’ll route this to Skyline Prestige Real Estate. No spam — just a real follow-up.</p>
-    <form onsubmit="event.preventDefault();closeM();alert('Request received by Skyline Prestige Real Estate.');">
-      <input name="f0" placeholder="Name *" required>
-<input name="f1" placeholder="Phone *" required>
-<input name="f2" placeholder="Budget window" >
-<input name="f3" placeholder="Must-haves" >
-      <button class="btn primary" type="submit" style="width:100%;margin-top:8px">Submit</button>
+    <p class="muted">Sent to Skyline Prestige Real Estate. On LeadFlow host this stores via /api/lead/capture.</p>
+    <form id="lead-form" onsubmit="return submitLead(event)">
+      <input name="name" placeholder="Full name *" required>
+      <input name="email" type="email" placeholder="Email *" required>
+      <input name="phone" placeholder="Phone / WhatsApp *" required>
+      <input name="company" type="hidden" value="Skyline Prestige Real Estate">
+      <input name="note" placeholder="Must-haves">
+      <button class="btn primary" id="lead-btn" type="submit" style="width:100%;margin-top:8px">Submit</button>
+      <p id="lead-status" class="muted" style="margin-top:10px;font-size:.85rem"></p>
     </form>
   </div>
 </div>
 <script>
+const LEAD_STUDIO = 'REALTY_DEMO';
+const LEAD_COMPANY = 'Skyline Prestige Real Estate';
 function openM(){document.getElementById('m').classList.add('open');}
 function closeM(){document.getElementById('m').classList.remove('open');}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM();});
+async function submitLead(e){
+  e.preventDefault();
+  const form = e.target;
+  const btn = document.getElementById('lead-btn');
+  const status = document.getElementById('lead-status');
+  const payload = {
+    email: form.email.value.trim(),
+    name: form.name.value.trim(),
+    company: form.company.value.trim() || LEAD_COMPANY,
+    studio_source: LEAD_STUDIO + (form.note.value ? (':' + form.note.value.slice(0,80)) : '')
+  };
+  btn.disabled = true; btn.textContent = 'Sending...'; status.textContent = '';
+  try {
+    const res = await fetch('/api/lead/capture', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload)
+    });
+    if(res.ok){
+      status.textContent = 'Request received. We will follow up shortly.';
+      form.reset();
+      setTimeout(()=>{closeM(); btn.disabled=false; btn.textContent='Submit'; status.textContent='';}, 1200);
+    } else {
+      throw new Error('API ' + res.status);
+    }
+  } catch (err) {
+    status.textContent = 'Demo note: lead API works on LeadFlow host. UI confirmation saved.';
+    console.warn('lead capture', err);
+    setTimeout(()=>{closeM(); btn.disabled=false; btn.textContent='Submit'; status.textContent='';}, 1500);
+  }
+  return false;
+}
 </script>
 </body></html>

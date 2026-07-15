@@ -47,6 +47,22 @@ button,input,select,textarea{font:inherit}
 .tool .val{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;margin:12px 0}
 input[type=range]{width:min(100%,420px)}
 
+.shot{margin:0;border-radius:20px;overflow:hidden}
+.shot img{width:100%;height:100%;object-fit:cover;display:block}
+.shot.tall img{min-height:280px}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:800px){.ba{grid-template-columns:1fr}}
+.ba figure{margin:0;border-radius:18px;overflow:hidden;background:rgba(0,0,0,.03)}
+.ba img{width:100%;height:260px;object-fit:cover;display:block}
+.ba figcaption{padding:10px 12px;font-size:.85rem;font-weight:700}
+.team-card{text-align:center}
+.team-card .avatar{width:96px;height:96px;border-radius:50%;object-fit:cover;margin:0 auto 12px}
+.team-card .role{font-size:.8rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;opacity:.7;margin-bottom:8px}
+.bullets{margin:14px 0 0 1.1rem;line-height:1.8}
+.subnav{display:flex;flex-wrap:wrap;gap:10px 14px;font-size:.86rem;align-items:center}
+.subnav a{text-decoration:none;opacity:.85}
+.subnav a:hover{opacity:1}
+
 :root{--bg:#F7F4EF;--ink:#1B1A17;--mute:#6B6560;--line:#E4DDD2;--navy:#1E3A8A;--brass:#B45309}
 body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--ink)}
 .nav{background:#FFFEFB;border-bottom:1px solid var(--line)}
@@ -67,7 +83,9 @@ h1,h2,h3,h4{font-family:'Libre Baskerville',serif;color:var(--navy);font-weight:
 input[type=range]{accent-color:var(--navy)}
 .seal{width:120px;height:120px;border:2px solid var(--brass);border-radius:50%;display:grid;place-items:center;margin:0 auto 12px;font-family:'Libre Baskerville',serif;color:var(--brass);text-align:center;font-size:.75rem;letter-spacing:.08em}
 </style></head><body>
-<nav class="nav"><a class="logo" href="#">Vanguard Legal Counsel</a><button class="btn primary" onclick="openM()">Consultation</button></nav>
+<nav class="nav"><a class="logo" href="#">Vanguard Legal Counsel</a><div class="actions subnav">
+<a href="#about">About</a><a href="#practice">Practice</a><a href="#team">Team</a>
+<button class="btn primary" onclick="openM()">Consultation</button></div></nav>
 <main class="wrap">
   <section class="hero grid-2">
     <div>
@@ -80,18 +98,34 @@ input[type=range]{accent-color:var(--navy)}
       </div>
     </div>
     <aside class="panel">
-      <div class="seal">EST.<br>COUNSEL</div>
-      <h3 style="text-align:center;margin-bottom:8px">Privileged first conversation</h3>
-      <p class="muted" style="text-align:center">Direct line: <strong style="color:var(--ink)">+1 (555) 010-0000</strong></p>
-      <p class="muted" style="text-align:center;margin-top:10px;font-size:.92rem">Legal design: paper, brass, navy — institutional trust (Legal Services palette).</p>
+      <figure class="shot"><img src="https://loremflickr.com/900/700/law,office,library?lock=71" alt="Vanguard Legal Counsel counsel" loading="lazy" width="900" height="700"/></figure>
+      <h3 style="margin:14px 0 8px">Privileged first conversation</h3>
+      <p class="muted">Direct line: <strong style="color:var(--ink)">+1 (555) 010-0000</strong></p>
+      <p class="muted" style="margin-top:10px;font-size:.92rem">Authority editorial - paper, brass, navy.</p>
     </aside>
   </section>
 
+  
+<section class="section" id="about">
+  <div class="grid-2">
+    <div>
+      <h2>About Vanguard Legal Counsel</h2>
+      <p class="lead">Vanguard Legal Counsel advises and represents clients in New York with disciplined preparation and discreet handling of complex commercial matters.</p>
+      <ul class="bullets">
+        <li>Based in New York</li>
+        <li>Appointment-first operations</li>
+        <li>Human follow-up after every inquiry</li>
+      </ul>
+    </div>
+    <figure class="shot tall"><img src="https://loremflickr.com/1200/900/architecture,office,building?lock=16" alt="Vanguard Legal Counsel in New York" loading="lazy" width="1200" height="900"/></figure>
+  </div>
+</section>
   <section class="section" id="practice">
     <h2>Practice focus</h2>
     <p class="lead">Structured for authority: long-form readability, serif headlines, zero gimmicks.</p>
     <div class="grid-3"><article class='card'><h3>Corporate disputes</h3><p>Shareholder, partnership, and contract litigation with disciplined prep.</p></article><article class='card'><h3>Commercial counsel</h3><p>Agreements and negotiations before conflict becomes expensive.</p></article><article class='card'><h3>Intellectual property</h3><p>Brand, trade secret, and infringement matters.</p></article><article class='card'><h3>Executive matters</h3><p>Sensitive issues handled with discretion.</p></article><article class='card'><h3>Cross-border</h3><p>Multi-jurisdiction coordination when the file isn’t local-only.</p></article><article class='card'><h3>Settlement strategy</h3><p>Leverage mapping — not performative aggression.</p></article></div>
   </section>
+  <section class='section' id='team'><h2>Team</h2><p class='lead'>The people clients actually meet.</p><div class='grid-3'><article class='card team-card'><img class='avatar' src='https://loremflickr.com/600/600/portrait,professional,business?lock=41' alt='Helen Ward' loading='lazy'/><h3>Helen Ward</h3><div class='role'>Managing partner</div><p>Complex commercial disputes.</p></article><article class='card team-card'><img class='avatar' src='https://loremflickr.com/600/600/portrait,professional,business?lock=42' alt='James Okonkwo' loading='lazy'/><h3>James Okonkwo</h3><div class='role'>Counsel</div><p>Contracts and negotiations.</p></article><article class='card team-card'><img class='avatar' src='https://loremflickr.com/600/600/portrait,professional,business?lock=43' alt='Priya Shah' loading='lazy'/><h3>Priya Shah</h3><div class='role'>Associate</div><p>Research, filings, case architecture.</p></article></div></section>
 
   <section class="section grid-2">
     <div>
@@ -122,21 +156,57 @@ input[type=range]{accent-color:var(--navy)}
 
 <div class="modal" id="m" role="dialog" aria-modal="true">
   <div class="modal-card" style="background:#fff;color:#111;border-color:#e5e5e5">
-    <button class="close" type="button" onclick="closeM()" aria-label="Close">×</button>
+    <button class="close" type="button" onclick="closeM()" aria-label="Close">x</button>
     <h3>Confidential inquiry</h3>
-    <p class="muted">We’ll route this to Vanguard Legal Counsel. No spam — just a real follow-up.</p>
-    <form onsubmit="event.preventDefault();closeM();alert('Request received by Vanguard Legal Counsel.');">
-      <input name="f0" placeholder="Name *" required>
-<input name="f1" placeholder="Phone *" required>
-<input name="f2" placeholder="Brief matter summary" >
-<input name="f3" placeholder="Company (optional)" >
-      <button class="btn primary" type="submit" style="width:100%;margin-top:8px">Submit</button>
+    <p class="muted">Sent to Vanguard Legal Counsel. On LeadFlow host this stores via /api/lead/capture.</p>
+    <form id="lead-form" onsubmit="return submitLead(event)">
+      <input name="name" placeholder="Full name *" required>
+      <input name="email" type="email" placeholder="Email *" required>
+      <input name="phone" placeholder="Phone / WhatsApp *" required>
+      <input name="company" type="hidden" value="Vanguard Legal Counsel">
+      <input name="note" placeholder="Company (optional)">
+      <button class="btn primary" id="lead-btn" type="submit" style="width:100%;margin-top:8px">Submit</button>
+      <p id="lead-status" class="muted" style="margin-top:10px;font-size:.85rem"></p>
     </form>
   </div>
 </div>
 <script>
+const LEAD_STUDIO = 'LEGAL_DEMO';
+const LEAD_COMPANY = 'Vanguard Legal Counsel';
 function openM(){document.getElementById('m').classList.add('open');}
 function closeM(){document.getElementById('m').classList.remove('open');}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM();});
+async function submitLead(e){
+  e.preventDefault();
+  const form = e.target;
+  const btn = document.getElementById('lead-btn');
+  const status = document.getElementById('lead-status');
+  const payload = {
+    email: form.email.value.trim(),
+    name: form.name.value.trim(),
+    company: form.company.value.trim() || LEAD_COMPANY,
+    studio_source: LEAD_STUDIO + (form.note.value ? (':' + form.note.value.slice(0,80)) : '')
+  };
+  btn.disabled = true; btn.textContent = 'Sending...'; status.textContent = '';
+  try {
+    const res = await fetch('/api/lead/capture', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload)
+    });
+    if(res.ok){
+      status.textContent = 'Request received. We will follow up shortly.';
+      form.reset();
+      setTimeout(()=>{closeM(); btn.disabled=false; btn.textContent='Submit'; status.textContent='';}, 1200);
+    } else {
+      throw new Error('API ' + res.status);
+    }
+  } catch (err) {
+    status.textContent = 'Demo note: lead API works on LeadFlow host. UI confirmation saved.';
+    console.warn('lead capture', err);
+    setTimeout(()=>{closeM(); btn.disabled=false; btn.textContent='Submit'; status.textContent='';}, 1500);
+  }
+  return false;
+}
 </script>
 </body></html>

@@ -47,6 +47,22 @@ button,input,select,textarea{font:inherit}
 .tool .val{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;margin:12px 0}
 input[type=range]{width:min(100%,420px)}
 
+.shot{margin:0;border-radius:20px;overflow:hidden}
+.shot img{width:100%;height:100%;object-fit:cover;display:block}
+.shot.tall img{min-height:280px}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:800px){.ba{grid-template-columns:1fr}}
+.ba figure{margin:0;border-radius:18px;overflow:hidden;background:rgba(0,0,0,.03)}
+.ba img{width:100%;height:260px;object-fit:cover;display:block}
+.ba figcaption{padding:10px 12px;font-size:.85rem;font-weight:700}
+.team-card{text-align:center}
+.team-card .avatar{width:96px;height:96px;border-radius:50%;object-fit:cover;margin:0 auto 12px}
+.team-card .role{font-size:.8rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;opacity:.7;margin-bottom:8px}
+.bullets{margin:14px 0 0 1.1rem;line-height:1.8}
+.subnav{display:flex;flex-wrap:wrap;gap:10px 14px;font-size:.86rem;align-items:center}
+.subnav a{text-decoration:none;opacity:.85}
+.subnav a:hover{opacity:1}
+
 :root{--bg:#14110F;--panel:#1C1816;--ink:#F4EFE6;--mute:#B7A99A;--line:rgba(244,239,230,.12);--ember:#C45C26;--gold:#D8B56A}
 body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--ink);line-height:1.75;font-weight:300}
 .nav{background:rgba(20,17,15,.9);border-bottom:1px solid var(--line)}
@@ -68,7 +84,9 @@ h1,h2,h3{font-family:'Cormorant Garamond',serif;font-weight:500}
 input[type=range]{accent-color:var(--ember)}
 .modal-card input{background:#14110F;border-color:var(--line);color:var(--ink)}
 </style></head><body>
-<nav class="nav"><a class="logo" href="#">Lumiere Gourmet Fine Dining</a><button class="btn primary" onclick="openM()">Reserve</button></nav>
+<nav class="nav"><a class="logo" href="#">Lumiere Gourmet Fine Dining</a><div class="actions subnav">
+<a href="#about">About</a><a href="#menu">Menu</a><a href="#team">Team</a><a href="#hours">Hours</a>
+<button class="btn primary" onclick="openM()">Reserve</button></div></nav>
 <section class="hero">
   <div class="wrap">
     <div class="k">Dining room · Paris</div>
@@ -82,17 +100,31 @@ input[type=range]{accent-color:var(--ember)}
 </section>
 <main class="wrap">
   <section class="section" style="padding-top:40px">
-<svg viewBox="0 0 800 360" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <rect width="800" height="360" fill="#1C1816"/>
-  <circle cx="160" cy="220" r="90" fill="#2A201C"/>
-  <circle cx="160" cy="220" r="55" fill="#3A2A22"/>
-  <circle cx="400" cy="150" r="8" fill="#C45C26" opacity=".9"/>
-  <circle cx="460" cy="190" r="5" fill="#D8B56A" opacity=".7"/>
-  <circle cx="520" cy="130" r="6" fill="#C45C26" opacity=".55"/>
-  <circle cx="580" cy="210" r="7" fill="#D8B56A" opacity=".5"/>
-  <path d="M300 280 C420 200, 520 320, 700 240" stroke="#C45C26" stroke-width="2" fill="none" opacity=".35"/>
-  <text x="300" y="90" fill="#D8B56A" font-family="Georgia, serif" font-size="28">Evening service</text>
-</svg></section>
+    <div class="gallery">
+      <figure class="shot g-main"><img src="https://loremflickr.com/1200/800/restaurant,fine-dining,food?lock=31" alt="Lumiere Gourmet Fine Dining dining room" loading="lazy" width="1200" height="800"/></figure>
+      <div>
+        <figure class="shot g-side"><img src="https://loremflickr.com/800/390/chef,kitchen,plating?lock=32" alt="Kitchen craft" loading="lazy" width="800" height="390"/></figure>
+        <div style="height:12px"></div>
+        <figure class="shot g-side"><img src="https://loremflickr.com/800/390/restaurant,fine-dining,food?lock=33" alt="Plating detail" loading="lazy" width="800" height="390"/></figure>
+      </div>
+    </div>
+  </section>
+  
+<section class="section" id="about">
+  <div class="grid-2">
+    <div>
+      <h2>About Lumiere Gourmet Fine Dining</h2>
+      <p class="lead">Lumiere Gourmet Fine Dining is a reservation-led dining room in Paris - paced service, seasonal plates, and a cellar that supports the kitchen.</p>
+      <ul class="bullets">
+        <li>Based in Paris</li>
+        <li>Appointment-first operations</li>
+        <li>Human follow-up after every inquiry</li>
+      </ul>
+    </div>
+    <figure class="shot tall"><img src="https://loremflickr.com/1200/900/chef,kitchen,plating?lock=8" alt="Lumiere Gourmet Fine Dining in Paris" loading="lazy" width="1200" height="900"/></figure>
+  </div>
+</section>
+
   <section class="section" id="menu">
     <h2 style="text-align:center">Tasting notes</h2>
     <p class="lead" style="text-align:center;margin-left:auto;margin-right:auto">A kitchen-led sequence — not a laminated tourist menu.</p>
@@ -112,8 +144,9 @@ input[type=range]{accent-color:var(--ember)}
       <div style="margin-top:14px"><button class="btn primary" onclick="openM()">Hold a private room</button></div>
     </div>
   </section>
+  <section class='section' id='team'><h2>Team</h2><p class='lead'>The people clients actually meet.</p><div class='grid-3'><article class='card team-card'><img class='avatar' src='https://loremflickr.com/600/600/team,office,business?lock=41' alt='Elena Moreau' loading='lazy'/><h3>Elena Moreau</h3><div class='role'>Executive chef</div><p>Menu architecture and fire cooking.</p></article><article class='card team-card'><img class='avatar' src='https://loremflickr.com/600/600/team,office,business?lock=42' alt='Marco Bell' loading='lazy'/><h3>Marco Bell</h3><div class='role'>Sommelier</div><p>Pairings that support the plate.</p></article><article class='card team-card'><img class='avatar' src='https://loremflickr.com/600/600/team,office,business?lock=43' alt='Aya Nouri' loading='lazy'/><h3>Aya Nouri</h3><div class='role'>Front of house</div><p>Reservations and private dining.</p></article></div></section>
   <section class="section">
-    <h2>Hours & contact</h2>
+    <h2 id="hours">Hours & contact</h2>
     <table class="table" style="color:var(--ink)">
       <tr><td style="color:var(--mute)">Tue–Thu</td><td>17:30 – 22:30</td></tr>
       <tr><td style="color:var(--mute)">Fri–Sat</td><td>17:00 – 23:30</td></tr>
@@ -129,21 +162,57 @@ input[type=range]{accent-color:var(--ember)}
 
 <div class="modal" id="m" role="dialog" aria-modal="true">
   <div class="modal-card" style="background:#141414;color:#f5f5f5;border-color:rgba(255,255,255,.12)">
-    <button class="close" type="button" onclick="closeM()" aria-label="Close">×</button>
+    <button class="close" type="button" onclick="closeM()" aria-label="Close">x</button>
     <h3>Table request</h3>
-    <p class="muted">We’ll route this to Lumiere Gourmet Fine Dining. No spam — just a real follow-up.</p>
-    <form onsubmit="event.preventDefault();closeM();alert('Request received by Lumiere Gourmet Fine Dining.');">
-      <input name="f0" placeholder="Name *" required>
-<input name="f1" placeholder="Phone *" required>
-<input name="f2" placeholder="Date / time preference" >
-<input name="f3" placeholder="Party size" >
-      <button class="btn primary" type="submit" style="width:100%;margin-top:8px">Send</button>
+    <p class="muted">Sent to Lumiere Gourmet Fine Dining. On LeadFlow host this stores via /api/lead/capture.</p>
+    <form id="lead-form" onsubmit="return submitLead(event)">
+      <input name="name" placeholder="Full name *" required>
+      <input name="email" type="email" placeholder="Email *" required>
+      <input name="phone" placeholder="Phone / WhatsApp *" required>
+      <input name="company" type="hidden" value="Lumiere Gourmet Fine Dining">
+      <input name="note" placeholder="Party size">
+      <button class="btn primary" id="lead-btn" type="submit" style="width:100%;margin-top:8px">Send</button>
+      <p id="lead-status" class="muted" style="margin-top:10px;font-size:.85rem"></p>
     </form>
   </div>
 </div>
 <script>
+const LEAD_STUDIO = 'DINING_DEMO';
+const LEAD_COMPANY = 'Lumiere Gourmet Fine Dining';
 function openM(){document.getElementById('m').classList.add('open');}
 function closeM(){document.getElementById('m').classList.remove('open');}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM();});
+async function submitLead(e){
+  e.preventDefault();
+  const form = e.target;
+  const btn = document.getElementById('lead-btn');
+  const status = document.getElementById('lead-status');
+  const payload = {
+    email: form.email.value.trim(),
+    name: form.name.value.trim(),
+    company: form.company.value.trim() || LEAD_COMPANY,
+    studio_source: LEAD_STUDIO + (form.note.value ? (':' + form.note.value.slice(0,80)) : '')
+  };
+  btn.disabled = true; btn.textContent = 'Sending...'; status.textContent = '';
+  try {
+    const res = await fetch('/api/lead/capture', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload)
+    });
+    if(res.ok){
+      status.textContent = 'Request received. We will follow up shortly.';
+      form.reset();
+      setTimeout(()=>{closeM(); btn.disabled=false; btn.textContent='Send'; status.textContent='';}, 1200);
+    } else {
+      throw new Error('API ' + res.status);
+    }
+  } catch (err) {
+    status.textContent = 'Demo note: lead API works on LeadFlow host. UI confirmation saved.';
+    console.warn('lead capture', err);
+    setTimeout(()=>{closeM(); btn.disabled=false; btn.textContent='Send'; status.textContent='';}, 1500);
+  }
+  return false;
+}
 </script>
 </body></html>

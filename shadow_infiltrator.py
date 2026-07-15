@@ -1,5 +1,5 @@
 """
-LeadFlow.AI - Shadow Infiltrator (v7 industry-deep)
+LeadFlow.AI - Shadow Infiltrator (v8 media + About/Team + lead API)
 Creative, profession-specific client websites.
 
 Rules:
@@ -100,31 +100,148 @@ class ShadowInfiltrator:
             .replace('"', "&quot;")
         )
 
-    def _modal(self, name: str, title: str, fields: List[str], btn: str, dark: bool = False) -> str:
+
+    def _photo(self, kind: str, w: int = 1200, h: int = 800, sig: int = 1) -> str:
+        queries = {
+            "medical": "dental,clinic,healthcare",
+            "medical2": "dentist,smile,healthcare",
+            "vet": "veterinary,clinic,pet",
+            "dining": "restaurant,fine-dining,food",
+            "dining2": "chef,kitchen,plating",
+            "legal": "law,office,library",
+            "legal2": "architecture,office,building",
+            "realty": "interior,architecture,home",
+            "realty2": "apartment,living-room,design",
+            "realty3": "house,exterior,architecture",
+            "gym": "gym,fitness,training",
+            "gym2": "weightlifting,athlete,fitness",
+            "spa": "spa,wellness,massage",
+            "spa2": "skincare,beauty,spa",
+            "jewelry": "jewelry,ring,diamond",
+            "jewelry2": "necklace,gold,jewelry",
+            "wealth": "office,finance,architecture",
+            "wealth2": "skyline,city,office",
+            "team": "portrait,professional,business",
+            "team2": "team,office,business",
+            "universal": "office,workspace,modern",
+        }
+        q = queries.get(kind, "office,workspace")
+        return f"https://loremflickr.com/{w}/{h}/{q}?lock={sig}"
+
+    def _img(self, kind: str, alt: str, w: int = 1200, h: int = 800, sig: int = 1, cls: str = "shot") -> str:
+        src = self._photo(kind, w, h, sig)
+        return f'<figure class="{cls}"><img src="{src}" alt="{self._e(alt)}" loading="lazy" width="{w}" height="{h}"/></figure>'
+
+    def _ba(self, before_kind: str, after_kind: str, label_before: str, label_after: str, sig: int = 11) -> str:
+        b = self._photo(before_kind, 900, 700, sig)
+        a = self._photo(after_kind, 900, 700, sig + 7)
+        return f"""
+<section class="section" id="results">
+  <h2>Before / after</h2>
+  <p class="lead">Visual proof clients look for - illustrative demo imagery.</p>
+  <div class="ba">
+    <figure><img src="{b}" alt="{self._e(label_before)}" loading="lazy"/><figcaption>{self._e(label_before)}</figcaption></figure>
+    <figure><img src="{a}" alt="{self._e(label_after)}" loading="lazy"/><figcaption>{self._e(label_after)}</figcaption></figure>
+  </div>
+</section>"""
+
+    def _team(self, members, photo_kind: str = "team") -> str:
+        cards = []
+        for i, (nm, role, blurb) in enumerate(members, 1):
+            src = self._photo(photo_kind, 600, 600, 40 + i)
+            cards.append(
+                "<article class='card team-card'>"
+                f"<img class='avatar' src='{src}' alt='{self._e(nm)}' loading='lazy'/>"
+                f"<h3>{self._e(nm)}</h3><div class='role'>{self._e(role)}</div>"
+                f"<p>{self._e(blurb)}</p></article>"
+            )
+        return "<section class='section' id='team'><h2>Team</h2><p class='lead'>The people clients actually meet.</p><div class='grid-3'>" + "".join(cards) + "</div></section>"
+
+    def _about(self, name: str, city: str, body: str, photo_kind: str, sig: int = 3) -> str:
+        img = self._img(photo_kind, f"{name} in {city}", 1200, 900, sig, "shot tall")
+        return f"""
+<section class="section" id="about">
+  <div class="grid-2">
+    <div>
+      <h2>About {self._e(name)}</h2>
+      <p class="lead">{self._e(body)}</p>
+      <ul class="bullets">
+        <li>Based in {self._e(city)}</li>
+        <li>Appointment-first operations</li>
+        <li>Human follow-up after every inquiry</li>
+      </ul>
+    </div>
+    {img}
+  </div>
+</section>"""
+
+    def _modal(self, name: str, title: str, fields=None, btn: str = "Send", dark: bool = False, studio: str = "DEMO_SITE") -> str:
+        if fields is None:
+            fields = []
         n = self._e(name)
         bg = "#141414" if dark else "#fff"
         fg = "#f5f5f5" if dark else "#111"
         border = "rgba(255,255,255,.12)" if dark else "#e5e5e5"
-        inputs = "\n".join(
-            f'<input name="f{i}" placeholder="{self._e(ph)}" {"required" if i < 2 else ""}>'
-            for i, ph in enumerate(fields)
-        )
+        note_ph = self._e(fields[-1] if fields else "How can we help?")
+        btn_e = self._e(btn)
+        studio_js = studio.replace("\\", "\\\\").replace("'", "\\'")
+        name_js = name.replace("\\", "\\\\").replace("'", "\\'")
+        btn_js = btn.replace("\\", "\\\\").replace("'", "\\'")
         return f"""
 <div class="modal" id="m" role="dialog" aria-modal="true">
   <div class="modal-card" style="background:{bg};color:{fg};border-color:{border}">
-    <button class="close" type="button" onclick="closeM()" aria-label="Close">×</button>
+    <button class="close" type="button" onclick="closeM()" aria-label="Close">x</button>
     <h3>{self._e(title)}</h3>
-    <p class="muted">We’ll route this to {n}. No spam — just a real follow-up.</p>
-    <form onsubmit="event.preventDefault();closeM();alert('Request received by {n}.');">
-      {inputs}
-      <button class="btn primary" type="submit" style="width:100%;margin-top:8px">{self._e(btn)}</button>
+    <p class="muted">Sent to {n}. On LeadFlow host this stores via /api/lead/capture.</p>
+    <form id="lead-form" onsubmit="return submitLead(event)">
+      <input name="name" placeholder="Full name *" required>
+      <input name="email" type="email" placeholder="Email *" required>
+      <input name="phone" placeholder="Phone / WhatsApp *" required>
+      <input name="company" type="hidden" value="{n}">
+      <input name="note" placeholder="{note_ph}">
+      <button class="btn primary" id="lead-btn" type="submit" style="width:100%;margin-top:8px">{btn_e}</button>
+      <p id="lead-status" class="muted" style="margin-top:10px;font-size:.85rem"></p>
     </form>
   </div>
 </div>
 <script>
+const LEAD_STUDIO = '{studio_js}';
+const LEAD_COMPANY = '{name_js}';
 function openM(){{document.getElementById('m').classList.add('open');}}
 function closeM(){{document.getElementById('m').classList.remove('open');}}
 document.addEventListener('keydown',e=>{{if(e.key==='Escape')closeM();}});
+async function submitLead(e){{
+  e.preventDefault();
+  const form = e.target;
+  const btn = document.getElementById('lead-btn');
+  const status = document.getElementById('lead-status');
+  const payload = {{
+    email: form.email.value.trim(),
+    name: form.name.value.trim(),
+    company: form.company.value.trim() || LEAD_COMPANY,
+    studio_source: LEAD_STUDIO + (form.note.value ? (':' + form.note.value.slice(0,80)) : '')
+  }};
+  btn.disabled = true; btn.textContent = 'Sending...'; status.textContent = '';
+  try {{
+    const res = await fetch('/api/lead/capture', {{
+      method: 'POST',
+      headers: {{'Content-Type': 'application/json'}},
+      body: JSON.stringify(payload)
+    }});
+    if(res.ok){{
+      status.textContent = 'Request received. We will follow up shortly.';
+      form.reset();
+      setTimeout(()=>{{closeM(); btn.disabled=false; btn.textContent='{btn_js}'; status.textContent='';}}, 1200);
+    }} else {{
+      throw new Error('API ' + res.status);
+    }}
+  }} catch (err) {{
+    status.textContent = 'Demo note: lead API works on LeadFlow host. UI confirmation saved.';
+    console.warn('lead capture', err);
+    setTimeout(()=>{{closeM(); btn.disabled=false; btn.textContent='{btn_js}'; status.textContent='';}}, 1500);
+  }}
+  return false;
+}}
 </script>"""
 
     def _faq(self, pairs: List[Tuple[str, str]]) -> str:
@@ -186,6 +303,22 @@ button,input,select,textarea{font:inherit}
 .tool{padding:28px;border-radius:22px;text-align:center}
 .tool .val{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;margin:12px 0}
 input[type=range]{width:min(100%,420px)}
+
+.shot{margin:0;border-radius:20px;overflow:hidden}
+.shot img{width:100%;height:100%;object-fit:cover;display:block}
+.shot.tall img{min-height:280px}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:800px){.ba{grid-template-columns:1fr}}
+.ba figure{margin:0;border-radius:18px;overflow:hidden;background:rgba(0,0,0,.03)}
+.ba img{width:100%;height:260px;object-fit:cover;display:block}
+.ba figcaption{padding:10px 12px;font-size:.85rem;font-weight:700}
+.team-card{text-align:center}
+.team-card .avatar{width:96px;height:96px;border-radius:50%;object-fit:cover;margin:0 auto 12px}
+.team-card .role{font-size:.8rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;opacity:.7;margin-bottom:8px}
+.bullets{margin:14px 0 0 1.1rem;line-height:1.8}
+.subnav{display:flex;flex-wrap:wrap;gap:10px 14px;font-size:.86rem;align-items:center}
+.subnav a{text-decoration:none;opacity:.85}
+.subnav a:hover{opacity:1}
 """
 
     # ================================================================= MEDICAL
@@ -262,7 +395,9 @@ h1,h2,h3,h4{{font-family:'Fraunces',serif;font-weight:700}}
 .lead,.card p,.section .lead{{color:var(--mute)}}
 input[type=range]{{accent-color:var(--sea)}}
 </style></head><body>
-<nav class="nav"><a class="logo" href="#">{n}</a><div class="actions"><a class="btn ghost" href="#services">Services</a><button class="btn primary" onclick="openM()">Book visit</button></div></nav>
+<nav class="nav"><a class="logo" href="#">{n}</a><div class="actions subnav">
+<a href="#about">About</a><a href="#services">Services</a><a href="#results">Results</a><a href="#team">Team</a><a href="#process">Visit</a>
+<button class="btn primary" onclick="openM()">Book visit</button></div></nav>
 <main class="wrap">
   <section class="hero grid-2">
     <div>
@@ -275,7 +410,7 @@ input[type=range]{{accent-color:var(--sea)}}
       </div>
     </div>
     <aside class="side">
-      {art}
+      {self._img("vet" if is_vet else "medical", n + " clinic", 1000, 780, 21, "shot")}
       <div class="metric">
         <div><strong>4.9</strong><span>avg. rating</span></div>
         <div><strong>15m</strong><span>on-time goal</span></div>
@@ -290,6 +425,13 @@ input[type=range]{{accent-color:var(--sea)}}
     <div class="grid-3">{cards}</div>
   </section>
 
+  {self._about(name, city, f"{name} is a modern practice in {city} focused on clear communication, gentle care, and transparent options before treatment.", "medical2" if not is_vet else "vet", 5)}
+  {self._ba("medical", "medical2", "Before consult planning", "After restorative / whitening plan", 12 if not is_vet else 19)}
+  {self._team([
+    ("Dr. Maya Chen", "Lead clinician", "Treatment planning and complex restorative cases."),
+    ("Jordan Lee", "Patient coordinator", "Booking, insurance questions, and visit prep."),
+    ("Sam Ortiz", "Hygiene lead", "Prevention programs and recall systems."),
+  ], "team")}
   <section class="section" id="process">
     <h2>Your first visit, simplified</h2>
     <p class="lead">A predictable path reduces anxiety more than any animation ever will.</p>
@@ -332,7 +474,7 @@ input[type=range]{{accent-color:var(--sea)}}
   </section>
 </main>
 <footer class="footer"><strong style="color:var(--ink);font-family:'Fraunces',serif;font-size:1.2rem">{n}</strong><br>{c} · {p}</footer>
-{self._modal(name, "Request a visit", ["Full name *", "Phone *", "Preferred time window", "Notes (optional)"], "Send request")}
+{self._modal(name, "Request a visit", ["Full name *", "Phone *", "Preferred time window", "Notes (optional)"], "Send request", studio="MEDICAL_DEMO")}
 </body></html>"""
 
     # ================================================================= DINING
@@ -395,7 +537,9 @@ h1,h2,h3{{font-family:'Cormorant Garamond',serif;font-weight:500}}
 input[type=range]{{accent-color:var(--ember)}}
 .modal-card input{{background:#14110F;border-color:var(--line);color:var(--ink)}}
 </style></head><body>
-<nav class="nav"><a class="logo" href="#">{n}</a><button class="btn primary" onclick="openM()">Reserve</button></nav>
+<nav class="nav"><a class="logo" href="#">{n}</a><div class="actions subnav">
+<a href="#about">About</a><a href="#menu">Menu</a><a href="#team">Team</a><a href="#hours">Hours</a>
+<button class="btn primary" onclick="openM()">Reserve</button></div></nav>
 <section class="hero">
   <div class="wrap">
     <div class="k">Dining room · {c}</div>
@@ -408,7 +552,18 @@ input[type=range]{{accent-color:var(--ember)}}
   </div>
 </section>
 <main class="wrap">
-  <section class="section" style="padding-top:40px">{art}</section>
+  <section class="section" style="padding-top:40px">
+    <div class="gallery">
+      {self._img("dining", n + " dining room", 1200, 800, 31, "shot g-main")}
+      <div>
+        {self._img("dining2", "Kitchen craft", 800, 390, 32, "shot g-side")}
+        <div style="height:12px"></div>
+        {self._img("dining", "Plating detail", 800, 390, 33, "shot g-side")}
+      </div>
+    </div>
+  </section>
+  {self._about(name, city, f"{name} is a reservation-led dining room in {city} - paced service, seasonal plates, and a cellar that supports the kitchen.", "dining2", 8)}
+
   <section class="section" id="menu">
     <h2 style="text-align:center">Tasting notes</h2>
     <p class="lead" style="text-align:center;margin-left:auto;margin-right:auto">A kitchen-led sequence — not a laminated tourist menu.</p>
@@ -428,8 +583,13 @@ input[type=range]{{accent-color:var(--ember)}}
       <div style="margin-top:14px"><button class="btn primary" onclick="openM()">Hold a private room</button></div>
     </div>
   </section>
+  {self._team([
+    ("Elena Moreau", "Executive chef", "Menu architecture and fire cooking."),
+    ("Marco Bell", "Sommelier", "Pairings that support the plate."),
+    ("Aya Nouri", "Front of house", "Reservations and private dining."),
+  ], "team2")}
   <section class="section">
-    <h2>Hours & contact</h2>
+    <h2 id="hours">Hours & contact</h2>
     <table class="table" style="color:var(--ink)">
       <tr><td style="color:var(--mute)">Tue–Thu</td><td>17:30 – 22:30</td></tr>
       <tr><td style="color:var(--mute)">Fri–Sat</td><td>17:00 – 23:30</td></tr>
@@ -440,7 +600,7 @@ input[type=range]{{accent-color:var(--ember)}}
   <section class="section"><h2>FAQ</h2>{faq}</section>
 </main>
 <footer class="footer">{n} · {c} · {p}</footer>
-{self._modal(name, "Table request", ["Name *", "Phone *", "Date / time preference", "Party size"], "Send", dark=True)}
+{self._modal(name, "Table request", ["Name *", "Phone *", "Date / time preference", "Party size"], "Send", dark=True, studio="DINING_DEMO")}
 </body></html>"""
 
     # ================================================================= LEGAL
@@ -492,7 +652,9 @@ h1,h2,h3,h4{{font-family:'Libre Baskerville',serif;color:var(--navy);font-weight
 input[type=range]{{accent-color:var(--navy)}}
 .seal{{width:120px;height:120px;border:2px solid var(--brass);border-radius:50%;display:grid;place-items:center;margin:0 auto 12px;font-family:'Libre Baskerville',serif;color:var(--brass);text-align:center;font-size:.75rem;letter-spacing:.08em}}
 </style></head><body>
-<nav class="nav"><a class="logo" href="#">{n}</a><button class="btn primary" onclick="openM()">Consultation</button></nav>
+<nav class="nav"><a class="logo" href="#">{n}</a><div class="actions subnav">
+<a href="#about">About</a><a href="#practice">Practice</a><a href="#team">Team</a>
+<button class="btn primary" onclick="openM()">Consultation</button></div></nav>
 <main class="wrap">
   <section class="hero grid-2">
     <div>
@@ -505,18 +667,24 @@ input[type=range]{{accent-color:var(--navy)}}
       </div>
     </div>
     <aside class="panel">
-      <div class="seal">EST.<br>COUNSEL</div>
-      <h3 style="text-align:center;margin-bottom:8px">Privileged first conversation</h3>
-      <p class="muted" style="text-align:center">Direct line: <strong style="color:var(--ink)">{p}</strong></p>
-      <p class="muted" style="text-align:center;margin-top:10px;font-size:.92rem">Legal design: paper, brass, navy — institutional trust (Legal Services palette).</p>
+      {self._img("legal", n + " counsel", 900, 700, 71, "shot")}
+      <h3 style="margin:14px 0 8px">Privileged first conversation</h3>
+      <p class="muted">Direct line: <strong style="color:var(--ink)">{p}</strong></p>
+      <p class="muted" style="margin-top:10px;font-size:.92rem">Authority editorial - paper, brass, navy.</p>
     </aside>
   </section>
 
+  {self._about(name, city, f"{name} advises and represents clients in {city} with disciplined preparation and discreet handling of complex commercial matters.", "legal2", 16)}
   <section class="section" id="practice">
     <h2>Practice focus</h2>
     <p class="lead">Structured for authority: long-form readability, serif headlines, zero gimmicks.</p>
     <div class="grid-3">{cards}</div>
   </section>
+  {self._team([
+    ("Helen Ward", "Managing partner", "Complex commercial disputes."),
+    ("James Okonkwo", "Counsel", "Contracts and negotiations."),
+    ("Priya Shah", "Associate", "Research, filings, case architecture."),
+  ], "team")}
 
   <section class="section grid-2">
     <div>
@@ -540,7 +708,7 @@ input[type=range]{{accent-color:var(--navy)}}
   <section class="section"><h2>FAQ</h2>{faq}</section>
 </main>
 <footer class="footer">{n}<br>{c} · {p}</footer>
-{self._modal(name, "Confidential inquiry", ["Name *", "Phone *", "Brief matter summary", "Company (optional)"], "Submit")}
+{self._modal(name, "Confidential inquiry", ["Name *", "Phone *", "Brief matter summary", "Company (optional)"], "Submit", studio="LEGAL_DEMO")}
 </body></html>"""
 
     # ================================================================= REALTY
@@ -552,8 +720,8 @@ input[type=range]{{accent-color:var(--navy)}}
             ("Courtyard loft", "$1.9M", "Double-height volume, raw timber, city quiet."),
         ]
         list_html = "".join(
-            f"<article class='card listing'><div class='photo'></div><div class='meta'><h3>{self._e(t)}</h3><div class='price'>{self._e(pr)}</div><p>{self._e(d)}</p></div></article>"
-            for t, pr, d in listings
+            f"<article class='card listing'><div class='photo' style=\"background-image:url('{self._photo(pk, 900, 700, 60+i)}')\"></div><div class='meta'><h3>{self._e(t)}</h3><div class='price'>{self._e(pr)}</div><p>{self._e(d)}</p></div></article>"
+            for i, ((t, pr, d), pk) in enumerate(zip(listings, ["realty", "realty2", "realty3"]), 1)
         )
         faq = self._faq([
             ("Do you handle off-market?", f"Yes. {n} maintains a private shortlist for qualified buyers."),
@@ -582,9 +750,7 @@ body{{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--ink)}}
 .k{{letter-spacing:.2em;text-transform:uppercase;font-size:.72rem;opacity:.85}}
 h2,h3{{font-family:'Instrument Serif',serif;font-weight:400}}
 .card{{background:#fff;border:1px solid var(--line);border-radius:0;padding:0;overflow:hidden}}
-.listing .photo{{min-height:170px;background:linear-gradient(135deg,#6d7f6a,#c2a27a)}}
-.listing:nth-child(2) .photo{{background:linear-gradient(135deg,#4b6b6a,#b9a189)}}
-.listing:nth-child(3) .photo{{background:linear-gradient(135deg,#7a6a58,#d2c2a8)}}
+.listing .photo{{min-height:190px;background-size:cover;background-position:center}}
 .listing .meta{{padding:18px}}
 .price{{font-family:'Instrument Serif',serif;font-size:1.6rem;color:var(--forest);margin:6px 0}}
 .card p,.lead,.muted{{color:var(--mute)}}
@@ -594,7 +760,9 @@ h2,h3{{font-family:'Instrument Serif',serif;font-weight:400}}
 .footer{{border-top:1px solid var(--line);color:var(--mute)}}
 input[type=range]{{accent-color:var(--forest)}}
 </style></head><body>
-<nav class="nav"><a class="logo" href="#">{n}</a><button class="btn primary" onclick="openM()">Book showing</button></nav>
+<nav class="nav"><a class="logo" href="#">{n}</a><div class="actions subnav">
+<a href="#about" style="color:#fff">About</a><a href="#listings" style="color:#fff">Listings</a><a href="#team" style="color:#fff">Team</a>
+<button class="btn primary" onclick="openM()">Book showing</button></div></nav>
 <section class="hero">
   <div>
     <div class="k">Property · {c}</div>
@@ -604,11 +772,17 @@ input[type=range]{{accent-color:var(--forest)}}
   </div>
 </section>
 <main class="wrap">
-  <section class="section">
+  {self._about(name, city, f"{name} is a property desk in {city} for buyers who care about light, materials, and long-term livability - not spammy listing farms.", "realty2", 14)}
+  <section class="section" id="listings">
     <h2>Selected inventory</h2>
-    <p class="lead">Magazine layout: large photography fields, restrained type, Real Estate teal/clay cues.</p>
+    <p class="lead">Magazine layout with real photography fields - architecture first.</p>
     <div class="grid-3">{list_html}</div>
   </section>
+  {self._team([
+    ("Ava Brooks", "Principal advisor", "Buyer strategy and off-market access."),
+    ("Noah Patel", "Listing specialist", "Presentation and discreet sale process."),
+    ("Mia Costa", "Client ops", "Showings, logistics, paperwork."),
+  ], "team2")}
   <section class="section grid-2">
     <div>
       <h2>Neighborhood intelligence</h2>
@@ -638,7 +812,7 @@ input[type=range]{{accent-color:var(--forest)}}
   <section class="section"><h2>FAQ</h2>{faq}</section>
 </main>
 <footer class="footer">{n} · {c} · {p}</footer>
-{self._modal(name, "Showing request", ["Name *", "Phone *", "Budget window", "Must-haves"], "Submit")}
+{self._modal(name, "Showing request", ["Name *", "Phone *", "Budget window", "Must-haves"], "Submit", studio="REALTY_DEMO")}
 </body></html>"""
 
     # ================================================================= GYM
@@ -693,7 +867,9 @@ input[type=range]{{accent-color:var(--volt)}}
 .modal-card input{{background:#0B0B0C;border-color:var(--line);color:#fff}}
 </style></head><body>
 <div class="stripe"></div>
-<nav class="nav"><a class="logo" href="#">{n}</a><button class="btn primary" onclick="openM()">Join / Trial</button></nav>
+<nav class="nav"><a class="logo" href="#">{n}</a><div class="actions subnav">
+<a href="#about">About</a><a href="#schedule">Schedule</a><a href="#team">Team</a>
+<button class="btn primary" onclick="openM()">Join / Trial</button></div></nav>
 <main class="wrap">
   <section class="hero grid-2">
     <div>
@@ -706,18 +882,24 @@ input[type=range]{{accent-color:var(--volt)}}
       </div>
     </div>
     <div class="statbox">
-      <div class="pill">Floor metrics</div>
+      {self._img("gym", n + " training floor", 900, 560, 81, "shot")}
+      <div class="pill" style="margin-top:12px">Floor metrics</div>
       <strong>240+</strong>
       <span class="muted">active members logging weekly PRs</span>
       <p class="muted" style="margin-top:14px">Coach line: <span style="color:#fff">{p}</span></p>
-      <svg viewBox="0 0 320 90" style="margin-top:16px" aria-hidden="true"><polyline fill="none" stroke="#F97316" stroke-width="3" points="0,70 40,60 80,65 120,40 160,48 200,22 240,30 280,12 320,18"/></svg>
     </div>
   </section>
+  {self._about(name, city, f"{name} is a serious training room in {city} for strength, conditioning, and accountability - not mirror-selfie culture.", "gym2", 18)}
   <section class="section">
     <h2>Programming pillars</h2>
     <p class="lead">Urgency + clarity. Conversion-first class layout.</p>
     <div class="grid-3">{cards}</div>
   </section>
+  {self._team([
+    ("Chris Vega", "Head coach", "Strength programming and PR tracking."),
+    ("Riley Cho", "Conditioning coach", "Engine work and hybrid prep."),
+    ("Dana Brooks", "Floor lead", "Onboarding and form standards."),
+  ], "team2")}
   <section class="section grid-2" id="schedule">
     <div>
       <h2>Sample weekday board</h2>
@@ -749,7 +931,7 @@ input[type=range]{{accent-color:var(--volt)}}
   ])}</section>
 </main>
 <footer class="footer">{n} · {c} · {p}</footer>
-{self._modal(name, "Trial request", ["Name *", "Phone *", "Goal (strength / fat loss / hybrid)", "Preferred time"], "Send", dark=True)}
+{self._modal(name, "Trial request", ["Name *", "Phone *", "Goal (strength / fat loss / hybrid)", "Preferred time"], "Send", dark=True, studio="GYM_DEMO")}
 </body></html>"""
 
     # ================================================================= SPA
@@ -801,7 +983,9 @@ h1,h2,h3{{font-family:'Cormorant',serif;font-weight:500}}
 .quote{{background:var(--cream);border:1px solid var(--line)}}
 input[type=range]{{accent-color:var(--dust)}}
 </style></head><body>
-<nav class="nav"><a class="logo" href="#">{n}</a><button class="btn primary" onclick="openM()">Book ritual</button></nav>
+<nav class="nav"><a class="logo" href="#">{n}</a><div class="actions subnav">
+<a href="#about">About</a><a href="#rituals">Rituals</a><a href="#results">Results</a><a href="#team">Team</a>
+<button class="btn primary" onclick="openM()">Book ritual</button></div></nav>
 <main class="wrap">
   <section class="section grid-2" style="padding-top:40px">
     <div>
@@ -813,8 +997,10 @@ input[type=range]{{accent-color:var(--dust)}}
         <a class="btn ghost" href="#rituals">View rituals</a>
       </div>
     </div>
-    <div>{art}</div>
+    <div>{self._img("spa", n + " sanctuary", 1000, 900, 51, "shot tall")}</div>
   </section>
+  {self._about(name, city, f"{name} is a calm wellness house in {city} - unhurried rituals, skin-first protocols, and rooms designed for the nervous system.", "spa2", 9)}
+  {self._ba("spa", "spa2", "Before treatment cycle", "After a restorative series", 22)}
   <section class="section" id="rituals">
     <h2>Ritual menu</h2>
     <p class="lead">Each service includes consultation, treatment, and aftercare notes.</p>
@@ -830,6 +1016,11 @@ input[type=range]{{accent-color:var(--dust)}}
       <div style="margin-top:14px"><button class="btn primary" onclick="openM()">Book this length</button></div>
     </div>
   </section>
+  {self._team([
+    ("Nora Hale", "Lead aesthetician", "Facial architecture and skin plans."),
+    ("Ivy Park", "Body therapist", "Release work and recovery."),
+    ("Theo Quinn", "Guest host", "Booking, intake, aftercare."),
+  ], "team")}
   <section class="section">
     <h2>House notes</h2>
     <table class="table">
@@ -845,7 +1036,7 @@ input[type=range]{{accent-color:var(--dust)}}
   ])}</section>
 </main>
 <footer class="footer">{n} · {c} · {p}</footer>
-{self._modal(name, "Treatment request", ["Name *", "Phone *", "Treatment interest", "Preferred daypart"], "Send")}
+{self._modal(name, "Treatment request", ["Name *", "Phone *", "Treatment interest", "Preferred daypart"], "Send", studio="SPA_DEMO")}
 </body></html>"""
 
     # ================================================================= JEWELRY
@@ -889,7 +1080,9 @@ h1,h2,h3{{font-family:'Bodoni Moda',serif;font-weight:500}}
 input[type=range]{{accent-color:var(--gold)}}
 .modal-card input{{background:#0E0E0F;border-color:var(--line);color:var(--ink)}}
 </style></head><body>
-<nav class="nav"><a class="logo" href="#">{n}</a><button class="btn ghost" onclick="openM()">Private viewing</button></nav>
+<nav class="nav"><a class="logo" href="#">{n}</a><div class="actions subnav">
+<a href="#about">About</a><a href="#collections">Collections</a><a href="#team">Team</a>
+<button class="btn ghost" onclick="openM()">Private viewing</button></div></nav>
 <section class="hero wrap">
   <div class="pill">High jewelry · {c}</div>
   <h1 style="font-size:clamp(2.6rem,6vw,4.3rem);line-height:1.08;margin:14px 0 12px">Quiet brilliance. Precise craft.</h1>
@@ -898,11 +1091,25 @@ input[type=range]{{accent-color:var(--gold)}}
   <button class="btn primary" onclick="openM()">Request a viewing</button>
 </section>
 <main class="wrap">
-  <section class="section">
+  {self._about(name, city, f"{name} is an appointment-only atelier in {city} for clients who want quiet brilliance and precise craft.", "jewelry2", 24)}
+  <section class="section" id="collections">
     <h2 style="text-align:center">Collections</h2>
-    <p class="lead" style="text-align:center;margin-left:auto;margin-right:auto">Exaggerated minimalism for jewelry: space, proportion, almost no decoration.</p>
+    <p class="lead" style="text-align:center;margin-left:auto;margin-right:auto">Space, proportion, almost no decoration - jewelry that whispers.</p>
+    <div class="gallery" style="margin-bottom:18px">
+      {self._img("jewelry", "Atelier piece", 1200, 800, 91, "shot g-main")}
+      <div>
+        {self._img("jewelry2", "Detail", 800, 390, 92, "shot g-side")}
+        <div style="height:12px"></div>
+        {self._img("jewelry", "Setting study", 800, 390, 93, "shot g-side")}
+      </div>
+    </div>
     <div class="grid-3">{cards}</div>
   </section>
+  {self._team([
+    ("Camille Laurent", "Creative director", "Stone-first design language."),
+    ("Owen Park", "Master setter", "Precision settings and finishes."),
+    ("Hana Ito", "Client advisor", "Private viewings and commissions."),
+  ], "team")}
   <section class="section grid-2">
     <div>
       <h2>Atelier process</h2>
@@ -928,7 +1135,7 @@ input[type=range]{{accent-color:var(--gold)}}
   ])}</section>
 </main>
 <footer class="footer">{n} · {c} · {p}</footer>
-{self._modal(name, "Private viewing", ["Name *", "Phone *", "Interest (bridal / custom / service)", "Budget window"], "Send", dark=True)}
+{self._modal(name, "Private viewing", ["Name *", "Phone *", "Interest (bridal / custom / service)", "Budget window"], "Send", dark=True, studio="JEWELRY_DEMO")}
 </body></html>"""
 
     # ================================================================= WEALTH
@@ -969,7 +1176,9 @@ h1,h2,h3{{font-family:'Newsreader',serif;color:var(--navy);font-weight:600}}
 .chart span{{background:linear-gradient(180deg,#1E3A8A,#0F172A);border-radius:4px 4px 0 0}}
 input[type=range]{{accent-color:var(--navy)}}
 </style></head><body>
-<nav class="nav"><a class="logo" href="#">{n}</a><button class="btn primary" onclick="openM()">Private intro</button></nav>
+<nav class="nav"><a class="logo" href="#">{n}</a><div class="actions subnav">
+<a href="#about">About</a><a href="#pillars">Pillars</a><a href="#team">Team</a>
+<button class="btn primary" onclick="openM()">Private intro</button></div></nav>
 <main class="wrap">
   <section class="section grid-2" style="padding-top:48px">
     <div>
@@ -982,20 +1191,27 @@ input[type=range]{{accent-color:var(--navy)}}
       </div>
     </div>
     <aside class="panel">
-      <div class="pill">Desk</div>
+      {self._img("wealth", n + " private desk", 900, 700, 101, "shot")}
+      <div class="pill" style="margin-top:12px">Desk</div>
       <h3 style="margin:8px 0">Confidential first meeting</h3>
       <p class="muted">Direct line: <strong style="color:var(--ink)">{p}</strong></p>
       <div class="chart" aria-hidden="true">
         <span style="height:40%"></span><span style="height:55%"></span><span style="height:48%"></span><span style="height:72%"></span><span style="height:63%"></span>
       </div>
-      <p class="muted" style="margin-top:10px;font-size:.9rem">Illustrative allocation sketch — not performance data.</p>
+      <p class="muted" style="margin-top:10px;font-size:.9rem">Illustrative allocation sketch - not performance data.</p>
     </aside>
   </section>
+  {self._about(name, city, f"{name} works with families and principals in {city} who want measured process, plain language, and private-bank composure.", "wealth2", 26)}
   <section class="section" id="pillars">
     <h2>Advisory pillars</h2>
     <p class="lead">Trust density over visual excitement.</p>
     <div class="grid-3">{cards}</div>
   </section>
+  {self._team([
+    ("Margaret Shaw", "Managing partner", "Family architecture and governance."),
+    ("Daniel Cho", "Portfolio strategist", "Allocation and liquidity events."),
+    ("Elena Ruiz", "Client principal", "Reporting cadence and coordination."),
+  ], "team")}
   <section class="section grid-2">
     <div>
       <h2>Engagement cadence</h2>
@@ -1020,7 +1236,7 @@ input[type=range]{{accent-color:var(--navy)}}
   ])}</section>
 </main>
 <footer class="footer">{n}<br>{c} · {p}</footer>
-{self._modal(name, "Private introduction", ["Name *", "Phone *", "Context (family / liquidity / portfolio)", "Approx. AUM range (optional)"], "Submit")}
+{self._modal(name, "Private introduction", ["Name *", "Phone *", "Context (family / liquidity / portfolio)", "Approx. AUM range (optional)"], "Submit", studio="WEALTH_DEMO")}
 </body></html>"""
 
     # ================================================================= UNIVERSAL
@@ -1062,7 +1278,9 @@ h1,h2,h3{{font-family:'Sora',sans-serif}}
 .footer{{background:#fff;border-top:1px solid var(--line);color:var(--mute)}}
 input[type=range]{{accent-color:var(--ind)}}
 </style></head><body>
-<nav class="nav"><a class="logo" href="#">{n}</a><button class="btn primary" onclick="openM()">Contact</button></nav>
+<nav class="nav"><a class="logo" href="#">{n}</a><div class="actions subnav">
+<a href="#about">About</a><a href="#offer">Offer</a><a href="#team">Team</a>
+<button class="btn primary" onclick="openM()">Contact</button></div></nav>
 <main class="wrap">
   <section class="section grid-2" style="padding-top:40px">
     <div>
@@ -1075,16 +1293,23 @@ input[type=range]{{accent-color:var(--ind)}}
       </div>
     </div>
     <aside class="panel">
-      <div class="pill">Studio notes</div>
+      {self._img("universal", n + " studio", 900, 700, 111, "shot")}
+      <div class="pill" style="margin-top:12px">Studio notes</div>
       <h3 style="margin:8px 0">Category-tuned layout</h3>
-      <p class="muted">Indigo service studio system for general categories. Distinct from medical/dining/legal skins.</p>
+      <p class="muted">Indigo service studio - deliberately not a LeadFlow product UI clone.</p>
       <p class="muted" style="margin-top:12px">Line: <strong style="color:var(--ink)">{p}</strong></p>
     </aside>
   </section>
+  {self._about(name, city, f"{name} helps clients in {city} understand the offer fast and take the next step without agency theater.", "universal", 28)}
   <section class="section" id="offer">
     <h2>What clients get</h2>
     <div class="grid-3">{cards}</div>
   </section>
+  {self._team([
+    ("Alex Rivera", "Principal", "Scope and delivery standards."),
+    ("Kim Sato", "Producer", "Timeline and client communication."),
+    ("Lee Morgan", "Specialist", "Hands-on execution."),
+  ], "team2")}
   <section class="section grid-2">
     <div>
       <h2>How it works</h2>
@@ -1109,7 +1334,7 @@ input[type=range]{{accent-color:var(--ind)}}
   ])}</section>
 </main>
 <footer class="footer">{n} · {c} · {p}</footer>
-{self._modal(name, "Contact", ["Name *", "Phone *", "What do you need?", "Timeline"], "Send")}
+{self._modal(name, "Contact", ["Name *", "Phone *", "What do you need?", "Timeline"], "Send", studio="UNIVERSAL_DEMO")}
 </body></html>"""
 
 

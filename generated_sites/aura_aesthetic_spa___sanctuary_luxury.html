@@ -47,6 +47,22 @@ button,input,select,textarea{font:inherit}
 .tool .val{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;margin:12px 0}
 input[type=range]{width:min(100%,420px)}
 
+.shot{margin:0;border-radius:20px;overflow:hidden}
+.shot img{width:100%;height:100%;object-fit:cover;display:block}
+.shot.tall img{min-height:280px}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:800px){.ba{grid-template-columns:1fr}}
+.ba figure{margin:0;border-radius:18px;overflow:hidden;background:rgba(0,0,0,.03)}
+.ba img{width:100%;height:260px;object-fit:cover;display:block}
+.ba figcaption{padding:10px 12px;font-size:.85rem;font-weight:700}
+.team-card{text-align:center}
+.team-card .avatar{width:96px;height:96px;border-radius:50%;object-fit:cover;margin:0 auto 12px}
+.team-card .role{font-size:.8rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;opacity:.7;margin-bottom:8px}
+.bullets{margin:14px 0 0 1.1rem;line-height:1.8}
+.subnav{display:flex;flex-wrap:wrap;gap:10px 14px;font-size:.86rem;align-items:center}
+.subnav a{text-decoration:none;opacity:.85}
+.subnav a:hover{opacity:1}
+
 :root{--bg:#F8F1EC;--ink:#3D2C29;--mute:#8A736C;--line:#E8D8D0;--rose:#EC4899;--cream:#FFFCF9;--dust:#C9897B}
 body{font-family:'Nunito Sans',sans-serif;background:var(--bg);color:var(--ink);font-weight:300}
 .nav{background:rgba(248,241,236,.92);border-bottom:1px solid var(--line)}
@@ -65,7 +81,9 @@ h1,h2,h3{font-family:'Cormorant',serif;font-weight:500}
 .quote{background:var(--cream);border:1px solid var(--line)}
 input[type=range]{accent-color:var(--dust)}
 </style></head><body>
-<nav class="nav"><a class="logo" href="#">Aura Aesthetic Spa &amp; Sanctuary</a><button class="btn primary" onclick="openM()">Book ritual</button></nav>
+<nav class="nav"><a class="logo" href="#">Aura Aesthetic Spa &amp; Sanctuary</a><div class="actions subnav">
+<a href="#about">About</a><a href="#rituals">Rituals</a><a href="#results">Results</a><a href="#team">Team</a>
+<button class="btn primary" onclick="openM()">Book ritual</button></div></nav>
 <main class="wrap">
   <section class="section grid-2" style="padding-top:40px">
     <div>
@@ -77,16 +95,32 @@ input[type=range]{accent-color:var(--dust)}
         <a class="btn ghost" href="#rituals">View rituals</a>
       </div>
     </div>
-    <div>
-<svg viewBox="0 0 640 360" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <rect width="640" height="360" rx="40" fill="#F3E0D6"/>
-  <ellipse cx="320" cy="190" rx="170" ry="110" fill="#E7C4B8"/>
-  <ellipse cx="250" cy="150" rx="70" ry="90" fill="#F8F1EC"/>
-  <ellipse cx="390" cy="150" rx="70" ry="90" fill="#F8F1EC"/>
-  <circle cx="320" cy="200" r="46" fill="#C9897B" opacity=".85"/>
-  <path d="M200 280 C280 240, 360 300, 440 260" stroke="#C9897B" stroke-width="3" fill="none" opacity=".5"/>
-</svg></div>
+    <div><figure class="shot tall"><img src="https://loremflickr.com/1000/900/spa,wellness,massage?lock=51" alt="Aura Aesthetic Spa &amp;amp; Sanctuary sanctuary" loading="lazy" width="1000" height="900"/></figure></div>
   </section>
+  
+<section class="section" id="about">
+  <div class="grid-2">
+    <div>
+      <h2>About Aura Aesthetic Spa &amp; Sanctuary</h2>
+      <p class="lead">Aura Aesthetic Spa &amp; Sanctuary is a calm wellness house in Munich - unhurried rituals, skin-first protocols, and rooms designed for the nervous system.</p>
+      <ul class="bullets">
+        <li>Based in Munich</li>
+        <li>Appointment-first operations</li>
+        <li>Human follow-up after every inquiry</li>
+      </ul>
+    </div>
+    <figure class="shot tall"><img src="https://loremflickr.com/1200/900/skincare,beauty,spa?lock=9" alt="Aura Aesthetic Spa &amp; Sanctuary in Munich" loading="lazy" width="1200" height="900"/></figure>
+  </div>
+</section>
+  
+<section class="section" id="results">
+  <h2>Before / after</h2>
+  <p class="lead">Visual proof clients look for - illustrative demo imagery.</p>
+  <div class="ba">
+    <figure><img src="https://loremflickr.com/900/700/spa,wellness,massage?lock=22" alt="Before treatment cycle" loading="lazy"/><figcaption>Before treatment cycle</figcaption></figure>
+    <figure><img src="https://loremflickr.com/900/700/skincare,beauty,spa?lock=29" alt="After a restorative series" loading="lazy"/><figcaption>After a restorative series</figcaption></figure>
+  </div>
+</section>
   <section class="section" id="rituals">
     <h2>Ritual menu</h2>
     <p class="lead">Each service includes consultation, treatment, and aftercare notes.</p>
@@ -102,6 +136,7 @@ input[type=range]{accent-color:var(--dust)}
       <div style="margin-top:14px"><button class="btn primary" onclick="openM()">Book this length</button></div>
     </div>
   </section>
+  <section class='section' id='team'><h2>Team</h2><p class='lead'>The people clients actually meet.</p><div class='grid-3'><article class='card team-card'><img class='avatar' src='https://loremflickr.com/600/600/portrait,professional,business?lock=41' alt='Nora Hale' loading='lazy'/><h3>Nora Hale</h3><div class='role'>Lead aesthetician</div><p>Facial architecture and skin plans.</p></article><article class='card team-card'><img class='avatar' src='https://loremflickr.com/600/600/portrait,professional,business?lock=42' alt='Ivy Park' loading='lazy'/><h3>Ivy Park</h3><div class='role'>Body therapist</div><p>Release work and recovery.</p></article><article class='card team-card'><img class='avatar' src='https://loremflickr.com/600/600/portrait,professional,business?lock=43' alt='Theo Quinn' loading='lazy'/><h3>Theo Quinn</h3><div class='role'>Guest host</div><p>Booking, intake, aftercare.</p></article></div></section>
   <section class="section">
     <h2>House notes</h2>
     <table class="table">
@@ -118,21 +153,57 @@ input[type=range]{accent-color:var(--dust)}
 
 <div class="modal" id="m" role="dialog" aria-modal="true">
   <div class="modal-card" style="background:#fff;color:#111;border-color:#e5e5e5">
-    <button class="close" type="button" onclick="closeM()" aria-label="Close">×</button>
+    <button class="close" type="button" onclick="closeM()" aria-label="Close">x</button>
     <h3>Treatment request</h3>
-    <p class="muted">We’ll route this to Aura Aesthetic Spa &amp; Sanctuary. No spam — just a real follow-up.</p>
-    <form onsubmit="event.preventDefault();closeM();alert('Request received by Aura Aesthetic Spa &amp; Sanctuary.');">
-      <input name="f0" placeholder="Name *" required>
-<input name="f1" placeholder="Phone *" required>
-<input name="f2" placeholder="Treatment interest" >
-<input name="f3" placeholder="Preferred daypart" >
-      <button class="btn primary" type="submit" style="width:100%;margin-top:8px">Send</button>
+    <p class="muted">Sent to Aura Aesthetic Spa &amp; Sanctuary. On LeadFlow host this stores via /api/lead/capture.</p>
+    <form id="lead-form" onsubmit="return submitLead(event)">
+      <input name="name" placeholder="Full name *" required>
+      <input name="email" type="email" placeholder="Email *" required>
+      <input name="phone" placeholder="Phone / WhatsApp *" required>
+      <input name="company" type="hidden" value="Aura Aesthetic Spa &amp; Sanctuary">
+      <input name="note" placeholder="Preferred daypart">
+      <button class="btn primary" id="lead-btn" type="submit" style="width:100%;margin-top:8px">Send</button>
+      <p id="lead-status" class="muted" style="margin-top:10px;font-size:.85rem"></p>
     </form>
   </div>
 </div>
 <script>
+const LEAD_STUDIO = 'SPA_DEMO';
+const LEAD_COMPANY = 'Aura Aesthetic Spa & Sanctuary';
 function openM(){document.getElementById('m').classList.add('open');}
 function closeM(){document.getElementById('m').classList.remove('open');}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM();});
+async function submitLead(e){
+  e.preventDefault();
+  const form = e.target;
+  const btn = document.getElementById('lead-btn');
+  const status = document.getElementById('lead-status');
+  const payload = {
+    email: form.email.value.trim(),
+    name: form.name.value.trim(),
+    company: form.company.value.trim() || LEAD_COMPANY,
+    studio_source: LEAD_STUDIO + (form.note.value ? (':' + form.note.value.slice(0,80)) : '')
+  };
+  btn.disabled = true; btn.textContent = 'Sending...'; status.textContent = '';
+  try {
+    const res = await fetch('/api/lead/capture', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload)
+    });
+    if(res.ok){
+      status.textContent = 'Request received. We will follow up shortly.';
+      form.reset();
+      setTimeout(()=>{closeM(); btn.disabled=false; btn.textContent='Send'; status.textContent='';}, 1200);
+    } else {
+      throw new Error('API ' + res.status);
+    }
+  } catch (err) {
+    status.textContent = 'Demo note: lead API works on LeadFlow host. UI confirmation saved.';
+    console.warn('lead capture', err);
+    setTimeout(()=>{closeM(); btn.disabled=false; btn.textContent='Send'; status.textContent='';}, 1500);
+  }
+  return false;
+}
 </script>
 </body></html>
