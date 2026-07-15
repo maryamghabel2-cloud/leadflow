@@ -158,6 +158,21 @@ async def serve_enterprise():
         return FileResponse("index_enterprise_minimal.html")
     return {"message": "Enterprise page not found."}
 
+@app.get("/first-customer")
+async def serve_first_customer():
+    if os.path.exists("first_customer.html"):
+        return FileResponse("first_customer.html")
+    return {"message": "First customer ops page not found."}
+
+
+@app.get("/go")
+async def serve_go_alias():
+    """Short alias for the first-customer command center."""
+    if os.path.exists("first_customer.html"):
+        return FileResponse("first_customer.html")
+    return {"message": "First customer ops page not found."}
+
+
 @app.get("/miner")
 async def serve_miner():
     if os.path.exists("miner.html"):

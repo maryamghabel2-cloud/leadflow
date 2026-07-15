@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeadFlow.AI | First Customer Command Center</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+        :root {
+            --bg: #FBFBF9; --stone: #F2EFE9; --card: #fff; --ink: #18181B;
+            --slate: #475569; --muted: #78716C; --line: #E5E0D8;
+            --champagne: #B8860B; --ok: #059669; --warn: #B45309; --bad: #B91C1C;
+            --serif: 'Cinzel', serif; --sans: 'Plus Jakarta Sans', sans-serif; --mono: 'JetBrains Mono', monospace;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: var(--sans); background: var(--bg); color: var(--ink); line-height: 1.7; border-top: 4px solid var(--ink); }
+        a { color: inherit; }
+        header {
+            position: sticky; top: 0; z-index: 40; display: flex; justify-content: space-between; align-items: center;
+            gap: 16px; flex-wrap: wrap; padding: 18px 5vw; background: rgba(251,251,249,.95);
+            border-bottom: 1px solid var(--line); backdrop-filter: blur(12px);
+        }
+        .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .mark { width: 34px; height: 34px; background: var(--ink); color: #fff; display: grid; place-items: center; font-family: var(--serif); font-weight: 800; }
+        .brand b { font-family: var(--serif); letter-spacing: 3px; font-size: 15px; }
+        .nav { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+        .nav a { text-decoration: none; color: var(--slate); }
+        .nav a:hover { color: var(--ink); }
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            border: 1px solid var(--ink); background: var(--ink); color: #fff; text-decoration: none;
+            padding: 11px 16px; font-size: 12px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
+        }
+        .btn.ghost { background: transparent; color: var(--ink); }
+        .btn:hover { background: var(--champagne); color: #000; border-color: var(--champagne); }
+        .btn.ghost:hover { background: var(--stone); color: var(--ink); border-color: var(--ink); }
+        .wrap { width: min(1180px, 92vw); margin: 0 auto; padding: 36px 0 80px; }
+        .kicker { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--champagne); font-weight: 700; margin-bottom: 10px; }
+        h1 { font-size: clamp(1.9rem, 4vw, 2.8rem); line-height: 1.15; margin-bottom: 12px; letter-spacing: -.02em; }
+        h2 { font-size: 1.45rem; margin: 0 0 10px; }
+        h3 { font-size: 1.05rem; margin-bottom: 8px; }
+        .lead { color: var(--slate); max-width: 720px; margin-bottom: 22px; }
+        .hero {
+            display: grid; grid-template-columns: 1.3fr .9fr; gap: 22px; align-items: stretch;
+            padding-bottom: 28px; border-bottom: 1px solid var(--line); margin-bottom: 28px;
+        }
+        @media (max-width: 900px) { .hero { grid-template-columns: 1fr; } }
+        .panel, .card {
+            background: var(--card); border: 1px solid var(--line); padding: 22px;
+        }
+        .panel.stone { background: var(--stone); }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        @media (max-width: 900px) { .grid-3, .grid-2 { grid-template-columns: 1fr; } }
+        .metric strong { display: block; font-family: var(--serif); font-size: 1.8rem; line-height: 1.1; margin-bottom: 4px; }
+        .metric span { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+        .section { margin: 34px 0; scroll-margin-top: 90px; }
+        .muted { color: var(--muted); }
+        .slate { color: var(--slate); }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        th, td { border-bottom: 1px solid var(--line); padding: 10px 8px; text-align: left; vertical-align: top; }
+        th { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); }
+        input, select, textarea {
+            width: 100%; border: 1px solid var(--line); background: var(--bg); padding: 10px 12px;
+            font: inherit; color: var(--ink); outline: none;
+        }
+        input:focus, select:focus, textarea:focus { border-color: var(--ink); background: #fff; }
+        textarea { min-height: 90px; resize: vertical; }
+        label { display: block; font-size: 11px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+        .field { margin-bottom: 12px; }
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        @media (max-width: 700px) { .row { grid-template-columns: 1fr; } }
+        .pill {
+            display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border: 1px solid var(--line);
+            background: var(--stone); font-size: 11px; font-weight: 800; letter-spacing: .5px; text-transform: uppercase;
+        }
+        .pill.ok { background: #ECFDF5; border-color: #A7F3D0; color: var(--ok); }
+        .pill.warn { background: #FFFBEB; border-color: #FDE68A; color: var(--warn); }
+        .pill.bad { background: #FEF2F2; border-color: #FECACA; color: var(--bad); }
+        .checklist { list-style: none; }
+        .checklist li {
+            display: flex; gap: 10px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid var(--line);
+        }
+        .checklist input { width: auto; margin-top: 4px; }
+        .script {
+            font-family: var(--mono); font-size: 12px; background: var(--stone); border: 1px solid var(--line);
+            padding: 14px; white-space: pre-wrap; line-height: 1.6;
+        }
+        .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+        .tab {
+            border: 1px solid var(--line); background: #fff; padding: 8px 12px; font-size: 12px; font-weight: 800;
+            letter-spacing: .5px; text-transform: uppercase; cursor: pointer;
+        }
+        .tab.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+        .tabpane { display: none; }
+        .tabpane.active { display: block; }
+        .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+        .day {
+            border-left: 3px solid var(--champagne); padding: 12px 14px; background: #fff; border: 1px solid var(--line);
+            border-left: 3px solid var(--champagne); margin-bottom: 10px;
+        }
+        .day b { display: block; margin-bottom: 4px; }
+        footer { border-top: 1px solid var(--line); padding: 28px 5vw; color: var(--muted); font-size: 12px; text-align: center; }
+        .toast {
+            position: fixed; bottom: 18px; right: 18px; background: var(--ink); color: #fff; padding: 12px 16px;
+            font-size: 13px; font-weight: 700; display: none; z-index: 50; max-width: min(360px, 90vw);
+        }
+        .toast.show { display: block; }
+        .statbar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 12px; }
+        @media (max-width: 800px) { .statbar { grid-template-columns: 1fr 1fr; } }
+        .empty { color: var(--muted); font-size: 13px; padding: 12px 0; }
+        .danger { color: var(--bad); font-size: 12px; }
+        code { font-family: var(--mono); font-size: 12px; background: var(--stone); padding: 1px 5px; }
+    </style>
+</head>
+<body>
+<header>
+    <a class="brand" href="/">
+        <div class="mark">L</div>
+        <b>LEADFLOW</b>
+    </a>
+    <nav class="nav">
+        <a href="#offer">Offer</a>
+        <a href="#icp">ICP</a>
+        <a href="#plan">7-Day Plan</a>
+        <a href="#scripts">Scripts</a>
+        <a href="#tracker">Tracker</a>
+        <a href="#checklist">Checklist</a>
+        <a href="/miner">Miner</a>
+        <a href="/onboard">Checkout</a>
+    </nav>
+</header>
+
+<main class="wrap">
+    <section class="hero">
+        <div>
+            <div class="kicker">First customer command center</div>
+            <h1>Stop redesigning. Ship demos. Close one real $499.</h1>
+            <p class="lead">
+                This page is your operator cockpit for the first paid client: tight ICP, 7-day execution plan,
+                copy-ready outreach, demo workflow, checkout link, and a live lead tracker saved in this browser.
+            </p>
+            <div class="actions">
+                <a class="btn" href="#tracker">Open lead tracker</a>
+                <a class="btn ghost" href="/miner">Build demos</a>
+                <a class="btn ghost" href="/onboard">Open $499 checkout</a>
+                <a class="btn ghost" href="/live_demos/apex_dental_lounge_live.html" target="_blank" rel="noopener">Sample demo</a>
+            </div>
+            <p class="muted" style="margin-top:14px;font-size:13px;">
+                Rule until first cash: no AI cold-call spam, no fake 100-demo theater, no more generator redesign loops.
+            </p>
+        </div>
+        <aside class="panel stone">
+            <div class="kicker">North star</div>
+            <h2 style="font-family:var(--serif);font-size:1.5rem;margin-bottom:8px;">1 paid customer</h2>
+            <p class="slate" style="margin-bottom:14px;">Target package: <strong>Premium Website — $499 USDT</strong> (one-time).</p>
+            <div class="statbar">
+                <div class="metric card"><strong id="m-leads">0</strong><span>Leads</span></div>
+                <div class="metric card"><strong id="m-demos">0</strong><span>Demos</span></div>
+                <div class="metric card"><strong id="m-sent">0</strong><span>Sent</span></div>
+                <div class="metric card"><strong id="m-won">0</strong><span>Won</span></div>
+            </div>
+            <div class="actions">
+                <button class="btn" type="button" onclick="seedStarterPack()">Load starter pack (30 slots)</button>
+                <button class="btn ghost" type="button" onclick="exportCSV()">Export CSV</button>
+            </div>
+        </aside>
+    </section>
+
+    <section class="section" id="offer">
+        <div class="kicker">Offer</div>
+        <h2>What you sell this week</h2>
+        <div class="grid-3">
+            <article class="card">
+                <span class="pill">Primary</span>
+                <h3 style="margin-top:10px;">Premium — $499</h3>
+                <p class="slate">Industry-specific site + live demo + full handover ZIP + deploy guide. This is the only package you push hard.</p>
+            </article>
+            <article class="card">
+                <span class="pill warn">Fallback</span>
+                <h3 style="margin-top:10px;">Starter — $199</h3>
+                <p class="slate">Only if $499 is rejected after they loved the demo. Do not lead with discount.</p>
+            </article>
+            <article class="card">
+                <span class="pill">Upsell later</span>
+                <h3 style="margin-top:10px;">Enterprise — $1,499</h3>
+                <p class="slate">Multi-location / polish / 30-day support. Mention only if they ask for more.</p>
+            </article>
+        </div>
+        <div class="panel" style="margin-top:14px;">
+            <h3>One-sentence pitch</h3>
+            <div class="script" id="pitch-one">We build a free live website preview for local businesses that look great on Maps but have a weak/no website — if you love it, own it for $499 USDT.</div>
+            <div class="actions">
+                <button class="btn ghost" type="button" data-copy="pitch-one">Copy pitch</button>
+                <a class="btn ghost" href="https://leadflow-ai-1vip.onrender.com/onboard" target="_blank" rel="noopener">Checkout URL</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="icp">
+        <div class="kicker">ICP</div>
+        <h2>Who to hunt (tight)</h2>
+        <div class="grid-2">
+            <div class="card">
+                <h3>Include</h3>
+                <ul class="slate" style="margin-left:1.1rem;">
+                    <li>Dentists / medspas / boutique spas / small gyms / independent restaurants</li>
+                    <li>Google Maps rating ≥ 4.5 and ≥ 20 reviews</li>
+                    <li>No website, broken website, or Instagram-only presence</li>
+                    <li>One city you can follow up in your timezone</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>Exclude (for now)</h3>
+                <ul class="slate" style="margin-left:1.1rem;">
+                    <li>Enterprises with procurement / RFPs</li>
+                    <li>Chains with corporate web teams</li>
+                    <li>Anyone asking for custom software SaaS build first</li>
+                    <li>Leads without phone/IG/email contact path</li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel stone" style="margin-top:14px;">
+            <h3>Recommended first niche stack</h3>
+            <p class="slate">1) Dental / clinic &nbsp;·&nbsp; 2) Spa / aesthetics &nbsp;·&nbsp; 3) Restaurant. Pick <strong>one</strong> city + one niche for the first 30.</p>
+        </div>
+    </section>
+
+    <section class="section" id="plan">
+        <div class="kicker">Execution</div>
+        <h2>7-day plan to first cash</h2>
+        <div class="day"><b>Day 1 — List 30 real businesses</b><span class="slate">Maps search. Score ≥4.5, ≥20 reviews, weak/no site. Fill tracker rows.</span></div>
+        <div class="day"><b>Day 2–3 — Build 30 demos</b><span class="slate">Use Miner / generate-website. Real name, city, phone. Save live demo URLs in tracker.</span></div>
+        <div class="day"><b>Day 4 — Outreach wave A (15)</b><span class="slate">WhatsApp / IG / email with free demo link. No payment ask in first message.</span></div>
+        <div class="day"><b>Day 5 — Follow-up wave A</b><span class="slate">Did you see the preview? I can tweak colors/services today.</span></div>
+        <div class="day"><b>Day 6 — Outreach wave B (15) + close interested A</b><span class="slate">Send onboard checkout for $499. Help paste TXID.</span></div>
+        <div class="day"><b>Day 7 — Close + deliver</b><span class="slate">Verify payment, send ZIP, collect testimonial, ask for 2 referrals.</span></div>
+        <div class="actions">
+            <a class="btn" href="/miner">Go generate demos</a>
+            <a class="btn ghost" href="#scripts">Copy scripts</a>
+        </div>
+    </section>
+
+    <section class="section" id="workflow">
+        <div class="kicker">Workflow</div>
+        <h2>Demo → message → checkout</h2>
+        <div class="grid-3">
+            <article class="card">
+                <span class="pill">1</span>
+                <h3 style="margin-top:10px;">Generate</h3>
+                <p class="slate">Open <a href="/miner"><strong>/miner</strong></a>, mine a city/category, generate demo, copy live URL.</p>
+            </article>
+            <article class="card">
+                <span class="pill">2</span>
+                <h3 style="margin-top:10px;">Personalize</h3>
+                <p class="slate">Paste business into tracker. Build message with script tabs. Send on WhatsApp/IG/email.</p>
+            </article>
+            <article class="card">
+                <span class="pill">3</span>
+                <h3 style="margin-top:10px;">Close</h3>
+                <p class="slate">Interested → <a href="/onboard"><strong>/onboard</strong></a> Premium $499 → verify USDT TXID → deliver ZIP.</p>
+            </article>
+        </div>
+        <div class="panel" style="margin-top:14px;">
+            <h3>Key production links</h3>
+            <table>
+                <tr><th>Tool</th><th>URL</th></tr>
+                <tr><td>Landing</td><td><code id="link-home">https://leadflow-ai-1vip.onrender.com/</code></td></tr>
+                <tr><td>Checkout / plans</td><td><code id="link-onboard">https://leadflow-ai-1vip.onrender.com/onboard</code></td></tr>
+                <tr><td>Miner</td><td><code id="link-miner">https://leadflow-ai-1vip.onrender.com/miner</code></td></tr>
+                <tr><td>This ops desk</td><td><code id="link-ops">https://leadflow-ai-1vip.onrender.com/first-customer</code></td></tr>
+                <tr><td>Sample dental demo</td><td><code>https://leadflow-ai-1vip.onrender.com/live_demos/apex_dental_lounge_live.html</code></td></tr>
+            </table>
+            <div class="actions">
+                <button class="btn ghost" type="button" onclick="copyText(document.getElementById('link-onboard').textContent)">Copy checkout</button>
+                <button class="btn ghost" type="button" onclick="copyText(document.getElementById('link-ops').textContent)">Copy this page</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="scripts">
+        <div class="kicker">Scripts</div>
+        <h2>Copy-ready outreach</h2>
+        <div class="tabs" role="tablist">
+            <button class="tab active" type="button" data-tab="s1">WhatsApp / IG #1</button>
+            <button class="tab" type="button" data-tab="s2">Follow-up</button>
+            <button class="tab" type="button" data-tab="s3">Email</button>
+            <button class="tab" type="button" data-tab="s4">Close $499</button>
+            <button class="tab" type="button" data-tab="s5">Persian</button>
+        </div>
+        <div class="card">
+            <div class="field row">
+                <div>
+                    <label for="var-name">Contact first name</label>
+                    <input id="var-name" value="Sarah" oninput="renderScripts()">
+                </div>
+                <div>
+                    <label for="var-biz">Business name</label>
+                    <input id="var-biz" value="Apex Dental Lounge" oninput="renderScripts()">
+                </div>
+            </div>
+            <div class="field row">
+                <div>
+                    <label for="var-city">City</label>
+                    <input id="var-city" value="Toronto" oninput="renderScripts()">
+                </div>
+                <div>
+                    <label for="var-demo">Demo URL</label>
+                    <input id="var-demo" value="https://leadflow-ai-1vip.onrender.com/live_demos/apex_dental_lounge_live.html" oninput="renderScripts()">
+                </div>
+            </div>
+
+            <div class="tabpane active" id="s1">
+                <div class="script" id="script-1"></div>
+                <div class="actions"><button class="btn" type="button" data-copy="script-1">Copy message</button></div>
+            </div>
+            <div class="tabpane" id="s2">
+                <div class="script" id="script-2"></div>
+                <div class="actions"><button class="btn" type="button" data-copy="script-2">Copy follow-up</button></div>
+            </div>
+            <div class="tabpane" id="s3">
+                <div class="script" id="script-3"></div>
+                <div class="actions"><button class="btn" type="button" data-copy="script-3">Copy email</button></div>
+            </div>
+            <div class="tabpane" id="s4">
+                <div class="script" id="script-4"></div>
+                <div class="actions"><button class="btn" type="button" data-copy="script-4">Copy close script</button></div>
+            </div>
+            <div class="tabpane" id="s5">
+                <div class="script" id="script-5"></div>
+                <div class="actions"><button class="btn" type="button" data-copy="script-5">Copy Persian</button></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="tracker">
+        <div class="kicker">CRM lite</div>
+        <h2>Lead tracker (saved in this browser)</h2>
+        <p class="lead">Local-only store via <code>localStorage</code>. Export CSV for backup. Clear only if you mean it.</p>
+
+        <div class="panel" style="margin-bottom:14px;">
+            <h3>Add / update lead</h3>
+            <form id="lead-form" onsubmit="return saveLead(event)">
+                <input type="hidden" id="lead-id">
+                <div class="row">
+                    <div class="field"><label>Business</label><input id="f-biz" required placeholder="Clinic / restaurant name"></div>
+                    <div class="field"><label>Contact</label><input id="f-contact" placeholder="Owner / manager name"></div>
+                </div>
+                <div class="row">
+                    <div class="field"><label>Niche</label>
+                        <select id="f-niche">
+                            <option>Dental / Clinic</option>
+                            <option>Spa / Aesthetics</option>
+                            <option>Restaurant</option>
+                            <option>Gym</option>
+                            <option>Legal</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div class="field"><label>City</label><input id="f-city" placeholder="City"></div>
+                </div>
+                <div class="row">
+                    <div class="field"><label>Phone / WhatsApp</label><input id="f-phone" placeholder="+1 ..."></div>
+                    <div class="field"><label>Instagram / Email</label><input id="f-channel" placeholder="@handle or email"></div>
+                </div>
+                <div class="row">
+                    <div class="field"><label>Demo URL</label><input id="f-demo" placeholder="https://..."></div>
+                    <div class="field"><label>Status</label>
+                        <select id="f-status">
+                            <option value="queued">Queued</option>
+                            <option value="demo_ready">Demo ready</option>
+                            <option value="sent">Outreach sent</option>
+                            <option value="replied">Replied</option>
+                            <option value="call">Call / chat booked</option>
+                            <option value="checkout">Checkout sent</option>
+                            <option value="won">Won / paid</option>
+                            <option value="lost">Lost</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="field"><label>Notes</label><textarea id="f-notes" placeholder="Objections, next step, TXID..."></textarea></div>
+                <div class="actions">
+                    <button class="btn" type="submit">Save lead</button>
+                    <button class="btn ghost" type="button" onclick="resetForm()">Clear form</button>
+                    <button class="btn ghost" type="button" onclick="seedStarterPack()">Fill 30 empty slots</button>
+                    <button class="btn ghost" type="button" onclick="exportCSV()">Export CSV</button>
+                    <button class="btn ghost" type="button" onclick="clearAllLeads()">Clear all leads</button>
+                </div>
+                <p class="danger" id="form-msg" style="margin-top:8px;"></p>
+            </form>
+        </div>
+
+        <div class="card" style="overflow:auto;">
+            <table>
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Business</th>
+                    <th>Niche / City</th>
+                    <th>Contact path</th>
+                    <th>Demo</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody id="lead-rows">
+                <tr><td colspan="7" class="empty">No leads yet. Add one or load the starter pack.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="section" id="checklist">
+        <div class="kicker">Launch readiness</div>
+        <h2>Before you message strangers</h2>
+        <div class="grid-2">
+            <div class="card">
+                <ul class="checklist" id="check-prod">
+                    <li><input type="checkbox" data-k="c1"><span>Render site is live and loads after wake</span></li>
+                    <li><input type="checkbox" data-k="c2"><span>Treasury wallet configured (payments enabled)</span></li>
+                    <li><input type="checkbox" data-k="c3"><span><code>/onboard</code> shows real wallet + $499 plan</span></li>
+                    <li><input type="checkbox" data-k="c4"><span>SIM payments disabled in production</span></li>
+                    <li><input type="checkbox" data-k="c5"><span>One excellent niche demo ready to show</span></li>
+                    <li><input type="checkbox" data-k="c6"><span>Telegram alerts optional but set if available</span></li>
+                </ul>
+            </div>
+            <div class="card">
+                <ul class="checklist" id="check-sales">
+                    <li><input type="checkbox" data-k="s1"><span>City + niche chosen</span></li>
+                    <li><input type="checkbox" data-k="s2"><span>30-row list started in tracker</span></li>
+                    <li><input type="checkbox" data-k="s3"><span>Outreach script copied for channel</span></li>
+                    <li><input type="checkbox" data-k="s4"><span>Daily metric review planned (2 min)</span></li>
+                    <li><input type="checkbox" data-k="s5"><span>No more product redesign until first sale</span></li>
+                    <li><input type="checkbox" data-k="s6"><span>Delivery path ready (ZIP / handover)</span></li>
+                </ul>
+                <div class="actions">
+                    <button class="btn ghost" type="button" onclick="resetChecks()">Reset checklist</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="metrics">
+        <div class="kicker">Daily scoreboard</div>
+        <h2>What “good week” looks like</h2>
+        <div class="card" style="overflow:auto;">
+            <table>
+                <tr><th>Metric</th><th>Week-1 target</th><th>Why it matters</th></tr>
+                <tr><td>Real businesses listed</td><td>30</td><td>Pipeline fuel</td></tr>
+                <tr><td>Demos built</td><td>30</td><td>Proof before pitch</td></tr>
+                <tr><td>Messages sent</td><td>30</td><td>No send = no sale</td></tr>
+                <tr><td>Replies</td><td>≥ 6</td><td>Message-market fit</td></tr>
+                <tr><td>Serious chats</td><td>≥ 3</td><td>Close opportunities</td></tr>
+                <tr><td>Paid</td><td>≥ 1</td><td>Business exists</td></tr>
+            </table>
+        </div>
+        <p class="muted" style="margin-top:12px;">If day 7 = zero replies: change niche/channel/script — not the whole product architecture.</p>
+    </section>
+
+    <section class="section">
+        <div class="panel stone">
+            <div class="kicker">CEO note</div>
+            <h2>Design is good enough for sale #1</h2>
+            <p class="slate">Industry demos are diverse enough to start conversations. First real customer will teach more than another week of template polishing. Execute the tracker. Protect focus.</p>
+            <div class="actions">
+                <a class="btn" href="#tracker">Work the tracker</a>
+                <a class="btn ghost" href="/miner">Build next demo</a>
+                <a class="btn ghost" href="/">Back to landing</a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    LeadFlow First Customer Command Center · operator tool · not a public pricing page ·
+    <a href="/">Home</a> · <a href="/onboard">Checkout</a> · <a href="/miner">Miner</a>
+</footer>
+<div class="toast" id="toast"></div>
+
+<script>
+const STORE_KEY = 'leadflow_first_customer_leads_v1';
+const CHECK_KEY = 'leadflow_first_customer_checks_v1';
+
+function toast(msg) {
+    const el = document.getElementById('toast');
+    el.textContent = msg;
+    el.classList.add('show');
+    setTimeout(() => el.classList.remove('show'), 2200);
+}
+
+function copyText(text) {
+    navigator.clipboard.writeText(text).then(() => toast('Copied')).catch(() => {
+        prompt('Copy this:', text);
+    });
+}
+
+document.querySelectorAll('[data-copy]').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-copy');
+        const node = document.getElementById(id);
+        copyText(node ? node.innerText : '');
+    });
+});
+
+document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tabpane').forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.tab).classList.add('active');
+    });
+});
+
+function v(id) { return (document.getElementById(id).value || '').trim(); }
+
+function renderScripts() {
+    const name = v('var-name') || 'there';
+    const biz = v('var-biz') || 'your business';
+    const city = v('var-city') || 'your city';
+    const demo = v('var-demo') || 'DEMO_URL';
+    const checkout = 'https://leadflow-ai-1vip.onrender.com/onboard';
+
+    document.getElementById('script-1').textContent =
+`Hi ${name} — quick note about ${biz}.
+Your Google reviews in ${city} look strong, but the web presence is weaker than the reputation.
+
+I built a free live website preview for ${biz} (no login, no payment):
+${demo}
+
+If you like it, you can take ownership. If not, ignore — zero cost either way.`;
+
+    document.getElementById('script-2').textContent =
+`Hi ${name}, following up in case the preview got buried.
+Live demo for ${biz}:
+${demo}
+
+Happy to adjust services/colors today if useful.`;
+
+    document.getElementById('script-3').textContent =
+`Subject: Free website preview for ${biz}
+
+Hi ${name},
+
+I noticed ${biz} has strong reviews in ${city}, but no modern website that matches that quality.
+
+I prepared a free live preview (no payment required):
+${demo}
+
+If you want ownership + deployment package, the Premium option is a one-time $499 USDT:
+${checkout}
+
+Either way, hope the preview is useful.
+
+Best`;
+
+    document.getElementById('script-4').textContent =
+`Great — glad the preview resonates.
+
+Next step to own it:
+1) Open ${checkout}
+2) Choose Premium ($499 USDT one-time)
+3) Send USDT TRC-20 to the treasury wallet shown
+4) Paste the TXID for automatic verification
+
+I’ll deliver the full handover ZIP as soon as it confirms.`;
+
+    document.getElementById('script-5').textContent =
+`سلام ${name}،
+امتیاز ${biz} تو Maps عالیه ولی سایت هم‌سطح اعتبارتون نیست.
+یک پیش‌نمایش رایگان مخصوص ${biz} ساختم:
+${demo}
+
+اگر خوشتون اومد مالکیت کامل با پکیج تحویل ممکنه.
+اگر نه، هیچ هزینه‌ای نیست.`;
+}
+
+function loadLeads() {
+    try { return JSON.parse(localStorage.getItem(STORE_KEY) || '[]'); }
+    catch { return []; }
+}
+function saveLeads(leads) {
+    localStorage.setItem(STORE_KEY, JSON.stringify(leads));
+    renderLeads();
+}
+
+function statusPill(status) {
+    const map = {
+        queued: ['queued', ''],
+        demo_ready: ['demo ready', 'warn'],
+        sent: ['sent', ''],
+        replied: ['replied', 'ok'],
+        call: ['call/chat', 'ok'],
+        checkout: ['checkout', 'warn'],
+        won: ['won', 'ok'],
+        lost: ['lost', 'bad']
+    };
+    const [label, cls] = map[status] || [status, ''];
+    return `<span class="pill ${cls}">${label}</span>`;
+}
+
+function renderLeads() {
+    const leads = loadLeads();
+    const body = document.getElementById('lead-rows');
+    if (!leads.length) {
+        body.innerHTML = '<tr><td colspan="7" class="empty">No leads yet. Add one or load the starter pack.</td></tr>';
+    } else {
+        body.innerHTML = leads.map((l, idx) => `
+            <tr>
+                <td>${idx + 1}</td>
+                <td><strong>${esc(l.biz)}</strong><div class="muted">${esc(l.contact || '')}</div></td>
+                <td>${esc(l.niche)}<div class="muted">${esc(l.city || '')}</div></td>
+                <td>${esc(l.phone || '')}<div class="muted">${esc(l.channel || '')}</div></td>
+                <td>${l.demo ? `<a href="${esc(l.demo)}" target="_blank" rel="noopener">open</a>` : '<span class="muted">—</span>'}</td>
+                <td>${statusPill(l.status)}</td>
+                <td>
+                    <div class="actions">
+                        <button class="btn ghost" type="button" onclick="editLead('${l.id}')">Edit</button>
+                        <button class="btn ghost" type="button" onclick="buildMsg('${l.id}')">Script</button>
+                        <button class="btn ghost" type="button" onclick="deleteLead('${l.id}')">Del</button>
+                    </div>
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    const demos = leads.filter(l => l.demo).length;
+    const sent = leads.filter(l => ['sent','replied','call','checkout','won'].includes(l.status)).length;
+    const won = leads.filter(l => l.status === 'won').length;
+    document.getElementById('m-leads').textContent = leads.length;
+    document.getElementById('m-demos').textContent = demos;
+    document.getElementById('m-sent').textContent = sent;
+    document.getElementById('m-won').textContent = won;
+}
+
+function esc(s) {
+    return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function resetForm() {
+    ['lead-id','f-biz','f-contact','f-city','f-phone','f-channel','f-demo','f-notes'].forEach(id => {
+        const el = document.getElementById(id); if (el) el.value = '';
+    });
+    document.getElementById('f-status').value = 'queued';
+    document.getElementById('f-niche').selectedIndex = 0;
+    document.getElementById('form-msg').textContent = '';
+}
+
+function saveLead(e) {
+    e.preventDefault();
+    const leads = loadLeads();
+    const id = document.getElementById('lead-id').value || ('L' + Date.now());
+    const row = {
+        id,
+        biz: v('f-biz'),
+        contact: v('f-contact'),
+        niche: document.getElementById('f-niche').value,
+        city: v('f-city'),
+        phone: v('f-phone'),
+        channel: v('f-channel'),
+        demo: v('f-demo'),
+        status: document.getElementById('f-status').value,
+        notes: v('f-notes'),
+        updatedAt: new Date().toISOString()
+    };
+    const idx = leads.findIndex(l => l.id === id);
+    if (idx >= 0) leads[idx] = row; else leads.unshift(row);
+    saveLeads(leads);
+    resetForm();
+    toast('Lead saved');
+    return false;
+}
+
+function editLead(id) {
+    const l = loadLeads().find(x => x.id === id);
+    if (!l) return;
+    document.getElementById('lead-id').value = l.id;
+    document.getElementById('f-biz').value = l.biz || '';
+    document.getElementById('f-contact').value = l.contact || '';
+    document.getElementById('f-niche').value = l.niche || 'Dental / Clinic';
+    document.getElementById('f-city').value = l.city || '';
+    document.getElementById('f-phone').value = l.phone || '';
+    document.getElementById('f-channel').value = l.channel || '';
+    document.getElementById('f-demo').value = l.demo || '';
+    document.getElementById('f-status').value = l.status || 'queued';
+    document.getElementById('f-notes').value = l.notes || '';
+    window.scrollTo({ top: document.getElementById('tracker').offsetTop - 80, behavior: 'smooth' });
+}
+
+function deleteLead(id) {
+    if (!confirm('Delete this lead?')) return;
+    saveLeads(loadLeads().filter(l => l.id !== id));
+    toast('Lead deleted');
+}
+
+function buildMsg(id) {
+    const l = loadLeads().find(x => x.id === id);
+    if (!l) return;
+    document.getElementById('var-name').value = (l.contact || 'there').split(' ')[0];
+    document.getElementById('var-biz').value = l.biz || '';
+    document.getElementById('var-city').value = l.city || '';
+    document.getElementById('var-demo').value = l.demo || document.getElementById('var-demo').value;
+    renderScripts();
+    document.querySelector('[data-tab="s1"]').click();
+    window.scrollTo({ top: document.getElementById('scripts').offsetTop - 80, behavior: 'smooth' });
+    toast('Script filled from lead');
+}
+
+function seedStarterPack() {
+    const leads = loadLeads();
+    if (leads.length >= 30) {
+        toast('Already have 30+ leads');
+        return;
+    }
+    const niches = ['Dental / Clinic','Spa / Aesthetics','Restaurant','Gym'];
+    const start = leads.length;
+    for (let i = start; i < 30; i++) {
+        leads.push({
+            id: 'S' + Date.now() + '_' + i,
+            biz: `Target business ${i + 1}`,
+            contact: '',
+            niche: niches[i % niches.length],
+            city: '',
+            phone: '',
+            channel: '',
+            demo: '',
+            status: 'queued',
+            notes: 'Replace with real Maps lead',
+            updatedAt: new Date().toISOString()
+        });
+    }
+    saveLeads(leads);
+    toast('Starter pack loaded — replace placeholders with real businesses');
+}
+
+function exportCSV() {
+    const leads = loadLeads();
+    const cols = ['biz','contact','niche','city','phone','channel','demo','status','notes','updatedAt'];
+    const lines = [cols.join(',')].concat(leads.map(l => cols.map(c => `"${String(l[c]||'').replace(/"/g,'""')}"`).join(',')));
+    const blob = new Blob([lines.join('\n')], {type:'text/csv;charset=utf-8;'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'leadflow-first-customer-leads.csv';
+    a.click();
+    toast('CSV exported');
+}
+
+function clearAllLeads() {
+    if (!confirm('Clear ALL leads from this browser?')) return;
+    localStorage.removeItem(STORE_KEY);
+    renderLeads();
+    toast('All leads cleared');
+}
+
+function loadChecks() {
+    try { return JSON.parse(localStorage.getItem(CHECK_KEY) || '{}'); } catch { return {}; }
+}
+function bindChecks() {
+    const state = loadChecks();
+    document.querySelectorAll('.checklist input[type=checkbox]').forEach(cb => {
+        cb.checked = !!state[cb.dataset.k];
+        cb.addEventListener('change', () => {
+            const s = loadChecks();
+            s[cb.dataset.k] = cb.checked;
+            localStorage.setItem(CHECK_KEY, JSON.stringify(s));
+        });
+    });
+}
+function resetChecks() {
+    localStorage.removeItem(CHECK_KEY);
+    document.querySelectorAll('.checklist input[type=checkbox]').forEach(cb => cb.checked = false);
+    toast('Checklist reset');
+}
+
+// Prefer current origin for production links when hosted on Render
+(function syncHostLinks(){
+    try {
+        if (location.origin.startsWith('http')) {
+            const base = location.origin;
+            document.getElementById('link-home').textContent = base + '/';
+            document.getElementById('link-onboard').textContent = base + '/onboard';
+            document.getElementById('link-miner').textContent = base + '/miner';
+            document.getElementById('link-ops').textContent = base + '/first-customer';
+            const demoDefault = base + '/live_demos/apex_dental_lounge_live.html';
+            if (!v('var-demo') || v('var-demo').includes('leadflow-ai-1vip')) {
+                document.getElementById('var-demo').value = demoDefault;
+            }
+        }
+    } catch(e) {}
+})();
+
+renderScripts();
+renderLeads();
+bindChecks();
+</script>
+</body>
+</html>

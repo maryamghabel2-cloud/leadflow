@@ -1,3 +1,7 @@
+## Operator UI
+
+Use the live command center: `/first-customer` (alias `/go`).
+
 # LeadFlow — Launch & First Revenue Playbook
 **CEO mode. No theater. Cash only.**
 
