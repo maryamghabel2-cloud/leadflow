@@ -1,94 +1,183 @@
 <!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ST Jude Veterinary Hospital · Care in Sydney</title>
+<title>ST Jude Veterinary Hospital · Sydney</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap');
-:root{--bg:#F7FBFA;--ink:#16302B;--mute:#5B726C;--line:#D7E5E1;--sea:#2F6F68;--sea-soft:#E4F3F0;--sand:#FFF9F2}
+
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}
-.nav{display:flex;justify-content:space-between;align-items:center;padding:20px 7vw;background:rgba(247,251,250,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
-.logo{font-family:'Fraunces',serif;font-size:1.35rem;font-weight:700;color:var(--ink);text-decoration:none}
-.btn{background:var(--sea);color:#fff;border:0;padding:12px 20px;border-radius:999px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block}
-.btn:hover{filter:brightness(1.05)}
-.btn-soft{background:var(--sea-soft);color:var(--sea)}
-.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;padding:70px 7vw;align-items:center}
-@media(max-width:900px){.hero{grid-template-columns:1fr;padding:40px 6vw}}
-.pill{display:inline-block;background:var(--sea-soft);color:var(--sea);padding:6px 12px;border-radius:999px;font-size:.78rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-bottom:14px}
-h1{font-family:'Fraunces',serif;font-size:clamp(2.2rem,4vw,3.4rem);line-height:1.12;margin-bottom:16px;font-weight:700}
-.lead{color:var(--mute);font-size:1.08rem;max-width:34rem;margin-bottom:28px}
-.actions{display:flex;gap:12px;flex-wrap:wrap}
-.side{background:linear-gradient(160deg,var(--sand),#fff);border:1px solid var(--line);border-radius:28px;padding:28px;box-shadow:0 18px 50px rgba(22,48,43,.06)}
-.metric{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
-.metric div{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px}
-.metric strong{display:block;font-family:'Fraunces',serif;font-size:1.6rem}
-.metric span{color:var(--mute);font-size:.82rem}
-.section{padding:20px 7vw 70px}
-.section h2{font-family:'Fraunces',serif;font-size:2rem;margin-bottom:8px}
-.section .sub{color:var(--mute);margin-bottom:24px}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-@media(max-width:900px){.grid{grid-template-columns:1fr}}
-.card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:24px}
+img,svg{display:block;max-width:100%}
+button,input,select,textarea{font:inherit}
+.muted{opacity:.78}
+.wrap{width:min(1120px,92vw);margin:0 auto}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.grid-2{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:center}
+@media(max-width:900px){.grid-3,.grid-2{grid-template-columns:1fr}}
+.section{padding:72px 0}
+.section h2{font-size:clamp(1.6rem,3vw,2.2rem);line-height:1.15;margin-bottom:10px}
+.section .lead{max-width:40rem;margin-bottom:26px}
+.card{padding:22px;border-radius:18px}
 .card h3{font-size:1.1rem;margin-bottom:8px}
-.card p{color:var(--mute);font-size:.95rem}
-.tool{margin:10px 7vw 70px;background:#fff;border:1px solid var(--line);border-radius:28px;padding:36px;text-align:center}
-.tool h2{font-family:'Fraunces',serif;margin-bottom:8px}
-.val{font-family:'Fraunces',serif;font-size:2.2rem;color:var(--sea);margin:14px 0}
-input[type=range]{width:min(100%,420px);accent-color:var(--sea)}
-footer{padding:40px 7vw;border-top:1px solid var(--line);color:var(--mute);text-align:center;background:#fff}
-.modal{display:none;position:fixed;inset:0;background:rgba(22,48,43,.45);align-items:center;justify-content:center;padding:18px;z-index:50}
+.card p{font-size:.95rem;line-height:1.65}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;font-size:.75rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;text-decoration:none;padding:12px 18px;border-radius:999px;font-weight:700}
+.btn.ghost{background:transparent}
+.actions{display:flex;flex-wrap:wrap;gap:12px}
+.nav{position:sticky;top:0;z-index:30;display:flex;justify-content:space-between;align-items:center;padding:16px 4vw;backdrop-filter:blur(12px)}
+.logo{font-weight:700;text-decoration:none}
+.footer{padding:42px 4vw;text-align:center;font-size:.92rem}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);align-items:center;justify-content:center;padding:18px;z-index:80}
 .modal.open{display:flex}
-.modal-card{background:#fff;border-radius:22px;padding:28px;width:min(440px,100%);position:relative}
-.modal-card input{width:100%;margin:8px 0;padding:12px 14px;border:1px solid var(--line);border-radius:12px}
-.close{position:absolute;right:14px;top:10px;border:0;background:none;font-size:1.4rem;cursor:pointer;color:var(--mute)}
+.modal-card{width:min(460px,100%);padding:26px;border-radius:18px;border:1px solid;position:relative}
+.modal-card h3{font-size:1.35rem;margin-bottom:6px}
+.modal-card input,.modal-card select,.modal-card textarea{width:100%;margin:8px 0;padding:12px 14px;border-radius:12px;border:1px solid #d4d4d8;background:#fff}
+.modal-card .close{position:absolute;right:12px;top:8px;border:0;background:none;font-size:1.4rem;cursor:pointer;opacity:.7}
+.faq{border:1px solid;border-radius:14px;padding:14px 16px;margin:10px 0;background:transparent}
+.faq summary{cursor:pointer;font-weight:700}
+.faq p{margin-top:8px;opacity:.8}
+.step{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid rgba(0,0,0,.06)}
+.step .num{font-weight:800;opacity:.45;min-width:2.2rem}
+.table{width:100%;border-collapse:collapse;font-size:.95rem}
+.table th,.table td{padding:12px 10px;border-bottom:1px solid rgba(0,0,0,.08);text-align:left;vertical-align:top}
+.quote{padding:22px;border-radius:18px;font-size:1.05rem;line-height:1.6}
+.gallery{display:grid;grid-template-columns:1.3fr 1fr;gap:12px}
+@media(max-width:900px){.gallery{grid-template-columns:1fr}}
+.g-main,.g-side{border-radius:20px;min-height:180px;overflow:hidden}
+.tool{padding:28px;border-radius:22px;text-align:center}
+.tool .val{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;margin:12px 0}
+input[type=range]{width:min(100%,420px)}
+
+:root{--bg:#F7FBFA;--ink:#16302B;--mute:#5B726C;--line:#D7E5E1;--sea:#0F766E;--soft:#E4F3F0;--sand:#FFF9F2}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}
+.nav{background:rgba(247,251,250,.92);border-bottom:1px solid var(--line)}
+.logo{font-family:'Fraunces',serif;font-size:1.35rem;color:var(--ink)}
+.btn.primary{background:var(--sea);color:#fff}
+.btn.ghost{border:1px solid var(--line);color:var(--sea);background:var(--soft)}
+.pill{background:var(--soft);color:var(--sea)}
+h1,h2,h3,h4{font-family:'Fraunces',serif;font-weight:700}
+.hero{padding:56px 0 24px}
+.side{background:linear-gradient(160deg,var(--sand),#fff);border:1px solid var(--line);border-radius:28px;padding:22px}
+.metric{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.metric div{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px}
+.metric strong{display:block;font-family:'Fraunces',serif;font-size:1.5rem}
+.metric span{color:var(--mute);font-size:.8rem}
+.card{background:#fff;border:1px solid var(--line)}
+.quote{background:#fff;border:1px solid var(--line)}
+.tool{background:#fff;border:1px solid var(--line)}
+.tool .val{color:var(--sea);font-family:'Fraunces',serif}
+.faq{border-color:var(--line);background:#fff}
+.table th{color:var(--mute);font-size:.8rem;text-transform:uppercase;letter-spacing:.04em}
+.footer{background:#fff;border-top:1px solid var(--line);color:var(--mute)}
+.lead,.card p,.section .lead{color:var(--mute)}
+input[type=range]{accent-color:var(--sea)}
 </style></head><body>
-<nav><a class="logo" href="#">ST Jude Veterinary Hospital</a><button class="btn" onclick="openM()">Book visit</button></nav>
-<section class="hero">
-  <div>
-    <div class="pill">Healthcare · Sydney</div>
-    <h1>Care that feels calm, clear, and human</h1>
-    <p class="lead">ST Jude Veterinary Hospital is built for patients who want modern clinical standards without the clinical coldness — in the heart of Sydney.</p>
-    <div class="actions">
-      <button class="btn" onclick="openM()">Request appointment</button>
-      <a class="btn btn-soft" href="#services">Explore services</a>
+<nav class="nav"><a class="logo" href="#">ST Jude Veterinary Hospital</a><div class="actions"><a class="btn ghost" href="#services">Services</a><button class="btn primary" onclick="openM()">Book visit</button></div></nav>
+<main class="wrap">
+  <section class="hero grid-2">
+    <div>
+      <div class="pill">Healthcare · Sydney</div>
+      <h1 style="font-size:clamp(2.2rem,4.5vw,3.4rem);line-height:1.1;margin:12px 0 14px">Compassionate care for the animals you love</h1>
+      <p class="lead">ST Jude Veterinary Hospital combines modern clinical standards with a calmer patient experience — clear language, transparent options, and a booking path that doesn’t feel like a call center.</p>
+      <div class="actions">
+        <button class="btn primary" onclick="openM()">Request appointment</button>
+        <a class="btn ghost" href="#process">How visits work</a>
+      </div>
     </div>
+    <aside class="side">
+      
+<svg viewBox="0 0 640 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Clinical illustration">
+  <defs>
+    <linearGradient id="mg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#E8F7F4"/><stop offset="1" stop-color="#D5EEEA"/></linearGradient>
+  </defs>
+  <rect width="640" height="420" rx="32" fill="url(#mg)"/>
+  <circle cx="470" cy="120" r="70" fill="#B7E2DA"/>
+  <rect x="70" y="80" width="280" height="240" rx="28" fill="#fff" stroke="#C9E5DF" stroke-width="2"/>
+  <rect x="100" y="120" width="160" height="14" rx="7" fill="#2F6F68"/>
+  <rect x="100" y="150" width="200" height="10" rx="5" fill="#D7E5E1"/>
+  <rect x="100" y="175" width="180" height="10" rx="5" fill="#D7E5E1"/>
+  <rect x="100" y="210" width="90" height="40" rx="20" fill="#2F6F68"/>
+  <circle cx="480" cy="270" r="54" fill="#fff" stroke="#2F6F68" stroke-width="6"/>
+  <path d="M455 270h50M480 245v50" stroke="#2F6F68" stroke-width="8" stroke-linecap="round"/>
+</svg>
+      <div class="metric">
+        <div><strong>4.9</strong><span>avg. rating</span></div>
+        <div><strong>15m</strong><span>on-time goal</span></div>
+      </div>
+      <p class="muted" style="margin-top:12px;font-size:.92rem">Direct line: <strong style="color:var(--ink)">+1 (555) 010-0000</strong></p>
+    </aside>
+  </section>
+
+  <section class="section" id="services">
+    <h2>Services designed around comfort</h2>
+    <p class="lead">Healthcare UX: high readability, soft teal trust palette, obvious next step — patients scan under stress.</p>
+    <div class="grid-3"><article class='card'><h3>Wellness exams</h3><p>Gentle exams with time for owner questions.</p></article><article class='card'><h3>Restorative / treatment</h3><p>Plans built around comfort and long-term outcomes.</p></article><article class='card'><h3>Prevention</h3><p>Recalls and maintenance that keep care simple.</p></article><article class='card'><h3>Urgent cases</h3><p>Same-day triage when pets need faster attention.</p></article><article class='card'><h3>Family continuity</h3><p>Notes that follow the patient — not lost in chats.</p></article><article class='card'><h3>Aftercare</h3><p>Written instructions you can actually follow at home.</p></article></div>
+  </section>
+
+  <section class="section" id="process">
+    <h2>Your first visit, simplified</h2>
+    <p class="lead">A predictable path reduces anxiety more than any animation ever will.</p>
+    <div class="card" style="background:#fff;border:1px solid var(--line)"><div class='step'><div class='num'>01</div><div><h4>Tell us what you need</h4><p>Share symptoms, goals, or a photo if relevant.</p></div></div>
+<div class='step'><div class='num'>02</div><div><h4>We confirm a slot</h4><p>You’ll get a clear time window and prep notes.</p></div></div>
+<div class='step'><div class='num'>03</div><div><h4>Visit + plan</h4><p>Exam, options, and pricing transparency before treatment.</p></div></div></div>
+  </section>
+
+  <section class="section">
+    <div class="tool">
+      <div class="pill">Interactive preview</div>
+      <h2 style="margin-top:10px">Treatment brightness planner</h2>
+      <p class="lead" style="margin:8px auto 0">A conversation starter for whitening goals — not a medical claim.</p>
+      <div class="val" id="v">70% brighter target</div>
+      <input type="range" min="20" max="100" value="70" oninput="document.getElementById('v').textContent=this.value+'% brighter target'">
+      <div style="margin-top:14px"><button class="btn primary" onclick="openM()">Discuss this plan</button></div>
+    </div>
+  </section>
+
+  <section class="section grid-2">
+    <div>
+      <h2>What patients say</h2>
+      <div class="quote" style="margin-top:14px">“They explained every option before I felt pushed into treatment. The room felt calm — not clinical-cold.”<br><strong style="display:block;margin-top:10px;color:var(--ink)">— M. R., Sydney</strong></div>
+      <div class="quote" style="margin-top:12px">“Booking was simple and the follow-up notes were actually useful.”<br><strong style="display:block;margin-top:10px;color:var(--ink)">— A. K., Sydney</strong></div>
+    </div>
+    <div>
+      <h2>Transparent fee examples</h2>
+      <p class="lead">Illustrative ranges for planning conversations — confirmed after exam.</p>
+      <table class="table">
+        <tr><th>Service</th><th>From</th></tr>
+        <tr><td>New patient exam</td><td>$89</td></tr>
+        <tr><td>Hygiene / cleaning visit</td><td>$120</td></tr>
+        <tr><td>Whitening package</td><td>$350</td></tr>
+        <tr><td>Custom treatment plan</td><td>Quoted after consult</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>FAQ</h2>
+    <details class='faq'><summary>Do you accept new patients?</summary><p>Yes — ST Jude Veterinary Hospital welcomes new patients in Sydney most weeks. Request a slot and we’ll confirm availability.</p></details>
+<details class='faq'><summary>How long is a first visit?</summary><p>Typically 30–45 minutes so we can listen, examine, and map options without rushing.</p></details>
+<details class='faq'><summary>Is financing available?</summary><p>We can discuss phased treatment plans. Mention budget constraints during booking.</p></details>
+<details class='faq'><summary>Where are you located?</summary><p>Serving patients across Sydney. Exact suite details are confirmed on booking.</p></details>
+  </section>
+</main>
+<footer class="footer"><strong style="color:var(--ink);font-family:'Fraunces',serif;font-size:1.2rem">ST Jude Veterinary Hospital</strong><br>Sydney · +1 (555) 010-0000</footer>
+
+<div class="modal" id="m" role="dialog" aria-modal="true">
+  <div class="modal-card" style="background:#fff;color:#111;border-color:#e5e5e5">
+    <button class="close" type="button" onclick="closeM()" aria-label="Close">×</button>
+    <h3>Request a visit</h3>
+    <p class="muted">We’ll route this to ST Jude Veterinary Hospital. No spam — just a real follow-up.</p>
+    <form onsubmit="event.preventDefault();closeM();alert('Request received by ST Jude Veterinary Hospital.');">
+      <input name="f0" placeholder="Full name *" required>
+<input name="f1" placeholder="Phone *" required>
+<input name="f2" placeholder="Preferred time window" >
+<input name="f3" placeholder="Notes (optional)" >
+      <button class="btn primary" type="submit" style="width:100%;margin-top:8px">Send request</button>
+    </form>
   </div>
-  <aside class="side">
-    <div class="pill">Patient desk</div>
-    <h2 style="font-family:'Fraunces',serif;font-size:1.5rem;margin:8px 0 10px">Same-week consults</h2>
-    <p style="color:var(--mute);margin-bottom:8px">Direct line: <strong style="color:var(--ink)">+1 (555) 010-0000</strong></p>
-    <div class="metric">
-      <div><strong>4.9</strong><span>avg. patient rating</span></div>
-      <div><strong>15m</strong><span>on-time arrival goal</span></div>
-    </div>
-  </aside>
-</section>
-<section class="section" id="services">
-  <h2>Services designed around comfort</h2>
-  <p class="sub">Healthcare UX: soft color, high readability, obvious next step — because anxious patients scan, they don’t study.</p>
-  <div class="grid"><article class="card"><h3>Gentle diagnostics</h3><p>Clear explanations, digital charting, and zero-rush consults.</p></article>
-<article class="card"><h3>Restorative artistry</h3><p>Natural-looking results planned around facial harmony.</p></article>
-<article class="card"><h3>Family continuity</h3><p>Recall systems and prevention that keep care simple over years.</p></article></div>
-</section>
-<section class="tool">
-  <div class="pill">Interactive preview</div>
-  <h2>Smile brightness planner</h2>
-  <p style="color:var(--mute)">A simple visual for whitening conversations — not a medical claim, a conversation starter.</p>
-  <div class="val" id="v">70% brighter target</div>
-  <input type="range" min="20" max="100" value="70" oninput="document.getElementById('v').textContent=this.value+'% brighter target'">
-  <div style="margin-top:18px"><button class="btn" onclick="openM()">Discuss this plan</button></div>
-</section>
-<footer><strong style="color:var(--ink);font-family:'Fraunces',serif;font-size:1.2rem">ST Jude Veterinary Hospital</strong><br>Sydney · +1 (555) 010-0000</footer>
-<div class="modal" id="m"><div class="modal-card">
-  <button class="close" onclick="closeM()">×</button>
-  <h3 style="font-family:'Fraunces',serif;margin-bottom:8px">Request a visit</h3>
-  <p style="color:var(--mute);font-size:.92rem;margin-bottom:10px">We’ll confirm availability with ST Jude Veterinary Hospital.</p>
-  <form onsubmit="event.preventDefault();closeM();alert('Request received. ST Jude Veterinary Hospital will follow up.');">
-    <input placeholder="Full name *" required>
-    <input placeholder="Phone *" required>
-    <input placeholder="Preferred time window">
-    <button class="btn" style="width:100%;margin-top:8px">Send request</button>
-  </form>
-</div></div>
-<script>function openM(){document.getElementById('m').classList.add('open')}function closeM(){document.getElementById('m').classList.remove('open')}</script>
+</div>
+<script>
+function openM(){document.getElementById('m').classList.add('open');}
+function closeM(){document.getElementById('m').classList.remove('open');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM();});
+</script>
 </body></html>

@@ -4,65 +4,124 @@
 <title>Royal Crown Fine Jewelry · Atelier · Singapore</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,500;6..96,600&family=Inter:wght@300;400;500;600&display=swap');
-:root{--bg:#0E0E0F;--ink:#F7F3EA;--mute:#A39E93;--line:rgba(247,243,234,.14);--gold:#C2A46B}
+
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);line-height:1.75}
-.nav{display:flex;justify-content:space-between;align-items:center;padding:22px 7vw;border-bottom:1px solid var(--line)}
-.logo{font-family:'Bodoni Moda',serif;font-size:1.5rem;letter-spacing:.08em;text-decoration:none;color:var(--ink)}
-.btn{border:1px solid var(--gold);color:var(--gold);background:transparent;padding:11px 18px;letter-spacing:.12em;text-transform:uppercase;font-size:.68rem;cursor:pointer}
-.btn.fill{background:var(--gold);color:#111}
-.hero{padding:90px 7vw;text-align:center;border-bottom:1px solid var(--line)}
-.k{color:var(--gold);letter-spacing:.28em;text-transform:uppercase;font-size:.7rem;margin-bottom:18px}
-h1{font-family:'Bodoni Moda',serif;font-size:clamp(2.6rem,6vw,4.4rem);font-weight:500;line-height:1.08;margin-bottom:16px}
-.lead{color:var(--mute);max-width:34rem;margin:0 auto 28px;font-weight:300}
-.ring{width:min(280px,70vw);height:min(280px,70vw);margin:30px auto 10px;border-radius:50%;border:1px solid var(--gold);box-shadow:inset 0 0 0 18px rgba(194,164,107,.08);position:relative}
-.ring:after{content:"";position:absolute;inset:28%;border-radius:50%;border:1px solid rgba(194,164,107,.35)}
-.section{padding:70px 7vw}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-@media(max-width:900px){.grid{grid-template-columns:1fr}}
-.card{border:1px solid var(--line);padding:26px;text-align:center}
-.card h3{font-family:'Bodoni Moda',serif;font-size:1.5rem;font-weight:500;margin-bottom:8px;color:var(--gold)}
-.card p{color:var(--mute);font-weight:300;font-size:.95rem}
-.tool{margin:0 7vw 70px;border:1px solid var(--line);padding:40px;text-align:center}
-.val{font-family:'Bodoni Moda',serif;font-size:2.2rem;color:var(--gold);margin:12px 0}
-input[type=range]{width:min(100%,400px);accent-color:var(--gold)}
-footer{padding:40px 7vw;border-top:1px solid var(--line);text-align:center;color:var(--mute);font-weight:300}
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);align-items:center;justify-content:center;padding:18px;z-index:40}
+img,svg{display:block;max-width:100%}
+button,input,select,textarea{font:inherit}
+.muted{opacity:.78}
+.wrap{width:min(1120px,92vw);margin:0 auto}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.grid-2{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:center}
+@media(max-width:900px){.grid-3,.grid-2{grid-template-columns:1fr}}
+.section{padding:72px 0}
+.section h2{font-size:clamp(1.6rem,3vw,2.2rem);line-height:1.15;margin-bottom:10px}
+.section .lead{max-width:40rem;margin-bottom:26px}
+.card{padding:22px;border-radius:18px}
+.card h3{font-size:1.1rem;margin-bottom:8px}
+.card p{font-size:.95rem;line-height:1.65}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;font-size:.75rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;text-decoration:none;padding:12px 18px;border-radius:999px;font-weight:700}
+.btn.ghost{background:transparent}
+.actions{display:flex;flex-wrap:wrap;gap:12px}
+.nav{position:sticky;top:0;z-index:30;display:flex;justify-content:space-between;align-items:center;padding:16px 4vw;backdrop-filter:blur(12px)}
+.logo{font-weight:700;text-decoration:none}
+.footer{padding:42px 4vw;text-align:center;font-size:.92rem}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);align-items:center;justify-content:center;padding:18px;z-index:80}
 .modal.open{display:flex}
-.modal-card{background:#141414;border:1px solid var(--line);padding:28px;width:min(440px,100%);position:relative}
-.modal-card input{width:100%;margin:8px 0;padding:12px;background:#0E0E0F;border:1px solid var(--line);color:var(--ink)}
-.close{position:absolute;right:12px;top:8px;border:0;background:none;color:var(--mute);font-size:1.4rem;cursor:pointer}
+.modal-card{width:min(460px,100%);padding:26px;border-radius:18px;border:1px solid;position:relative}
+.modal-card h3{font-size:1.35rem;margin-bottom:6px}
+.modal-card input,.modal-card select,.modal-card textarea{width:100%;margin:8px 0;padding:12px 14px;border-radius:12px;border:1px solid #d4d4d8;background:#fff}
+.modal-card .close{position:absolute;right:12px;top:8px;border:0;background:none;font-size:1.4rem;cursor:pointer;opacity:.7}
+.faq{border:1px solid;border-radius:14px;padding:14px 16px;margin:10px 0;background:transparent}
+.faq summary{cursor:pointer;font-weight:700}
+.faq p{margin-top:8px;opacity:.8}
+.step{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid rgba(0,0,0,.06)}
+.step .num{font-weight:800;opacity:.45;min-width:2.2rem}
+.table{width:100%;border-collapse:collapse;font-size:.95rem}
+.table th,.table td{padding:12px 10px;border-bottom:1px solid rgba(0,0,0,.08);text-align:left;vertical-align:top}
+.quote{padding:22px;border-radius:18px;font-size:1.05rem;line-height:1.6}
+.gallery{display:grid;grid-template-columns:1.3fr 1fr;gap:12px}
+@media(max-width:900px){.gallery{grid-template-columns:1fr}}
+.g-main,.g-side{border-radius:20px;min-height:180px;overflow:hidden}
+.tool{padding:28px;border-radius:22px;text-align:center}
+.tool .val{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;margin:12px 0}
+input[type=range]{width:min(100%,420px)}
+
+:root{--bg:#0E0E0F;--ink:#F7F3EA;--mute:#A39E93;--line:rgba(247,243,234,.14);--gold:#C2A46B}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);font-weight:300}
+.nav{border-bottom:1px solid var(--line);background:rgba(14,14,15,.92)}
+.logo{font-family:'Bodoni Moda',serif;font-size:1.5rem;letter-spacing:.08em;color:var(--ink)}
+.btn.primary{background:var(--gold);color:#111;border-radius:0;text-transform:uppercase;letter-spacing:.12em;font-size:.68rem}
+.btn.ghost{border:1px solid var(--gold);color:var(--gold);border-radius:0;background:transparent}
+.pill{color:var(--gold);letter-spacing:.28em;padding:0;background:transparent}
+h1,h2,h3{font-family:'Bodoni Moda',serif;font-weight:500}
+.hero{padding:90px 0;text-align:center;border-bottom:1px solid var(--line)}
+.ring{width:min(260px,70vw);height:min(260px,70vw);margin:28px auto 18px;border-radius:50%;border:1px solid var(--gold);box-shadow:inset 0 0 0 18px rgba(194,164,107,.08);position:relative}
+.ring:after{content:"";position:absolute;inset:28%;border-radius:50%;border:1px solid rgba(194,164,107,.35)}
+.card{border:1px solid var(--line);border-radius:0;background:transparent;text-align:center}
+.card h3{color:var(--gold);font-size:1.4rem}
+.card p,.lead,.muted{color:var(--mute)}
+.gem{width:54px;height:54px;margin:0 auto 12px;transform:rotate(45deg);border:1px solid var(--gold);background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.25),transparent 45%),rgba(194,164,107,.08)}
+.tool{border:1px solid var(--line);border-radius:0;background:transparent}
+.tool .val{color:var(--gold);font-family:'Bodoni Moda',serif}
+.faq{border-color:var(--line)}
+.footer{border-top:1px solid var(--line);color:var(--mute)}
+input[type=range]{accent-color:var(--gold)}
+.modal-card input{background:#0E0E0F;border-color:var(--line);color:var(--ink)}
 </style></head><body>
-<nav><a class="logo" href="#">Royal Crown Fine Jewelry</a><button class="btn" onclick="openM()">Private viewing</button></nav>
-<section class="hero">
-  <div class="k">High jewelry · Singapore</div>
-  <h1>Quiet brilliance. Precise craft.</h1>
-  <p class="lead">Royal Crown Fine Jewelry presents jewels with atelier restraint — black field, ivory type, thin gold lines. Luxury that whispers.</p>
+<nav class="nav"><a class="logo" href="#">Royal Crown Fine Jewelry</a><button class="btn ghost" onclick="openM()">Private viewing</button></nav>
+<section class="hero wrap">
+  <div class="pill">High jewelry · Singapore</div>
+  <h1 style="font-size:clamp(2.6rem,6vw,4.3rem);line-height:1.08;margin:14px 0 12px">Quiet brilliance. Precise craft.</h1>
+  <p class="lead" style="margin:0 auto">Royal Crown Fine Jewelry presents jewels with atelier restraint — black field, ivory type, thin gold lines. Luxury that whispers.</p>
   <div class="ring" aria-hidden="true"></div>
-  <button class="btn fill" onclick="openM()">Request a viewing</button>
+  <button class="btn primary" onclick="openM()">Request a viewing</button>
 </section>
-<section class="section">
-  <div class="grid">
-    <article class="card"><h3>Bridal</h3><p>Engagement studies and eternity lines with measured sparkle.</p></article>
-    <article class="card"><h3>Atelier custom</h3><p>Bespoke commissions guided by stone, proportion, and story.</p></article>
-    <article class="card"><h3>Heritage service</h3><p>Resetting, polishing, and confidential evaluations.</p></article>
+<main class="wrap">
+  <section class="section">
+    <h2 style="text-align:center">Collections</h2>
+    <p class="lead" style="text-align:center;margin-left:auto;margin-right:auto">Exaggerated minimalism for jewelry: space, proportion, almost no decoration.</p>
+    <div class="grid-3"><article class='card'><div class='gem'></div><h3>Solitaire study</h3><p>Quiet brilliance, precise proportions.</p></article><article class='card'><div class='gem'></div><h3>Eternity line</h3><p>Continuous light for everyday wear.</p></article><article class='card'><div class='gem'></div><h3>Atelier custom</h3><p>Stone-first commissions with sketches.</p></article><article class='card'><div class='gem'></div><h3>Heritage reset</h3><p>Modern settings for inherited stones.</p></article><article class='card'><div class='gem'></div><h3>Evening collar</h3><p>Statement geometry without noise.</p></article><article class='card'><div class='gem'></div><h3>Signet revival</h3><p>Personal seals, contemporary weight.</p></article></div>
+  </section>
+  <section class="section grid-2">
+    <div>
+      <h2>Atelier process</h2>
+      <div class='step'><div class='num'>01</div><div><h4>Stone conversation</h4><p>Budget, shape, and lifestyle wear.</p></div></div>
+<div class='step'><div class='num'>02</div><div><h4>Sketch &amp; model</h4><p>Proportion studies before metal.</p></div></div>
+<div class='step'><div class='num'>03</div><div><h4>Setting &amp; reveal</h4><p>Final polish and private handover.</p></div></div>
+      <p class="muted" style="margin-top:12px">Desk: +1 (555) 010-0000</p>
+    </div>
+    <div class="tool">
+      <div class="pill">Carat conversation</div>
+      <h2 style="font-size:1.6rem;margin:8px 0">Center stone</h2>
+      <div class="val" id="v">1.50 ct</div>
+      <input type="range" min="50" max="500" value="150" oninput="document.getElementById('v').textContent=(this.value/100).toFixed(2)+' ct'">
+      <div style="margin-top:14px"><button class="btn primary" onclick="openM()">Discuss this stone</button></div>
+    </div>
+  </section>
+  <section class="section"><h2>FAQ</h2><details class='faq'><summary>Can I bring an heirloom stone?</summary><p>Yes — resets are a core atelier service.</p></details>
+<details class='faq'><summary>Appointments only?</summary><p>Yes, for privacy and focus.</p></details>
+<details class='faq'><summary>Certificates?</summary><p>Provided for eligible stones.</p></details></section>
+</main>
+<footer class="footer">Royal Crown Fine Jewelry · Singapore · +1 (555) 010-0000</footer>
+
+<div class="modal" id="m" role="dialog" aria-modal="true">
+  <div class="modal-card" style="background:#141414;color:#f5f5f5;border-color:rgba(255,255,255,.12)">
+    <button class="close" type="button" onclick="closeM()" aria-label="Close">×</button>
+    <h3>Private viewing</h3>
+    <p class="muted">We’ll route this to Royal Crown Fine Jewelry. No spam — just a real follow-up.</p>
+    <form onsubmit="event.preventDefault();closeM();alert('Request received by Royal Crown Fine Jewelry.');">
+      <input name="f0" placeholder="Name *" required>
+<input name="f1" placeholder="Phone *" required>
+<input name="f2" placeholder="Interest (bridal / custom / service)" >
+<input name="f3" placeholder="Budget window" >
+      <button class="btn primary" type="submit" style="width:100%;margin-top:8px">Send</button>
+    </form>
   </div>
-</section>
-<section class="tool">
-  <div class="k">Carat conversation</div>
-  <h2 style="font-family:'Bodoni Moda',serif;font-size:1.8rem;font-weight:500;margin:8px 0">Center-stone preference</h2>
-  <div class="val" id="v">1.50 ct</div>
-  <input type="range" min="50" max="500" value="150" oninput="document.getElementById('v').textContent=(this.value/100).toFixed(2)+' ct'">
-  <div style="margin-top:16px"><button class="btn fill" onclick="openM()">Discuss this stone</button></div>
-</section>
-<footer>Royal Crown Fine Jewelry · Singapore · +1 (555) 010-0000</footer>
-<div class="modal" id="m"><div class="modal-card">
-  <button class="close" onclick="closeM()">×</button>
-  <h3 style="font-family:'Bodoni Moda',serif;font-size:1.5rem;margin-bottom:8px">Private viewing</h3>
-  <form onsubmit="event.preventDefault();closeM();alert('Viewing request sent to Royal Crown Fine Jewelry.');">
-    <input placeholder="Name *" required><input placeholder="Phone *" required><input placeholder="Interest (bridal / custom / service)">
-    <button class="btn fill" style="width:100%;margin-top:8px">Send</button>
-  </form>
-</div></div>
-<script>function openM(){document.getElementById('m').classList.add('open')}function closeM(){document.getElementById('m').classList.remove('open')}</script>
+</div>
+<script>
+function openM(){document.getElementById('m').classList.add('open');}
+function closeM(){document.getElementById('m').classList.remove('open');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM();});
+</script>
 </body></html>

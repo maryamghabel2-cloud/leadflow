@@ -1,77 +1,147 @@
 <!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Titan Elite Performance Gym · Training · London</title>
+<title>Titan Elite Performance Gym · London</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&display=swap');
-:root{--bg:#0B0B0C;--panel:#141416;--ink:#F5F5F5;--mute:#A1A1AA;--line:#27272A;--volt:#FF4D00}
+
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--ink);line-height:1.65}
-.nav{display:flex;justify-content:space-between;align-items:center;padding:18px 6vw;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(11,11,12,.92);z-index:10}
-.logo{font-family:'Archivo Black',sans-serif;font-size:1.1rem;letter-spacing:.02em;text-decoration:none;color:#fff}
-.btn{background:var(--volt);color:#000;border:0;padding:12px 18px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:.75rem;cursor:pointer}
-.hero{padding:80px 6vw 60px;display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:end;border-bottom:1px solid var(--line)}
-@media(max-width:900px){.hero{grid-template-columns:1fr;padding:50px 6vw}}
-.k{color:var(--volt);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.75rem;margin-bottom:14px}
-h1{font-family:'Archivo Black',sans-serif;font-size:clamp(2.6rem,7vw,4.8rem);line-height:.95;text-transform:uppercase;margin-bottom:18px}
-.lead{color:var(--mute);max-width:32rem;margin-bottom:24px}
-.statbox{background:var(--panel);border:1px solid var(--line);padding:24px}
-.statbox strong{display:block;font-family:'Archivo Black',sans-serif;font-size:2.4rem;color:var(--volt)}
-.section{padding:60px 6vw}
-.section h2{font-family:'Archivo Black',sans-serif;text-transform:uppercase;font-size:1.8rem;margin-bottom:8px}
-.sub{color:var(--mute);margin-bottom:22px}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-@media(max-width:900px){.grid{grid-template-columns:1fr}}
-.card{background:var(--panel);border:1px solid var(--line);padding:22px}
-.card h3{font-size:1.05rem;margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em}
-.card p{color:var(--mute)}
-.tool{margin:0 6vw 70px;border:1px solid var(--line);background:var(--panel);padding:34px;text-align:center}
-.val{font-family:'Archivo Black',sans-serif;font-size:2.4rem;color:var(--volt);margin:12px 0}
-input[type=range]{width:min(100%,420px);accent-color:var(--volt)}
-footer{padding:36px 6vw;border-top:1px solid var(--line);color:var(--mute);text-align:center}
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);align-items:center;justify-content:center;padding:18px;z-index:40}
+img,svg{display:block;max-width:100%}
+button,input,select,textarea{font:inherit}
+.muted{opacity:.78}
+.wrap{width:min(1120px,92vw);margin:0 auto}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.grid-2{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:center}
+@media(max-width:900px){.grid-3,.grid-2{grid-template-columns:1fr}}
+.section{padding:72px 0}
+.section h2{font-size:clamp(1.6rem,3vw,2.2rem);line-height:1.15;margin-bottom:10px}
+.section .lead{max-width:40rem;margin-bottom:26px}
+.card{padding:22px;border-radius:18px}
+.card h3{font-size:1.1rem;margin-bottom:8px}
+.card p{font-size:.95rem;line-height:1.65}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;font-size:.75rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;text-decoration:none;padding:12px 18px;border-radius:999px;font-weight:700}
+.btn.ghost{background:transparent}
+.actions{display:flex;flex-wrap:wrap;gap:12px}
+.nav{position:sticky;top:0;z-index:30;display:flex;justify-content:space-between;align-items:center;padding:16px 4vw;backdrop-filter:blur(12px)}
+.logo{font-weight:700;text-decoration:none}
+.footer{padding:42px 4vw;text-align:center;font-size:.92rem}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);align-items:center;justify-content:center;padding:18px;z-index:80}
 .modal.open{display:flex}
-.modal-card{background:#141416;border:1px solid var(--line);padding:26px;width:min(440px,100%);position:relative}
-.modal-card input{width:100%;margin:8px 0;padding:12px;background:#0B0B0C;border:1px solid var(--line);color:#fff}
-.close{position:absolute;right:12px;top:8px;border:0;background:none;color:var(--mute);font-size:1.4rem;cursor:pointer}
+.modal-card{width:min(460px,100%);padding:26px;border-radius:18px;border:1px solid;position:relative}
+.modal-card h3{font-size:1.35rem;margin-bottom:6px}
+.modal-card input,.modal-card select,.modal-card textarea{width:100%;margin:8px 0;padding:12px 14px;border-radius:12px;border:1px solid #d4d4d8;background:#fff}
+.modal-card .close{position:absolute;right:12px;top:8px;border:0;background:none;font-size:1.4rem;cursor:pointer;opacity:.7}
+.faq{border:1px solid;border-radius:14px;padding:14px 16px;margin:10px 0;background:transparent}
+.faq summary{cursor:pointer;font-weight:700}
+.faq p{margin-top:8px;opacity:.8}
+.step{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid rgba(0,0,0,.06)}
+.step .num{font-weight:800;opacity:.45;min-width:2.2rem}
+.table{width:100%;border-collapse:collapse;font-size:.95rem}
+.table th,.table td{padding:12px 10px;border-bottom:1px solid rgba(0,0,0,.08);text-align:left;vertical-align:top}
+.quote{padding:22px;border-radius:18px;font-size:1.05rem;line-height:1.6}
+.gallery{display:grid;grid-template-columns:1.3fr 1fr;gap:12px}
+@media(max-width:900px){.gallery{grid-template-columns:1fr}}
+.g-main,.g-side{border-radius:20px;min-height:180px;overflow:hidden}
+.tool{padding:28px;border-radius:22px;text-align:center}
+.tool .val{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;margin:12px 0}
+input[type=range]{width:min(100%,420px)}
+
+:root{--bg:#0B0B0C;--panel:#141416;--ink:#F5F5F5;--mute:#A1A1AA;--line:#27272A;--volt:#F97316}
+body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--ink)}
+.nav{background:rgba(11,11,12,.92);border-bottom:1px solid var(--line)}
+.logo{font-family:'Archivo Black',sans-serif;color:#fff;letter-spacing:.02em;text-transform:uppercase}
+.btn.primary{background:var(--volt);color:#000;border-radius:0;text-transform:uppercase;letter-spacing:.06em;font-size:.75rem}
+.btn.ghost{border:1px solid var(--line);color:#fff;border-radius:0}
+.pill{background:transparent;color:var(--volt);padding:0;letter-spacing:.16em}
+h1,h2{font-family:'Archivo Black',sans-serif;text-transform:uppercase;letter-spacing:.01em}
+.hero{padding:70px 0 40px;border-bottom:1px solid var(--line)}
+.statbox{background:var(--panel);border:1px solid var(--line);padding:22px}
+.statbox strong{display:block;font-family:'Archivo Black',sans-serif;font-size:2.4rem;color:var(--volt)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:0}
+.card p,.lead,.muted{color:var(--mute)}
+.tool{background:var(--panel);border:1px solid var(--line);border-radius:0}
+.tool .val{color:var(--volt);font-family:'Archivo Black',sans-serif}
+.faq{border-color:var(--line)}
+.footer{border-top:1px solid var(--line);color:var(--mute)}
+.table td,.table th{border-bottom:1px solid var(--line)}
+.stripe{height:8px;background:linear-gradient(90deg,var(--volt),#FB923C 40%,transparent)}
+input[type=range]{accent-color:var(--volt)}
+.modal-card input{background:#0B0B0C;border-color:var(--line);color:#fff}
 </style></head><body>
-<nav><a class="logo" href="#">Titan Elite Performance Gym</a><button class="btn" onclick="openM()">Join / Trial</button></nav>
-<section class="hero">
-  <div>
-    <div class="k">Training floor · London</div>
-    <h1>Train hard.<br>Recover smarter.</h1>
-    <p class="lead">Titan Elite Performance Gym is an athletic room for people who want strength, sweat, and accountability — bold type, high contrast, zero pastel fluff.</p>
-    <button class="btn" onclick="openM()">Start a trial week</button>
+<div class="stripe"></div>
+<nav class="nav"><a class="logo" href="#">Titan Elite Performance Gym</a><button class="btn primary" onclick="openM()">Join / Trial</button></nav>
+<main class="wrap">
+  <section class="hero grid-2">
+    <div>
+      <div class="pill">Training floor · London</div>
+      <h1 style="font-size:clamp(2.5rem,7vw,4.5rem);line-height:.95;margin:12px 0 16px">Train hard.<br>Recover smarter.</h1>
+      <p class="lead">Titan Elite Performance Gym is for people who want strength, sweat, and accountability — Fitness/Gym orange voltage on black, no pastel fluff.</p>
+      <div class="actions">
+        <button class="btn primary" onclick="openM()">Start trial week</button>
+        <a class="btn ghost" href="#schedule">Today’s board</a>
+      </div>
+    </div>
+    <div class="statbox">
+      <div class="pill">Floor metrics</div>
+      <strong>240+</strong>
+      <span class="muted">active members logging weekly PRs</span>
+      <p class="muted" style="margin-top:14px">Coach line: <span style="color:#fff">+1 (555) 010-0000</span></p>
+      <svg viewBox="0 0 320 90" style="margin-top:16px" aria-hidden="true"><polyline fill="none" stroke="#F97316" stroke-width="3" points="0,70 40,60 80,65 120,40 160,48 200,22 240,30 280,12 320,18"/></svg>
+    </div>
+  </section>
+  <section class="section">
+    <h2>Programming pillars</h2>
+    <p class="lead">Urgency + clarity. Conversion-first class layout.</p>
+    <div class="grid-3"><article class='card'><h3>Strength blocks</h3><p>Progressive programming for real lifts.</p></article><article class='card'><h3>Conditioning</h3><p>Engine work that respects joints.</p></article><article class='card'><h3>Coaching desk</h3><p>Form checks and measurable PRs.</p></article><article class='card'><h3>Open gym</h3><p>Serious floor, no mirror selfies culture.</p></article><article class='card'><h3>Hyrox / hybrid</h3><p>Optional race prep tracks.</p></article><article class='card'><h3>Recovery bay</h3><p>Mobility and down-regulation after hard days.</p></article></div>
+  </section>
+  <section class="section grid-2" id="schedule">
+    <div>
+      <h2>Sample weekday board</h2>
+      <table class="table">
+        <tr><th>Time</th><th>Block</th></tr>
+        <tr><td>05:30</td><td>Strength Engine</td></tr><tr><td>07:00</td><td>Hybrid Conditioning</td></tr><tr><td>12:15</td><td>Express Lift</td></tr><tr><td>18:00</td><td>Performance Class</td></tr><tr><td>19:15</td><td>Olympic Lifts</td></tr>
+      </table>
+    </div>
+    <div class="tool">
+      <div class="pill">Session builder</div>
+      <h2 style="font-size:1.3rem;margin:8px 0">Days / week</h2>
+      <div class="val" id="v">4 DAYS</div>
+      <input type="range" min="2" max="6" value="4" oninput="document.getElementById('v').textContent=this.value+' DAYS'">
+      <div style="margin-top:14px"><button class="btn primary" onclick="openM()">Lock my plan</button></div>
+    </div>
+  </section>
+  <section class="section">
+    <h2>Membership sketch</h2>
+    <div class="grid-3">
+      <article class="card"><h3>Drop-in</h3><p>From $35 / session</p></article>
+      <article class="card"><h3>Unlimited</h3><p>From $189 / month</p></article>
+      <article class="card"><h3>Coached 1:1</h3><p>Custom block pricing</p></article>
+    </div>
+  </section>
+  <section class="section"><h2>FAQ</h2><details class='faq'><summary>Beginner friendly?</summary><p>Yes — coaches scale every block.</p></details>
+<details class='faq'><summary>Do I need Olympic experience?</summary><p>No. We’ll meet you at your current skill.</p></details>
+<details class='faq'><summary>Parking?</summary><p>Details shared on signup for the London location.</p></details></section>
+</main>
+<footer class="footer">Titan Elite Performance Gym · London · +1 (555) 010-0000</footer>
+
+<div class="modal" id="m" role="dialog" aria-modal="true">
+  <div class="modal-card" style="background:#141414;color:#f5f5f5;border-color:rgba(255,255,255,.12)">
+    <button class="close" type="button" onclick="closeM()" aria-label="Close">×</button>
+    <h3>Trial request</h3>
+    <p class="muted">We’ll route this to Titan Elite Performance Gym. No spam — just a real follow-up.</p>
+    <form onsubmit="event.preventDefault();closeM();alert('Request received by Titan Elite Performance Gym.');">
+      <input name="f0" placeholder="Name *" required>
+<input name="f1" placeholder="Phone *" required>
+<input name="f2" placeholder="Goal (strength / fat loss / hybrid)" >
+<input name="f3" placeholder="Preferred time" >
+      <button class="btn primary" type="submit" style="width:100%;margin-top:8px">Send</button>
+    </form>
   </div>
-  <div class="statbox">
-    <div class="k">Floor metrics</div>
-    <strong>240+</strong>
-    <span style="color:var(--mute)">active members pushing weekly PRs</span>
-    <p style="margin-top:16px;color:var(--mute)">Coach line: <span style="color:#fff">+1 (555) 010-0000</span></p>
-  </div>
-</section>
-<section class="section">
-  <h2>Programming pillars</h2>
-  <p class="sub">Fitness psychology: urgency, power, clarity. Orange voltage on black — energy without cyber neon.</p>
-  <div class="grid"><article class="card"><h3>Strength programming</h3><p>Progressive blocks for real lifts, not random workouts.</p></article>
-<article class="card"><h3>Conditioning</h3><p>Engine work that respects joints and recovery.</p></article>
-<article class="card"><h3>Coaching desk</h3><p>Form checks, accountability, and measurable PRs.</p></article></div>
-</section>
-<section class="tool">
-  <div class="k">Session builder</div>
-  <h2 style="font-family:'Archivo Black',sans-serif;text-transform:uppercase;font-size:1.5rem;margin:8px 0">Weekly training days</h2>
-  <div class="val" id="v">4 days / week</div>
-  <input type="range" min="2" max="6" value="4" oninput="document.getElementById('v').textContent=this.value+' days / week'">
-  <div style="margin-top:16px"><button class="btn" onclick="openM()">Lock my plan</button></div>
-</section>
-<footer>Titan Elite Performance Gym · London · +1 (555) 010-0000</footer>
-<div class="modal" id="m"><div class="modal-card">
-  <button class="close" onclick="closeM()">×</button>
-  <h3 style="text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Trial request</h3>
-  <form onsubmit="event.preventDefault();closeM();alert('Trial request sent to Titan Elite Performance Gym.');">
-    <input placeholder="Name *" required><input placeholder="Phone *" required><input placeholder="Goal (strength / fat loss / hybrid)">
-    <button class="btn" style="width:100%;margin-top:8px">Send</button>
-  </form>
-</div></div>
-<script>function openM(){document.getElementById('m').classList.add('open')}function closeM(){document.getElementById('m').classList.remove('open')}</script>
+</div>
+<script>
+function openM(){document.getElementById('m').classList.add('open');}
+function closeM(){document.getElementById('m').classList.remove('open');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM();});
+</script>
 </body></html>

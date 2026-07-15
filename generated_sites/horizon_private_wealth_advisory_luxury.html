@@ -1,77 +1,136 @@
 <!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Horizon Private Wealth Advisory · Private advisory · Melbourne</title>
+<title>Horizon Private Wealth Advisory · Melbourne</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
-:root{--bg:#F2EFE8;--ink:#171A21;--mute:#667084;--line:#D9D3C7;--navy:#18233A;--gold:#8E7340}
+
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--ink);line-height:1.75}
-.nav{display:flex;justify-content:space-between;align-items:center;padding:20px 7vw;background:rgba(242,239,232,.94);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
-.logo{font-family:'Newsreader',serif;font-size:1.35rem;text-decoration:none;color:var(--navy);font-weight:600}
-.btn{background:var(--navy);color:#fff;border:0;padding:12px 18px;font-size:.78rem;font-weight:600;letter-spacing:.04em;cursor:pointer}
-.hero{padding:70px 7vw;display:grid;grid-template-columns:1.15fr .85fr;gap:36px;align-items:center}
-@media(max-width:900px){.hero{grid-template-columns:1fr;padding:40px 6vw}}
-.k{color:var(--gold);font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;margin-bottom:12px}
-h1{font-family:'Newsreader',serif;font-size:clamp(2.2rem,4.5vw,3.3rem);line-height:1.15;color:var(--navy);margin-bottom:14px;font-weight:600}
-.lead{color:var(--mute);margin-bottom:24px;font-weight:300;max-width:34rem}
-.panel{background:#FFFEFA;border:1px solid var(--line);padding:26px}
-.panel h3{font-family:'Newsreader',serif;font-size:1.35rem;margin-bottom:8px;color:var(--navy)}
-.section{padding:20px 7vw 70px}
-.section h2{font-family:'Newsreader',serif;font-size:2rem;color:var(--navy);margin-bottom:8px}
-.sub{color:var(--mute);margin-bottom:22px}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-@media(max-width:900px){.grid{grid-template-columns:1fr}}
-.card{background:#FFFEFA;border:1px solid var(--line);padding:22px}
-.card h3{font-family:'Newsreader',serif;font-size:1.15rem;margin-bottom:8px;color:var(--navy)}
-.card p{color:var(--mute);font-weight:300}
-.tool{margin:0 7vw 70px;background:#FFFEFA;border:1px solid var(--line);padding:34px;text-align:center}
-.val{font-family:'Newsreader',serif;font-size:2rem;color:var(--gold);margin:12px 0}
-input[type=range]{width:min(100%,420px);accent-color:var(--navy)}
-footer{background:var(--navy);color:#B7BFCLE;color:#B7BFC9;padding:40px 7vw;text-align:center}
-.modal{display:none;position:fixed;inset:0;background:rgba(23,26,33,.45);align-items:center;justify-content:center;padding:18px;z-index:40}
+img,svg{display:block;max-width:100%}
+button,input,select,textarea{font:inherit}
+.muted{opacity:.78}
+.wrap{width:min(1120px,92vw);margin:0 auto}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.grid-2{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:center}
+@media(max-width:900px){.grid-3,.grid-2{grid-template-columns:1fr}}
+.section{padding:72px 0}
+.section h2{font-size:clamp(1.6rem,3vw,2.2rem);line-height:1.15;margin-bottom:10px}
+.section .lead{max-width:40rem;margin-bottom:26px}
+.card{padding:22px;border-radius:18px}
+.card h3{font-size:1.1rem;margin-bottom:8px}
+.card p{font-size:.95rem;line-height:1.65}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;font-size:.75rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;text-decoration:none;padding:12px 18px;border-radius:999px;font-weight:700}
+.btn.ghost{background:transparent}
+.actions{display:flex;flex-wrap:wrap;gap:12px}
+.nav{position:sticky;top:0;z-index:30;display:flex;justify-content:space-between;align-items:center;padding:16px 4vw;backdrop-filter:blur(12px)}
+.logo{font-weight:700;text-decoration:none}
+.footer{padding:42px 4vw;text-align:center;font-size:.92rem}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);align-items:center;justify-content:center;padding:18px;z-index:80}
 .modal.open{display:flex}
-.modal-card{background:#FFFEFA;padding:28px;width:min(440px,100%);border:1px solid var(--line);position:relative}
-.modal-card input{width:100%;margin:8px 0;padding:12px;border:1px solid var(--line)}
-.close{position:absolute;right:12px;top:8px;border:0;background:none;font-size:1.4rem;cursor:pointer;color:var(--mute)}
+.modal-card{width:min(460px,100%);padding:26px;border-radius:18px;border:1px solid;position:relative}
+.modal-card h3{font-size:1.35rem;margin-bottom:6px}
+.modal-card input,.modal-card select,.modal-card textarea{width:100%;margin:8px 0;padding:12px 14px;border-radius:12px;border:1px solid #d4d4d8;background:#fff}
+.modal-card .close{position:absolute;right:12px;top:8px;border:0;background:none;font-size:1.4rem;cursor:pointer;opacity:.7}
+.faq{border:1px solid;border-radius:14px;padding:14px 16px;margin:10px 0;background:transparent}
+.faq summary{cursor:pointer;font-weight:700}
+.faq p{margin-top:8px;opacity:.8}
+.step{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid rgba(0,0,0,.06)}
+.step .num{font-weight:800;opacity:.45;min-width:2.2rem}
+.table{width:100%;border-collapse:collapse;font-size:.95rem}
+.table th,.table td{padding:12px 10px;border-bottom:1px solid rgba(0,0,0,.08);text-align:left;vertical-align:top}
+.quote{padding:22px;border-radius:18px;font-size:1.05rem;line-height:1.6}
+.gallery{display:grid;grid-template-columns:1.3fr 1fr;gap:12px}
+@media(max-width:900px){.gallery{grid-template-columns:1fr}}
+.g-main,.g-side{border-radius:20px;min-height:180px;overflow:hidden}
+.tool{padding:28px;border-radius:22px;text-align:center}
+.tool .val{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;margin:12px 0}
+input[type=range]{width:min(100%,420px)}
+
+:root{--bg:#F2EFE8;--ink:#0F172A;--mute:#667084;--line:#D9D3C7;--navy:#0F172A;--gold:#A16207}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--ink);font-weight:300}
+.nav{background:rgba(242,239,232,.95);border-bottom:1px solid var(--line)}
+.logo{font-family:'Newsreader',serif;font-size:1.35rem;color:var(--navy);font-weight:600}
+.btn.primary{background:var(--navy);color:#fff;border-radius:0}
+.btn.ghost{border:1px solid var(--navy);color:var(--navy);border-radius:0;background:transparent}
+.pill{color:var(--gold);padding:0;background:transparent;letter-spacing:.16em}
+h1,h2,h3{font-family:'Newsreader',serif;color:var(--navy);font-weight:600}
+.card{background:#FFFEFA;border:1px solid var(--line);border-radius:0}
+.card p,.lead,.muted{color:var(--mute)}
+.panel{background:#FFFEFA;border:1px solid var(--line);padding:24px}
+.tool{background:#FFFEFA;border:1px solid var(--line);border-radius:0}
+.tool .val{color:var(--gold);font-family:'Newsreader',serif}
+.faq{border-color:var(--line);background:#FFFEFA;border-radius:0}
+.footer{background:var(--navy);color:#B7BFC9}
+.chart{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;align-items:end;height:140px;margin-top:12px}
+.chart span{background:linear-gradient(180deg,#1E3A8A,#0F172A);border-radius:4px 4px 0 0}
+input[type=range]{accent-color:var(--navy)}
 </style></head><body>
-<nav><a class="logo" href="#">Horizon Private Wealth Advisory</a><button class="btn" onclick="openM()">Private intro</button></nav>
-<section class="hero">
-  <div>
-    <div class="k">Private advisory · Melbourne</div>
-    <h1>Stewardship for capital that must outlast the moment.</h1>
-    <p class="lead">Horizon Private Wealth Advisory works with families and principals who prefer measured process, plain language, and rooms that feel like a private bank — not a fintech billboard.</p>
-    <button class="btn" onclick="openM()">Request an introduction</button>
+<nav class="nav"><a class="logo" href="#">Horizon Private Wealth Advisory</a><button class="btn primary" onclick="openM()">Private intro</button></nav>
+<main class="wrap">
+  <section class="section grid-2" style="padding-top:48px">
+    <div>
+      <div class="pill">Private advisory · Melbourne</div>
+      <h1 style="font-size:clamp(2.1rem,4.2vw,3.2rem);line-height:1.15;margin:12px 0 14px">Stewardship for capital that must outlast the moment.</h1>
+      <p class="lead">Horizon Private Wealth Advisory works with families and principals who prefer measured process and plain language — Banking/Traditional Finance cues, not fintech billboard energy.</p>
+      <div class="actions">
+        <button class="btn primary" onclick="openM()">Request introduction</button>
+        <a class="btn ghost" href="#pillars">Advisory pillars</a>
+      </div>
+    </div>
+    <aside class="panel">
+      <div class="pill">Desk</div>
+      <h3 style="margin:8px 0">Confidential first meeting</h3>
+      <p class="muted">Direct line: <strong style="color:var(--ink)">+1 (555) 010-0000</strong></p>
+      <div class="chart" aria-hidden="true">
+        <span style="height:40%"></span><span style="height:55%"></span><span style="height:48%"></span><span style="height:72%"></span><span style="height:63%"></span>
+      </div>
+      <p class="muted" style="margin-top:10px;font-size:.9rem">Illustrative allocation sketch — not performance data.</p>
+    </aside>
+  </section>
+  <section class="section" id="pillars">
+    <h2>Advisory pillars</h2>
+    <p class="lead">Trust density over visual excitement.</p>
+    <div class="grid-3"><article class='card'><h3>Portfolio architecture</h3><p>Allocation matched to horizon and risk.</p></article><article class='card'><h3>Family office liaison</h3><p>Multi-generational coordination.</p></article><article class='card'><h3>Liquidity events</h3><p>Pre- and post-exit conversations.</p></article><article class='card'><h3>Tax-aware planning</h3><p>Working alongside your counsel &amp; CPA.</p></article><article class='card'><h3>Private markets access</h3><p>Where suitable and understood.</p></article><article class='card'><h3>Reporting cadence</h3><p>Clear packs, not dashboard theater.</p></article></div>
+  </section>
+  <section class="section grid-2">
+    <div>
+      <h2>Engagement cadence</h2>
+      <div class='step'><div class='num'>01</div><div><h4>Discovery</h4><p>Goals, constraints, existing structure.</p></div></div>
+<div class='step'><div class='num'>02</div><div><h4>Architecture</h4><p>Written plan with explicit tradeoffs.</p></div></div>
+<div class='step'><div class='num'>03</div><div><h4>Stewardship</h4><p>Quarterly reviews and event-driven updates.</p></div></div>
+    </div>
+    <div class="tool">
+      <div class="pill">Horizon</div>
+      <h2 style="font-size:1.5rem;margin:8px 0">Years under consideration</h2>
+      <div class="val" id="v">15-year horizon</div>
+      <input type="range" min="3" max="40" value="15" oninput="document.getElementById('v').textContent=this.value+'-year horizon'">
+      <div style="margin-top:14px"><button class="btn primary" onclick="openM()">Discuss this horizon</button></div>
+    </div>
+  </section>
+  <section class="section"><h2>FAQ</h2><details class='faq'><summary>Minimums?</summary><p>Discussed privately after fit assessment.</p></details>
+<details class='faq'><summary>Fiduciary?</summary><p>We clarify duty and fee model in writing before engagement.</p></details>
+<details class='faq'><summary>Who is ideal?</summary><p>Principals and families who want process, not product pushing.</p></details></section>
+</main>
+<footer class="footer">Horizon Private Wealth Advisory<br>Melbourne · +1 (555) 010-0000</footer>
+
+<div class="modal" id="m" role="dialog" aria-modal="true">
+  <div class="modal-card" style="background:#fff;color:#111;border-color:#e5e5e5">
+    <button class="close" type="button" onclick="closeM()" aria-label="Close">×</button>
+    <h3>Private introduction</h3>
+    <p class="muted">We’ll route this to Horizon Private Wealth Advisory. No spam — just a real follow-up.</p>
+    <form onsubmit="event.preventDefault();closeM();alert('Request received by Horizon Private Wealth Advisory.');">
+      <input name="f0" placeholder="Name *" required>
+<input name="f1" placeholder="Phone *" required>
+<input name="f2" placeholder="Context (family / liquidity / portfolio)" >
+<input name="f3" placeholder="Approx. AUM range (optional)" >
+      <button class="btn primary" type="submit" style="width:100%;margin-top:8px">Submit</button>
+    </form>
   </div>
-  <aside class="panel">
-    <div class="k">Desk</div>
-    <h3>Confidential first meeting</h3>
-    <p style="color:var(--mute);margin-bottom:10px">Direct line: <strong style="color:var(--ink)">+1 (555) 010-0000</strong></p>
-    <p style="color:var(--mute);font-size:.92rem;font-weight:300">Design cues: parchment, navy, restrained brass — institutional calm.</p>
-  </aside>
-</section>
-<section class="section">
-  <h2>Advisory pillars</h2>
-  <p class="sub">Wealth UX: trust density over visual excitement.</p>
-  <div class="grid"><article class="card"><h3>Portfolio architecture</h3><p>Allocation frameworks matched to time horizon and risk.</p></article>
-<article class="card"><h3>Family office liaison</h3><p>Multi-generational planning with discreet coordination.</p></article>
-<article class="card"><h3>Liquidity events</h3><p>Pre- and post-exit structuring conversations.</p></article></div>
-</section>
-<section class="tool">
-  <div class="k">Planning horizon</div>
-  <h2 style="font-family:'Newsreader',serif;font-size:1.6rem;color:var(--navy);margin:8px 0">Years under consideration</h2>
-  <div class="val" id="v">15-year horizon</div>
-  <input type="range" min="3" max="40" value="15" oninput="document.getElementById('v').textContent=this.value+'-year horizon'">
-  <div style="margin-top:16px"><button class="btn" onclick="openM()">Discuss this horizon</button></div>
-</section>
-<footer>Horizon Private Wealth Advisory<br>Melbourne · +1 (555) 010-0000</footer>
-<div class="modal" id="m"><div class="modal-card">
-  <button class="close" onclick="closeM()">×</button>
-  <h3 style="font-family:'Newsreader',serif;margin-bottom:8px">Private introduction</h3>
-  <form onsubmit="event.preventDefault();closeM();alert('Introduction request received by Horizon Private Wealth Advisory.');">
-    <input placeholder="Name *" required><input placeholder="Phone *" required><input placeholder="Context (family / liquidity / portfolio)">
-    <button class="btn" style="width:100%;margin-top:8px">Submit</button>
-  </form>
-</div></div>
-<script>function openM(){document.getElementById('m').classList.add('open')}function closeM(){document.getElementById('m').classList.remove('open')}</script>
+</div>
+<script>
+function openM(){document.getElementById('m').classList.add('open');}
+function closeM(){document.getElementById('m').classList.remove('open');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM();});
+</script>
 </body></html>

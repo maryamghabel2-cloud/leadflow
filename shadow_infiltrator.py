@@ -1,17 +1,18 @@
 """
-LeadFlow.AI - Shadow Infiltrator
-Industry-specific creative website generator.
+LeadFlow.AI - Shadow Infiltrator (v7 industry-deep)
+Creative, profession-specific client websites.
 
-Design principle:
-- Each profession gets a DISTINCT visual system tailored to buyer psychology.
-- Not a clone of the LeadFlow product UI.
-- Not neon/cyber cyan glow kitsch.
+Rules:
+- Distinct visual system per industry (NOT LeadFlow product UI clone)
+- No neon cyan / cyber glow kitsch
+- Deep sections: proof, galleries/SVG art, fee tables, FAQs, process, CTAs
+- Design cues informed by skills/ui-ux-pro-max data (colors/styles/typography)
 """
 
 from __future__ import annotations
 
 import os
-from typing import Dict, Any, List, Tuple
+from typing import Any, Dict, List, Tuple
 from cloud_deployer import CloudDeploymentEngine
 
 
@@ -23,6 +24,7 @@ class ShadowInfiltrator:
         os.makedirs(self.output_dir, exist_ok=True)
         self.deployer = CloudDeploymentEngine(base_output_dir=self.output_dir)
 
+    # ------------------------------------------------------------------ public
     def generate_luxury_site(
         self,
         business_name: str,
@@ -37,37 +39,7 @@ class ShadowInfiltrator:
         if custom_domain is None:
             custom_domain = f"{slug}.com"
 
-        cat = (category or "").lower()
-        name_l = business_name.lower()
-        blob = f"{cat} {name_l}"
-
-        if any(w in blob for w in ["dental", "clinic", "doctor", "health", "medical", "vet", "veterinary", "hospital"]):
-            html_content = self._medical(business_name, category, city, phone)
-            paradigm = "Healthcare · clinical calm (trust / hygiene / clarity)"
-        elif any(w in blob for w in ["restaurant", "dining", "food", "lounge", "bistro", "cafe", "gourmet"]):
-            html_content = self._dining(business_name, category, city, phone)
-            paradigm = "Hospitality · warm nocturnal fine dining"
-        elif any(w in blob for w in ["law", "legal", "attorney", "lawyer", "justice", "counsel"]):
-            html_content = self._legal(business_name, category, city, phone)
-            paradigm = "Legal · authoritative editorial counsel"
-        elif any(w in blob for w in ["estate", "realty", "property", "architecture", "builder", "architectural"]):
-            html_content = self._realty(business_name, category, city, phone)
-            paradigm = "Property · architectural photography magazine"
-        elif any(w in blob for w in ["gym", "fitness", "performance", "sport", "training"]):
-            html_content = self._gym(business_name, category, city, phone)
-            paradigm = "Fitness · bold athletic energy"
-        elif any(w in blob for w in ["spa", "aesthetic", "salon", "beauty", "wellness", "sanctuary"]):
-            html_content = self._spa(business_name, category, city, phone)
-            paradigm = "Wellness · soft sanctuary ritual"
-        elif any(w in blob for w in ["jewelry", "jewel", "watch", "diamond", "crown"]):
-            html_content = self._jewelry(business_name, category, city, phone)
-            paradigm = "Jewelry · high jewelry atelier"
-        elif any(w in blob for w in ["wealth", "advisory", "finance", "private", "capital", "invest"]):
-            html_content = self._wealth(business_name, category, city, phone)
-            paradigm = "Wealth · private bank discretion"
-        else:
-            html_content = self._universal(business_name, category, city, phone)
-            paradigm = f"Services · category-tuned studio ({(category or 'professional').title()})"
+        kind, html_content, paradigm = self._route(business_name, category, city, phone)
 
         with open(filepath, "w", encoding="utf-8") as f:
             f.write(html_content.strip())
@@ -82,6 +54,7 @@ class ShadowInfiltrator:
             "city": city,
             "phone": phone,
             "industry_paradigm_applied": paradigm,
+            "design_kind": kind,
             "generated_filename": filename,
             "generated_filepath": filepath,
             "live_cloud_demo_url": demo_res["live_cloud_url"],
@@ -89,16 +62,36 @@ class ShadowInfiltrator:
             "custom_domain_configured": custom_domain,
             "upsell_pitch": (
                 f"Hi {business_name} team,\n\n"
-                f"We built a free live website preview tailored for your industry in {city}:\n"
+                f"We prepared a free live website preview designed specifically for your industry in {city}:\n"
                 f"{demo_res['live_cloud_url']}\n\n"
-                f"Design direction: {paradigm}.\n"
-                f"If you want ownership + deployment package for `{custom_domain}`, we can transfer it after payment.\n"
-                f"Happy to adjust copy, services, or colors."
+                f"Design system: {paradigm}.\n"
+                f"If you want ownership + the full deployment ZIP for `{custom_domain}`, we can transfer after payment.\n"
+                f"Happy to adjust services, photos, hours, or colors."
             ),
         }
 
-    # ------------------------------------------------------------------ helpers
-    def _esc(self, s: str) -> str:
+    def _route(self, name: str, category: str, city: str, phone: str):
+        blob = f"{(category or '')} {name}".lower()
+        if any(w in blob for w in ["dental", "clinic", "doctor", "health", "medical", "vet", "veterinary", "hospital"]):
+            return "medical", self._medical(name, category, city, phone), "Healthcare · Trust & Authority + clinical calm"
+        if any(w in blob for w in ["restaurant", "dining", "food", "lounge", "bistro", "cafe", "gourmet"]):
+            return "dining", self._dining(name, category, city, phone), "Restaurant · Warm nocturnal hospitality storytelling"
+        if any(w in blob for w in ["law", "legal", "attorney", "lawyer", "justice", "counsel"]):
+            return "legal", self._legal(name, category, city, phone), "Legal · Authority editorial (navy/brass)"
+        if any(w in blob for w in ["estate", "realty", "property", "architecture", "builder", "architectural"]):
+            return "realty", self._realty(name, category, city, phone), "Property · Architectural magazine + listings"
+        if any(w in blob for w in ["gym", "fitness", "performance", "sport", "training"]):
+            return "gym", self._gym(name, category, city, phone), "Fitness · Bold athletic conversion layout"
+        if any(w in blob for w in ["spa", "aesthetic", "salon", "beauty", "wellness", "sanctuary"]):
+            return "spa", self._spa(name, category, city, phone), "Wellness · Organic biophilic sanctuary"
+        if any(w in blob for w in ["jewelry", "jewel", "watch", "diamond", "crown"]):
+            return "jewelry", self._jewelry(name, category, city, phone), "Jewelry · High-jewelry atelier"
+        if any(w in blob for w in ["wealth", "advisory", "finance", "private", "capital", "invest"]):
+            return "wealth", self._wealth(name, category, city, phone), "Wealth · Private bank discretion"
+        return "universal", self._universal(name, category, city, phone), f"Services · category studio ({(category or 'pro').title()})"
+
+    # ------------------------------------------------------------------ utils
+    def _e(self, s: str) -> str:
         return (
             (s or "")
             .replace("&", "&amp;")
@@ -107,200 +100,370 @@ class ShadowInfiltrator:
             .replace('"', "&quot;")
         )
 
-    def _cards(self, items: List[Tuple[str, str]], card_class: str = "card") -> str:
+    def _modal(self, name: str, title: str, fields: List[str], btn: str, dark: bool = False) -> str:
+        n = self._e(name)
+        bg = "#141414" if dark else "#fff"
+        fg = "#f5f5f5" if dark else "#111"
+        border = "rgba(255,255,255,.12)" if dark else "#e5e5e5"
+        inputs = "\n".join(
+            f'<input name="f{i}" placeholder="{self._e(ph)}" {"required" if i < 2 else ""}>'
+            for i, ph in enumerate(fields)
+        )
+        return f"""
+<div class="modal" id="m" role="dialog" aria-modal="true">
+  <div class="modal-card" style="background:{bg};color:{fg};border-color:{border}">
+    <button class="close" type="button" onclick="closeM()" aria-label="Close">×</button>
+    <h3>{self._e(title)}</h3>
+    <p class="muted">We’ll route this to {n}. No spam — just a real follow-up.</p>
+    <form onsubmit="event.preventDefault();closeM();alert('Request received by {n}.');">
+      {inputs}
+      <button class="btn primary" type="submit" style="width:100%;margin-top:8px">{self._e(btn)}</button>
+    </form>
+  </div>
+</div>
+<script>
+function openM(){{document.getElementById('m').classList.add('open');}}
+function closeM(){{document.getElementById('m').classList.remove('open');}}
+document.addEventListener('keydown',e=>{{if(e.key==='Escape')closeM();}});
+</script>"""
+
+    def _faq(self, pairs: List[Tuple[str, str]]) -> str:
+        parts = []
+        for q, a in pairs:
+            parts.append(
+                f"<details class='faq'><summary>{self._e(q)}</summary><p>{self._e(a)}</p></details>"
+            )
+        return "\n".join(parts)
+
+    def _steps(self, items: List[Tuple[str, str]]) -> str:
         out = []
-        for t, d in items:
-            out.append(f'<article class="{card_class}"><h3>{self._esc(t)}</h3><p>{self._esc(d)}</p></article>')
+        for i, (t, d) in enumerate(items, 1):
+            out.append(
+                f"<div class='step'><div class='num'>{i:02d}</div><div><h4>{self._e(t)}</h4><p>{self._e(d)}</p></div></div>"
+            )
         return "\n".join(out)
 
-    # ================================================================== MEDICAL
+    def _base_css_common(self) -> str:
+        return """
+*{box-sizing:border-box;margin:0;padding:0}
+img,svg{display:block;max-width:100%}
+button,input,select,textarea{font:inherit}
+.muted{opacity:.78}
+.wrap{width:min(1120px,92vw);margin:0 auto}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.grid-2{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:center}
+@media(max-width:900px){.grid-3,.grid-2{grid-template-columns:1fr}}
+.section{padding:72px 0}
+.section h2{font-size:clamp(1.6rem,3vw,2.2rem);line-height:1.15;margin-bottom:10px}
+.section .lead{max-width:40rem;margin-bottom:26px}
+.card{padding:22px;border-radius:18px}
+.card h3{font-size:1.1rem;margin-bottom:8px}
+.card p{font-size:.95rem;line-height:1.65}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;font-size:.75rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;text-decoration:none;padding:12px 18px;border-radius:999px;font-weight:700}
+.btn.ghost{background:transparent}
+.actions{display:flex;flex-wrap:wrap;gap:12px}
+.nav{position:sticky;top:0;z-index:30;display:flex;justify-content:space-between;align-items:center;padding:16px 4vw;backdrop-filter:blur(12px)}
+.logo{font-weight:700;text-decoration:none}
+.footer{padding:42px 4vw;text-align:center;font-size:.92rem}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);align-items:center;justify-content:center;padding:18px;z-index:80}
+.modal.open{display:flex}
+.modal-card{width:min(460px,100%);padding:26px;border-radius:18px;border:1px solid;position:relative}
+.modal-card h3{font-size:1.35rem;margin-bottom:6px}
+.modal-card input,.modal-card select,.modal-card textarea{width:100%;margin:8px 0;padding:12px 14px;border-radius:12px;border:1px solid #d4d4d8;background:#fff}
+.modal-card .close{position:absolute;right:12px;top:8px;border:0;background:none;font-size:1.4rem;cursor:pointer;opacity:.7}
+.faq{border:1px solid;border-radius:14px;padding:14px 16px;margin:10px 0;background:transparent}
+.faq summary{cursor:pointer;font-weight:700}
+.faq p{margin-top:8px;opacity:.8}
+.step{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid rgba(0,0,0,.06)}
+.step .num{font-weight:800;opacity:.45;min-width:2.2rem}
+.table{width:100%;border-collapse:collapse;font-size:.95rem}
+.table th,.table td{padding:12px 10px;border-bottom:1px solid rgba(0,0,0,.08);text-align:left;vertical-align:top}
+.quote{padding:22px;border-radius:18px;font-size:1.05rem;line-height:1.6}
+.gallery{display:grid;grid-template-columns:1.3fr 1fr;gap:12px}
+@media(max-width:900px){.gallery{grid-template-columns:1fr}}
+.g-main,.g-side{border-radius:20px;min-height:180px;overflow:hidden}
+.tool{padding:28px;border-radius:22px;text-align:center}
+.tool .val{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;margin:12px 0}
+input[type=range]{width:min(100%,420px)}
+"""
+
+    # ================================================================= MEDICAL
     def _medical(self, name: str, cat: str, city: str, phone: str) -> str:
-        n, c, p = self._esc(name), self._esc(city), self._esc(phone)
-        cards = self._cards([
-            ("Gentle diagnostics", "Clear explanations, digital charting, and zero-rush consults."),
-            ("Restorative artistry", "Natural-looking results planned around facial harmony."),
-            ("Family continuity", "Recall systems and prevention that keep care simple over years."),
+        n, c, p = self._e(name), self._e(city), self._e(phone)
+        is_vet = any(w in f"{cat} {name}".lower() for w in ["vet", "veterinary"])
+        hero_h = "Care that feels calm, clear, and human" if not is_vet else "Compassionate care for the animals you love"
+        svc = [
+            ("Diagnostics", "Digital imaging, clear explanations, no rushed consults."),
+            ("Restorative / treatment", "Plans built around comfort and long-term outcomes."),
+            ("Prevention", "Recalls and maintenance that keep care simple."),
+            ("Emergency desk", "Priority pathways when something can’t wait."),
+            ("Family continuity", "Notes that follow the patient — not lost in chats."),
+            ("Aftercare", "Written instructions you can actually follow at home."),
+        ]
+        if is_vet:
+            svc[0] = ("Wellness exams", "Gentle exams with time for owner questions.")
+            svc[3] = ("Urgent cases", "Same-day triage when pets need faster attention.")
+        cards = "".join(f"<article class='card'><h3>{self._e(t)}</h3><p>{self._e(d)}</p></article>" for t, d in svc)
+        faq = self._faq([
+            ("Do you accept new patients?", f"Yes — {n} welcomes new patients in {c} most weeks. Request a slot and we’ll confirm availability."),
+            ("How long is a first visit?", "Typically 30–45 minutes so we can listen, examine, and map options without rushing."),
+            ("Is financing available?", "We can discuss phased treatment plans. Mention budget constraints during booking."),
+            ("Where are you located?", f"Serving patients across {c}. Exact suite details are confirmed on booking."),
         ])
+        steps = self._steps([
+            ("Tell us what you need", "Share symptoms, goals, or a photo if relevant."),
+            ("We confirm a slot", "You’ll get a clear time window and prep notes."),
+            ("Visit + plan", "Exam, options, and pricing transparency before treatment."),
+        ])
+        art = """
+<svg viewBox="0 0 640 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Clinical illustration">
+  <defs>
+    <linearGradient id="mg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#E8F7F4"/><stop offset="1" stop-color="#D5EEEA"/></linearGradient>
+  </defs>
+  <rect width="640" height="420" rx="32" fill="url(#mg)"/>
+  <circle cx="470" cy="120" r="70" fill="#B7E2DA"/>
+  <rect x="70" y="80" width="280" height="240" rx="28" fill="#fff" stroke="#C9E5DF" stroke-width="2"/>
+  <rect x="100" y="120" width="160" height="14" rx="7" fill="#2F6F68"/>
+  <rect x="100" y="150" width="200" height="10" rx="5" fill="#D7E5E1"/>
+  <rect x="100" y="175" width="180" height="10" rx="5" fill="#D7E5E1"/>
+  <rect x="100" y="210" width="90" height="40" rx="20" fill="#2F6F68"/>
+  <circle cx="480" cy="270" r="54" fill="#fff" stroke="#2F6F68" stroke-width="6"/>
+  <path d="M455 270h50M480 245v50" stroke="#2F6F68" stroke-width="8" stroke-linecap="round"/>
+</svg>"""
         return f"""<!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{n} · Care in {c}</title>
+<title>{n} · {c}</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap');
-:root{{--bg:#F7FBFA;--ink:#16302B;--mute:#5B726C;--line:#D7E5E1;--sea:#2F6F68;--sea-soft:#E4F3F0;--sand:#FFF9F2}}
-*{{box-sizing:border-box;margin:0;padding:0}}
+{self._base_css_common()}
+:root{{--bg:#F7FBFA;--ink:#16302B;--mute:#5B726C;--line:#D7E5E1;--sea:#0F766E;--soft:#E4F3F0;--sand:#FFF9F2}}
 body{{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}}
-.nav{{display:flex;justify-content:space-between;align-items:center;padding:20px 7vw;background:rgba(247,251,250,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}}
-.logo{{font-family:'Fraunces',serif;font-size:1.35rem;font-weight:700;color:var(--ink);text-decoration:none}}
-.btn{{background:var(--sea);color:#fff;border:0;padding:12px 20px;border-radius:999px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block}}
-.btn:hover{{filter:brightness(1.05)}}
-.btn-soft{{background:var(--sea-soft);color:var(--sea)}}
-.hero{{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;padding:70px 7vw;align-items:center}}
-@media(max-width:900px){{.hero{{grid-template-columns:1fr;padding:40px 6vw}}}}
-.pill{{display:inline-block;background:var(--sea-soft);color:var(--sea);padding:6px 12px;border-radius:999px;font-size:.78rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-bottom:14px}}
-h1{{font-family:'Fraunces',serif;font-size:clamp(2.2rem,4vw,3.4rem);line-height:1.12;margin-bottom:16px;font-weight:700}}
-.lead{{color:var(--mute);font-size:1.08rem;max-width:34rem;margin-bottom:28px}}
-.actions{{display:flex;gap:12px;flex-wrap:wrap}}
-.side{{background:linear-gradient(160deg,var(--sand),#fff);border:1px solid var(--line);border-radius:28px;padding:28px;box-shadow:0 18px 50px rgba(22,48,43,.06)}}
-.metric{{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}}
-.metric div{{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px}}
-.metric strong{{display:block;font-family:'Fraunces',serif;font-size:1.6rem}}
-.metric span{{color:var(--mute);font-size:.82rem}}
-.section{{padding:20px 7vw 70px}}
-.section h2{{font-family:'Fraunces',serif;font-size:2rem;margin-bottom:8px}}
-.section .sub{{color:var(--mute);margin-bottom:24px}}
-.grid{{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}}
-@media(max-width:900px){{.grid{{grid-template-columns:1fr}}}}
-.card{{background:#fff;border:1px solid var(--line);border-radius:22px;padding:24px}}
-.card h3{{font-size:1.1rem;margin-bottom:8px}}
-.card p{{color:var(--mute);font-size:.95rem}}
-.tool{{margin:10px 7vw 70px;background:#fff;border:1px solid var(--line);border-radius:28px;padding:36px;text-align:center}}
-.tool h2{{font-family:'Fraunces',serif;margin-bottom:8px}}
-.val{{font-family:'Fraunces',serif;font-size:2.2rem;color:var(--sea);margin:14px 0}}
-input[type=range]{{width:min(100%,420px);accent-color:var(--sea)}}
-footer{{padding:40px 7vw;border-top:1px solid var(--line);color:var(--mute);text-align:center;background:#fff}}
-.modal{{display:none;position:fixed;inset:0;background:rgba(22,48,43,.45);align-items:center;justify-content:center;padding:18px;z-index:50}}
-.modal.open{{display:flex}}
-.modal-card{{background:#fff;border-radius:22px;padding:28px;width:min(440px,100%);position:relative}}
-.modal-card input{{width:100%;margin:8px 0;padding:12px 14px;border:1px solid var(--line);border-radius:12px}}
-.close{{position:absolute;right:14px;top:10px;border:0;background:none;font-size:1.4rem;cursor:pointer;color:var(--mute)}}
+.nav{{background:rgba(247,251,250,.92);border-bottom:1px solid var(--line)}}
+.logo{{font-family:'Fraunces',serif;font-size:1.35rem;color:var(--ink)}}
+.btn.primary{{background:var(--sea);color:#fff}}
+.btn.ghost{{border:1px solid var(--line);color:var(--sea);background:var(--soft)}}
+.pill{{background:var(--soft);color:var(--sea)}}
+h1,h2,h3,h4{{font-family:'Fraunces',serif;font-weight:700}}
+.hero{{padding:56px 0 24px}}
+.side{{background:linear-gradient(160deg,var(--sand),#fff);border:1px solid var(--line);border-radius:28px;padding:22px}}
+.metric{{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}}
+.metric div{{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px}}
+.metric strong{{display:block;font-family:'Fraunces',serif;font-size:1.5rem}}
+.metric span{{color:var(--mute);font-size:.8rem}}
+.card{{background:#fff;border:1px solid var(--line)}}
+.quote{{background:#fff;border:1px solid var(--line)}}
+.tool{{background:#fff;border:1px solid var(--line)}}
+.tool .val{{color:var(--sea);font-family:'Fraunces',serif}}
+.faq{{border-color:var(--line);background:#fff}}
+.table th{{color:var(--mute);font-size:.8rem;text-transform:uppercase;letter-spacing:.04em}}
+.footer{{background:#fff;border-top:1px solid var(--line);color:var(--mute)}}
+.lead,.card p,.section .lead{{color:var(--mute)}}
+input[type=range]{{accent-color:var(--sea)}}
 </style></head><body>
-<nav><a class="logo" href="#">{n}</a><button class="btn" onclick="openM()">Book visit</button></nav>
-<section class="hero">
-  <div>
-    <div class="pill">Healthcare · {c}</div>
-    <h1>Care that feels calm, clear, and human</h1>
-    <p class="lead">{n} is built for patients who want modern clinical standards without the clinical coldness — in the heart of {c}.</p>
-    <div class="actions">
-      <button class="btn" onclick="openM()">Request appointment</button>
-      <a class="btn btn-soft" href="#services">Explore services</a>
+<nav class="nav"><a class="logo" href="#">{n}</a><div class="actions"><a class="btn ghost" href="#services">Services</a><button class="btn primary" onclick="openM()">Book visit</button></div></nav>
+<main class="wrap">
+  <section class="hero grid-2">
+    <div>
+      <div class="pill">Healthcare · {c}</div>
+      <h1 style="font-size:clamp(2.2rem,4.5vw,3.4rem);line-height:1.1;margin:12px 0 14px">{hero_h}</h1>
+      <p class="lead">{n} combines modern clinical standards with a calmer patient experience — clear language, transparent options, and a booking path that doesn’t feel like a call center.</p>
+      <div class="actions">
+        <button class="btn primary" onclick="openM()">Request appointment</button>
+        <a class="btn ghost" href="#process">How visits work</a>
+      </div>
     </div>
-  </div>
-  <aside class="side">
-    <div class="pill">Patient desk</div>
-    <h2 style="font-family:'Fraunces',serif;font-size:1.5rem;margin:8px 0 10px">Same-week consults</h2>
-    <p style="color:var(--mute);margin-bottom:8px">Direct line: <strong style="color:var(--ink)">{p}</strong></p>
-    <div class="metric">
-      <div><strong>4.9</strong><span>avg. patient rating</span></div>
-      <div><strong>15m</strong><span>on-time arrival goal</span></div>
+    <aside class="side">
+      {art}
+      <div class="metric">
+        <div><strong>4.9</strong><span>avg. rating</span></div>
+        <div><strong>15m</strong><span>on-time goal</span></div>
+      </div>
+      <p class="muted" style="margin-top:12px;font-size:.92rem">Direct line: <strong style="color:var(--ink)">{p}</strong></p>
+    </aside>
+  </section>
+
+  <section class="section" id="services">
+    <h2>Services designed around comfort</h2>
+    <p class="lead">Healthcare UX: high readability, soft teal trust palette, obvious next step — patients scan under stress.</p>
+    <div class="grid-3">{cards}</div>
+  </section>
+
+  <section class="section" id="process">
+    <h2>Your first visit, simplified</h2>
+    <p class="lead">A predictable path reduces anxiety more than any animation ever will.</p>
+    <div class="card" style="background:#fff;border:1px solid var(--line)">{steps}</div>
+  </section>
+
+  <section class="section">
+    <div class="tool">
+      <div class="pill">Interactive preview</div>
+      <h2 style="margin-top:10px">Treatment brightness planner</h2>
+      <p class="lead" style="margin:8px auto 0">A conversation starter for whitening goals — not a medical claim.</p>
+      <div class="val" id="v">70% brighter target</div>
+      <input type="range" min="20" max="100" value="70" oninput="document.getElementById('v').textContent=this.value+'% brighter target'">
+      <div style="margin-top:14px"><button class="btn primary" onclick="openM()">Discuss this plan</button></div>
     </div>
-  </aside>
-</section>
-<section class="section" id="services">
-  <h2>Services designed around comfort</h2>
-  <p class="sub">Healthcare UX: soft color, high readability, obvious next step — because anxious patients scan, they don’t study.</p>
-  <div class="grid">{cards}</div>
-</section>
-<section class="tool">
-  <div class="pill">Interactive preview</div>
-  <h2>Smile brightness planner</h2>
-  <p style="color:var(--mute)">A simple visual for whitening conversations — not a medical claim, a conversation starter.</p>
-  <div class="val" id="v">70% brighter target</div>
-  <input type="range" min="20" max="100" value="70" oninput="document.getElementById('v').textContent=this.value+'% brighter target'">
-  <div style="margin-top:18px"><button class="btn" onclick="openM()">Discuss this plan</button></div>
-</section>
-<footer><strong style="color:var(--ink);font-family:'Fraunces',serif;font-size:1.2rem">{n}</strong><br>{c} · {p}</footer>
-<div class="modal" id="m"><div class="modal-card">
-  <button class="close" onclick="closeM()">×</button>
-  <h3 style="font-family:'Fraunces',serif;margin-bottom:8px">Request a visit</h3>
-  <p style="color:var(--mute);font-size:.92rem;margin-bottom:10px">We’ll confirm availability with {n}.</p>
-  <form onsubmit="event.preventDefault();closeM();alert('Request received. {n} will follow up.');">
-    <input placeholder="Full name *" required>
-    <input placeholder="Phone *" required>
-    <input placeholder="Preferred time window">
-    <button class="btn" style="width:100%;margin-top:8px">Send request</button>
-  </form>
-</div></div>
-<script>function openM(){{document.getElementById('m').classList.add('open')}}function closeM(){{document.getElementById('m').classList.remove('open')}}</script>
+  </section>
+
+  <section class="section grid-2">
+    <div>
+      <h2>What patients say</h2>
+      <div class="quote" style="margin-top:14px">“They explained every option before I felt pushed into treatment. The room felt calm — not clinical-cold.”<br><strong style="display:block;margin-top:10px;color:var(--ink)">— M. R., {c}</strong></div>
+      <div class="quote" style="margin-top:12px">“Booking was simple and the follow-up notes were actually useful.”<br><strong style="display:block;margin-top:10px;color:var(--ink)">— A. K., {c}</strong></div>
+    </div>
+    <div>
+      <h2>Transparent fee examples</h2>
+      <p class="lead">Illustrative ranges for planning conversations — confirmed after exam.</p>
+      <table class="table">
+        <tr><th>Service</th><th>From</th></tr>
+        <tr><td>New patient exam</td><td>$89</td></tr>
+        <tr><td>Hygiene / cleaning visit</td><td>$120</td></tr>
+        <tr><td>Whitening package</td><td>$350</td></tr>
+        <tr><td>Custom treatment plan</td><td>Quoted after consult</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>FAQ</h2>
+    {faq}
+  </section>
+</main>
+<footer class="footer"><strong style="color:var(--ink);font-family:'Fraunces',serif;font-size:1.2rem">{n}</strong><br>{c} · {p}</footer>
+{self._modal(name, "Request a visit", ["Full name *", "Phone *", "Preferred time window", "Notes (optional)"], "Send request")}
 </body></html>"""
 
-    # ================================================================== DINING
+    # ================================================================= DINING
     def _dining(self, name: str, cat: str, city: str, phone: str) -> str:
-        n, c, p = self._esc(name), self._esc(city), self._esc(phone)
-        cards = self._cards([
-            ("Seasonal tasting", "A kitchen-led sequence that changes with the market, not the calendar app."),
-            ("Cellar pairing", "Bottles chosen to support the plate — quiet luxury, not spectacle."),
-            ("Chef’s table", "Intimate service for celebrations and client dinners."),
-        ], "mc")
+        n, c, p = self._e(name), self._e(city), self._e(phone)
+        menu = [
+            ("01 · Raw", "Wagyu tartare", "Black garlic, cured yolk, crisp shallot."),
+            ("02 · Fire", "Coal-grilled catch", "Citrus beurre, herb oil, charred lemon."),
+            ("03 · Slow", "Short rib glaze", "Root vegetables, bone jus, pickled mustard."),
+            ("04 · Green", "Market leaves", "Seasonal crunch, aged vinegar, seeds."),
+            ("05 · Sweet", "Dark chocolate pave", "Olive oil, sea salt, cacao nib."),
+            ("06 · Pour", "Sommelier pairing", "Three glasses matched to the kitchen."),
+        ]
+        menu_html = "".join(
+            f"<article class='card'><div class='k'>{self._e(k)}</div><h3>{self._e(t)}</h3><p>{self._e(d)}</p></article>"
+            for k, t, d in menu
+        )
+        faq = self._faq([
+            ("Do you take walk-ins?", "Limited bar seats some nights. Reservations are recommended for the dining room."),
+            ("Can you host private events?", f"Yes — {n} offers private dining for celebrations and client dinners."),
+            ("Dietary needs?", "We accommodate vegetarian and most allergies with advance notice."),
+        ])
+        art = """
+<svg viewBox="0 0 800 360" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <rect width="800" height="360" fill="#1C1816"/>
+  <circle cx="160" cy="220" r="90" fill="#2A201C"/>
+  <circle cx="160" cy="220" r="55" fill="#3A2A22"/>
+  <circle cx="400" cy="150" r="8" fill="#C45C26" opacity=".9"/>
+  <circle cx="460" cy="190" r="5" fill="#D8B56A" opacity=".7"/>
+  <circle cx="520" cy="130" r="6" fill="#C45C26" opacity=".55"/>
+  <circle cx="580" cy="210" r="7" fill="#D8B56A" opacity=".5"/>
+  <path d="M300 280 C420 200, 520 320, 700 240" stroke="#C45C26" stroke-width="2" fill="none" opacity=".35"/>
+  <text x="300" y="90" fill="#D8B56A" font-family="Georgia, serif" font-size="28">Evening service</text>
+</svg>"""
         return f"""<!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{n} · {c}</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Outfit:wght@300;400;500;600&display=swap');
+{self._base_css_common()}
 :root{{--bg:#14110F;--panel:#1C1816;--ink:#F4EFE6;--mute:#B7A99A;--line:rgba(244,239,230,.12);--ember:#C45C26;--gold:#D8B56A}}
-*{{box-sizing:border-box;margin:0;padding:0}}
-body{{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--ink);line-height:1.75}}
-.nav{{display:flex;justify-content:space-between;align-items:center;padding:22px 7vw;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(20,17,15,.9);backdrop-filter:blur(12px);z-index:20}}
-.logo{{font-family:'Cormorant Garamond',serif;font-size:1.7rem;letter-spacing:.04em;color:var(--ink);text-decoration:none}}
-.btn{{background:var(--ember);color:#fff;border:0;padding:12px 22px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:.72rem;cursor:pointer}}
-.btn:hover{{background:var(--gold);color:#1a1208}}
-.hero{{min-height:72vh;display:grid;place-items:center;text-align:center;padding:80px 7vw;background:
- radial-gradient(ellipse at 50% 0%, rgba(196,92,38,.22), transparent 55%),
- linear-gradient(180deg,#1a1512 0%, #14110F 70%);}}
-.kicker{{color:var(--gold);letter-spacing:.28em;text-transform:uppercase;font-size:.72rem;margin-bottom:18px}}
-h1{{font-family:'Cormorant Garamond',serif;font-size:clamp(2.8rem,7vw,5rem);font-weight:500;line-height:1.05;margin-bottom:18px}}
-h1 em{{font-style:italic;color:var(--gold)}}
-.lead{{color:var(--mute);max-width:36rem;margin:0 auto 30px;font-weight:300;font-size:1.08rem}}
-.section{{padding:70px 7vw}}
-.section h2{{font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:500;margin-bottom:10px;text-align:center}}
-.sub{{color:var(--mute);text-align:center;margin-bottom:34px}}
-.grid{{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}}
-@media(max-width:900px){{.grid{{grid-template-columns:1fr}}}}
-.mc{{background:var(--panel);border:1px solid var(--line);padding:28px}}
-.mc h3{{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:500;margin-bottom:10px;color:var(--gold)}}
-.mc p{{color:var(--mute);font-weight:300}}
-.tool{{margin:0 7vw 70px;border:1px solid var(--line);background:var(--panel);padding:42px;text-align:center}}
-.val{{font-family:'Cormorant Garamond',serif;font-size:2.6rem;color:var(--gold);margin:12px 0}}
-input[type=range]{{width:min(100%,420px);accent-color:var(--ember)}}
-footer{{padding:42px 7vw;border-top:1px solid var(--line);text-align:center;color:var(--mute);font-weight:300}}
-.modal{{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);align-items:center;justify-content:center;padding:18px;z-index:40}}
-.modal.open{{display:flex}}
-.modal-card{{background:#1C1816;border:1px solid var(--line);padding:28px;width:min(440px,100%);position:relative}}
-.modal-card input{{width:100%;margin:8px 0;padding:12px;background:#14110F;border:1px solid var(--line);color:var(--ink)}}
-.close{{position:absolute;right:12px;top:8px;border:0;background:none;color:var(--mute);font-size:1.4rem;cursor:pointer}}
+body{{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--ink);line-height:1.75;font-weight:300}}
+.nav{{background:rgba(20,17,15,.9);border-bottom:1px solid var(--line)}}
+.logo{{font-family:'Cormorant Garamond',serif;font-size:1.7rem;color:var(--ink);letter-spacing:.03em}}
+.btn.primary{{background:var(--ember);color:#fff;border-radius:0;text-transform:uppercase;letter-spacing:.08em;font-size:.72rem}}
+.btn.ghost{{border:1px solid var(--line);color:var(--ink);border-radius:0}}
+.pill,.k{{color:var(--gold);letter-spacing:.22em;text-transform:uppercase;font-size:.7rem;font-weight:600}}
+h1,h2,h3{{font-family:'Cormorant Garamond',serif;font-weight:500}}
+.hero{{min-height:78vh;display:grid;place-items:center;text-align:center;padding:90px 4vw;background:radial-gradient(ellipse at 50% 0%,rgba(196,92,38,.22),transparent 55%),linear-gradient(180deg,#1a1512,#14110F 70%)}}
+.card{{background:var(--panel);border:1px solid var(--line);border-radius:0}}
+.card h3{{font-size:1.45rem;color:var(--gold)}}
+.card p,.lead,.muted{{color:var(--mute)}}
+.tool{{background:var(--panel);border:1px solid var(--line);border-radius:0}}
+.tool .val{{color:var(--gold);font-family:'Cormorant Garamond',serif;font-weight:500}}
+.faq{{border-color:var(--line)}}
+.footer{{border-top:1px solid var(--line);color:var(--mute)}}
+.quote{{background:var(--panel);border:1px solid var(--line);border-radius:0}}
+.step{{border-bottom:1px solid var(--line)}}
+input[type=range]{{accent-color:var(--ember)}}
+.modal-card input{{background:#14110F;border-color:var(--line);color:var(--ink)}}
 </style></head><body>
-<nav><a class="logo" href="#">{n}</a><button class="btn" onclick="openM()">Reserve</button></nav>
+<nav class="nav"><a class="logo" href="#">{n}</a><button class="btn primary" onclick="openM()">Reserve</button></nav>
 <section class="hero">
-  <div>
-    <div class="kicker">Dining room · {c}</div>
-    <h1>An evening of <em>fire, craft & quiet luxury</em></h1>
-    <p class="lead">{n} is a warm nocturnal dining room — ember light, considered pacing, and plates built for memory, not trends.</p>
-    <button class="btn" onclick="openM()">Request a table</button>
+  <div class="wrap">
+    <div class="k">Dining room · {c}</div>
+    <h1 style="font-size:clamp(2.8rem,7vw,5rem);line-height:1.05;margin:14px 0 16px">An evening of <em style="color:var(--gold);font-style:italic">fire, craft & quiet luxury</em></h1>
+    <p class="lead" style="margin:0 auto 26px">{n} is a warm nocturnal room — ember light, considered pacing, plates built for memory.</p>
+    <div class="actions" style="justify-content:center">
+      <button class="btn primary" onclick="openM()">Request a table</button>
+      <a class="btn ghost" href="#menu">View tasting notes</a>
+    </div>
   </div>
 </section>
-<section class="section">
-  <h2>The room, the kitchen, the cellar</h2>
-  <p class="sub">Hospitality design: dark timber mood, serif romance, restrained gold — appetite without neon carnival.</p>
-  <div class="grid">{cards}</div>
-</section>
-<section class="tool">
-  <div class="kicker">Private dining</div>
-  <h2 style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:500;margin:8px 0">Guest count estimator</h2>
-  <p class="sub" style="margin-bottom:8px">Estimate a tasting package for your celebration.</p>
-  <div class="val" id="v">12 guests · ~$4,560</div>
-  <input type="range" min="2" max="40" value="12" oninput="document.getElementById('v').textContent=this.value+' guests · ~$'+(this.value*380).toLocaleString()">
-  <div style="margin-top:18px"><button class="btn" onclick="openM()">Hold a private room</button></div>
-</section>
-<footer>{n} · {c} · Reservations {p}</footer>
-<div class="modal" id="m"><div class="modal-card">
-  <button class="close" onclick="closeM()">×</button>
-  <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;margin-bottom:8px">Table request</h3>
-  <form onsubmit="event.preventDefault();closeM();alert('Reservation request sent to {n}.');">
-    <input placeholder="Name *" required><input placeholder="Phone *" required><input placeholder="Date / time preference">
-    <button class="btn" style="width:100%;margin-top:8px">Send</button>
-  </form>
-</div></div>
-<script>function openM(){{document.getElementById('m').classList.add('open')}}function closeM(){{document.getElementById('m').classList.remove('open')}}</script>
+<main class="wrap">
+  <section class="section" style="padding-top:40px">{art}</section>
+  <section class="section" id="menu">
+    <h2 style="text-align:center">Tasting notes</h2>
+    <p class="lead" style="text-align:center;margin-left:auto;margin-right:auto">A kitchen-led sequence — not a laminated tourist menu.</p>
+    <div class="grid-3">{menu_html}</div>
+  </section>
+  <section class="section grid-2">
+    <div>
+      <h2>Private dining</h2>
+      <p class="lead">For birthdays, closings, and the dinners that need a quieter room.</p>
+      <div class="quote">“The pacing was perfect — we never felt rushed, and the wine pairings actually supported the food.”<br><strong style="color:var(--ink)">— Guest review, {c}</strong></div>
+    </div>
+    <div class="tool">
+      <div class="k">Estimator</div>
+      <h2 style="font-size:1.8rem;margin:8px 0">Guest count</h2>
+      <div class="val" id="v">12 guests · ~$4,560</div>
+      <input type="range" min="2" max="40" value="12" oninput="document.getElementById('v').textContent=this.value+' guests · ~$'+(this.value*380).toLocaleString()">
+      <div style="margin-top:14px"><button class="btn primary" onclick="openM()">Hold a private room</button></div>
+    </div>
+  </section>
+  <section class="section">
+    <h2>Hours & contact</h2>
+    <table class="table" style="color:var(--ink)">
+      <tr><td style="color:var(--mute)">Tue–Thu</td><td>17:30 – 22:30</td></tr>
+      <tr><td style="color:var(--mute)">Fri–Sat</td><td>17:00 – 23:30</td></tr>
+      <tr><td style="color:var(--mute)">Sunday</td><td>Chef’s table only</td></tr>
+      <tr><td style="color:var(--mute)">Reservations</td><td>{p}</td></tr>
+    </table>
+  </section>
+  <section class="section"><h2>FAQ</h2>{faq}</section>
+</main>
+<footer class="footer">{n} · {c} · {p}</footer>
+{self._modal(name, "Table request", ["Name *", "Phone *", "Date / time preference", "Party size"], "Send", dark=True)}
 </body></html>"""
 
-    # ================================================================== LEGAL
+    # ================================================================= LEGAL
     def _legal(self, name: str, cat: str, city: str, phone: str) -> str:
-        n, c, p = self._esc(name), self._esc(city), self._esc(phone)
-        cards = self._cards([
-            ("Disputes", "Commercial and civil matters with disciplined case architecture."),
-            ("Counsel", "Contracts and governance before conflict becomes expensive."),
-            ("Confidential matters", "Discreet engagement for executives and family offices."),
+        n, c, p = self._e(name), self._e(city), self._e(phone)
+        practices = [
+            ("Corporate disputes", "Shareholder, partnership, and contract litigation with disciplined prep."),
+            ("Commercial counsel", "Agreements and negotiations before conflict becomes expensive."),
+            ("Intellectual property", "Brand, trade secret, and infringement matters."),
+            ("Executive matters", "Sensitive issues handled with discretion."),
+            ("Cross-border", "Multi-jurisdiction coordination when the file isn’t local-only."),
+            ("Settlement strategy", "Leverage mapping — not performative aggression."),
+        ]
+        cards = "".join(f"<article class='card'><h3>{self._e(t)}</h3><p>{self._e(d)}</p></article>" for t, d in practices)
+        steps = self._steps([
+            ("Confidential intake", "We scope the matter and conflicts check."),
+            ("Case architecture", "Facts, risks, leverage, and options in plain language."),
+            ("Execution", "Negotiation or litigation with measured updates."),
+        ])
+        faq = self._faq([
+            ("Is the first conversation privileged?", "We treat initial inquiries as confidential. Formal engagement terms are confirmed in writing."),
+            ("Do you work on contingency?", "Depends on matter type. Fee structure is discussed after intake."),
+            ("How fast can you start?", f"{n} typically responds within one business day in {c}."),
         ])
         return f"""<!DOCTYPE html>
 <html lang="en"><head>
@@ -308,590 +471,660 @@ footer{{padding:42px 7vw;border-top:1px solid var(--line);text-align:center;colo
 <title>{n} · Counsel · {c}</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@400;600;700&display=swap');
-:root{{--bg:#F7F4EF;--ink:#1B1A17;--mute:#6B6560;--line:#E4DDD2;--navy:#1F2A44;--brass:#9C7A3C}}
-*{{box-sizing:border-box;margin:0;padding:0}}
-body{{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--ink);line-height:1.75}}
-header{{display:flex;justify-content:space-between;align-items:center;padding:26px 8vw;border-bottom:1px solid var(--line);background:#FFFEFB;position:sticky;top:0;z-index:10}}
-.logo{{font-family:'Libre Baskerville',serif;font-size:1.15rem;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;color:var(--navy)}}
-.btn{{background:var(--navy);color:#fff;border:0;padding:12px 18px;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}}
-.btn.gold{{background:var(--brass);color:#fff}}
-.hero{{display:grid;grid-template-columns:1.2fr .8fr;gap:48px;padding:80px 8vw;align-items:start;border-bottom:1px solid var(--line);background:#FFFEFB}}
-@media(max-width:900px){{.hero{{grid-template-columns:1fr;padding:40px 6vw}}}}
-.k{{color:var(--brass);font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:14px}}
-h1{{font-family:'Libre Baskerville',serif;font-size:clamp(2rem,4vw,3.2rem);line-height:1.2;color:var(--navy);margin-bottom:18px}}
-.lead{{color:var(--mute);max-width:34rem;margin-bottom:28px;font-size:1.05rem}}
-.panel{{border:1px solid var(--line);background:var(--bg);padding:28px}}
-.panel h3{{font-family:'Libre Baskerville',serif;font-size:1.25rem;margin-bottom:10px;color:var(--navy)}}
-.section{{padding:64px 8vw}}
-.section h2{{font-family:'Libre Baskerville',serif;font-size:1.9rem;color:var(--navy);margin-bottom:8px}}
-.sub{{color:var(--mute);margin-bottom:24px}}
-.grid{{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}}
-@media(max-width:900px){{.grid{{grid-template-columns:1fr}}}}
-.card{{background:#FFFEFB;border:1px solid var(--line);padding:24px}}
-.card h3{{font-family:'Libre Baskerville',serif;font-size:1.15rem;margin-bottom:8px;color:var(--navy)}}
-.card p{{color:var(--mute)}}
-.tool{{margin:0 8vw 70px;background:#FFFEFB;border:1px solid var(--line);padding:36px;text-align:center}}
-.val{{font-family:'Libre Baskerville',serif;font-size:2rem;color:var(--brass);margin:12px 0}}
-input[type=range]{{width:min(100%,420px);accent-color:var(--navy)}}
-footer{{background:var(--navy);color:#C9C4B8;padding:42px 8vw;text-align:center}}
-.modal{{display:none;position:fixed;inset:0;background:rgba(27,26,23,.5);align-items:center;justify-content:center;padding:18px;z-index:40}}
-.modal.open{{display:flex}}
-.modal-card{{background:#FFFEFB;padding:28px;width:min(440px,100%);border:1px solid var(--line);position:relative}}
-.modal-card input{{width:100%;margin:8px 0;padding:12px;border:1px solid var(--line)}}
-.close{{position:absolute;right:12px;top:8px;border:0;background:none;font-size:1.4rem;cursor:pointer;color:var(--mute)}}
+{self._base_css_common()}
+:root{{--bg:#F7F4EF;--ink:#1B1A17;--mute:#6B6560;--line:#E4DDD2;--navy:#1E3A8A;--brass:#B45309}}
+body{{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--ink)}}
+.nav{{background:#FFFEFB;border-bottom:1px solid var(--line)}}
+.logo{{font-family:'Libre Baskerville',serif;font-size:1.05rem;letter-spacing:.12em;text-transform:uppercase;color:var(--navy)}}
+.btn.primary{{background:var(--navy);color:#fff;border-radius:0}}
+.btn.ghost{{border:1px solid var(--navy);color:var(--navy);border-radius:0;background:transparent}}
+.pill{{background:transparent;color:var(--brass);border:0;padding:0;letter-spacing:.16em}}
+h1,h2,h3,h4{{font-family:'Libre Baskerville',serif;color:var(--navy);font-weight:700}}
+.hero{{padding:70px 0;background:#FFFEFB;border-bottom:1px solid var(--line)}}
+.card{{background:#FFFEFB;border:1px solid var(--line);border-radius:0}}
+.card p,.lead,.muted{{color:var(--mute)}}
+.panel{{border:1px solid var(--line);background:var(--bg);padding:24px}}
+.tool{{background:#FFFEFB;border:1px solid var(--line);border-radius:0}}
+.tool .val{{color:var(--brass);font-family:'Libre Baskerville',serif}}
+.faq{{border-color:var(--line);background:#FFFEFB;border-radius:0}}
+.footer{{background:var(--navy);color:#C9C4B8}}
+.quote{{background:#FFFEFB;border:1px solid var(--line);border-radius:0}}
+input[type=range]{{accent-color:var(--navy)}}
+.seal{{width:120px;height:120px;border:2px solid var(--brass);border-radius:50%;display:grid;place-items:center;margin:0 auto 12px;font-family:'Libre Baskerville',serif;color:var(--brass);text-align:center;font-size:.75rem;letter-spacing:.08em}}
 </style></head><body>
-<header><a class="logo" href="#">{n}</a><button class="btn" onclick="openM()">Consultation</button></header>
-<section class="hero">
-  <div>
-    <div class="k">Counsel · {c}</div>
-    <h1>Advocacy with composure. Strategy without theatrics.</h1>
-    <p class="lead">{n} advises and represents clients who value preparation, discretion, and direct communication.</p>
-    <button class="btn gold" onclick="openM()">Schedule evaluation</button>
-  </div>
-  <aside class="panel">
-    <div class="k">Intake</div>
-    <h3>Privileged first conversation</h3>
-    <p style="color:var(--mute);margin-bottom:14px">Direct attorney line: <strong style="color:var(--ink)">{p}</strong></p>
-    <p style="color:var(--mute);font-size:.92rem">Legal design language: paper, brass, navy — authority that feels institutional, not flashy.</p>
-  </aside>
-</section>
-<section class="section">
-  <h2>Practice focus</h2>
-  <p class="sub">Structured for trust: long-form readability, serif headlines, zero gimmicks.</p>
-  <div class="grid">{cards}</div>
-</section>
-<section class="tool">
-  <div class="k">Matter scale</div>
-  <h2 style="font-family:'Libre Baskerville',serif;font-size:1.6rem;color:var(--navy);margin:8px 0">Confidential range indicator</h2>
-  <div class="val" id="v">$1,500,000 matter scale</div>
-  <input type="range" min="100000" max="10000000" step="100000" value="1500000" oninput="document.getElementById('v').textContent='$'+parseInt(this.value).toLocaleString()+' matter scale'">
-  <div style="margin-top:16px"><button class="btn" onclick="openM()">Begin confidential inquiry</button></div>
-</section>
-<footer>{n}<br>{c} · {p}</footer>
-<div class="modal" id="m"><div class="modal-card">
-  <button class="close" onclick="closeM()">×</button>
-  <h3 style="font-family:'Libre Baskerville',serif;margin-bottom:8px">Confidential inquiry</h3>
-  <form onsubmit="event.preventDefault();closeM();alert('Inquiry received by {n}.');">
-    <input placeholder="Name *" required><input placeholder="Phone *" required><input placeholder="Brief matter summary">
-    <button class="btn" style="width:100%;margin-top:8px">Submit</button>
-  </form>
-</div></div>
-<script>function openM(){{document.getElementById('m').classList.add('open')}}function closeM(){{document.getElementById('m').classList.remove('open')}}</script>
+<nav class="nav"><a class="logo" href="#">{n}</a><button class="btn primary" onclick="openM()">Consultation</button></nav>
+<main class="wrap">
+  <section class="hero grid-2">
+    <div>
+      <div class="pill">Counsel · {c}</div>
+      <h1 style="font-size:clamp(2rem,4vw,3.1rem);line-height:1.2;margin:12px 0 16px">Advocacy with composure. Strategy without theatrics.</h1>
+      <p class="lead">{n} represents clients who value preparation, discretion, and direct communication — not billboard bravado.</p>
+      <div class="actions">
+        <button class="btn primary" onclick="openM()">Schedule evaluation</button>
+        <a class="btn ghost" href="#practice">Practice areas</a>
+      </div>
+    </div>
+    <aside class="panel">
+      <div class="seal">EST.<br>COUNSEL</div>
+      <h3 style="text-align:center;margin-bottom:8px">Privileged first conversation</h3>
+      <p class="muted" style="text-align:center">Direct line: <strong style="color:var(--ink)">{p}</strong></p>
+      <p class="muted" style="text-align:center;margin-top:10px;font-size:.92rem">Legal design: paper, brass, navy — institutional trust (Legal Services palette).</p>
+    </aside>
+  </section>
+
+  <section class="section" id="practice">
+    <h2>Practice focus</h2>
+    <p class="lead">Structured for authority: long-form readability, serif headlines, zero gimmicks.</p>
+    <div class="grid-3">{cards}</div>
+  </section>
+
+  <section class="section grid-2">
+    <div>
+      <h2>How engagement works</h2>
+      <div class="card">{steps}</div>
+    </div>
+    <div class="tool">
+      <div class="pill">Matter scale</div>
+      <h2 style="font-size:1.45rem;margin:8px 0">Confidential range</h2>
+      <div class="val" id="v">$1,500,000 matter scale</div>
+      <input type="range" min="100000" max="10000000" step="100000" value="1500000" oninput="document.getElementById('v').textContent='$'+parseInt(this.value).toLocaleString()+' matter scale'">
+      <div style="margin-top:14px"><button class="btn primary" onclick="openM()">Begin inquiry</button></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Selected commentary</h2>
+    <div class="quote">“They translated a messy commercial dispute into a clear decision tree. No theatrics — just leverage and timing.”<br><strong style="color:var(--navy)">— General Counsel, {c}</strong></div>
+  </section>
+
+  <section class="section"><h2>FAQ</h2>{faq}</section>
+</main>
+<footer class="footer">{n}<br>{c} · {p}</footer>
+{self._modal(name, "Confidential inquiry", ["Name *", "Phone *", "Brief matter summary", "Company (optional)"], "Submit")}
 </body></html>"""
 
-    # ================================================================== REALTY
+    # ================================================================= REALTY
     def _realty(self, name: str, cat: str, city: str, phone: str) -> str:
-        n, c, p = self._esc(name), self._esc(city), self._esc(phone)
+        n, c, p = self._e(name), self._e(city), self._e(phone)
+        listings = [
+            ("Skyline residence", "$4.5M", "Stone kitchen, evening terrace, private lift lobby."),
+            ("Waterfront house", "$7.2M", "Dock access, garden rooms, quiet morning light."),
+            ("Courtyard loft", "$1.9M", "Double-height volume, raw timber, city quiet."),
+        ]
+        list_html = "".join(
+            f"<article class='card listing'><div class='photo'></div><div class='meta'><h3>{self._e(t)}</h3><div class='price'>{self._e(pr)}</div><p>{self._e(d)}</p></div></article>"
+            for t, pr, d in listings
+        )
+        faq = self._faq([
+            ("Do you handle off-market?", f"Yes. {n} maintains a private shortlist for qualified buyers."),
+            ("Buyer or seller focused?", "Both — search advisory and discreet sale strategy."),
+            ("International clients?", f"We regularly coordinate remote viewings for {c} inventory."),
+        ])
         return f"""<!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{n} · Properties · {c}</title>
+<title>{n} · {c}</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&display=swap');
-:root{{--bg:#F3EFE7;--ink:#1C1916;--mute:#6F675E;--line:#DDD4C6;--forest:#2F4F3E;--clay:#A56B45}}
-*{{box-sizing:border-box;margin:0;padding:0}}
-body{{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}}
-.nav{{display:flex;justify-content:space-between;align-items:center;padding:18px 6vw;position:absolute;left:0;right:0;top:0;z-index:5;color:#fff}}
-.logo{{font-family:'Instrument Serif',serif;font-size:1.6rem;color:#fff;text-decoration:none}}
-.btn{{background:#fff;color:var(--ink);border:0;padding:11px 18px;font-weight:700;font-size:.78rem;letter-spacing:.04em;text-transform:uppercase;cursor:pointer}}
-.btn.dark{{background:var(--forest);color:#fff}}
-.hero{{min-height:78vh;display:flex;align-items:flex-end;padding:0 6vw 70px;background:
- linear-gradient(180deg,rgba(28,25,22,.15),rgba(28,25,22,.72)),
- url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="%233a4d3f"/><stop offset="1" stop-color="%237a5a3a"/></linearGradient></defs><rect width="100%" height="100%" fill="url(%23g)"/><circle cx="70%" cy="30%" r="220" fill="%23ffffff11"/><rect x="8%" y="48%" width="38%" height="28%" fill="%2300000018"/></svg>');
- background-size:cover;color:#fff}}
-.hero .k{{letter-spacing:.22em;text-transform:uppercase;font-size:.72rem;opacity:.85;margin-bottom:12px}}
-.hero h1{{font-family:'Instrument Serif',serif;font-size:clamp(2.6rem,6vw,4.6rem);line-height:1.05;max-width:14ch;font-weight:400;margin-bottom:14px}}
-.hero p{{max-width:34rem;opacity:.9;margin-bottom:22px}}
-.section{{padding:70px 6vw}}
-.section h2{{font-family:'Instrument Serif',serif;font-size:2.4rem;font-weight:400;margin-bottom:8px}}
-.sub{{color:var(--mute);margin-bottom:26px}}
-.listings{{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}}
-@media(max-width:900px){{.listings{{grid-template-columns:1fr}}}}
-.photo{{min-height:320px;background:linear-gradient(135deg,#6d7f6a,#c2a27a);border:1px solid var(--line);padding:24px;display:flex;flex-direction:column;justify-content:flex-end;color:#fff}}
-.photo h3{{font-family:'Instrument Serif',serif;font-size:2rem;font-weight:400}}
-.side-card{{background:#fff;border:1px solid var(--line);padding:24px}}
-.side-card + .side-card{{margin-top:14px}}
-.price{{font-family:'Instrument Serif',serif;font-size:1.8rem;color:var(--forest);margin-top:8px}}
-.tool{{margin:0 6vw 70px;background:#fff;border:1px solid var(--line);padding:36px;text-align:center}}
-.val{{font-family:'Instrument Serif',serif;font-size:2.2rem;color:var(--clay);margin:12px 0}}
-input[type=range]{{width:min(100%,440px);accent-color:var(--forest)}}
-footer{{padding:40px 6vw;border-top:1px solid var(--line);color:var(--mute);text-align:center}}
-.modal{{display:none;position:fixed;inset:0;background:rgba(28,25,22,.5);align-items:center;justify-content:center;padding:18px;z-index:40}}
-.modal.open{{display:flex}}
-.modal-card{{background:#fff;padding:28px;width:min(440px,100%);position:relative;border:1px solid var(--line)}}
-.modal-card input{{width:100%;margin:8px 0;padding:12px;border:1px solid var(--line)}}
-.close{{position:absolute;right:12px;top:8px;border:0;background:none;font-size:1.4rem;cursor:pointer}}
+{self._base_css_common()}
+:root{{--bg:#F3EFE7;--ink:#1C1916;--mute:#6F675E;--line:#DDD4C6;--forest:#0F766E;--clay:#A56B45}}
+body{{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--ink)}}
+.nav{{position:absolute;left:0;right:0;top:0;background:transparent;color:#fff;border:0}}
+.nav .logo{{color:#fff;font-family:'Instrument Serif',serif;font-size:1.6rem;font-weight:400}}
+.btn.primary{{background:#fff;color:var(--ink);border-radius:0}}
+.btn.dark{{background:var(--forest);color:#fff;border-radius:0}}
+.hero{{min-height:82vh;display:flex;align-items:flex-end;padding:0 6vw 70px;color:#fff;background:
+ linear-gradient(180deg,rgba(28,25,22,.12),rgba(28,25,22,.78)),
+ url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1600' height='1000'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop stop-color='%233a4d3f'/><stop offset='1' stop-color='%237a5a3a'/></linearGradient></defs><rect width='100%25' height='100%25' fill='url(%23g)'/><rect x='10%25' y='42%25' width='36%25' height='30%25' fill='%2300000022'/><circle cx='72%25' cy='28%25' r='200' fill='%23ffffff10'/></svg>");
+ background-size:cover}}
+.hero h1{{font-family:'Instrument Serif',serif;font-weight:400;font-size:clamp(2.6rem,6vw,4.5rem);line-height:1.05;max-width:14ch;margin:10px 0 14px}}
+.hero p{{max-width:34rem;opacity:.92;margin-bottom:18px}}
+.k{{letter-spacing:.2em;text-transform:uppercase;font-size:.72rem;opacity:.85}}
+h2,h3{{font-family:'Instrument Serif',serif;font-weight:400}}
+.card{{background:#fff;border:1px solid var(--line);border-radius:0;padding:0;overflow:hidden}}
+.listing .photo{{min-height:170px;background:linear-gradient(135deg,#6d7f6a,#c2a27a)}}
+.listing:nth-child(2) .photo{{background:linear-gradient(135deg,#4b6b6a,#b9a189)}}
+.listing:nth-child(3) .photo{{background:linear-gradient(135deg,#7a6a58,#d2c2a8)}}
+.listing .meta{{padding:18px}}
+.price{{font-family:'Instrument Serif',serif;font-size:1.6rem;color:var(--forest);margin:6px 0}}
+.card p,.lead,.muted{{color:var(--mute)}}
+.tool{{background:#fff;border:1px solid var(--line);border-radius:0}}
+.tool .val{{color:var(--clay);font-family:'Instrument Serif',serif;font-weight:400}}
+.faq{{border-color:var(--line);background:#fff;border-radius:0}}
+.footer{{border-top:1px solid var(--line);color:var(--mute)}}
+input[type=range]{{accent-color:var(--forest)}}
 </style></head><body>
-<nav><a class="logo" href="#">{n}</a><button class="btn" onclick="openM()">Book showing</button></nav>
+<nav class="nav"><a class="logo" href="#">{n}</a><button class="btn primary" onclick="openM()">Book showing</button></nav>
 <section class="hero">
   <div>
     <div class="k">Property · {c}</div>
     <h1>Spaces with architecture, light, and long views</h1>
-    <p>{n} curates residences and investments for buyers who care about proportion, materials, and neighborhood texture — not listing spam.</p>
+    <p>{n} curates residences and investments for buyers who care about proportion and materials — not listing spam.</p>
     <button class="btn dark" onclick="openM()">Request private shortlist</button>
   </div>
 </section>
-<section class="section">
-  <h2>Selected inventory mood</h2>
-  <p class="sub">Real-estate design: large hero, material palette, magazine serif — like an architecture folio.</p>
-  <div class="listings">
-    <div class="photo">
-      <div class="k">Featured</div>
-      <h3>Skyline residence</h3>
-      <p style="opacity:.9;max-width:28rem">Open plan, stone kitchen, evening terrace light. Built for slow living above the city.</p>
-    </div>
+<main class="wrap">
+  <section class="section">
+    <h2>Selected inventory</h2>
+    <p class="lead">Magazine layout: large photography fields, restrained type, Real Estate teal/clay cues.</p>
+    <div class="grid-3">{list_html}</div>
+  </section>
+  <section class="section grid-2">
     <div>
-      <div class="side-card">
-        <div class="k" style="color:var(--mute)">Listing study</div>
-        <h3 style="font-family:'Instrument Serif',serif;font-size:1.5rem;font-weight:400">Waterfront house</h3>
-        <p style="color:var(--mute)">Dock access, garden rooms, quiet morning light.</p>
-        <div class="price">$7.2M</div>
-      </div>
-      <div class="side-card">
-        <div class="k" style="color:var(--mute)">Advisory</div>
-        <h3 style="font-family:'Instrument Serif',serif;font-size:1.5rem;font-weight:400">Yield framing</h3>
-        <p style="color:var(--mute)">We help investors read a property beyond the brochure.</p>
-        <p style="margin-top:10px"><strong>Desk:</strong> {p}</p>
+      <h2>Neighborhood intelligence</h2>
+      <p class="lead">We brief on light, noise, school zones, and resale texture — not just square meters.</p>
+      <div class="card" style="padding:18px">
+        <h3>Desk</h3>
+        <p>Advisory line: <strong style="color:var(--ink)">{p}</strong></p>
+        <p style="margin-top:8px">Typical response window: same business day in {c}.</p>
       </div>
     </div>
-  </div>
-</section>
-<section class="tool">
-  <div class="k" style="letter-spacing:.18em;text-transform:uppercase;font-size:.72rem;color:var(--mute)">Yield sketch</div>
-  <h2 style="font-family:'Instrument Serif',serif;font-size:2rem;font-weight:400;margin:8px 0">Purchase price → annual yield</h2>
-  <div class="val" id="v">$2,500,000 · ~$212,500 / yr</div>
-  <input type="range" min="500000" max="12000000" step="100000" value="2500000" oninput="const y=Math.round(this.value*0.085);document.getElementById('v').textContent='$'+parseInt(this.value).toLocaleString()+' · ~$'+y.toLocaleString()+' / yr'">
-  <div style="margin-top:16px"><button class="btn dark" onclick="openM()">Talk to an advisor</button></div>
-</section>
-<footer>{n} · {c} · {p}</footer>
-<div class="modal" id="m"><div class="modal-card">
-  <button class="close" onclick="closeM()">×</button>
-  <h3 style="font-family:'Instrument Serif',serif;font-size:1.6rem;margin-bottom:8px">Showing request</h3>
-  <form onsubmit="event.preventDefault();closeM();alert('Request sent to {n}.');">
-    <input placeholder="Name *" required><input placeholder="Phone *" required><input placeholder="Budget window">
-    <button class="btn dark" style="width:100%;margin-top:8px">Submit</button>
-  </form>
-</div></div>
-<script>function openM(){{document.getElementById('m').classList.add('open')}}function closeM(){{document.getElementById('m').classList.remove('open')}}</script>
+    <div class="tool">
+      <div class="k" style="color:var(--mute)">Yield sketch</div>
+      <h2 style="font-size:1.8rem;margin:8px 0">Purchase → annual yield</h2>
+      <div class="val" id="v">$2,500,000 · ~$212,500 / yr</div>
+      <input type="range" min="500000" max="12000000" step="100000" value="2500000" oninput="const y=Math.round(this.value*0.085);document.getElementById('v').textContent='$'+parseInt(this.value).toLocaleString()+' · ~$'+y.toLocaleString()+' / yr'">
+      <div style="margin-top:14px"><button class="btn dark" onclick="openM()">Talk to an advisor</button></div>
+    </div>
+  </section>
+  <section class="section">
+    <h2>Process</h2>
+    {self._steps([
+      ("Brief", "Lifestyle, budget, must-haves, deal-breakers."),
+      ("Shortlist", "3–7 properties with honest tradeoffs."),
+      ("Showing + offer", "Quiet logistics and negotiation support."),
+    ])}
+  </section>
+  <section class="section"><h2>FAQ</h2>{faq}</section>
+</main>
+<footer class="footer">{n} · {c} · {p}</footer>
+{self._modal(name, "Showing request", ["Name *", "Phone *", "Budget window", "Must-haves"], "Submit")}
 </body></html>"""
 
-    # ================================================================== GYM
+    # ================================================================= GYM
     def _gym(self, name: str, cat: str, city: str, phone: str) -> str:
-        n, c, p = self._esc(name), self._esc(city), self._esc(phone)
-        cards = self._cards([
-            ("Strength programming", "Progressive blocks for real lifts, not random workouts."),
-            ("Conditioning", "Engine work that respects joints and recovery."),
-            ("Coaching desk", "Form checks, accountability, and measurable PRs."),
-        ])
+        n, c, p = self._e(name), self._e(city), self._e(phone)
+        cards = "".join(
+            f"<article class='card'><h3>{self._e(t)}</h3><p>{self._e(d)}</p></article>"
+            for t, d in [
+                ("Strength blocks", "Progressive programming for real lifts."),
+                ("Conditioning", "Engine work that respects joints."),
+                ("Coaching desk", "Form checks and measurable PRs."),
+                ("Open gym", "Serious floor, no mirror selfies culture."),
+                ("Hyrox / hybrid", "Optional race prep tracks."),
+                ("Recovery bay", "Mobility and down-regulation after hard days."),
+            ]
+        )
+        schedule = [
+            ("05:30", "Strength Engine"),
+            ("07:00", "Hybrid Conditioning"),
+            ("12:15", "Express Lift"),
+            ("18:00", "Performance Class"),
+            ("19:15", "Olympic Lifts"),
+        ]
+        rows = "".join(f"<tr><td>{t}</td><td>{s}</td></tr>" for t, s in schedule)
         return f"""<!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{n} · Training · {c}</title>
+<title>{n} · {c}</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&display=swap');
-:root{{--bg:#0B0B0C;--panel:#141416;--ink:#F5F5F5;--mute:#A1A1AA;--line:#27272A;--volt:#FF4D00}}
-*{{box-sizing:border-box;margin:0;padding:0}}
-body{{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--ink);line-height:1.65}}
-.nav{{display:flex;justify-content:space-between;align-items:center;padding:18px 6vw;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(11,11,12,.92);z-index:10}}
-.logo{{font-family:'Archivo Black',sans-serif;font-size:1.1rem;letter-spacing:.02em;text-decoration:none;color:#fff}}
-.btn{{background:var(--volt);color:#000;border:0;padding:12px 18px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:.75rem;cursor:pointer}}
-.hero{{padding:80px 6vw 60px;display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:end;border-bottom:1px solid var(--line)}}
-@media(max-width:900px){{.hero{{grid-template-columns:1fr;padding:50px 6vw}}}}
-.k{{color:var(--volt);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.75rem;margin-bottom:14px}}
-h1{{font-family:'Archivo Black',sans-serif;font-size:clamp(2.6rem,7vw,4.8rem);line-height:.95;text-transform:uppercase;margin-bottom:18px}}
-.lead{{color:var(--mute);max-width:32rem;margin-bottom:24px}}
-.statbox{{background:var(--panel);border:1px solid var(--line);padding:24px}}
+{self._base_css_common()}
+:root{{--bg:#0B0B0C;--panel:#141416;--ink:#F5F5F5;--mute:#A1A1AA;--line:#27272A;--volt:#F97316}}
+body{{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--ink)}}
+.nav{{background:rgba(11,11,12,.92);border-bottom:1px solid var(--line)}}
+.logo{{font-family:'Archivo Black',sans-serif;color:#fff;letter-spacing:.02em;text-transform:uppercase}}
+.btn.primary{{background:var(--volt);color:#000;border-radius:0;text-transform:uppercase;letter-spacing:.06em;font-size:.75rem}}
+.btn.ghost{{border:1px solid var(--line);color:#fff;border-radius:0}}
+.pill{{background:transparent;color:var(--volt);padding:0;letter-spacing:.16em}}
+h1,h2{{font-family:'Archivo Black',sans-serif;text-transform:uppercase;letter-spacing:.01em}}
+.hero{{padding:70px 0 40px;border-bottom:1px solid var(--line)}}
+.statbox{{background:var(--panel);border:1px solid var(--line);padding:22px}}
 .statbox strong{{display:block;font-family:'Archivo Black',sans-serif;font-size:2.4rem;color:var(--volt)}}
-.section{{padding:60px 6vw}}
-.section h2{{font-family:'Archivo Black',sans-serif;text-transform:uppercase;font-size:1.8rem;margin-bottom:8px}}
-.sub{{color:var(--mute);margin-bottom:22px}}
-.grid{{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}}
-@media(max-width:900px){{.grid{{grid-template-columns:1fr}}}}
-.card{{background:var(--panel);border:1px solid var(--line);padding:22px}}
-.card h3{{font-size:1.05rem;margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em}}
-.card p{{color:var(--mute)}}
-.tool{{margin:0 6vw 70px;border:1px solid var(--line);background:var(--panel);padding:34px;text-align:center}}
-.val{{font-family:'Archivo Black',sans-serif;font-size:2.4rem;color:var(--volt);margin:12px 0}}
-input[type=range]{{width:min(100%,420px);accent-color:var(--volt)}}
-footer{{padding:36px 6vw;border-top:1px solid var(--line);color:var(--mute);text-align:center}}
-.modal{{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);align-items:center;justify-content:center;padding:18px;z-index:40}}
-.modal.open{{display:flex}}
-.modal-card{{background:#141416;border:1px solid var(--line);padding:26px;width:min(440px,100%);position:relative}}
-.modal-card input{{width:100%;margin:8px 0;padding:12px;background:#0B0B0C;border:1px solid var(--line);color:#fff}}
-.close{{position:absolute;right:12px;top:8px;border:0;background:none;color:var(--mute);font-size:1.4rem;cursor:pointer}}
+.card{{background:var(--panel);border:1px solid var(--line);border-radius:0}}
+.card p,.lead,.muted{{color:var(--mute)}}
+.tool{{background:var(--panel);border:1px solid var(--line);border-radius:0}}
+.tool .val{{color:var(--volt);font-family:'Archivo Black',sans-serif}}
+.faq{{border-color:var(--line)}}
+.footer{{border-top:1px solid var(--line);color:var(--mute)}}
+.table td,.table th{{border-bottom:1px solid var(--line)}}
+.stripe{{height:8px;background:linear-gradient(90deg,var(--volt),#FB923C 40%,transparent)}}
+input[type=range]{{accent-color:var(--volt)}}
+.modal-card input{{background:#0B0B0C;border-color:var(--line);color:#fff}}
 </style></head><body>
-<nav><a class="logo" href="#">{n}</a><button class="btn" onclick="openM()">Join / Trial</button></nav>
-<section class="hero">
-  <div>
-    <div class="k">Training floor · {c}</div>
-    <h1>Train hard.<br>Recover smarter.</h1>
-    <p class="lead">{n} is an athletic room for people who want strength, sweat, and accountability — bold type, high contrast, zero pastel fluff.</p>
-    <button class="btn" onclick="openM()">Start a trial week</button>
-  </div>
-  <div class="statbox">
-    <div class="k">Floor metrics</div>
-    <strong>240+</strong>
-    <span style="color:var(--mute)">active members pushing weekly PRs</span>
-    <p style="margin-top:16px;color:var(--mute)">Coach line: <span style="color:#fff">{p}</span></p>
-  </div>
-</section>
-<section class="section">
-  <h2>Programming pillars</h2>
-  <p class="sub">Fitness psychology: urgency, power, clarity. Orange voltage on black — energy without cyber neon.</p>
-  <div class="grid">{cards}</div>
-</section>
-<section class="tool">
-  <div class="k">Session builder</div>
-  <h2 style="font-family:'Archivo Black',sans-serif;text-transform:uppercase;font-size:1.5rem;margin:8px 0">Weekly training days</h2>
-  <div class="val" id="v">4 days / week</div>
-  <input type="range" min="2" max="6" value="4" oninput="document.getElementById('v').textContent=this.value+' days / week'">
-  <div style="margin-top:16px"><button class="btn" onclick="openM()">Lock my plan</button></div>
-</section>
-<footer>{n} · {c} · {p}</footer>
-<div class="modal" id="m"><div class="modal-card">
-  <button class="close" onclick="closeM()">×</button>
-  <h3 style="text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Trial request</h3>
-  <form onsubmit="event.preventDefault();closeM();alert('Trial request sent to {n}.');">
-    <input placeholder="Name *" required><input placeholder="Phone *" required><input placeholder="Goal (strength / fat loss / hybrid)">
-    <button class="btn" style="width:100%;margin-top:8px">Send</button>
-  </form>
-</div></div>
-<script>function openM(){{document.getElementById('m').classList.add('open')}}function closeM(){{document.getElementById('m').classList.remove('open')}}</script>
+<div class="stripe"></div>
+<nav class="nav"><a class="logo" href="#">{n}</a><button class="btn primary" onclick="openM()">Join / Trial</button></nav>
+<main class="wrap">
+  <section class="hero grid-2">
+    <div>
+      <div class="pill">Training floor · {c}</div>
+      <h1 style="font-size:clamp(2.5rem,7vw,4.5rem);line-height:.95;margin:12px 0 16px">Train hard.<br>Recover smarter.</h1>
+      <p class="lead">{n} is for people who want strength, sweat, and accountability — Fitness/Gym orange voltage on black, no pastel fluff.</p>
+      <div class="actions">
+        <button class="btn primary" onclick="openM()">Start trial week</button>
+        <a class="btn ghost" href="#schedule">Today’s board</a>
+      </div>
+    </div>
+    <div class="statbox">
+      <div class="pill">Floor metrics</div>
+      <strong>240+</strong>
+      <span class="muted">active members logging weekly PRs</span>
+      <p class="muted" style="margin-top:14px">Coach line: <span style="color:#fff">{p}</span></p>
+      <svg viewBox="0 0 320 90" style="margin-top:16px" aria-hidden="true"><polyline fill="none" stroke="#F97316" stroke-width="3" points="0,70 40,60 80,65 120,40 160,48 200,22 240,30 280,12 320,18"/></svg>
+    </div>
+  </section>
+  <section class="section">
+    <h2>Programming pillars</h2>
+    <p class="lead">Urgency + clarity. Conversion-first class layout.</p>
+    <div class="grid-3">{cards}</div>
+  </section>
+  <section class="section grid-2" id="schedule">
+    <div>
+      <h2>Sample weekday board</h2>
+      <table class="table">
+        <tr><th>Time</th><th>Block</th></tr>
+        {rows}
+      </table>
+    </div>
+    <div class="tool">
+      <div class="pill">Session builder</div>
+      <h2 style="font-size:1.3rem;margin:8px 0">Days / week</h2>
+      <div class="val" id="v">4 DAYS</div>
+      <input type="range" min="2" max="6" value="4" oninput="document.getElementById('v').textContent=this.value+' DAYS'">
+      <div style="margin-top:14px"><button class="btn primary" onclick="openM()">Lock my plan</button></div>
+    </div>
+  </section>
+  <section class="section">
+    <h2>Membership sketch</h2>
+    <div class="grid-3">
+      <article class="card"><h3>Drop-in</h3><p>From $35 / session</p></article>
+      <article class="card"><h3>Unlimited</h3><p>From $189 / month</p></article>
+      <article class="card"><h3>Coached 1:1</h3><p>Custom block pricing</p></article>
+    </div>
+  </section>
+  <section class="section"><h2>FAQ</h2>{self._faq([
+    ("Beginner friendly?", "Yes — coaches scale every block."),
+    ("Do I need Olympic experience?", "No. We’ll meet you at your current skill."),
+    ("Parking?", f"Details shared on signup for the {c} location."),
+  ])}</section>
+</main>
+<footer class="footer">{n} · {c} · {p}</footer>
+{self._modal(name, "Trial request", ["Name *", "Phone *", "Goal (strength / fat loss / hybrid)", "Preferred time"], "Send", dark=True)}
 </body></html>"""
 
-    # ================================================================== SPA
+    # ================================================================= SPA
     def _spa(self, name: str, cat: str, city: str, phone: str) -> str:
-        n, c, p = self._esc(name), self._esc(city), self._esc(phone)
-        cards = self._cards([
-            ("Facial rituals", "Skin-first protocols with unhurried pacing."),
-            ("Body treatments", "Tension release and recovery in quiet rooms."),
-            ("Membership calm", "Recurring care without membership pressure theater."),
-        ])
+        n, c, p = self._e(name), self._e(city), self._e(phone)
+        rituals = [
+            ("Facial ritual", "Skin-first protocols, unhurried pacing.", "75–90 min"),
+            ("Body release", "Tension work in quiet rooms.", "60–90 min"),
+            ("Glow add-on", "LED / mask finish for events.", "20 min"),
+            ("Couples room", "Shared calm without noise.", "90 min"),
+            ("Scalp therapy", "Reset for screen-heavy weeks.", "45 min"),
+            ("Membership calm", "Recurring care, no hard sell theater.", "Monthly"),
+        ]
+        cards = "".join(
+            f"<article class='card'><h3>{self._e(t)}</h3><p>{self._e(d)}</p><div class='time'>{self._e(tm)}</div></article>"
+            for t, d, tm in rituals
+        )
+        art = """
+<svg viewBox="0 0 640 360" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <rect width="640" height="360" rx="40" fill="#F3E0D6"/>
+  <ellipse cx="320" cy="190" rx="170" ry="110" fill="#E7C4B8"/>
+  <ellipse cx="250" cy="150" rx="70" ry="90" fill="#F8F1EC"/>
+  <ellipse cx="390" cy="150" rx="70" ry="90" fill="#F8F1EC"/>
+  <circle cx="320" cy="200" r="46" fill="#C9897B" opacity=".85"/>
+  <path d="M200 280 C280 240, 360 300, 440 260" stroke="#C9897B" stroke-width="3" fill="none" opacity=".5"/>
+</svg>"""
         return f"""<!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{n} · Sanctuary · {c}</title>
+<title>{n} · {c}</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600&family=Nunito+Sans:wght@300;400;600;700&display=swap');
-:root{{--bg:#F8F1EC;--ink:#3D2C29;--mute:#8A736C;--line:#E8D8D0;--rose:#C9897B;--cream:#FFFCF9}}
-*{{box-sizing:border-box;margin:0;padding:0}}
-body{{font-family:'Nunito Sans',sans-serif;background:var(--bg);color:var(--ink);line-height:1.8}}
-.nav{{display:flex;justify-content:space-between;align-items:center;padding:22px 7vw;background:rgba(248,241,236,.9);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}}
-.logo{{font-family:'Cormorant',serif;font-size:1.7rem;font-weight:500;text-decoration:none;color:var(--ink)}}
-.btn{{background:var(--rose);color:#fff;border:0;padding:12px 20px;border-radius:999px;font-weight:700;cursor:pointer}}
-.hero{{padding:70px 7vw;display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:center}}
-@media(max-width:900px){{.hero{{grid-template-columns:1fr;padding:40px 6vw}}}}
-.k{{color:var(--rose);letter-spacing:.18em;text-transform:uppercase;font-size:.72rem;font-weight:700;margin-bottom:12px}}
-h1{{font-family:'Cormorant',serif;font-size:clamp(2.4rem,5vw,3.8rem);font-weight:500;line-height:1.12;margin-bottom:14px}}
-.lead{{color:var(--mute);margin-bottom:24px;font-weight:300;font-size:1.05rem}}
-.blob{{min-height:340px;border-radius:40% 60% 55% 45% / 50% 40% 60% 50%;background:
- radial-gradient(circle at 30% 30%, #fff, transparent 45%),
- linear-gradient(160deg,#E7C4B8,#F3E0D6 55%, #D9B7A8);border:1px solid var(--line)}}
-.section{{padding:20px 7vw 70px}}
-.section h2{{font-family:'Cormorant',serif;font-size:2.2rem;font-weight:500;margin-bottom:8px}}
-.sub{{color:var(--mute);margin-bottom:22px}}
-.grid{{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}}
-@media(max-width:900px){{.grid{{grid-template-columns:1fr}}}}
-.card{{background:var(--cream);border:1px solid var(--line);border-radius:24px;padding:24px}}
-.card h3{{font-family:'Cormorant',serif;font-size:1.45rem;font-weight:500;margin-bottom:8px}}
-.card p{{color:var(--mute);font-weight:300}}
-.tool{{margin:0 7vw 70px;background:var(--cream);border:1px solid var(--line);border-radius:28px;padding:36px;text-align:center}}
-.val{{font-family:'Cormorant',serif;font-size:2.2rem;color:var(--rose);margin:12px 0}}
-input[type=range]{{width:min(100%,400px);accent-color:var(--rose)}}
-footer{{padding:40px 7vw;text-align:center;color:var(--mute);border-top:1px solid var(--line)}}
-.modal{{display:none;position:fixed;inset:0;background:rgba(61,44,41,.35);align-items:center;justify-content:center;padding:18px;z-index:40}}
-.modal.open{{display:flex}}
-.modal-card{{background:var(--cream);border-radius:22px;padding:28px;width:min(440px,100%);position:relative;border:1px solid var(--line)}}
-.modal-card input{{width:100%;margin:8px 0;padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff}}
-.close{{position:absolute;right:12px;top:8px;border:0;background:none;font-size:1.4rem;cursor:pointer;color:var(--mute)}}
+{self._base_css_common()}
+:root{{--bg:#F8F1EC;--ink:#3D2C29;--mute:#8A736C;--line:#E8D8D0;--rose:#EC4899;--cream:#FFFCF9;--dust:#C9897B}}
+body{{font-family:'Nunito Sans',sans-serif;background:var(--bg);color:var(--ink);font-weight:300}}
+.nav{{background:rgba(248,241,236,.92);border-bottom:1px solid var(--line)}}
+.logo{{font-family:'Cormorant',serif;font-size:1.7rem;font-weight:500;color:var(--ink)}}
+.btn.primary{{background:var(--dust);color:#fff}}
+.btn.ghost{{background:var(--cream);color:var(--ink);border:1px solid var(--line)}}
+.pill{{background:#F9D0E3;color:#9D174D}}
+h1,h2,h3{{font-family:'Cormorant',serif;font-weight:500}}
+.card{{background:var(--cream);border:1px solid var(--line)}}
+.card .time{{margin-top:12px;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--dust);font-weight:700}}
+.card p,.lead,.muted{{color:var(--mute)}}
+.tool{{background:var(--cream);border:1px solid var(--line)}}
+.tool .val{{color:var(--dust);font-family:'Cormorant',serif}}
+.faq{{border-color:var(--line);background:var(--cream)}}
+.footer{{border-top:1px solid var(--line);color:var(--mute)}}
+.quote{{background:var(--cream);border:1px solid var(--line)}}
+input[type=range]{{accent-color:var(--dust)}}
 </style></head><body>
-<nav><a class="logo" href="#">{n}</a><button class="btn" onclick="openM()">Book ritual</button></nav>
-<section class="hero">
-  <div>
-    <div class="k">Sanctuary · {c}</div>
-    <h1>Soft rooms. Slow rituals. Skin that looks rested.</h1>
-    <p class="lead">{n} is a wellness house for people who want restoration without clinical coldness or flashy spa clichés.</p>
-    <button class="btn" onclick="openM()">Reserve a treatment</button>
-  </div>
-  <div class="blob" aria-hidden="true"></div>
-</section>
-<section class="section">
-  <h2>Rituals</h2>
-  <p class="sub">Wellness design: blush, cream, organic curves — parasympathetic, not promotional neon.</p>
-  <div class="grid">{cards}</div>
-</section>
-<section class="tool">
-  <div class="k">Session length</div>
-  <h2 style="font-family:'Cormorant',serif;font-size:1.8rem;font-weight:500;margin:8px 0">How long do you want to unplug?</h2>
-  <div class="val" id="v">75 minutes</div>
-  <input type="range" min="45" max="120" step="15" value="75" oninput="document.getElementById('v').textContent=this.value+' minutes'">
-  <div style="margin-top:16px"><button class="btn" onclick="openM()">Book this length</button></div>
-</section>
-<footer>{n} · {c} · {p}</footer>
-<div class="modal" id="m"><div class="modal-card">
-  <button class="close" onclick="closeM()">×</button>
-  <h3 style="font-family:'Cormorant',serif;font-size:1.6rem;margin-bottom:8px">Treatment request</h3>
-  <form onsubmit="event.preventDefault();closeM();alert('Request received by {n}.');">
-    <input placeholder="Name *" required><input placeholder="Phone *" required><input placeholder="Treatment interest">
-    <button class="btn" style="width:100%;margin-top:8px">Send</button>
-  </form>
-</div></div>
-<script>function openM(){{document.getElementById('m').classList.add('open')}}function closeM(){{document.getElementById('m').classList.remove('open')}}</script>
+<nav class="nav"><a class="logo" href="#">{n}</a><button class="btn primary" onclick="openM()">Book ritual</button></nav>
+<main class="wrap">
+  <section class="section grid-2" style="padding-top:40px">
+    <div>
+      <div class="pill">Sanctuary · {c}</div>
+      <h1 style="font-size:clamp(2.4rem,5vw,3.6rem);line-height:1.12;margin:12px 0 14px">Soft rooms. Slow rituals. Skin that looks rested.</h1>
+      <p class="lead">{n} is a wellness house for restoration without clinical coldness — Beauty/Spa palette, organic shapes, Nature Distilled calm.</p>
+      <div class="actions">
+        <button class="btn primary" onclick="openM()">Reserve a treatment</button>
+        <a class="btn ghost" href="#rituals">View rituals</a>
+      </div>
+    </div>
+    <div>{art}</div>
+  </section>
+  <section class="section" id="rituals">
+    <h2>Ritual menu</h2>
+    <p class="lead">Each service includes consultation, treatment, and aftercare notes.</p>
+    <div class="grid-3">{cards}</div>
+  </section>
+  <section class="section grid-2">
+    <div class="quote">“I stopped dreading facials. The room is quiet, the pacing is human, and nobody upsold me into a 12-step cult.”<br><strong style="color:var(--ink)">— Guest, {c}</strong></div>
+    <div class="tool">
+      <div class="pill">Session length</div>
+      <h2 style="font-size:1.7rem;margin:8px 0">How long to unplug?</h2>
+      <div class="val" id="v">75 minutes</div>
+      <input type="range" min="45" max="120" step="15" value="75" oninput="document.getElementById('v').textContent=this.value+' minutes'">
+      <div style="margin-top:14px"><button class="btn primary" onclick="openM()">Book this length</button></div>
+    </div>
+  </section>
+  <section class="section">
+    <h2>House notes</h2>
+    <table class="table">
+      <tr><td>Arrive</td><td>10 minutes early for tea + intake</td></tr>
+      <tr><td>Contraindications</td><td>Please share pregnancy/meds in advance</td></tr>
+      <tr><td>Contact</td><td>{p}</td></tr>
+    </table>
+  </section>
+  <section class="section"><h2>FAQ</h2>{self._faq([
+    ("Gift cards?", "Yes — digital or printed."),
+    ("Couples bookings?", "Available on selected evenings."),
+    ("Parking?", f"Shared on confirmation for {c}."),
+  ])}</section>
+</main>
+<footer class="footer">{n} · {c} · {p}</footer>
+{self._modal(name, "Treatment request", ["Name *", "Phone *", "Treatment interest", "Preferred daypart"], "Send")}
 </body></html>"""
 
-    # ================================================================== JEWELRY
+    # ================================================================= JEWELRY
     def _jewelry(self, name: str, cat: str, city: str, phone: str) -> str:
-        n, c, p = self._esc(name), self._esc(city), self._esc(phone)
+        n, c, p = self._e(name), self._e(city), self._e(phone)
+        pieces = [
+            ("Solitaire study", "Quiet brilliance, precise proportions."),
+            ("Eternity line", "Continuous light for everyday wear."),
+            ("Atelier custom", "Stone-first commissions with sketches."),
+            ("Heritage reset", "Modern settings for inherited stones."),
+            ("Evening collar", "Statement geometry without noise."),
+            ("Signet revival", "Personal seals, contemporary weight."),
+        ]
+        cards = "".join(f"<article class='card'><div class='gem'></div><h3>{self._e(t)}</h3><p>{self._e(d)}</p></article>" for t, d in pieces)
         return f"""<!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{n} · Atelier · {c}</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,500;6..96,600&family=Inter:wght@300;400;500;600&display=swap');
+{self._base_css_common()}
 :root{{--bg:#0E0E0F;--ink:#F7F3EA;--mute:#A39E93;--line:rgba(247,243,234,.14);--gold:#C2A46B}}
-*{{box-sizing:border-box;margin:0;padding:0}}
-body{{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);line-height:1.75}}
-.nav{{display:flex;justify-content:space-between;align-items:center;padding:22px 7vw;border-bottom:1px solid var(--line)}}
-.logo{{font-family:'Bodoni Moda',serif;font-size:1.5rem;letter-spacing:.08em;text-decoration:none;color:var(--ink)}}
-.btn{{border:1px solid var(--gold);color:var(--gold);background:transparent;padding:11px 18px;letter-spacing:.12em;text-transform:uppercase;font-size:.68rem;cursor:pointer}}
-.btn.fill{{background:var(--gold);color:#111}}
-.hero{{padding:90px 7vw;text-align:center;border-bottom:1px solid var(--line)}}
-.k{{color:var(--gold);letter-spacing:.28em;text-transform:uppercase;font-size:.7rem;margin-bottom:18px}}
-h1{{font-family:'Bodoni Moda',serif;font-size:clamp(2.6rem,6vw,4.4rem);font-weight:500;line-height:1.08;margin-bottom:16px}}
-.lead{{color:var(--mute);max-width:34rem;margin:0 auto 28px;font-weight:300}}
-.ring{{width:min(280px,70vw);height:min(280px,70vw);margin:30px auto 10px;border-radius:50%;border:1px solid var(--gold);box-shadow:inset 0 0 0 18px rgba(194,164,107,.08);position:relative}}
+body{{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);font-weight:300}}
+.nav{{border-bottom:1px solid var(--line);background:rgba(14,14,15,.92)}}
+.logo{{font-family:'Bodoni Moda',serif;font-size:1.5rem;letter-spacing:.08em;color:var(--ink)}}
+.btn.primary{{background:var(--gold);color:#111;border-radius:0;text-transform:uppercase;letter-spacing:.12em;font-size:.68rem}}
+.btn.ghost{{border:1px solid var(--gold);color:var(--gold);border-radius:0;background:transparent}}
+.pill{{color:var(--gold);letter-spacing:.28em;padding:0;background:transparent}}
+h1,h2,h3{{font-family:'Bodoni Moda',serif;font-weight:500}}
+.hero{{padding:90px 0;text-align:center;border-bottom:1px solid var(--line)}}
+.ring{{width:min(260px,70vw);height:min(260px,70vw);margin:28px auto 18px;border-radius:50%;border:1px solid var(--gold);box-shadow:inset 0 0 0 18px rgba(194,164,107,.08);position:relative}}
 .ring:after{{content:"";position:absolute;inset:28%;border-radius:50%;border:1px solid rgba(194,164,107,.35)}}
-.section{{padding:70px 7vw}}
-.grid{{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}}
-@media(max-width:900px){{.grid{{grid-template-columns:1fr}}}}
-.card{{border:1px solid var(--line);padding:26px;text-align:center}}
-.card h3{{font-family:'Bodoni Moda',serif;font-size:1.5rem;font-weight:500;margin-bottom:8px;color:var(--gold)}}
-.card p{{color:var(--mute);font-weight:300;font-size:.95rem}}
-.tool{{margin:0 7vw 70px;border:1px solid var(--line);padding:40px;text-align:center}}
-.val{{font-family:'Bodoni Moda',serif;font-size:2.2rem;color:var(--gold);margin:12px 0}}
-input[type=range]{{width:min(100%,400px);accent-color:var(--gold)}}
-footer{{padding:40px 7vw;border-top:1px solid var(--line);text-align:center;color:var(--mute);font-weight:300}}
-.modal{{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);align-items:center;justify-content:center;padding:18px;z-index:40}}
-.modal.open{{display:flex}}
-.modal-card{{background:#141414;border:1px solid var(--line);padding:28px;width:min(440px,100%);position:relative}}
-.modal-card input{{width:100%;margin:8px 0;padding:12px;background:#0E0E0F;border:1px solid var(--line);color:var(--ink)}}
-.close{{position:absolute;right:12px;top:8px;border:0;background:none;color:var(--mute);font-size:1.4rem;cursor:pointer}}
+.card{{border:1px solid var(--line);border-radius:0;background:transparent;text-align:center}}
+.card h3{{color:var(--gold);font-size:1.4rem}}
+.card p,.lead,.muted{{color:var(--mute)}}
+.gem{{width:54px;height:54px;margin:0 auto 12px;transform:rotate(45deg);border:1px solid var(--gold);background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.25),transparent 45%),rgba(194,164,107,.08)}}
+.tool{{border:1px solid var(--line);border-radius:0;background:transparent}}
+.tool .val{{color:var(--gold);font-family:'Bodoni Moda',serif}}
+.faq{{border-color:var(--line)}}
+.footer{{border-top:1px solid var(--line);color:var(--mute)}}
+input[type=range]{{accent-color:var(--gold)}}
+.modal-card input{{background:#0E0E0F;border-color:var(--line);color:var(--ink)}}
 </style></head><body>
-<nav><a class="logo" href="#">{n}</a><button class="btn" onclick="openM()">Private viewing</button></nav>
-<section class="hero">
-  <div class="k">High jewelry · {c}</div>
-  <h1>Quiet brilliance. Precise craft.</h1>
-  <p class="lead">{n} presents jewels with atelier restraint — black field, ivory type, thin gold lines. Luxury that whispers.</p>
+<nav class="nav"><a class="logo" href="#">{n}</a><button class="btn ghost" onclick="openM()">Private viewing</button></nav>
+<section class="hero wrap">
+  <div class="pill">High jewelry · {c}</div>
+  <h1 style="font-size:clamp(2.6rem,6vw,4.3rem);line-height:1.08;margin:14px 0 12px">Quiet brilliance. Precise craft.</h1>
+  <p class="lead" style="margin:0 auto">{n} presents jewels with atelier restraint — black field, ivory type, thin gold lines. Luxury that whispers.</p>
   <div class="ring" aria-hidden="true"></div>
-  <button class="btn fill" onclick="openM()">Request a viewing</button>
+  <button class="btn primary" onclick="openM()">Request a viewing</button>
 </section>
-<section class="section">
-  <div class="grid">
-    <article class="card"><h3>Bridal</h3><p>Engagement studies and eternity lines with measured sparkle.</p></article>
-    <article class="card"><h3>Atelier custom</h3><p>Bespoke commissions guided by stone, proportion, and story.</p></article>
-    <article class="card"><h3>Heritage service</h3><p>Resetting, polishing, and confidential evaluations.</p></article>
-  </div>
-</section>
-<section class="tool">
-  <div class="k">Carat conversation</div>
-  <h2 style="font-family:'Bodoni Moda',serif;font-size:1.8rem;font-weight:500;margin:8px 0">Center-stone preference</h2>
-  <div class="val" id="v">1.50 ct</div>
-  <input type="range" min="50" max="500" value="150" oninput="document.getElementById('v').textContent=(this.value/100).toFixed(2)+' ct'">
-  <div style="margin-top:16px"><button class="btn fill" onclick="openM()">Discuss this stone</button></div>
-</section>
-<footer>{n} · {c} · {p}</footer>
-<div class="modal" id="m"><div class="modal-card">
-  <button class="close" onclick="closeM()">×</button>
-  <h3 style="font-family:'Bodoni Moda',serif;font-size:1.5rem;margin-bottom:8px">Private viewing</h3>
-  <form onsubmit="event.preventDefault();closeM();alert('Viewing request sent to {n}.');">
-    <input placeholder="Name *" required><input placeholder="Phone *" required><input placeholder="Interest (bridal / custom / service)">
-    <button class="btn fill" style="width:100%;margin-top:8px">Send</button>
-  </form>
-</div></div>
-<script>function openM(){{document.getElementById('m').classList.add('open')}}function closeM(){{document.getElementById('m').classList.remove('open')}}</script>
+<main class="wrap">
+  <section class="section">
+    <h2 style="text-align:center">Collections</h2>
+    <p class="lead" style="text-align:center;margin-left:auto;margin-right:auto">Exaggerated minimalism for jewelry: space, proportion, almost no decoration.</p>
+    <div class="grid-3">{cards}</div>
+  </section>
+  <section class="section grid-2">
+    <div>
+      <h2>Atelier process</h2>
+      {self._steps([
+        ("Stone conversation", "Budget, shape, and lifestyle wear."),
+        ("Sketch & model", "Proportion studies before metal."),
+        ("Setting & reveal", "Final polish and private handover."),
+      ])}
+      <p class="muted" style="margin-top:12px">Desk: {p}</p>
+    </div>
+    <div class="tool">
+      <div class="pill">Carat conversation</div>
+      <h2 style="font-size:1.6rem;margin:8px 0">Center stone</h2>
+      <div class="val" id="v">1.50 ct</div>
+      <input type="range" min="50" max="500" value="150" oninput="document.getElementById('v').textContent=(this.value/100).toFixed(2)+' ct'">
+      <div style="margin-top:14px"><button class="btn primary" onclick="openM()">Discuss this stone</button></div>
+    </div>
+  </section>
+  <section class="section"><h2>FAQ</h2>{self._faq([
+    ("Can I bring an heirloom stone?", "Yes — resets are a core atelier service."),
+    ("Appointments only?", "Yes, for privacy and focus."),
+    ("Certificates?", "Provided for eligible stones."),
+  ])}</section>
+</main>
+<footer class="footer">{n} · {c} · {p}</footer>
+{self._modal(name, "Private viewing", ["Name *", "Phone *", "Interest (bridal / custom / service)", "Budget window"], "Send", dark=True)}
 </body></html>"""
 
-    # ================================================================== WEALTH
+    # ================================================================= WEALTH
     def _wealth(self, name: str, cat: str, city: str, phone: str) -> str:
-        n, c, p = self._esc(name), self._esc(city), self._esc(phone)
-        cards = self._cards([
-            ("Portfolio architecture", "Allocation frameworks matched to time horizon and risk."),
-            ("Family office liaison", "Multi-generational planning with discreet coordination."),
-            ("Liquidity events", "Pre- and post-exit structuring conversations."),
-        ])
+        n, c, p = self._e(name), self._e(city), self._e(phone)
+        pillars = [
+            ("Portfolio architecture", "Allocation matched to horizon and risk."),
+            ("Family office liaison", "Multi-generational coordination."),
+            ("Liquidity events", "Pre- and post-exit conversations."),
+            ("Tax-aware planning", "Working alongside your counsel & CPA."),
+            ("Private markets access", "Where suitable and understood."),
+            ("Reporting cadence", "Clear packs, not dashboard theater."),
+        ]
+        cards = "".join(f"<article class='card'><h3>{self._e(t)}</h3><p>{self._e(d)}</p></article>" for t, d in pillars)
         return f"""<!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{n} · Private advisory · {c}</title>
+<title>{n} · {c}</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
-:root{{--bg:#F2EFE8;--ink:#171A21;--mute:#667084;--line:#D9D3C7;--navy:#18233A;--gold:#8E7340}}
-*{{box-sizing:border-box;margin:0;padding:0}}
-body{{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--ink);line-height:1.75}}
-.nav{{display:flex;justify-content:space-between;align-items:center;padding:20px 7vw;background:rgba(242,239,232,.94);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}}
-.logo{{font-family:'Newsreader',serif;font-size:1.35rem;text-decoration:none;color:var(--navy);font-weight:600}}
-.btn{{background:var(--navy);color:#fff;border:0;padding:12px 18px;font-size:.78rem;font-weight:600;letter-spacing:.04em;cursor:pointer}}
-.hero{{padding:70px 7vw;display:grid;grid-template-columns:1.15fr .85fr;gap:36px;align-items:center}}
-@media(max-width:900px){{.hero{{grid-template-columns:1fr;padding:40px 6vw}}}}
-.k{{color:var(--gold);font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;margin-bottom:12px}}
-h1{{font-family:'Newsreader',serif;font-size:clamp(2.2rem,4.5vw,3.3rem);line-height:1.15;color:var(--navy);margin-bottom:14px;font-weight:600}}
-.lead{{color:var(--mute);margin-bottom:24px;font-weight:300;max-width:34rem}}
-.panel{{background:#FFFEFA;border:1px solid var(--line);padding:26px}}
-.panel h3{{font-family:'Newsreader',serif;font-size:1.35rem;margin-bottom:8px;color:var(--navy)}}
-.section{{padding:20px 7vw 70px}}
-.section h2{{font-family:'Newsreader',serif;font-size:2rem;color:var(--navy);margin-bottom:8px}}
-.sub{{color:var(--mute);margin-bottom:22px}}
-.grid{{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}}
-@media(max-width:900px){{.grid{{grid-template-columns:1fr}}}}
-.card{{background:#FFFEFA;border:1px solid var(--line);padding:22px}}
-.card h3{{font-family:'Newsreader',serif;font-size:1.15rem;margin-bottom:8px;color:var(--navy)}}
-.card p{{color:var(--mute);font-weight:300}}
-.tool{{margin:0 7vw 70px;background:#FFFEFA;border:1px solid var(--line);padding:34px;text-align:center}}
-.val{{font-family:'Newsreader',serif;font-size:2rem;color:var(--gold);margin:12px 0}}
-input[type=range]{{width:min(100%,420px);accent-color:var(--navy)}}
-footer{{background:var(--navy);color:#B7BFCLE;color:#B7BFC9;padding:40px 7vw;text-align:center}}
-.modal{{display:none;position:fixed;inset:0;background:rgba(23,26,33,.45);align-items:center;justify-content:center;padding:18px;z-index:40}}
-.modal.open{{display:flex}}
-.modal-card{{background:#FFFEFA;padding:28px;width:min(440px,100%);border:1px solid var(--line);position:relative}}
-.modal-card input{{width:100%;margin:8px 0;padding:12px;border:1px solid var(--line)}}
-.close{{position:absolute;right:12px;top:8px;border:0;background:none;font-size:1.4rem;cursor:pointer;color:var(--mute)}}
+{self._base_css_common()}
+:root{{--bg:#F2EFE8;--ink:#0F172A;--mute:#667084;--line:#D9D3C7;--navy:#0F172A;--gold:#A16207}}
+body{{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--ink);font-weight:300}}
+.nav{{background:rgba(242,239,232,.95);border-bottom:1px solid var(--line)}}
+.logo{{font-family:'Newsreader',serif;font-size:1.35rem;color:var(--navy);font-weight:600}}
+.btn.primary{{background:var(--navy);color:#fff;border-radius:0}}
+.btn.ghost{{border:1px solid var(--navy);color:var(--navy);border-radius:0;background:transparent}}
+.pill{{color:var(--gold);padding:0;background:transparent;letter-spacing:.16em}}
+h1,h2,h3{{font-family:'Newsreader',serif;color:var(--navy);font-weight:600}}
+.card{{background:#FFFEFA;border:1px solid var(--line);border-radius:0}}
+.card p,.lead,.muted{{color:var(--mute)}}
+.panel{{background:#FFFEFA;border:1px solid var(--line);padding:24px}}
+.tool{{background:#FFFEFA;border:1px solid var(--line);border-radius:0}}
+.tool .val{{color:var(--gold);font-family:'Newsreader',serif}}
+.faq{{border-color:var(--line);background:#FFFEFA;border-radius:0}}
+.footer{{background:var(--navy);color:#B7BFC9}}
+.chart{{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;align-items:end;height:140px;margin-top:12px}}
+.chart span{{background:linear-gradient(180deg,#1E3A8A,#0F172A);border-radius:4px 4px 0 0}}
+input[type=range]{{accent-color:var(--navy)}}
 </style></head><body>
-<nav><a class="logo" href="#">{n}</a><button class="btn" onclick="openM()">Private intro</button></nav>
-<section class="hero">
-  <div>
-    <div class="k">Private advisory · {c}</div>
-    <h1>Stewardship for capital that must outlast the moment.</h1>
-    <p class="lead">{n} works with families and principals who prefer measured process, plain language, and rooms that feel like a private bank — not a fintech billboard.</p>
-    <button class="btn" onclick="openM()">Request an introduction</button>
-  </div>
-  <aside class="panel">
-    <div class="k">Desk</div>
-    <h3>Confidential first meeting</h3>
-    <p style="color:var(--mute);margin-bottom:10px">Direct line: <strong style="color:var(--ink)">{p}</strong></p>
-    <p style="color:var(--mute);font-size:.92rem;font-weight:300">Design cues: parchment, navy, restrained brass — institutional calm.</p>
-  </aside>
-</section>
-<section class="section">
-  <h2>Advisory pillars</h2>
-  <p class="sub">Wealth UX: trust density over visual excitement.</p>
-  <div class="grid">{cards}</div>
-</section>
-<section class="tool">
-  <div class="k">Planning horizon</div>
-  <h2 style="font-family:'Newsreader',serif;font-size:1.6rem;color:var(--navy);margin:8px 0">Years under consideration</h2>
-  <div class="val" id="v">15-year horizon</div>
-  <input type="range" min="3" max="40" value="15" oninput="document.getElementById('v').textContent=this.value+'-year horizon'">
-  <div style="margin-top:16px"><button class="btn" onclick="openM()">Discuss this horizon</button></div>
-</section>
-<footer>{n}<br>{c} · {p}</footer>
-<div class="modal" id="m"><div class="modal-card">
-  <button class="close" onclick="closeM()">×</button>
-  <h3 style="font-family:'Newsreader',serif;margin-bottom:8px">Private introduction</h3>
-  <form onsubmit="event.preventDefault();closeM();alert('Introduction request received by {n}.');">
-    <input placeholder="Name *" required><input placeholder="Phone *" required><input placeholder="Context (family / liquidity / portfolio)">
-    <button class="btn" style="width:100%;margin-top:8px">Submit</button>
-  </form>
-</div></div>
-<script>function openM(){{document.getElementById('m').classList.add('open')}}function closeM(){{document.getElementById('m').classList.remove('open')}}</script>
+<nav class="nav"><a class="logo" href="#">{n}</a><button class="btn primary" onclick="openM()">Private intro</button></nav>
+<main class="wrap">
+  <section class="section grid-2" style="padding-top:48px">
+    <div>
+      <div class="pill">Private advisory · {c}</div>
+      <h1 style="font-size:clamp(2.1rem,4.2vw,3.2rem);line-height:1.15;margin:12px 0 14px">Stewardship for capital that must outlast the moment.</h1>
+      <p class="lead">{n} works with families and principals who prefer measured process and plain language — Banking/Traditional Finance cues, not fintech billboard energy.</p>
+      <div class="actions">
+        <button class="btn primary" onclick="openM()">Request introduction</button>
+        <a class="btn ghost" href="#pillars">Advisory pillars</a>
+      </div>
+    </div>
+    <aside class="panel">
+      <div class="pill">Desk</div>
+      <h3 style="margin:8px 0">Confidential first meeting</h3>
+      <p class="muted">Direct line: <strong style="color:var(--ink)">{p}</strong></p>
+      <div class="chart" aria-hidden="true">
+        <span style="height:40%"></span><span style="height:55%"></span><span style="height:48%"></span><span style="height:72%"></span><span style="height:63%"></span>
+      </div>
+      <p class="muted" style="margin-top:10px;font-size:.9rem">Illustrative allocation sketch — not performance data.</p>
+    </aside>
+  </section>
+  <section class="section" id="pillars">
+    <h2>Advisory pillars</h2>
+    <p class="lead">Trust density over visual excitement.</p>
+    <div class="grid-3">{cards}</div>
+  </section>
+  <section class="section grid-2">
+    <div>
+      <h2>Engagement cadence</h2>
+      {self._steps([
+        ("Discovery", "Goals, constraints, existing structure."),
+        ("Architecture", "Written plan with explicit tradeoffs."),
+        ("Stewardship", "Quarterly reviews and event-driven updates."),
+      ])}
+    </div>
+    <div class="tool">
+      <div class="pill">Horizon</div>
+      <h2 style="font-size:1.5rem;margin:8px 0">Years under consideration</h2>
+      <div class="val" id="v">15-year horizon</div>
+      <input type="range" min="3" max="40" value="15" oninput="document.getElementById('v').textContent=this.value+'-year horizon'">
+      <div style="margin-top:14px"><button class="btn primary" onclick="openM()">Discuss this horizon</button></div>
+    </div>
+  </section>
+  <section class="section"><h2>FAQ</h2>{self._faq([
+    ("Minimums?", "Discussed privately after fit assessment."),
+    ("Fiduciary?", "We clarify duty and fee model in writing before engagement."),
+    ("Who is ideal?", "Principals and families who want process, not product pushing."),
+  ])}</section>
+</main>
+<footer class="footer">{n}<br>{c} · {p}</footer>
+{self._modal(name, "Private introduction", ["Name *", "Phone *", "Context (family / liquidity / portfolio)", "Approx. AUM range (optional)"], "Submit")}
 </body></html>"""
 
-    # ================================================================== UNIVERSAL
+    # ================================================================= UNIVERSAL
     def _universal(self, name: str, cat: str, city: str, phone: str) -> str:
-        n, c, p = self._esc(name), self._esc(city), self._esc(phone)
-        cat_title = self._esc((cat or "Professional Services").title())
-        cards = self._cards([
-            (f"Core {cat_title}", f"Signature {cat_title.lower()} work delivered with consistency."),
-            ("Client path", "Clear inquiry → consult → delivery without friction."),
-            ("Local trust", f"Built for people searching around {c}."),
-        ])
-        # Distinct from LeadFlow product: deep ink + electric indigo accent (not cyan neon)
+        n, c, p = self._e(name), self._e(city), self._e(phone)
+        cat_title = self._e((cat or "Professional Services").title())
+        cards = "".join(
+            f"<article class='card'><h3>{self._e(t)}</h3><p>{self._e(d)}</p></article>"
+            for t, d in [
+                (f"Core {cat_title}", f"Signature {cat_title.lower()} delivered with consistency."),
+                ("Clear process", "Inquiry → consult → delivery without fog."),
+                ("Local trust", f"Built for clients around {c}."),
+                ("Proof pack", "Case notes and outcomes you can share."),
+                ("Transparent scope", "What’s included — and what isn’t."),
+                ("Fast response", "Human follow-up, not chatbot loops."),
+            ]
+        )
         return f"""<!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{n} · {cat_title} · {c}</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;600&display=swap');
+{self._base_css_common()}
 :root{{--bg:#F4F6FB;--ink:#12141C;--mute:#5C6478;--line:#D9DEEA;--ind:#3B4CCA;--soft:#E8EBFF}}
-*{{box-sizing:border-box;margin:0;padding:0}}
-body{{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}}
-.nav{{display:flex;justify-content:space-between;align-items:center;padding:18px 6vw;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}}
-.logo{{font-family:'Sora',sans-serif;font-weight:700;text-decoration:none;color:var(--ink)}}
-.btn{{background:var(--ind);color:#fff;border:0;padding:12px 18px;border-radius:12px;font-weight:700;cursor:pointer}}
-.hero{{padding:70px 6vw;display:grid;grid-template-columns:1.15fr .85fr;gap:28px;align-items:center}}
-@media(max-width:900px){{.hero{{grid-template-columns:1fr;padding:40px 6vw}}}}
-.k{{display:inline-block;background:var(--soft);color:var(--ind);padding:6px 10px;border-radius:999px;font-size:.75rem;font-weight:700;margin-bottom:12px}}
-h1{{font-family:'Sora',sans-serif;font-size:clamp(2rem,4vw,3rem);line-height:1.15;margin-bottom:14px}}
-.lead{{color:var(--mute);margin-bottom:22px;max-width:34rem}}
-.panel{{background:#fff;border:1px solid var(--line);border-radius:20px;padding:24px}}
-.section{{padding:20px 6vw 70px}}
-.section h2{{font-family:'Sora',sans-serif;font-size:1.7rem;margin-bottom:8px}}
-.sub{{color:var(--mute);margin-bottom:20px}}
-.grid{{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}}
-@media(max-width:900px){{.grid{{grid-template-columns:1fr}}}}
-.card{{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px}}
-.card h3{{font-family:'Sora',sans-serif;font-size:1.05rem;margin-bottom:8px}}
-.card p{{color:var(--mute)}}
-.tool{{margin:0 6vw 70px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:32px;text-align:center}}
-.val{{font-family:'Sora',sans-serif;font-size:1.8rem;color:var(--ind);margin:12px 0}}
-input[type=range]{{width:min(100%,400px);accent-color:var(--ind)}}
-footer{{padding:36px 6vw;border-top:1px solid var(--line);text-align:center;color:var(--mute);background:#fff}}
-.modal{{display:none;position:fixed;inset:0;background:rgba(18,20,28,.4);align-items:center;justify-content:center;padding:18px;z-index:40}}
-.modal.open{{display:flex}}
-.modal-card{{background:#fff;border-radius:18px;padding:26px;width:min(440px,100%);position:relative;border:1px solid var(--line)}}
-.modal-card input{{width:100%;margin:8px 0;padding:12px;border:1px solid var(--line);border-radius:10px}}
-.close{{position:absolute;right:12px;top:8px;border:0;background:none;font-size:1.4rem;cursor:pointer;color:var(--mute)}}
+body{{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--ink)}}
+.nav{{background:#fff;border-bottom:1px solid var(--line)}}
+.logo{{font-family:'Sora',sans-serif;font-weight:700;color:var(--ink)}}
+.btn.primary{{background:var(--ind);color:#fff;border-radius:12px}}
+.btn.ghost{{background:var(--soft);color:var(--ind);border-radius:12px}}
+.pill{{background:var(--soft);color:var(--ind)}}
+h1,h2,h3{{font-family:'Sora',sans-serif}}
+.card{{background:#fff;border:1px solid var(--line)}}
+.card p,.lead,.muted{{color:var(--mute)}}
+.panel{{background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px}}
+.tool{{background:#fff;border:1px solid var(--line)}}
+.tool .val{{color:var(--ind);font-family:'Sora',sans-serif}}
+.faq{{border-color:var(--line);background:#fff}}
+.footer{{background:#fff;border-top:1px solid var(--line);color:var(--mute)}}
+input[type=range]{{accent-color:var(--ind)}}
 </style></head><body>
-<nav><a class="logo" href="#">{n}</a><button class="btn" onclick="openM()">Contact</button></nav>
-<section class="hero">
-  <div>
-    <div class="k">{cat_title} · {c}</div>
-    <h1>A sharper digital front door for {cat_title.lower()}</h1>
-    <p class="lead">{n} helps clients in {c} understand the offer fast, trust the process, and take the next step without friction.</p>
-    <button class="btn" onclick="openM()">Start a conversation</button>
-  </div>
-  <aside class="panel">
-    <div class="k">Studio notes</div>
-    <h3 style="font-family:'Sora',sans-serif;margin:8px 0">Category-tuned layout</h3>
-    <p style="color:var(--mute)">This template deliberately does <em>not</em> copy the LeadFlow product skin. Indigo studio system for general services.</p>
-    <p style="margin-top:12px;color:var(--mute)">Line: <strong style="color:var(--ink)">{p}</strong></p>
-  </aside>
-</section>
-<section class="section">
-  <h2>What clients get</h2>
-  <p class="sub">Clear modules, product-like spacing, conversion-focused CTA.</p>
-  <div class="grid">{cards}</div>
-</section>
-<section class="tool">
-  <div class="k">Engagement size</div>
-  <h2 style="font-family:'Sora',sans-serif;font-size:1.4rem;margin:8px 0">Project scale</h2>
-  <div class="val" id="v">Medium</div>
-  <input type="range" min="1" max="5" value="3" oninput="const m={{1:'Starter',2:'Focused',3:'Medium',4:'Growth',5:'Enterprise'}};document.getElementById('v').textContent=m[this.value]">
-  <div style="margin-top:16px"><button class="btn" onclick="openM()">Match me to a plan</button></div>
-</section>
-<footer>{n} · {c} · {p}</footer>
-<div class="modal" id="m"><div class="modal-card">
-  <button class="close" onclick="closeM()">×</button>
-  <h3 style="font-family:'Sora',serif;font-family:'Sora',sans-serif;margin-bottom:8px">Contact</h3>
-  <form onsubmit="event.preventDefault();closeM();alert('Message sent to {n}.');">
-    <input placeholder="Name *" required><input placeholder="Phone *" required><input placeholder="What do you need?">
-    <button class="btn" style="width:100%;margin-top:8px">Send</button>
-  </form>
-</div></div>
-<script>function openM(){{document.getElementById('m').classList.add('open')}}function closeM(){{document.getElementById('m').classList.remove('open')}}</script>
+<nav class="nav"><a class="logo" href="#">{n}</a><button class="btn primary" onclick="openM()">Contact</button></nav>
+<main class="wrap">
+  <section class="section grid-2" style="padding-top:40px">
+    <div>
+      <div class="pill">{cat_title} · {c}</div>
+      <h1 style="font-size:clamp(2rem,4vw,2.9rem);line-height:1.15;margin:12px 0 14px">A sharper front door for {cat_title.lower()}</h1>
+      <p class="lead">{n} helps clients understand the offer fast, trust the process, and take the next step — deliberately <em>not</em> a clone of the LeadFlow product UI.</p>
+      <div class="actions">
+        <button class="btn primary" onclick="openM()">Start a conversation</button>
+        <a class="btn ghost" href="#offer">See offer</a>
+      </div>
+    </div>
+    <aside class="panel">
+      <div class="pill">Studio notes</div>
+      <h3 style="margin:8px 0">Category-tuned layout</h3>
+      <p class="muted">Indigo service studio system for general categories. Distinct from medical/dining/legal skins.</p>
+      <p class="muted" style="margin-top:12px">Line: <strong style="color:var(--ink)">{p}</strong></p>
+    </aside>
+  </section>
+  <section class="section" id="offer">
+    <h2>What clients get</h2>
+    <div class="grid-3">{cards}</div>
+  </section>
+  <section class="section grid-2">
+    <div>
+      <h2>How it works</h2>
+      {self._steps([
+        ("Brief", "Goals, constraints, timeline."),
+        ("Proposal", "Scope, milestones, fee."),
+        ("Delivery", "Work + weekly checkpoints."),
+      ])}
+    </div>
+    <div class="tool">
+      <div class="pill">Engagement size</div>
+      <h2 style="font-size:1.3rem;margin:8px 0">Project scale</h2>
+      <div class="val" id="v">Medium</div>
+      <input type="range" min="1" max="5" value="3" oninput="const m={{1:'Starter',2:'Focused',3:'Medium',4:'Growth',5:'Enterprise'}};document.getElementById('v').textContent=m[this.value]">
+      <div style="margin-top:14px"><button class="btn primary" onclick="openM()">Match me</button></div>
+    </div>
+  </section>
+  <section class="section"><h2>FAQ</h2>{self._faq([
+    ("Remote or on-site?", f"Both available depending on the work in {c}."),
+    ("Typical timeline?", "Scoped after the first call."),
+    ("Who is ideal?", f"Teams that need reliable {cat_title.lower()} without agency theater."),
+  ])}</section>
+</main>
+<footer class="footer">{n} · {c} · {p}</footer>
+{self._modal(name, "Contact", ["Name *", "Phone *", "What do you need?", "Timeline"], "Send")}
 </body></html>"""
 
 
 if __name__ == "__main__":
     g = ShadowInfiltrator()
-    for args in [
+    samples = [
         ("Apex Dental Lounge", "Dental Clinic", "Toronto", "+1 416 555 0199"),
         ("Lumiere Fine Dining", "Restaurant", "Paris", "+33 1 42 68 55 00"),
         ("Vanguard Legal Counsel", "Law Firm", "New York", "+1 212 555 0100"),
         ("Skyline Real Estate", "Real Estate", "Dubai", "+971 4 318 8888"),
-        ("Titan Elite Performance Gym", "Gym", "London", "+44 20 5555 0100"),
+        ("Titan Elite Gym", "Gym", "London", "+44 20 5555 0100"),
         ("Aura Aesthetic Spa", "Spa", "Munich", "+49 89 555 0100"),
-        ("Royal Crown Fine Jewelry", "Jewelry", "Singapore", "+65 6555 0100"),
-        ("Horizon Private Wealth Advisory", "Wealth", "Melbourne", "+61 3 5550 0100"),
-    ]:
-        r = g.generate_luxury_site(*args)
-        print(r["industry_paradigm_applied"], "->", r["live_cloud_demo_url"])
+        ("Royal Crown Jewelry", "Jewelry", "Singapore", "+65 6555 0100"),
+        ("Horizon Private Wealth", "Wealth", "Melbourne", "+61 3 5550 0100"),
+    ]
+    for s in samples:
+        r = g.generate_luxury_site(*s)
+        print(r["design_kind"], r["industry_paradigm_applied"])

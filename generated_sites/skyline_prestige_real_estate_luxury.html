@@ -1,92 +1,141 @@
 <!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Skyline Prestige Real Estate · Properties · Dubai</title>
+<title>Skyline Prestige Real Estate · Dubai</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&display=swap');
-:root{--bg:#F3EFE7;--ink:#1C1916;--mute:#6F675E;--line:#DDD4C6;--forest:#2F4F3E;--clay:#A56B45}
+
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}
-.nav{display:flex;justify-content:space-between;align-items:center;padding:18px 6vw;position:absolute;left:0;right:0;top:0;z-index:5;color:#fff}
-.logo{font-family:'Instrument Serif',serif;font-size:1.6rem;color:#fff;text-decoration:none}
-.btn{background:#fff;color:var(--ink);border:0;padding:11px 18px;font-weight:700;font-size:.78rem;letter-spacing:.04em;text-transform:uppercase;cursor:pointer}
-.btn.dark{background:var(--forest);color:#fff}
-.hero{min-height:78vh;display:flex;align-items:flex-end;padding:0 6vw 70px;background:
- linear-gradient(180deg,rgba(28,25,22,.15),rgba(28,25,22,.72)),
- url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="%233a4d3f"/><stop offset="1" stop-color="%237a5a3a"/></linearGradient></defs><rect width="100%" height="100%" fill="url(%23g)"/><circle cx="70%" cy="30%" r="220" fill="%23ffffff11"/><rect x="8%" y="48%" width="38%" height="28%" fill="%2300000018"/></svg>');
- background-size:cover;color:#fff}
-.hero .k{letter-spacing:.22em;text-transform:uppercase;font-size:.72rem;opacity:.85;margin-bottom:12px}
-.hero h1{font-family:'Instrument Serif',serif;font-size:clamp(2.6rem,6vw,4.6rem);line-height:1.05;max-width:14ch;font-weight:400;margin-bottom:14px}
-.hero p{max-width:34rem;opacity:.9;margin-bottom:22px}
-.section{padding:70px 6vw}
-.section h2{font-family:'Instrument Serif',serif;font-size:2.4rem;font-weight:400;margin-bottom:8px}
-.sub{color:var(--mute);margin-bottom:26px}
-.listings{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}
-@media(max-width:900px){.listings{grid-template-columns:1fr}}
-.photo{min-height:320px;background:linear-gradient(135deg,#6d7f6a,#c2a27a);border:1px solid var(--line);padding:24px;display:flex;flex-direction:column;justify-content:flex-end;color:#fff}
-.photo h3{font-family:'Instrument Serif',serif;font-size:2rem;font-weight:400}
-.side-card{background:#fff;border:1px solid var(--line);padding:24px}
-.side-card + .side-card{margin-top:14px}
-.price{font-family:'Instrument Serif',serif;font-size:1.8rem;color:var(--forest);margin-top:8px}
-.tool{margin:0 6vw 70px;background:#fff;border:1px solid var(--line);padding:36px;text-align:center}
-.val{font-family:'Instrument Serif',serif;font-size:2.2rem;color:var(--clay);margin:12px 0}
-input[type=range]{width:min(100%,440px);accent-color:var(--forest)}
-footer{padding:40px 6vw;border-top:1px solid var(--line);color:var(--mute);text-align:center}
-.modal{display:none;position:fixed;inset:0;background:rgba(28,25,22,.5);align-items:center;justify-content:center;padding:18px;z-index:40}
+img,svg{display:block;max-width:100%}
+button,input,select,textarea{font:inherit}
+.muted{opacity:.78}
+.wrap{width:min(1120px,92vw);margin:0 auto}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.grid-2{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:center}
+@media(max-width:900px){.grid-3,.grid-2{grid-template-columns:1fr}}
+.section{padding:72px 0}
+.section h2{font-size:clamp(1.6rem,3vw,2.2rem);line-height:1.15;margin-bottom:10px}
+.section .lead{max-width:40rem;margin-bottom:26px}
+.card{padding:22px;border-radius:18px}
+.card h3{font-size:1.1rem;margin-bottom:8px}
+.card p{font-size:.95rem;line-height:1.65}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;font-size:.75rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;text-decoration:none;padding:12px 18px;border-radius:999px;font-weight:700}
+.btn.ghost{background:transparent}
+.actions{display:flex;flex-wrap:wrap;gap:12px}
+.nav{position:sticky;top:0;z-index:30;display:flex;justify-content:space-between;align-items:center;padding:16px 4vw;backdrop-filter:blur(12px)}
+.logo{font-weight:700;text-decoration:none}
+.footer{padding:42px 4vw;text-align:center;font-size:.92rem}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);align-items:center;justify-content:center;padding:18px;z-index:80}
 .modal.open{display:flex}
-.modal-card{background:#fff;padding:28px;width:min(440px,100%);position:relative;border:1px solid var(--line)}
-.modal-card input{width:100%;margin:8px 0;padding:12px;border:1px solid var(--line)}
-.close{position:absolute;right:12px;top:8px;border:0;background:none;font-size:1.4rem;cursor:pointer}
+.modal-card{width:min(460px,100%);padding:26px;border-radius:18px;border:1px solid;position:relative}
+.modal-card h3{font-size:1.35rem;margin-bottom:6px}
+.modal-card input,.modal-card select,.modal-card textarea{width:100%;margin:8px 0;padding:12px 14px;border-radius:12px;border:1px solid #d4d4d8;background:#fff}
+.modal-card .close{position:absolute;right:12px;top:8px;border:0;background:none;font-size:1.4rem;cursor:pointer;opacity:.7}
+.faq{border:1px solid;border-radius:14px;padding:14px 16px;margin:10px 0;background:transparent}
+.faq summary{cursor:pointer;font-weight:700}
+.faq p{margin-top:8px;opacity:.8}
+.step{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid rgba(0,0,0,.06)}
+.step .num{font-weight:800;opacity:.45;min-width:2.2rem}
+.table{width:100%;border-collapse:collapse;font-size:.95rem}
+.table th,.table td{padding:12px 10px;border-bottom:1px solid rgba(0,0,0,.08);text-align:left;vertical-align:top}
+.quote{padding:22px;border-radius:18px;font-size:1.05rem;line-height:1.6}
+.gallery{display:grid;grid-template-columns:1.3fr 1fr;gap:12px}
+@media(max-width:900px){.gallery{grid-template-columns:1fr}}
+.g-main,.g-side{border-radius:20px;min-height:180px;overflow:hidden}
+.tool{padding:28px;border-radius:22px;text-align:center}
+.tool .val{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;margin:12px 0}
+input[type=range]{width:min(100%,420px)}
+
+:root{--bg:#F3EFE7;--ink:#1C1916;--mute:#6F675E;--line:#DDD4C6;--forest:#0F766E;--clay:#A56B45}
+body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--ink)}
+.nav{position:absolute;left:0;right:0;top:0;background:transparent;color:#fff;border:0}
+.nav .logo{color:#fff;font-family:'Instrument Serif',serif;font-size:1.6rem;font-weight:400}
+.btn.primary{background:#fff;color:var(--ink);border-radius:0}
+.btn.dark{background:var(--forest);color:#fff;border-radius:0}
+.hero{min-height:82vh;display:flex;align-items:flex-end;padding:0 6vw 70px;color:#fff;background:
+ linear-gradient(180deg,rgba(28,25,22,.12),rgba(28,25,22,.78)),
+ url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1600' height='1000'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop stop-color='%233a4d3f'/><stop offset='1' stop-color='%237a5a3a'/></linearGradient></defs><rect width='100%25' height='100%25' fill='url(%23g)'/><rect x='10%25' y='42%25' width='36%25' height='30%25' fill='%2300000022'/><circle cx='72%25' cy='28%25' r='200' fill='%23ffffff10'/></svg>");
+ background-size:cover}
+.hero h1{font-family:'Instrument Serif',serif;font-weight:400;font-size:clamp(2.6rem,6vw,4.5rem);line-height:1.05;max-width:14ch;margin:10px 0 14px}
+.hero p{max-width:34rem;opacity:.92;margin-bottom:18px}
+.k{letter-spacing:.2em;text-transform:uppercase;font-size:.72rem;opacity:.85}
+h2,h3{font-family:'Instrument Serif',serif;font-weight:400}
+.card{background:#fff;border:1px solid var(--line);border-radius:0;padding:0;overflow:hidden}
+.listing .photo{min-height:170px;background:linear-gradient(135deg,#6d7f6a,#c2a27a)}
+.listing:nth-child(2) .photo{background:linear-gradient(135deg,#4b6b6a,#b9a189)}
+.listing:nth-child(3) .photo{background:linear-gradient(135deg,#7a6a58,#d2c2a8)}
+.listing .meta{padding:18px}
+.price{font-family:'Instrument Serif',serif;font-size:1.6rem;color:var(--forest);margin:6px 0}
+.card p,.lead,.muted{color:var(--mute)}
+.tool{background:#fff;border:1px solid var(--line);border-radius:0}
+.tool .val{color:var(--clay);font-family:'Instrument Serif',serif;font-weight:400}
+.faq{border-color:var(--line);background:#fff;border-radius:0}
+.footer{border-top:1px solid var(--line);color:var(--mute)}
+input[type=range]{accent-color:var(--forest)}
 </style></head><body>
-<nav><a class="logo" href="#">Skyline Prestige Real Estate</a><button class="btn" onclick="openM()">Book showing</button></nav>
+<nav class="nav"><a class="logo" href="#">Skyline Prestige Real Estate</a><button class="btn primary" onclick="openM()">Book showing</button></nav>
 <section class="hero">
   <div>
     <div class="k">Property · Dubai</div>
     <h1>Spaces with architecture, light, and long views</h1>
-    <p>Skyline Prestige Real Estate curates residences and investments for buyers who care about proportion, materials, and neighborhood texture — not listing spam.</p>
+    <p>Skyline Prestige Real Estate curates residences and investments for buyers who care about proportion and materials — not listing spam.</p>
     <button class="btn dark" onclick="openM()">Request private shortlist</button>
   </div>
 </section>
-<section class="section">
-  <h2>Selected inventory mood</h2>
-  <p class="sub">Real-estate design: large hero, material palette, magazine serif — like an architecture folio.</p>
-  <div class="listings">
-    <div class="photo">
-      <div class="k">Featured</div>
-      <h3>Skyline residence</h3>
-      <p style="opacity:.9;max-width:28rem">Open plan, stone kitchen, evening terrace light. Built for slow living above the city.</p>
-    </div>
+<main class="wrap">
+  <section class="section">
+    <h2>Selected inventory</h2>
+    <p class="lead">Magazine layout: large photography fields, restrained type, Real Estate teal/clay cues.</p>
+    <div class="grid-3"><article class='card listing'><div class='photo'></div><div class='meta'><h3>Skyline residence</h3><div class='price'>$4.5M</div><p>Stone kitchen, evening terrace, private lift lobby.</p></div></article><article class='card listing'><div class='photo'></div><div class='meta'><h3>Waterfront house</h3><div class='price'>$7.2M</div><p>Dock access, garden rooms, quiet morning light.</p></div></article><article class='card listing'><div class='photo'></div><div class='meta'><h3>Courtyard loft</h3><div class='price'>$1.9M</div><p>Double-height volume, raw timber, city quiet.</p></div></article></div>
+  </section>
+  <section class="section grid-2">
     <div>
-      <div class="side-card">
-        <div class="k" style="color:var(--mute)">Listing study</div>
-        <h3 style="font-family:'Instrument Serif',serif;font-size:1.5rem;font-weight:400">Waterfront house</h3>
-        <p style="color:var(--mute)">Dock access, garden rooms, quiet morning light.</p>
-        <div class="price">$7.2M</div>
-      </div>
-      <div class="side-card">
-        <div class="k" style="color:var(--mute)">Advisory</div>
-        <h3 style="font-family:'Instrument Serif',serif;font-size:1.5rem;font-weight:400">Yield framing</h3>
-        <p style="color:var(--mute)">We help investors read a property beyond the brochure.</p>
-        <p style="margin-top:10px"><strong>Desk:</strong> +1 (555) 010-0000</p>
+      <h2>Neighborhood intelligence</h2>
+      <p class="lead">We brief on light, noise, school zones, and resale texture — not just square meters.</p>
+      <div class="card" style="padding:18px">
+        <h3>Desk</h3>
+        <p>Advisory line: <strong style="color:var(--ink)">+1 (555) 010-0000</strong></p>
+        <p style="margin-top:8px">Typical response window: same business day in Dubai.</p>
       </div>
     </div>
+    <div class="tool">
+      <div class="k" style="color:var(--mute)">Yield sketch</div>
+      <h2 style="font-size:1.8rem;margin:8px 0">Purchase → annual yield</h2>
+      <div class="val" id="v">$2,500,000 · ~$212,500 / yr</div>
+      <input type="range" min="500000" max="12000000" step="100000" value="2500000" oninput="const y=Math.round(this.value*0.085);document.getElementById('v').textContent='$'+parseInt(this.value).toLocaleString()+' · ~$'+y.toLocaleString()+' / yr'">
+      <div style="margin-top:14px"><button class="btn dark" onclick="openM()">Talk to an advisor</button></div>
+    </div>
+  </section>
+  <section class="section">
+    <h2>Process</h2>
+    <div class='step'><div class='num'>01</div><div><h4>Brief</h4><p>Lifestyle, budget, must-haves, deal-breakers.</p></div></div>
+<div class='step'><div class='num'>02</div><div><h4>Shortlist</h4><p>3–7 properties with honest tradeoffs.</p></div></div>
+<div class='step'><div class='num'>03</div><div><h4>Showing + offer</h4><p>Quiet logistics and negotiation support.</p></div></div>
+  </section>
+  <section class="section"><h2>FAQ</h2><details class='faq'><summary>Do you handle off-market?</summary><p>Yes. Skyline Prestige Real Estate maintains a private shortlist for qualified buyers.</p></details>
+<details class='faq'><summary>Buyer or seller focused?</summary><p>Both — search advisory and discreet sale strategy.</p></details>
+<details class='faq'><summary>International clients?</summary><p>We regularly coordinate remote viewings for Dubai inventory.</p></details></section>
+</main>
+<footer class="footer">Skyline Prestige Real Estate · Dubai · +1 (555) 010-0000</footer>
+
+<div class="modal" id="m" role="dialog" aria-modal="true">
+  <div class="modal-card" style="background:#fff;color:#111;border-color:#e5e5e5">
+    <button class="close" type="button" onclick="closeM()" aria-label="Close">×</button>
+    <h3>Showing request</h3>
+    <p class="muted">We’ll route this to Skyline Prestige Real Estate. No spam — just a real follow-up.</p>
+    <form onsubmit="event.preventDefault();closeM();alert('Request received by Skyline Prestige Real Estate.');">
+      <input name="f0" placeholder="Name *" required>
+<input name="f1" placeholder="Phone *" required>
+<input name="f2" placeholder="Budget window" >
+<input name="f3" placeholder="Must-haves" >
+      <button class="btn primary" type="submit" style="width:100%;margin-top:8px">Submit</button>
+    </form>
   </div>
-</section>
-<section class="tool">
-  <div class="k" style="letter-spacing:.18em;text-transform:uppercase;font-size:.72rem;color:var(--mute)">Yield sketch</div>
-  <h2 style="font-family:'Instrument Serif',serif;font-size:2rem;font-weight:400;margin:8px 0">Purchase price → annual yield</h2>
-  <div class="val" id="v">$2,500,000 · ~$212,500 / yr</div>
-  <input type="range" min="500000" max="12000000" step="100000" value="2500000" oninput="const y=Math.round(this.value*0.085);document.getElementById('v').textContent='$'+parseInt(this.value).toLocaleString()+' · ~$'+y.toLocaleString()+' / yr'">
-  <div style="margin-top:16px"><button class="btn dark" onclick="openM()">Talk to an advisor</button></div>
-</section>
-<footer>Skyline Prestige Real Estate · Dubai · +1 (555) 010-0000</footer>
-<div class="modal" id="m"><div class="modal-card">
-  <button class="close" onclick="closeM()">×</button>
-  <h3 style="font-family:'Instrument Serif',serif;font-size:1.6rem;margin-bottom:8px">Showing request</h3>
-  <form onsubmit="event.preventDefault();closeM();alert('Request sent to Skyline Prestige Real Estate.');">
-    <input placeholder="Name *" required><input placeholder="Phone *" required><input placeholder="Budget window">
-    <button class="btn dark" style="width:100%;margin-top:8px">Submit</button>
-  </form>
-</div></div>
-<script>function openM(){document.getElementById('m').classList.add('open')}function closeM(){document.getElementById('m').classList.remove('open')}</script>
+</div>
+<script>
+function openM(){document.getElementById('m').classList.add('open');}
+function closeM(){document.getElementById('m').classList.remove('open');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM();});
+</script>
 </body></html>

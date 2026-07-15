@@ -4,75 +4,139 @@
 <title>Vanguard Corporate &amp; Civil Law · Counsel · New York</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@400;600;700&display=swap');
-:root{--bg:#F7F4EF;--ink:#1B1A17;--mute:#6B6560;--line:#E4DDD2;--navy:#1F2A44;--brass:#9C7A3C}
+
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--ink);line-height:1.75}
-header{display:flex;justify-content:space-between;align-items:center;padding:26px 8vw;border-bottom:1px solid var(--line);background:#FFFEFB;position:sticky;top:0;z-index:10}
-.logo{font-family:'Libre Baskerville',serif;font-size:1.15rem;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;color:var(--navy)}
-.btn{background:var(--navy);color:#fff;border:0;padding:12px 18px;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
-.btn.gold{background:var(--brass);color:#fff}
-.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:48px;padding:80px 8vw;align-items:start;border-bottom:1px solid var(--line);background:#FFFEFB}
-@media(max-width:900px){.hero{grid-template-columns:1fr;padding:40px 6vw}}
-.k{color:var(--brass);font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:14px}
-h1{font-family:'Libre Baskerville',serif;font-size:clamp(2rem,4vw,3.2rem);line-height:1.2;color:var(--navy);margin-bottom:18px}
-.lead{color:var(--mute);max-width:34rem;margin-bottom:28px;font-size:1.05rem}
-.panel{border:1px solid var(--line);background:var(--bg);padding:28px}
-.panel h3{font-family:'Libre Baskerville',serif;font-size:1.25rem;margin-bottom:10px;color:var(--navy)}
-.section{padding:64px 8vw}
-.section h2{font-family:'Libre Baskerville',serif;font-size:1.9rem;color:var(--navy);margin-bottom:8px}
-.sub{color:var(--mute);margin-bottom:24px}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-@media(max-width:900px){.grid{grid-template-columns:1fr}}
-.card{background:#FFFEFB;border:1px solid var(--line);padding:24px}
-.card h3{font-family:'Libre Baskerville',serif;font-size:1.15rem;margin-bottom:8px;color:var(--navy)}
-.card p{color:var(--mute)}
-.tool{margin:0 8vw 70px;background:#FFFEFB;border:1px solid var(--line);padding:36px;text-align:center}
-.val{font-family:'Libre Baskerville',serif;font-size:2rem;color:var(--brass);margin:12px 0}
-input[type=range]{width:min(100%,420px);accent-color:var(--navy)}
-footer{background:var(--navy);color:#C9C4B8;padding:42px 8vw;text-align:center}
-.modal{display:none;position:fixed;inset:0;background:rgba(27,26,23,.5);align-items:center;justify-content:center;padding:18px;z-index:40}
+img,svg{display:block;max-width:100%}
+button,input,select,textarea{font:inherit}
+.muted{opacity:.78}
+.wrap{width:min(1120px,92vw);margin:0 auto}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.grid-2{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:center}
+@media(max-width:900px){.grid-3,.grid-2{grid-template-columns:1fr}}
+.section{padding:72px 0}
+.section h2{font-size:clamp(1.6rem,3vw,2.2rem);line-height:1.15;margin-bottom:10px}
+.section .lead{max-width:40rem;margin-bottom:26px}
+.card{padding:22px;border-radius:18px}
+.card h3{font-size:1.1rem;margin-bottom:8px}
+.card p{font-size:.95rem;line-height:1.65}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;font-size:.75rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;text-decoration:none;padding:12px 18px;border-radius:999px;font-weight:700}
+.btn.ghost{background:transparent}
+.actions{display:flex;flex-wrap:wrap;gap:12px}
+.nav{position:sticky;top:0;z-index:30;display:flex;justify-content:space-between;align-items:center;padding:16px 4vw;backdrop-filter:blur(12px)}
+.logo{font-weight:700;text-decoration:none}
+.footer{padding:42px 4vw;text-align:center;font-size:.92rem}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);align-items:center;justify-content:center;padding:18px;z-index:80}
 .modal.open{display:flex}
-.modal-card{background:#FFFEFB;padding:28px;width:min(440px,100%);border:1px solid var(--line);position:relative}
-.modal-card input{width:100%;margin:8px 0;padding:12px;border:1px solid var(--line)}
-.close{position:absolute;right:12px;top:8px;border:0;background:none;font-size:1.4rem;cursor:pointer;color:var(--mute)}
+.modal-card{width:min(460px,100%);padding:26px;border-radius:18px;border:1px solid;position:relative}
+.modal-card h3{font-size:1.35rem;margin-bottom:6px}
+.modal-card input,.modal-card select,.modal-card textarea{width:100%;margin:8px 0;padding:12px 14px;border-radius:12px;border:1px solid #d4d4d8;background:#fff}
+.modal-card .close{position:absolute;right:12px;top:8px;border:0;background:none;font-size:1.4rem;cursor:pointer;opacity:.7}
+.faq{border:1px solid;border-radius:14px;padding:14px 16px;margin:10px 0;background:transparent}
+.faq summary{cursor:pointer;font-weight:700}
+.faq p{margin-top:8px;opacity:.8}
+.step{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid rgba(0,0,0,.06)}
+.step .num{font-weight:800;opacity:.45;min-width:2.2rem}
+.table{width:100%;border-collapse:collapse;font-size:.95rem}
+.table th,.table td{padding:12px 10px;border-bottom:1px solid rgba(0,0,0,.08);text-align:left;vertical-align:top}
+.quote{padding:22px;border-radius:18px;font-size:1.05rem;line-height:1.6}
+.gallery{display:grid;grid-template-columns:1.3fr 1fr;gap:12px}
+@media(max-width:900px){.gallery{grid-template-columns:1fr}}
+.g-main,.g-side{border-radius:20px;min-height:180px;overflow:hidden}
+.tool{padding:28px;border-radius:22px;text-align:center}
+.tool .val{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;margin:12px 0}
+input[type=range]{width:min(100%,420px)}
+
+:root{--bg:#F7F4EF;--ink:#1B1A17;--mute:#6B6560;--line:#E4DDD2;--navy:#1E3A8A;--brass:#B45309}
+body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--ink)}
+.nav{background:#FFFEFB;border-bottom:1px solid var(--line)}
+.logo{font-family:'Libre Baskerville',serif;font-size:1.05rem;letter-spacing:.12em;text-transform:uppercase;color:var(--navy)}
+.btn.primary{background:var(--navy);color:#fff;border-radius:0}
+.btn.ghost{border:1px solid var(--navy);color:var(--navy);border-radius:0;background:transparent}
+.pill{background:transparent;color:var(--brass);border:0;padding:0;letter-spacing:.16em}
+h1,h2,h3,h4{font-family:'Libre Baskerville',serif;color:var(--navy);font-weight:700}
+.hero{padding:70px 0;background:#FFFEFB;border-bottom:1px solid var(--line)}
+.card{background:#FFFEFB;border:1px solid var(--line);border-radius:0}
+.card p,.lead,.muted{color:var(--mute)}
+.panel{border:1px solid var(--line);background:var(--bg);padding:24px}
+.tool{background:#FFFEFB;border:1px solid var(--line);border-radius:0}
+.tool .val{color:var(--brass);font-family:'Libre Baskerville',serif}
+.faq{border-color:var(--line);background:#FFFEFB;border-radius:0}
+.footer{background:var(--navy);color:#C9C4B8}
+.quote{background:#FFFEFB;border:1px solid var(--line);border-radius:0}
+input[type=range]{accent-color:var(--navy)}
+.seal{width:120px;height:120px;border:2px solid var(--brass);border-radius:50%;display:grid;place-items:center;margin:0 auto 12px;font-family:'Libre Baskerville',serif;color:var(--brass);text-align:center;font-size:.75rem;letter-spacing:.08em}
 </style></head><body>
-<header><a class="logo" href="#">Vanguard Corporate &amp; Civil Law</a><button class="btn" onclick="openM()">Consultation</button></header>
-<section class="hero">
-  <div>
-    <div class="k">Counsel · New York</div>
-    <h1>Advocacy with composure. Strategy without theatrics.</h1>
-    <p class="lead">Vanguard Corporate &amp; Civil Law advises and represents clients who value preparation, discretion, and direct communication.</p>
-    <button class="btn gold" onclick="openM()">Schedule evaluation</button>
+<nav class="nav"><a class="logo" href="#">Vanguard Corporate &amp; Civil Law</a><button class="btn primary" onclick="openM()">Consultation</button></nav>
+<main class="wrap">
+  <section class="hero grid-2">
+    <div>
+      <div class="pill">Counsel · New York</div>
+      <h1 style="font-size:clamp(2rem,4vw,3.1rem);line-height:1.2;margin:12px 0 16px">Advocacy with composure. Strategy without theatrics.</h1>
+      <p class="lead">Vanguard Corporate &amp; Civil Law represents clients who value preparation, discretion, and direct communication — not billboard bravado.</p>
+      <div class="actions">
+        <button class="btn primary" onclick="openM()">Schedule evaluation</button>
+        <a class="btn ghost" href="#practice">Practice areas</a>
+      </div>
+    </div>
+    <aside class="panel">
+      <div class="seal">EST.<br>COUNSEL</div>
+      <h3 style="text-align:center;margin-bottom:8px">Privileged first conversation</h3>
+      <p class="muted" style="text-align:center">Direct line: <strong style="color:var(--ink)">+1 (555) 010-0000</strong></p>
+      <p class="muted" style="text-align:center;margin-top:10px;font-size:.92rem">Legal design: paper, brass, navy — institutional trust (Legal Services palette).</p>
+    </aside>
+  </section>
+
+  <section class="section" id="practice">
+    <h2>Practice focus</h2>
+    <p class="lead">Structured for authority: long-form readability, serif headlines, zero gimmicks.</p>
+    <div class="grid-3"><article class='card'><h3>Corporate disputes</h3><p>Shareholder, partnership, and contract litigation with disciplined prep.</p></article><article class='card'><h3>Commercial counsel</h3><p>Agreements and negotiations before conflict becomes expensive.</p></article><article class='card'><h3>Intellectual property</h3><p>Brand, trade secret, and infringement matters.</p></article><article class='card'><h3>Executive matters</h3><p>Sensitive issues handled with discretion.</p></article><article class='card'><h3>Cross-border</h3><p>Multi-jurisdiction coordination when the file isn’t local-only.</p></article><article class='card'><h3>Settlement strategy</h3><p>Leverage mapping — not performative aggression.</p></article></div>
+  </section>
+
+  <section class="section grid-2">
+    <div>
+      <h2>How engagement works</h2>
+      <div class="card"><div class='step'><div class='num'>01</div><div><h4>Confidential intake</h4><p>We scope the matter and conflicts check.</p></div></div>
+<div class='step'><div class='num'>02</div><div><h4>Case architecture</h4><p>Facts, risks, leverage, and options in plain language.</p></div></div>
+<div class='step'><div class='num'>03</div><div><h4>Execution</h4><p>Negotiation or litigation with measured updates.</p></div></div></div>
+    </div>
+    <div class="tool">
+      <div class="pill">Matter scale</div>
+      <h2 style="font-size:1.45rem;margin:8px 0">Confidential range</h2>
+      <div class="val" id="v">$1,500,000 matter scale</div>
+      <input type="range" min="100000" max="10000000" step="100000" value="1500000" oninput="document.getElementById('v').textContent='$'+parseInt(this.value).toLocaleString()+' matter scale'">
+      <div style="margin-top:14px"><button class="btn primary" onclick="openM()">Begin inquiry</button></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Selected commentary</h2>
+    <div class="quote">“They translated a messy commercial dispute into a clear decision tree. No theatrics — just leverage and timing.”<br><strong style="color:var(--navy)">— General Counsel, New York</strong></div>
+  </section>
+
+  <section class="section"><h2>FAQ</h2><details class='faq'><summary>Is the first conversation privileged?</summary><p>We treat initial inquiries as confidential. Formal engagement terms are confirmed in writing.</p></details>
+<details class='faq'><summary>Do you work on contingency?</summary><p>Depends on matter type. Fee structure is discussed after intake.</p></details>
+<details class='faq'><summary>How fast can you start?</summary><p>Vanguard Corporate &amp;amp; Civil Law typically responds within one business day in New York.</p></details></section>
+</main>
+<footer class="footer">Vanguard Corporate &amp; Civil Law<br>New York · +1 (555) 010-0000</footer>
+
+<div class="modal" id="m" role="dialog" aria-modal="true">
+  <div class="modal-card" style="background:#fff;color:#111;border-color:#e5e5e5">
+    <button class="close" type="button" onclick="closeM()" aria-label="Close">×</button>
+    <h3>Confidential inquiry</h3>
+    <p class="muted">We’ll route this to Vanguard Corporate &amp; Civil Law. No spam — just a real follow-up.</p>
+    <form onsubmit="event.preventDefault();closeM();alert('Request received by Vanguard Corporate &amp; Civil Law.');">
+      <input name="f0" placeholder="Name *" required>
+<input name="f1" placeholder="Phone *" required>
+<input name="f2" placeholder="Brief matter summary" >
+<input name="f3" placeholder="Company (optional)" >
+      <button class="btn primary" type="submit" style="width:100%;margin-top:8px">Submit</button>
+    </form>
   </div>
-  <aside class="panel">
-    <div class="k">Intake</div>
-    <h3>Privileged first conversation</h3>
-    <p style="color:var(--mute);margin-bottom:14px">Direct attorney line: <strong style="color:var(--ink)">+1 (555) 010-0000</strong></p>
-    <p style="color:var(--mute);font-size:.92rem">Legal design language: paper, brass, navy — authority that feels institutional, not flashy.</p>
-  </aside>
-</section>
-<section class="section">
-  <h2>Practice focus</h2>
-  <p class="sub">Structured for trust: long-form readability, serif headlines, zero gimmicks.</p>
-  <div class="grid"><article class="card"><h3>Disputes</h3><p>Commercial and civil matters with disciplined case architecture.</p></article>
-<article class="card"><h3>Counsel</h3><p>Contracts and governance before conflict becomes expensive.</p></article>
-<article class="card"><h3>Confidential matters</h3><p>Discreet engagement for executives and family offices.</p></article></div>
-</section>
-<section class="tool">
-  <div class="k">Matter scale</div>
-  <h2 style="font-family:'Libre Baskerville',serif;font-size:1.6rem;color:var(--navy);margin:8px 0">Confidential range indicator</h2>
-  <div class="val" id="v">$1,500,000 matter scale</div>
-  <input type="range" min="100000" max="10000000" step="100000" value="1500000" oninput="document.getElementById('v').textContent='$'+parseInt(this.value).toLocaleString()+' matter scale'">
-  <div style="margin-top:16px"><button class="btn" onclick="openM()">Begin confidential inquiry</button></div>
-</section>
-<footer>Vanguard Corporate &amp; Civil Law<br>New York · +1 (555) 010-0000</footer>
-<div class="modal" id="m"><div class="modal-card">
-  <button class="close" onclick="closeM()">×</button>
-  <h3 style="font-family:'Libre Baskerville',serif;margin-bottom:8px">Confidential inquiry</h3>
-  <form onsubmit="event.preventDefault();closeM();alert('Inquiry received by Vanguard Corporate &amp; Civil Law.');">
-    <input placeholder="Name *" required><input placeholder="Phone *" required><input placeholder="Brief matter summary">
-    <button class="btn" style="width:100%;margin-top:8px">Submit</button>
-  </form>
-</div></div>
-<script>function openM(){document.getElementById('m').classList.add('open')}function closeM(){document.getElementById('m').classList.remove('open')}</script>
+</div>
+<script>
+function openM(){document.getElementById('m').classList.add('open');}
+function closeM(){document.getElementById('m').classList.remove('open');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM();});
+</script>
 </body></html>
