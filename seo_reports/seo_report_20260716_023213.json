@@ -1,0 +1,201 @@
+{
+  "generated_at": "2026-07-16T02:32:13.064954+00:00",
+  "average_score": 100,
+  "critical_issues": 0,
+  "high_issues": 0,
+  "fixes_applied": [],
+  "pages": [
+    {
+      "url_or_path": "/",
+      "score": 100,
+      "issues": [],
+      "data": {
+        "title": "LeadFlow.AI | Clinic Website Design in Dubai & UAE (EN + AR)",
+        "title_len": 60,
+        "description": "LeadFlow builds high-converting dental and medspa websites for Dubai & UAE. English + Arabic ready. Free live preview, then USDT packages from $799.",
+        "description_len": 148,
+        "robots": "index,follow",
+        "lang": "en",
+        "canonical": "https://leadflow-ai-1vip.onrender.com/",
+        "h1": [
+          "The Next Generation of B2B Outbound is an Autonomous Workforce"
+        ],
+        "h2_count": 3,
+        "og": {
+          "title": "Clinic Website Design in Dubai | LeadFlow.AI",
+          "description": "Free live preview for Dubai clinics. EN+AR. USDT checkout.",
+          "image": "https://leadflow-ai-1vip.onrender.com/assets/dental/hire_hero.jpg",
+          "url": "https://leadflow-ai-1vip.onrender.com/"
+        },
+        "twitter_card": "summary_large_image",
+        "json_ld_blocks": 1,
+        "images": 0,
+        "images_missing_alt": 0,
+        "word_count": 3258
+      }
+    },
+    {
+      "url_or_path": "/hire",
+      "score": 100,
+      "issues": [],
+      "data": {
+        "title": "Website Design for Clinics in Dubai & UAE | LeadFlow.AI",
+        "title_len": 55,
+        "description": "LeadFlow builds high-converting clinic and medspa websites for Dubai & UAE. English + Arabic ready, live preview first, paid in USDT. Get more patient bookings.",
+        "description_len": 160,
+        "robots": "index,follow",
+        "lang": "en",
+        "canonical": "https://leadflow-ai-1vip.onrender.com/hire",
+        "h1": [
+          "High-converting websites for dental clinics & medspas in Dubai"
+        ],
+        "h2_count": 7,
+        "og": {
+          "title": "Clinic Website Design in Dubai | LeadFlow.AI",
+          "description": "Free live preview for dental & medspa clinics in Dubai. EN+AR ready. Pay with USDT only if you love it.",
+          "image": "https://leadflow-ai-1vip.onrender.com/assets/dental/hire_hero.jpg",
+          "url": "https://leadflow-ai-1vip.onrender.com/hire"
+        },
+        "twitter_card": "summary_large_image",
+        "json_ld_blocks": 1,
+        "images": 3,
+        "images_missing_alt": 0,
+        "word_count": 2714
+      }
+    },
+    {
+      "url_or_path": "/onboard",
+      "score": 100,
+      "issues": [],
+      "data": {
+        "title": "LeadFlow.AI | Launch Your Dubai Clinic Website",
+        "title_len": 46,
+        "description": "Checkout LeadFlow clinic website packages for Dubai & UAE. Launch $799, Growth $1499, Authority $2999 USDT.",
+        "description_len": 107,
+        "robots": "index,follow",
+        "lang": "en",
+        "canonical": "https://leadflow-ai-1vip.onrender.com/onboard",
+        "h1": [
+          "Launch Your Dubai Clinic Website"
+        ],
+        "h2_count": 0,
+        "og": {
+          "title": "LeadFlow Checkout | Dubai Clinic Website Packages (USDT)",
+          "description": "Launch $799 · Growth $1499 · Authority $2999 USDT. Clinic website packages for Dubai & UAE.",
+          "image": "https://leadflow-ai-1vip.onrender.com/assets/dental/hire_hero.jpg",
+          "url": "https://leadflow-ai-1vip.onrender.com/onboard"
+        },
+        "twitter_card": "summary_large_image",
+        "json_ld_blocks": 1,
+        "images": 0,
+        "images_missing_alt": 0,
+        "word_count": 1749
+      }
+    },
+    {
+      "url_or_path": "/live_demos/marina_pearl_dental_live.html",
+      "score": 100,
+      "issues": [],
+      "data": {
+        "title": "Marina Pearl Dental | Dentist in Dubai Marina | Book Online",
+        "title_len": 59,
+        "description": "Modern dental clinic in Dubai Marina. Book online, clear services, real team, before/after results, insurance guidance. English-first patient website.",
+        "description_len": 150,
+        "robots": "index,follow",
+        "lang": "en",
+        "canonical": "https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html",
+        "h1": [
+          "Premium dental care that books itself online."
+        ],
+        "h2_count": 9,
+        "og": {
+          "title": "Marina Pearl Dental | Dentist in Dubai Marina | Book Online",
+          "description": "Modern dental clinic in Dubai Marina. Book online, clear services, real team, before/after results.",
+          "image": "https://leadflow-ai-1vip.onrender.com/assets/dental/dubai_skyline_clinic.jpg",
+          "url": "https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html"
+        },
+        "twitter_card": "summary_large_image",
+        "json_ld_blocks": 1,
+        "images": 15,
+        "images_missing_alt": 0,
+        "word_count": 1830
+      }
+    }
+  ],
+  "local_uae": [
+    {
+      "target": "/",
+      "score": 100,
+      "found": [
+        "Dubai",
+        "UAE",
+        "clinic website",
+        "dental",
+        "medspa"
+      ],
+      "missing": [],
+      "recommendations": [
+        "Mention bilingual EN/AR support for UAE trust and relevance.",
+        "Add booking/appointment language for patient conversion intent."
+      ]
+    },
+    {
+      "target": "/hire",
+      "score": 100,
+      "found": [
+        "Dubai",
+        "UAE",
+        "clinic website",
+        "dental",
+        "medspa",
+        "Arabic",
+        "English",
+        "USDT",
+        "Abu Dhabi"
+      ],
+      "missing": [],
+      "recommendations": [
+        "Add booking/appointment language for patient conversion intent."
+      ]
+    },
+    {
+      "target": "/onboard",
+      "score": 100,
+      "found": [
+        "USDT",
+        "Dubai",
+        "clinic"
+      ],
+      "missing": [],
+      "recommendations": [
+        "Mention bilingual EN/AR support for UAE trust and relevance.",
+        "Add booking/appointment language for patient conversion intent."
+      ]
+    },
+    {
+      "target": "/live_demos/marina_pearl_dental_live.html",
+      "score": 100,
+      "found": [
+        "Dubai",
+        "dental",
+        "appointment",
+        "book"
+      ],
+      "missing": [],
+      "recommendations": [
+        "Mention bilingual EN/AR support for UAE trust and relevance."
+      ]
+    }
+  ],
+  "content_briefs": [
+    "content/seo/dentist-website-dubai.md",
+    "content/seo/medspa-website-dubai.md",
+    "content/seo/clinic-website-cost-uae.md"
+  ],
+  "sources_inspired_by": [
+    "https://github.com/JeffLi1993/seo-audit-skill",
+    "https://github.com/zurd46/AISeoAgent",
+    "https://github.com/Bhanunamikaze/Agentic-SEO-Skill",
+    "https://github.com/AgriciDaniel/claude-seo"
+  ]
+}

@@ -1,0 +1,64 @@
+# LeadFlow SEO Fleet Report
+
+Generated: 2026-07-16T02:32:13.064954+00:00
+
+## Summary
+- Average score: **100/100**
+- Critical issues: **0**
+- High issues: **0**
+
+## Fixes applied this run
+- None needed / already present
+
+## Page audits
+### `/` — score 100/100
+- No issues 🎉
+
+### `/hire` — score 100/100
+- No issues 🎉
+
+### `/onboard` — score 100/100
+- No issues 🎉
+
+### `/live_demos/marina_pearl_dental_live.html` — score 100/100
+- No issues 🎉
+
+## Local UAE keyword coverage
+### `/` — 100/100
+- Found: Dubai, UAE, clinic website, dental, medspa
+- Missing: —
+- Rec: Mention bilingual EN/AR support for UAE trust and relevance.
+- Rec: Add booking/appointment language for patient conversion intent.
+
+### `/hire` — 100/100
+- Found: Dubai, UAE, clinic website, dental, medspa, Arabic, English, USDT, Abu Dhabi
+- Missing: —
+- Rec: Add booking/appointment language for patient conversion intent.
+
+### `/onboard` — 100/100
+- Found: USDT, Dubai, clinic
+- Missing: —
+- Rec: Mention bilingual EN/AR support for UAE trust and relevance.
+- Rec: Add booking/appointment language for patient conversion intent.
+
+### `/live_demos/marina_pearl_dental_live.html` — 100/100
+- Found: Dubai, dental, appointment, book
+- Missing: —
+- Rec: Mention bilingual EN/AR support for UAE trust and relevance.
+
+## Content briefs generated
+- `content/seo/dentist-website-dubai.md`
+- `content/seo/medspa-website-dubai.md`
+- `content/seo/clinic-website-cost-uae.md`
+
+## Inspired by open-source SEO agents
+- https://github.com/JeffLi1993/seo-audit-skill
+- https://github.com/zurd46/AISeoAgent
+- https://github.com/Bhanunamikaze/Agentic-SEO-Skill
+- https://github.com/AgriciDaniel/claude-seo
+
+## Next actions
+1. Push changes and confirm `/hire`, `/robots.txt`, `/sitemap.xml` live
+2. Submit sitemap in Google Search Console
+3. Expand one markdown brief into a public HTML article when ready
+4. Keep outbound outreach while SEO compounds
