@@ -162,7 +162,7 @@
                 <div class="metric card"><strong id="m-won">0</strong><span>Won</span></div>
             </div>
             <div class="actions">
-                <button class="btn" type="button" onclick="seedStarterPack()">Load starter pack (30 slots)</button>
+                <button class="btn" type="button" onclick="seedStarterPack()">Load Nuremberg dental pack</button>
                 <button class="btn ghost" type="button" onclick="exportCSV()">Export CSV</button>
             </div>
         </aside>
@@ -427,7 +427,7 @@
                 <div class="actions">
                     <button class="btn" type="submit">Save lead</button>
                     <button class="btn ghost" type="button" onclick="resetForm()">Clear form</button>
-                    <button class="btn ghost" type="button" onclick="seedStarterPack()">Fill 30 empty slots</button>
+                    <button class="btn ghost" type="button" onclick="seedStarterPack()">Load Nuremberg dental pack</button>
                     <button class="btn ghost" type="button" onclick="exportCSV()">Export CSV</button>
                     <button class="btn ghost" type="button" onclick="clearAllLeads()">Clear all leads</button>
                 </div>
@@ -752,29 +752,63 @@ function buildMsg(id) {
 
 function seedStarterPack() {
     const leads = loadLeads();
-    if (leads.length >= 30) {
-        toast('Already have 30+ leads');
-        return;
-    }
-    const niches = ['Dental / Clinic','Spa / Aesthetics','Restaurant','Gym'];
-    const start = leads.length;
-    for (let i = start; i < 30; i++) {
+    const demo = (location.origin.startsWith('http') ? location.origin : 'https://leadflow-ai-1vip.onrender.com') + '/live_demos/nordic_smile_studio_live.html';
+    // Public directory-style targets for Nuremberg dental GTM (verify phone/site on Maps before sending).
+    const dentalNuremberg = [
+        {biz:'Zahnarztpraxis Dr. Miriam Fischer', city:'Nuremberg', phone:'+49 911 37748222', channel:'zahnarztpraxis-drfischer.de', notes:'Has website - use as benchmark competitor, not cold demo spam'},
+        {biz:'Königsweiß Zahnärzte', city:'Nuremberg', phone:'', channel:'Maps', notes:'Verify contact on Google Maps before outreach'},
+        {biz:'Zahnarztpraxis Dr. Anne Gresskowski & Kollegen', city:'Nuremberg', phone:'', channel:'Maps', notes:'Verify website quality; pitch only if weak/outdated'},
+        {biz:'Zahnarztpraxis St Peter', city:'Nuremberg', phone:'', channel:'Hainstraße area', notes:'Check site/IG presence'},
+        {biz:'Zahnarztpraxis Patric Kuhn', city:'Nuremberg', phone:'', channel:'Brückenstraße', notes:'Check booking UX'},
+        {biz:'Familienzahnarztpraxis Nürnberg', city:'Nuremberg', phone:'', channel:'Aachener Str.', notes:'Family practice angle'},
+        {biz:'Zahnarztpraxis Dres. Török & Thumm', city:'Nuremberg', phone:'', channel:'Allersberger Str.', notes:'Cosmetic + general'},
+        {biz:'Zahnärzte Am Neutorgraben', city:'Nuremberg', phone:'', channel:'Neutorgraben', notes:'Verify digital presence'},
+        {biz:'Zahnarztpraxis Dres. Fischler', city:'Nuremberg', phone:'', channel:'Wilhelm-Löhe-Straße', notes:'Verify site age/mobile'},
+        {biz:'Plärrerdent / Zahnarztpraxis am Plärrer', city:'Nuremberg', phone:'+49 911 284444', channel:'plaerrer-dent.de / Facebook', notes:'Has some web presence - audit quality first'},
+        {biz:'Zahnarztpraxis Kelmendi', city:'Nuremberg', phone:'+49 911 80194570', channel:'Facebook/m.praxis.kelmendi.de', notes:'Possible weak web - good candidate if site thin'},
+        {biz:'Dr. Med. Dent. Matthias Salfelder', city:'Nuremberg', phone:'', channel:'Äußere Sulzbacher Str.', notes:'Verify Maps + website'},
+        {biz:'Nordstadt family dental target A', city:'Nuremberg Nordstadt', phone:'', channel:'Maps', notes:'Find weak-site clinic near Nordstadt'},
+        {biz:'Schweinau dental target B', city:'Nuremberg Schweinau', phone:'', channel:'Maps', notes:'Find weak-site clinic near Schweinau'},
+        {biz:'Langwasser dental target C', city:'Nuremberg Langwasser', phone:'', channel:'Maps', notes:'Suburban family practice hunt'}
+    ];
+    let added = 0;
+    dentalNuremberg.forEach((row, i) => {
+        if (leads.some(l => l.biz === row.biz)) return;
         leads.push({
-            id: 'S' + Date.now() + '_' + i,
-            biz: `Target business ${i + 1}`,
+            id: 'NUE_DENT_' + Date.now() + '_' + i,
+            biz: row.biz,
             contact: '',
-            niche: niches[i % niches.length],
-            city: '',
-            phone: '',
-            channel: '',
-            demo: '',
-            status: 'queued',
-            notes: 'Replace with real Maps lead',
+            niche: 'Dental / Clinic',
+            city: row.city,
+            phone: row.phone || '',
+            channel: row.channel || '',
+            demo: demo,
+            status: row.phone || row.channel ? 'demo_ready' : 'queued',
+            notes: row.notes + ' | Flagship demo attached for outreach personalization',
             updatedAt: new Date().toISOString()
         });
+        added++;
+    });
+    // pad to 30 with structured empty dental slots
+    while (leads.filter(l => l.niche === 'Dental / Clinic').length < 30) {
+        const n = leads.length + 1;
+        leads.push({
+            id: 'DENT_SLOT_' + Date.now() + '_' + n,
+            biz: 'Nuremberg dental lead #' + n + ' (fill from Maps)',
+            contact: '',
+            niche: 'Dental / Clinic',
+            city: 'Nuremberg',
+            phone: '',
+            channel: '',
+            demo: demo,
+            status: 'queued',
+            notes: 'Find on Google Maps: rating>=4.5, weak/no website, then personalize demo',
+            updatedAt: new Date().toISOString()
+        });
+        added++;
     }
     saveLeads(leads);
-    toast('Starter pack loaded — replace placeholders with real businesses');
+    toast('Dental Nuremberg pack loaded (+' + added + '). Verify each on Maps before messaging.');
 }
 
 function exportCSV() {
