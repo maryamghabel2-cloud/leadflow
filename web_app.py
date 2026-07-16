@@ -12,6 +12,7 @@ import uvicorn
 from fastapi import FastAPI, HTTPException, Body
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from researcher_agent import ResearcherAgent
@@ -32,6 +33,11 @@ app = FastAPI(
     ),
     version="4.1.0",
 )
+
+# Serve generated media assets (dental photos, etc.)
+if os.path.isdir("generated_sites/assets"):
+    app.mount("/assets", StaticFiles(directory="generated_sites/assets"), name="assets")
+
 
 # CORS: restrict in production via env LEADFLOW_CORS_ORIGINS=https://yourdomain.com,https://...
 _cors_raw = os.environ.get("LEADFLOW_CORS_ORIGINS", "").strip()

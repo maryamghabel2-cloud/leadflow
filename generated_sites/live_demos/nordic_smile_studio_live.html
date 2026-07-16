@@ -1,217 +1,374 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nordic Smile Studio · Nuremberg</title>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nordic Smile Studio | Dentist in Nuremberg | Book Online</title>
+<meta name="description" content="Modern dental practice in Nuremberg. Online appointment requests, clear services, real team, insurance guidance, and calm patient-first care.">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap');
-
+:root{
+  --bg:#F4FAF8; --ink:#14302B; --mute:#5B726C; --line:#D5E6E1;
+  --sea:#0F766E; --sea2:#115E59; --soft:#E7F5F1; --sand:#FFF9F3; --card:#fff;
+  --ok:#047857; --warn:#B45309;
+}
 *{box-sizing:border-box;margin:0;padding:0}
-img,svg{display:block;max-width:100%}
-button,input,select,textarea{font:inherit}
-.muted{opacity:.78}
-.wrap{width:min(1120px,92vw);margin:0 auto}
-.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.grid-2{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:center}
-@media(max-width:900px){.grid-3,.grid-2{grid-template-columns:1fr}}
-.section{padding:72px 0}
-.section h2{font-size:clamp(1.6rem,3vw,2.2rem);line-height:1.15;margin-bottom:10px}
-.section .lead{max-width:40rem;margin-bottom:26px}
-.card{padding:22px;border-radius:18px}
-.card h3{font-size:1.1rem;margin-bottom:8px}
-.card p{font-size:.95rem;line-height:1.65}
-.pill{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;font-size:.75rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}
+img{max-width:100%;display:block}
+a{color:inherit}
+.wrap{width:min(1140px,92vw);margin:0 auto}
+.nav{position:sticky;top:0;z-index:30;background:rgba(244,250,248,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav-inner{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 0;flex-wrap:wrap}
+.logo{font-family:'Fraunces',serif;font-size:1.35rem;font-weight:700;text-decoration:none}
+.nav-links{display:flex;flex-wrap:wrap;gap:12px 16px;align-items:center;font-size:.9rem;font-weight:600;color:var(--mute)}
+.nav-links a{text-decoration:none}
+.nav-links a:hover{color:var(--sea)}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;text-decoration:none;padding:12px 18px;border-radius:999px;font-weight:700}
-.btn.ghost{background:transparent}
-.actions{display:flex;flex-wrap:wrap;gap:12px}
-.nav{position:sticky;top:0;z-index:30;display:flex;justify-content:space-between;align-items:center;padding:16px 4vw;backdrop-filter:blur(12px)}
-.logo{font-weight:700;text-decoration:none}
-.footer{padding:42px 4vw;text-align:center;font-size:.92rem}
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);align-items:center;justify-content:center;padding:18px;z-index:80}
-.modal.open{display:flex}
-.modal-card{width:min(460px,100%);padding:26px;border-radius:18px;border:1px solid;position:relative}
-.modal-card h3{font-size:1.35rem;margin-bottom:6px}
-.modal-card input,.modal-card select,.modal-card textarea{width:100%;margin:8px 0;padding:12px 14px;border-radius:12px;border:1px solid #d4d4d8;background:#fff}
-.modal-card .close{position:absolute;right:12px;top:8px;border:0;background:none;font-size:1.4rem;cursor:pointer;opacity:.7}
-.faq{border:1px solid;border-radius:14px;padding:14px 16px;margin:10px 0;background:transparent}
-.faq summary{cursor:pointer;font-weight:700}
-.faq p{margin-top:8px;opacity:.8}
-.step{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid rgba(0,0,0,.06)}
-.step .num{font-weight:800;opacity:.45;min-width:2.2rem}
-.table{width:100%;border-collapse:collapse;font-size:.95rem}
-.table th,.table td{padding:12px 10px;border-bottom:1px solid rgba(0,0,0,.08);text-align:left;vertical-align:top}
-.quote{padding:22px;border-radius:18px;font-size:1.05rem;line-height:1.6}
-.gallery{display:grid;grid-template-columns:1.3fr 1fr;gap:12px}
-@media(max-width:900px){.gallery{grid-template-columns:1fr}}
-.g-main,.g-side{border-radius:20px;min-height:180px;overflow:hidden}
-.tool{padding:28px;border-radius:22px;text-align:center}
-.tool .val{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;margin:12px 0}
-input[type=range]{width:min(100%,420px)}
-
-.shot{margin:0;border-radius:20px;overflow:hidden}
-.shot img{width:100%;height:100%;object-fit:cover;display:block}
-.shot.tall img{min-height:280px}
+.btn-primary{background:var(--sea);color:#fff}
+.btn-primary:hover{background:var(--sea2)}
+.btn-soft{background:var(--soft);color:var(--sea)}
+.btn-ghost{background:transparent;border:1px solid var(--line);color:var(--ink)}
+.pill{display:inline-flex;align-items:center;gap:8px;background:var(--soft);color:var(--sea);padding:6px 12px;border-radius:999px;font-size:.75rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
+.hero{padding:28px 0 18px}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:28px;align-items:center}
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr}}
+h1{font-family:'Fraunces',serif;font-size:clamp(2.1rem,4.5vw,3.3rem);line-height:1.12;margin:12px 0 14px}
+h2{font-family:'Fraunces',serif;font-size:clamp(1.5rem,3vw,2rem);margin-bottom:8px}
+h3{font-family:'Fraunces',serif;font-size:1.15rem;margin-bottom:6px}
+.lead{color:var(--mute);font-size:1.05rem;max-width:36rem}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.hero-card{background:var(--card);border:1px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:0 18px 50px rgba(20,48,43,.06)}
+.hero-card img{width:100%;height:320px;object-fit:cover}
+.hero-meta{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--line)}
+.hero-meta div{background:var(--card);padding:14px;text-align:center}
+.hero-meta strong{display:block;font-family:'Fraunces',serif;font-size:1.3rem}
+.hero-meta span{color:var(--mute);font-size:.78rem}
+.trustbar{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 8px}
+.trustbar span{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:8px 12px;font-size:.82rem;color:var(--mute);font-weight:600}
+.section{padding:56px 0;scroll-margin-top:80px}
+.section .sub{color:var(--mute);margin-bottom:22px;max-width:40rem}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.grid-2{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;align-items:start}
+@media(max-width:900px){.grid-3,.grid-2{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px}
+.card p,.muted{color:var(--mute)}
+.service img{width:100%;height:150px;object-fit:cover;border-radius:14px;margin-bottom:12px}
+.service .tag{font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--sea);margin-bottom:6px}
 .ba{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 @media(max-width:800px){.ba{grid-template-columns:1fr}}
-.ba figure{margin:0;border-radius:18px;overflow:hidden;background:rgba(0,0,0,.03)}
-.ba img{width:100%;height:260px;object-fit:cover;display:block}
-.ba figcaption{padding:10px 12px;font-size:.85rem;font-weight:700}
+.ba figure{margin:0;background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.ba img{width:100%;height:280px;object-fit:cover}
+.ba figcaption{padding:12px 14px;font-weight:700;font-size:.9rem}
 .team-card{text-align:center}
-.team-card .avatar{width:96px;height:96px;border-radius:50%;object-fit:cover;margin:0 auto 12px}
-.team-card .role{font-size:.8rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;opacity:.7;margin-bottom:8px}
-.bullets{margin:14px 0 0 1.1rem;line-height:1.8}
-.subnav{display:flex;flex-wrap:wrap;gap:10px 14px;font-size:.86rem;align-items:center}
-.subnav a{text-decoration:none;opacity:.85}
-.subnav a:hover{opacity:1}
+.team-card img{width:110px;height:110px;border-radius:50%;object-fit:cover;margin:0 auto 12px;border:3px solid var(--soft)}
+.team-card .role{font-size:.78rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--sea);margin-bottom:8px}
+.steps{display:grid;gap:0}
+.step{display:grid;grid-template-columns:48px 1fr;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}
+.step .n{width:40px;height:40px;border-radius:50%;background:var(--soft);color:var(--sea);display:grid;place-items:center;font-weight:800}
+.quote{background:linear-gradient(160deg,var(--sand),#fff);border:1px solid var(--line);border-radius:18px;padding:20px}
+.quote strong{display:block;margin-top:10px;color:var(--ink)}
+table{width:100%;border-collapse:collapse;font-size:.95rem}
+th,td{padding:12px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{color:var(--mute);font-size:.75rem;text-transform:uppercase;letter-spacing:.05em}
+.faq details{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:10px 0}
+.faq summary{cursor:pointer;font-weight:700}
+.faq p{margin-top:8px;color:var(--mute)}
+.sticky-cta{position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgba(20,48,43,.96);color:#fff;padding:12px 4vw;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.sticky-cta p{font-size:.92rem;opacity:.92}
+.sticky-cta .btn-primary{background:#fff;color:var(--sea)}
+.footer{padding:70px 0 100px;border-top:1px solid var(--line);background:#fff;color:var(--mute);text-align:center}
+.footer strong{color:var(--ink);font-family:'Fraunces',serif;font-size:1.25rem}
+.modal{display:none;position:fixed;inset:0;background:rgba(20,48,43,.45);align-items:center;justify-content:center;padding:16px;z-index:60}
+.modal.open{display:flex}
+.modal-card{width:min(460px,100%);background:#fff;border-radius:20px;padding:24px;border:1px solid var(--line);position:relative}
+.modal-card h3{font-family:'Fraunces',serif;margin-bottom:6px}
+.modal-card input,.modal-card select,.modal-card textarea{width:100%;margin:8px 0;padding:12px 14px;border:1px solid var(--line);border-radius:12px;font:inherit}
+.modal-card .close{position:absolute;right:12px;top:8px;border:0;background:none;font-size:1.4rem;cursor:pointer;color:var(--mute)}
+.photo-strip{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:10px}
+@media(max-width:900px){.photo-strip{grid-template-columns:1fr}}
+.photo-strip img{width:100%;height:180px;object-fit:cover;border-radius:16px}
+.insurance{display:flex;flex-wrap:wrap;gap:8px}
+.insurance span{background:var(--soft);color:var(--sea2);padding:8px 12px;border-radius:999px;font-size:.82rem;font-weight:700}
+.alert{display:none;padding:10px 12px;border-radius:12px;margin-top:8px;font-size:.9rem}
+.alert.ok{display:block;background:#ECFDF5;color:var(--ok)}
+.alert.err{display:block;background:#FEF2F2;color:#B91C1C}
+</style>
+</head>
+<body>
+<div class="nav"><div class="wrap nav-inner">
+  <a class="logo" href="#top">Nordic Smile Studio</a>
+  <div class="nav-links">
+    <a href="#services">Services</a>
+    <a href="#results">Results</a>
+    <a href="#team">Team</a>
+    <a href="#visit">Visit</a>
+    <a href="#insurance">Insurance</a>
+    <a href="#faq">FAQ</a>
+    <a class="btn btn-primary" href="#book" onclick="openM();return false;">Book appointment</a>
+  </div>
+</div></div>
 
-:root{--bg:#F7FBFA;--ink:#16302B;--mute:#5B726C;--line:#D7E5E1;--sea:#0F766E;--soft:#E4F3F0;--sand:#FFF9F2}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}
-.nav{background:rgba(247,251,250,.92);border-bottom:1px solid var(--line)}
-.logo{font-family:'Fraunces',serif;font-size:1.35rem;color:var(--ink)}
-.btn.primary{background:var(--sea);color:#fff}
-.btn.ghost{border:1px solid var(--line);color:var(--sea);background:var(--soft)}
-.pill{background:var(--soft);color:var(--sea)}
-h1,h2,h3,h4{font-family:'Fraunces',serif;font-weight:700}
-.hero{padding:56px 0 24px}
-.side{background:linear-gradient(160deg,var(--sand),#fff);border:1px solid var(--line);border-radius:28px;padding:22px}
-.metric{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
-.metric div{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px}
-.metric strong{display:block;font-family:'Fraunces',serif;font-size:1.5rem}
-.metric span{color:var(--mute);font-size:.8rem}
-.card{background:#fff;border:1px solid var(--line)}
-.quote{background:#fff;border:1px solid var(--line)}
-.tool{background:#fff;border:1px solid var(--line)}
-.tool .val{color:var(--sea);font-family:'Fraunces',serif}
-.faq{border-color:var(--line);background:#fff}
-.table th{color:var(--mute);font-size:.8rem;text-transform:uppercase;letter-spacing:.04em}
-.footer{background:#fff;border-top:1px solid var(--line);color:var(--mute)}
-.lead,.card p,.section .lead{color:var(--mute)}
-input[type=range]{accent-color:var(--sea)}
-</style></head><body>
-<nav class="nav"><a class="logo" href="#">Nordic Smile Studio</a><div class="actions subnav">
-<a href="#about">About</a><a href="#services">Services</a><a href="#results">Results</a><a href="#team">Team</a><a href="#process">Visit</a>
-<button class="btn primary" onclick="openM()">Book visit</button></div></nav>
-<main class="wrap">
-  <section class="hero grid-2">
-    <div>
-      <div class="pill">Healthcare · Nuremberg</div>
-      <h1 style="font-size:clamp(2.2rem,4.5vw,3.4rem);line-height:1.1;margin:12px 0 14px">Care that feels calm, clear, and human</h1>
-      <p class="lead">Nordic Smile Studio combines modern clinical standards with a calmer patient experience — clear language, transparent options, and a booking path that doesn’t feel like a call center.</p>
-      <div class="actions">
-        <button class="btn primary" onclick="openM()">Request appointment</button>
-        <a class="btn ghost" href="#process">How visits work</a>
+<main id="top">
+  <section class="hero wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="pill">Zahnarztpraxis · Nuremberg</div>
+        <h1>A calmer way to find a dentist — and actually book one.</h1>
+        <p class="lead">Nordic Smile Studio helps local patients in Nuremberg compare services, trust the team, check insurance/financing basics, and request an appointment without phone tag.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="#book" onclick="openM();return false;">Request appointment</a>
+          <a class="btn btn-soft" href="tel:+499115550188">Call +49 911 555 0188</a>
+          <a class="btn btn-ghost" href="#services">View treatments</a>
+        </div>
+        <div class="trustbar">
+          <span>⭐ 4.9 patient rating</span>
+          <span>Same-week openings often available</span>
+          <span>German + English care</span>
+          <span>Clear treatment options before you commit</span>
+        </div>
+      </div>
+      <div class="hero-card">
+        <img src="/assets/dental/hero_clinic.jpg" alt="Modern dental treatment room at Nordic Smile Studio in Nuremberg">
+        <div class="hero-meta">
+          <div><strong>24/7</strong><span>request form</span></div>
+          <div><strong>15m</strong><span>on-time goal</span></div>
+          <div><strong>0</strong><span>pressure sales</span></div>
+        </div>
       </div>
     </div>
-    <aside class="side">
-      <figure class="shot"><img src="https://loremflickr.com/1000/780/dental,clinic,healthcare?lock=21" alt="Nordic Smile Studio clinic" loading="lazy" width="1000" height="780"/></figure>
-      <div class="metric">
-        <div><strong>4.9</strong><span>avg. rating</span></div>
-        <div><strong>15m</strong><span>on-time goal</span></div>
+  </section>
+
+  <section class="section wrap" id="problem">
+    <h2>What this website is for (for the dentist)</h2>
+    <p class="sub">Not a pretty brochure. A patient-acquisition system that turns Google/Maps visitors into booked visits.</p>
+    <div class="grid-3">
+      <article class="card">
+        <h3>1) Attract the right local patients</h3>
+        <p>Service pages + clear location signals help people searching “dentist Nuremberg / Zahnarzt Nürnberg” understand you fast.</p>
+      </article>
+      <article class="card">
+        <h3>2) Convert anxiety into a booking</h3>
+        <p>Reviews, real team photos, before/after, insurance notes, and a persistent Book CTA reduce drop-off.</p>
+      </article>
+      <article class="card">
+        <h3>3) Capture demand after hours</h3>
+        <p>Online appointment requests work when the phone is closed — nights/weekends included.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section wrap" id="gallery">
+    <h2>A real clinic feel — not random stock</h2>
+    <p class="sub">Patients decide with visuals: room, team, process. These images are clinic-specific dental scenes generated for this demo.</p>
+    <div class="photo-strip">
+      <img src="/assets/dental/reception.jpg" alt="Welcoming dental clinic reception">
+      <img src="/assets/dental/consult.jpg" alt="Dentist consulting with patient using tablet">
+      <img src="/assets/dental/treatment.jpg" alt="Professional dental treatment in clinic">
+    </div>
+  </section>
+
+  <section class="section wrap" id="services">
+    <h2>Treatments patients actually search for</h2>
+    <p class="sub">Dedicated service paths (implants, whitening, hygiene, emergency) convert better than one vague “services” block.</p>
+    <div class="grid-3">
+      <article class="card service">
+        <img src="/assets/dental/treatment.jpg" alt="General dentistry">
+        <div class="tag">General care</div>
+        <h3>Check-ups & hygiene</h3>
+        <p>Prevention-first visits, clear findings, and recall planning.</p>
+      </article>
+      <article class="card service">
+        <img src="/assets/dental/consult.jpg" alt="Cosmetic consultation">
+        <div class="tag">Cosmetic</div>
+        <h3>Whitening & smile design</h3>
+        <p>Visual planning, options explained, no surprise upsells.</p>
+      </article>
+      <article class="card service">
+        <img src="/assets/dental/hero_clinic.jpg" alt="Restorative dentistry room">
+        <div class="tag">Restorative</div>
+        <h3>Crowns, implants & repairs</h3>
+        <p>Structured plans for durability and comfort.</p>
+      </article>
+      <article class="card service">
+        <img src="/assets/dental/reception.jpg" alt="Family dental care">
+        <div class="tag">Family</div>
+        <h3>Family dentistry</h3>
+        <p>Calm visits for adults and teens, practical scheduling.</p>
+      </article>
+      <article class="card service">
+        <img src="/assets/dental/consult.jpg" alt="Emergency dental advice">
+        <div class="tag">Urgent</div>
+        <h3>Emergency slots</h3>
+        <p>Pain-first triage and same-day pathway when available.</p>
+      </article>
+      <article class="card service">
+        <img src="/assets/dental/hero_clinic.jpg" alt="Patient education">
+        <div class="tag">Clarity</div>
+        <h3>Second opinions</h3>
+        <p>Bring existing x-rays/plans — we explain options in plain language.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section wrap" id="results">
+    <h2>Before / after proof</h2>
+    <p class="sub">The most persuasive element for higher-value treatments — shown as educational demo imagery.</p>
+    <div class="ba">
+      <figure>
+        <img src="/assets/dental/before_teeth.jpg" alt="Smile before whitening and alignment plan">
+        <figcaption>Before consult planning</figcaption>
+      </figure>
+      <figure>
+        <img src="/assets/dental/after_teeth.jpg" alt="Brighter healthier smile after treatment plan">
+        <figcaption>After whitening / restorative plan</figcaption>
+      </figure>
+    </div>
+    <div class="actions" style="margin-top:16px">
+      <a class="btn btn-primary" href="#book" onclick="openM();return false;">Ask about a similar plan</a>
+    </div>
+  </section>
+
+  <section class="section wrap" id="team">
+    <h2>Meet the people you’ll actually see</h2>
+    <p class="sub">Real faces beat anonymous stock. Trust rises when patients can picture the appointment.</p>
+    <div class="grid-3">
+      <article class="card team-card">
+        <img src="/assets/dental/team1.jpg" alt="Dr. Lena Vogt">
+        <h3>Dr. Lena Vogt</h3>
+        <div class="role">Lead dentist</div>
+        <p>Restorative planning, implants pathway, gentle chairside communication.</p>
+      </article>
+      <article class="card team-card">
+        <img src="/assets/dental/team2.jpg" alt="Jonas Weber">
+        <h3>Jonas Weber</h3>
+        <div class="role">Hygiene lead</div>
+        <p>Prevention programs, recall systems, and comfortable cleanings.</p>
+      </article>
+      <article class="card team-card">
+        <img src="/assets/dental/team3.jpg" alt="Mila Hoffmann">
+        <h3>Mila Hoffmann</h3>
+        <div class="role">Patient coordinator</div>
+        <p>Booking, insurance questions, and visit prep — your first human contact.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section wrap" id="visit">
+    <div class="grid-2">
+      <div>
+        <h2>How booking works</h2>
+        <p class="sub">Designed to remove phone-tag and after-hours leakage.</p>
+        <div class="steps">
+          <div class="step"><div class="n">1</div><div><h3>Request online</h3><p class="muted">Tell us service, urgency, and preferred times (24/7 form).</p></div></div>
+          <div class="step"><div class="n">2</div><div><h3>We confirm a slot</h3><p class="muted">Coordinator replies with time options and prep notes.</p></div></div>
+          <div class="step"><div class="n">3</div><div><h3>Visit with a clear plan</h3><p class="muted">Exam, options, and pricing discussion before treatment decisions.</p></div></div>
+        </div>
       </div>
-      <p class="muted" style="margin-top:12px;font-size:.92rem">Direct line: <strong style="color:var(--ink)">+49 911 555 0188</strong></p>
-    </aside>
-  </section>
-
-  <section class="section" id="services">
-    <h2>Services designed around comfort</h2>
-    <p class="lead">Healthcare UX: high readability, soft teal trust palette, obvious next step — patients scan under stress.</p>
-    <div class="grid-3"><article class='card'><h3>Diagnostics</h3><p>Digital imaging, clear explanations, no rushed consults.</p></article><article class='card'><h3>Restorative / treatment</h3><p>Plans built around comfort and long-term outcomes.</p></article><article class='card'><h3>Prevention</h3><p>Recalls and maintenance that keep care simple.</p></article><article class='card'><h3>Emergency desk</h3><p>Priority pathways when something can’t wait.</p></article><article class='card'><h3>Family continuity</h3><p>Notes that follow the patient — not lost in chats.</p></article><article class='card'><h3>Aftercare</h3><p>Written instructions you can actually follow at home.</p></article></div>
-  </section>
-
-  
-<section class="section" id="about">
-  <div class="grid-2">
-    <div>
-      <h2>About Nordic Smile Studio</h2>
-      <p class="lead">Nordic Smile Studio is a modern practice in Nuremberg focused on clear communication, gentle care, and transparent options before treatment.</p>
-      <ul class="bullets">
-        <li>Based in Nuremberg</li>
-        <li>Appointment-first operations</li>
-        <li>Human follow-up after every inquiry</li>
-      </ul>
-    </div>
-    <figure class="shot tall"><img src="https://loremflickr.com/1200/900/dentist,smile,healthcare?lock=5" alt="Nordic Smile Studio in Nuremberg" loading="lazy" width="1200" height="900"/></figure>
-  </div>
-</section>
-  
-<section class="section" id="results">
-  <h2>Before / after</h2>
-  <p class="lead">Visual proof clients look for - illustrative demo imagery.</p>
-  <div class="ba">
-    <figure><img src="https://loremflickr.com/900/700/dental,clinic,healthcare?lock=12" alt="Before consult planning" loading="lazy"/><figcaption>Before consult planning</figcaption></figure>
-    <figure><img src="https://loremflickr.com/900/700/dentist,smile,healthcare?lock=19" alt="After restorative / whitening plan" loading="lazy"/><figcaption>After restorative / whitening plan</figcaption></figure>
-  </div>
-</section>
-  <section class='section' id='team'><h2>Team</h2><p class='lead'>The people clients actually meet.</p><div class='grid-3'><article class='card team-card'><img class='avatar' src='https://loremflickr.com/600/600/portrait,professional,business?lock=41' alt='Dr. Maya Chen' loading='lazy'/><h3>Dr. Maya Chen</h3><div class='role'>Lead clinician</div><p>Treatment planning and complex restorative cases.</p></article><article class='card team-card'><img class='avatar' src='https://loremflickr.com/600/600/portrait,professional,business?lock=42' alt='Jordan Lee' loading='lazy'/><h3>Jordan Lee</h3><div class='role'>Patient coordinator</div><p>Booking, insurance questions, and visit prep.</p></article><article class='card team-card'><img class='avatar' src='https://loremflickr.com/600/600/portrait,professional,business?lock=43' alt='Sam Ortiz' loading='lazy'/><h3>Sam Ortiz</h3><div class='role'>Hygiene lead</div><p>Prevention programs and recall systems.</p></article></div></section>
-  <section class="section" id="process">
-    <h2>Your first visit, simplified</h2>
-    <p class="lead">A predictable path reduces anxiety more than any animation ever will.</p>
-    <div class="card" style="background:#fff;border:1px solid var(--line)"><div class='step'><div class='num'>01</div><div><h4>Tell us what you need</h4><p>Share symptoms, goals, or a photo if relevant.</p></div></div>
-<div class='step'><div class='num'>02</div><div><h4>We confirm a slot</h4><p>You’ll get a clear time window and prep notes.</p></div></div>
-<div class='step'><div class='num'>03</div><div><h4>Visit + plan</h4><p>Exam, options, and pricing transparency before treatment.</p></div></div></div>
-  </section>
-
-  <section class="section">
-    <div class="tool">
-      <div class="pill">Interactive preview</div>
-      <h2 style="margin-top:10px">Treatment brightness planner</h2>
-      <p class="lead" style="margin:8px auto 0">A conversation starter for whitening goals — not a medical claim.</p>
-      <div class="val" id="v">70% brighter target</div>
-      <input type="range" min="20" max="100" value="70" oninput="document.getElementById('v').textContent=this.value+'% brighter target'">
-      <div style="margin-top:14px"><button class="btn primary" onclick="openM()">Discuss this plan</button></div>
+      <div>
+        <div class="quote">“I compared three practices online. This site made booking feel safe — hours, team, and the request form were obvious on my phone.”<strong>— New patient, Nuremberg</strong></div>
+        <div class="card" style="margin-top:12px">
+          <h3>Hours</h3>
+          <table>
+            <tr><td>Mon–Thu</td><td>08:00 – 18:00</td></tr>
+            <tr><td>Friday</td><td>08:00 – 15:00</td></tr>
+            <tr><td>Emergency line</td><td>Same-day triage when available</td></tr>
+            <tr><td>Address area</td><td>Nuremberg city center metro</td></tr>
+          </table>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="section grid-2">
-    <div>
-      <h2>What patients say</h2>
-      <div class="quote" style="margin-top:14px">“They explained every option before I felt pushed into treatment. The room felt calm — not clinical-cold.”<br><strong style="display:block;margin-top:10px;color:var(--ink)">— M. R., Nuremberg</strong></div>
-      <div class="quote" style="margin-top:12px">“Booking was simple and the follow-up notes were actually useful.”<br><strong style="display:block;margin-top:10px;color:var(--ink)">— A. K., Nuremberg</strong></div>
+  <section class="section wrap" id="insurance">
+    <h2>Insurance & financing clarity</h2>
+    <p class="sub">Outdated insurance info is a top reason patients abandon a dental site. We surface the basics early.</p>
+    <div class="card">
+      <div class="insurance">
+        <span>Public insurance welcome</span>
+        <span>Private plans</span>
+        <span>Transparent treatment options</span>
+        <span>Phased plans when needed</span>
+      </div>
+      <p class="muted" style="margin-top:12px">Final coverage depends on plan and treatment. Ask during booking and we’ll help you understand next steps.</p>
     </div>
-    <div>
-      <h2>Transparent fee examples</h2>
-      <p class="lead">Illustrative ranges for planning conversations — confirmed after exam.</p>
-      <table class="table">
-        <tr><th>Service</th><th>From</th></tr>
-        <tr><td>New patient exam</td><td>$89</td></tr>
-        <tr><td>Hygiene / cleaning visit</td><td>$120</td></tr>
-        <tr><td>Whitening package</td><td>$350</td></tr>
-        <tr><td>Custom treatment plan</td><td>Quoted after consult</td></tr>
+  </section>
+
+  <section class="section wrap" id="fees">
+    <h2>Example fee ranges (orientation only)</h2>
+    <p class="sub">Shown for planning conversations — confirmed after exam.</p>
+    <div class="card">
+      <table>
+        <tr><th>Service</th><th>From</th><th>Goal</th></tr>
+        <tr><td>New patient exam</td><td>€89</td><td>Diagnosis + plan</td></tr>
+        <tr><td>Hygiene / PZR</td><td>€120</td><td>Prevention</td></tr>
+        <tr><td>Whitening package</td><td>€350</td><td>Cosmetic confidence</td></tr>
+        <tr><td>Restorative / implant pathway</td><td>Quoted</td><td>Long-term function</td></tr>
       </table>
     </div>
   </section>
 
-  <section class="section">
-    <h2>FAQ</h2>
-    <details class='faq'><summary>Do you accept new patients?</summary><p>Yes — Nordic Smile Studio welcomes new patients in Nuremberg most weeks. Request a slot and we’ll confirm availability.</p></details>
-<details class='faq'><summary>How long is a first visit?</summary><p>Typically 30–45 minutes so we can listen, examine, and map options without rushing.</p></details>
-<details class='faq'><summary>Is financing available?</summary><p>We can discuss phased treatment plans. Mention budget constraints during booking.</p></details>
-<details class='faq'><summary>Where are you located?</summary><p>Serving patients across Nuremberg. Exact suite details are confirmed on booking.</p></details>
+  <section class="section wrap" id="faq">
+    <h2>FAQ patients ask before they call</h2>
+    <div class="faq">
+      <details open><summary>Can I request an appointment without calling?</summary><p>Yes. Use the Book form anytime — including nights and weekends. We confirm by phone/email.</p></details>
+      <details><summary>Do you accept public insurance?</summary><p>Yes for many treatments. Share your insurer when booking so we can guide expectations.</p></details>
+      <details><summary>I’m anxious about dental visits — what helps?</summary><p>We explain every step before treatment, offer breaks, and keep a calm room environment.</p></details>
+      <details><summary>How fast can I be seen for pain?</summary><p>Tell us it’s urgent in the form. We prioritize pain cases when slots open.</p></details>
+      <details><summary>Is this website only marketing?</summary><p>No. It’s built to solve three practice problems: get found, get trusted, and get booked.</p></details>
+    </div>
+  </section>
+
+  <section class="section wrap" id="book">
+    <div class="card" style="text-align:center;padding:28px">
+      <div class="pill">Next step</div>
+      <h2 style="margin-top:10px">Ready when you are</h2>
+      <p class="sub" style="margin:8px auto 0">Request a slot online or call the practice line.</p>
+      <div class="actions" style="justify-content:center">
+        <a class="btn btn-primary" href="#" onclick="openM();return false;">Book appointment</a>
+        <a class="btn btn-soft" href="tel:+499115550188">+49 911 555 0188</a>
+      </div>
+    </div>
   </section>
 </main>
-<footer class="footer"><strong style="color:var(--ink);font-family:'Fraunces',serif;font-size:1.2rem">Nordic Smile Studio</strong><br>Nuremberg · +49 911 555 0188</footer>
 
-<div class="modal" id="m" role="dialog" aria-modal="true">
-  <div class="modal-card" style="background:#fff;color:#111;border-color:#e5e5e5">
-    <button class="close" type="button" onclick="closeM()" aria-label="Close">x</button>
-    <h3>Request a visit</h3>
-    <p class="muted">Sent to Nordic Smile Studio. On LeadFlow host this stores via /api/lead/capture.</p>
+<footer class="footer wrap">
+  <strong>Nordic Smile Studio</strong><br>
+  Nuremberg · +49 911 555 0188<br>
+  Patient-first dental website demo for LeadFlow first-customer GTM
+</footer>
+
+<div class="sticky-cta">
+  <p><strong>Need a dentist in Nuremberg?</strong> Request a visit in under a minute.</p>
+  <a class="btn btn-primary" href="#book" onclick="openM();return false;">Book appointment</a>
+</div>
+
+<div class="modal" id="m">
+  <div class="modal-card">
+    <button class="close" type="button" onclick="closeM()">×</button>
+    <h3>Request an appointment</h3>
+    <p class="muted">We’ll confirm availability. On LeadFlow host this also stores the lead via API.</p>
     <form id="lead-form" onsubmit="return submitLead(event)">
       <input name="name" placeholder="Full name *" required>
       <input name="email" type="email" placeholder="Email *" required>
       <input name="phone" placeholder="Phone / WhatsApp *" required>
-      <input name="company" type="hidden" value="Nordic Smile Studio">
-      <input name="note" placeholder="Notes (optional)">
-      <button class="btn primary" id="lead-btn" type="submit" style="width:100%;margin-top:8px">Send request</button>
-      <p id="lead-status" class="muted" style="margin-top:10px;font-size:.85rem"></p>
+      <select name="service">
+        <option value="check-up">Check-up / hygiene</option>
+        <option value="pain">Pain / emergency</option>
+        <option value="whitening">Whitening / cosmetic</option>
+        <option value="restorative">Crowns / implants</option>
+        <option value="other">Other</option>
+      </select>
+      <input name="time" placeholder="Preferred day/time window">
+      <button class="btn btn-primary" id="lead-btn" type="submit" style="width:100%;margin-top:8px">Send request</button>
+      <div class="alert" id="lead-status"></div>
     </form>
   </div>
 </div>
+
 <script>
-const LEAD_STUDIO = 'MEDICAL_DEMO';
-const LEAD_COMPANY = 'Nordic Smile Studio';
 function openM(){document.getElementById('m').classList.add('open');}
 function closeM(){document.getElementById('m').classList.remove('open');}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM();});
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeM(); });
 async function submitLead(e){
   e.preventDefault();
   const form = e.target;
@@ -220,29 +377,27 @@ async function submitLead(e){
   const payload = {
     email: form.email.value.trim(),
     name: form.name.value.trim(),
-    company: form.company.value.trim() || LEAD_COMPANY,
-    studio_source: LEAD_STUDIO + (form.note.value ? (':' + form.note.value.slice(0,80)) : '')
+    company: 'Nordic Smile Studio',
+    studio_source: 'DENTAL_FLAGSHIP:' + form.service.value + ':' + (form.time.value||'').slice(0,40)
   };
-  btn.disabled = true; btn.textContent = 'Sending...'; status.textContent = '';
+  btn.disabled = true; btn.textContent = 'Sending...';
+  status.className = 'alert'; status.textContent = '';
   try {
     const res = await fetch('/api/lead/capture', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(payload)
+      method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)
     });
-    if(res.ok){
-      status.textContent = 'Request received. We will follow up shortly.';
-      form.reset();
-      setTimeout(()=>{closeM(); btn.disabled=false; btn.textContent='Send request'; status.textContent='';}, 1200);
-    } else {
-      throw new Error('API ' + res.status);
-    }
+    if(!res.ok) throw new Error('API ' + res.status);
+    status.className = 'alert ok';
+    status.textContent = 'Request received. We will confirm your appointment options shortly.';
+    form.reset();
+    setTimeout(()=>{closeM(); btn.disabled=false; btn.textContent='Send request'; status.className='alert'; status.textContent='';}, 1400);
   } catch (err) {
-    status.textContent = 'Demo note: lead API works on LeadFlow host. UI confirmation saved.';
-    console.warn('lead capture', err);
-    setTimeout(()=>{closeM(); btn.disabled=false; btn.textContent='Send request'; status.textContent='';}, 1500);
+    status.className = 'alert err';
+    status.textContent = 'Could not reach lead API from this host. On LeadFlow Render it works — try again there.';
+    btn.disabled = false; btn.textContent = 'Send request';
   }
   return false;
 }
 </script>
-</body></html>
+</body>
+</html>
