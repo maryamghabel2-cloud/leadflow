@@ -164,6 +164,25 @@ async def serve_enterprise():
         return FileResponse("index_enterprise_minimal.html")
     return {"message": "Enterprise page not found."}
 
+
+@app.get("/blog")
+async def serve_blog_index():
+    path = os.path.join("blog", "index.html")
+    if os.path.exists(path):
+        return FileResponse(path)
+    raise HTTPException(status_code=404, detail="Blog index not found.")
+
+
+@app.get("/blog/{slug}")
+async def serve_blog_article(slug: str):
+    # prevent path traversal
+    safe = "".join(c for c in slug if c.isalnum() or c in ("-", "_")).strip("-_")
+    path = os.path.join("blog", f"{safe}.html")
+    if os.path.exists(path):
+        return FileResponse(path)
+    raise HTTPException(status_code=404, detail="Article not found.")
+
+
 @app.get("/hire")
 async def serve_hire():
     if os.path.exists("hire.html"):
@@ -258,6 +277,10 @@ async def sitemap_xml():
     urls = [
         "/",
         "/hire",
+        "/blog",
+        "/blog/dentist-website-dubai",
+        "/blog/medspa-website-dubai",
+        "/blog/clinic-website-cost-uae",
         "/onboard",
         "/miner",
         "/live_demos/marina_pearl_dental_live.html",
