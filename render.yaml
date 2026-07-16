@@ -13,6 +13,8 @@ services:
     envVars:
       - key: PORT
         value: "8000"
+      - key: PUBLIC_BASE_URL
+        value: "https://leadflow-ai-1vip.onrender.com"
       - key: LEADFLOW_ENV
         value: production
       - key: LEADFLOW_ALLOW_SIM_PAYMENTS

@@ -164,6 +164,13 @@ async def serve_enterprise():
         return FileResponse("index_enterprise_minimal.html")
     return {"message": "Enterprise page not found."}
 
+@app.get("/hire")
+async def serve_hire():
+    if os.path.exists("hire.html"):
+        return FileResponse("hire.html")
+    return {"message": "Hire page not found."}
+
+
 @app.get("/first-customer")
 async def serve_first_customer():
     if os.path.exists("first_customer.html"):
@@ -213,6 +220,60 @@ async def serve_handover_package(filename: str):
 # ---------------------------------------------------------------------------
 # Public config (safe for frontend — never leak secrets)
 # ---------------------------------------------------------------------------
+
+@app.get("/robots.txt")
+async def robots_txt():
+    from fastapi.responses import PlainTextResponse
+    host = os.environ.get("PUBLIC_BASE_URL", "https://leadflow-ai-1vip.onrender.com").rstrip("/")
+    body = (
+        "User-agent: *\n"
+        "Allow: /\n"
+        "Disallow: /first-customer\n"
+        "Disallow: /go\n"
+        "Disallow: /agency\n"
+        "Disallow: /docs\n"
+        "Disallow: /redoc\n"
+        "Disallow: /openapi.json\n"
+        f"Sitemap: {host}/sitemap.xml\n"
+    )
+    # fix f-string properly
+    body = (
+        "User-agent: *\n"
+        "Allow: /\n"
+        "Disallow: /first-customer\n"
+        "Disallow: /go\n"
+        "Disallow: /agency\n"
+        "Disallow: /docs\n"
+        "Disallow: /redoc\n"
+        "Disallow: /openapi.json\n"
+        + f"Sitemap: {host}/sitemap.xml\n"
+    )
+    return PlainTextResponse(body)
+
+
+@app.get("/sitemap.xml")
+async def sitemap_xml():
+    from fastapi.responses import Response
+    host = os.environ.get("PUBLIC_BASE_URL", "https://leadflow-ai-1vip.onrender.com").rstrip("/")
+    urls = [
+        "/",
+        "/hire",
+        "/onboard",
+        "/miner",
+        "/live_demos/marina_pearl_dental_live.html",
+        "/live_demos/nordic_smile_studio_live.html",
+    ]
+    items = []
+    for u in urls:
+        pr = "1.0" if u == "/" else "0.8"
+        items.append(f"  <url><loc>{host}{u}</loc><changefreq>weekly</changefreq><priority>{pr}</priority></url>")
+    xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+    xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    xml += "\n".join(items) + "\n</urlset>\n"
+    return Response(content=xml, media_type="application/xml")
+
+
+
 @app.get("/api/config/public")
 async def public_config():
     treasury = os.environ.get("TRON_TREASURY_WALLET_ADDRESS", "").strip()
@@ -224,10 +285,17 @@ async def public_config():
         "version": "4.1.0",
         "environment": env,
         "primary_offer": {
-            "name": "0-to-100 Premium Website Package",
-            "price_usdt": 499,
+            "name": "Dubai Growth Clinic Website Package",
+            "price_usdt": 1499,
             "billing": "one_time",
             "currency": "USDT_TRC20",
+            "tiers": [
+                {"id": "launch", "price_usdt": 799, "name": "Launch"},
+                {"id": "growth", "price_usdt": 1499, "name": "Growth"},
+                {"id": "authority", "price_usdt": 2999, "name": "Authority"}
+            ],
+            "markets": ["Dubai", "UAE", "Istanbul"],
+            "languages": ["en", "ar"]
         },
         "treasury_wallet": treasury if not misconfigured else "",
         "treasury_configured": not misconfigured,
