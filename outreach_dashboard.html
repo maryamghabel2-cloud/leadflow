@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LeadFlow | داشبورد ارسال پیام کلینیک‌های دبی</title>
+  <meta name="robots" content="noindex,nofollow">
+  <style>
+    :root {
+      --bg:#FBFBF9; --ink:#18181B; --slate:#475569; --mute:#78716C; --line:#E5E0D8;
+      --ok:#059669; --sea:#0F766E; --stone:#F2EFE9; --warn:#B45309;
+    }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family: Tahoma, "Segoe UI", sans-serif; background:var(--bg); color:var(--ink); line-height:1.7; border-top:4px solid var(--ink); }
+    a { color:var(--sea); }
+    .wrap { width:min(980px,94vw); margin:0 auto; padding:20px 0 80px; }
+    header { background:#fff; border-bottom:1px solid var(--line); position:sticky; top:0; z-index:10; }
+    .nav { width:min(980px,94vw); margin:0 auto; display:flex; justify-content:space-between; gap:10px; align-items:center; padding:14px 0; flex-wrap:wrap; }
+    .brand { font-weight:800; text-decoration:none; color:var(--ink); }
+    .btn { display:inline-flex; align-items:center; justify-content:center; border:1px solid var(--ink); background:var(--ink); color:#fff; text-decoration:none; padding:10px 14px; font-size:13px; font-weight:700; cursor:pointer; }
+    .btn.ghost { background:#fff; color:var(--ink); }
+    .btn.sea { background:var(--sea); border-color:var(--sea); }
+    .hero { background:var(--stone); border:1px solid var(--line); padding:18px; margin:18px 0; }
+    .hero h1 { font-size:1.4rem; margin-bottom:8px; }
+    .hero p { color:var(--slate); margin-bottom:8px; }
+    .grid-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-top:12px; }
+    @media(max-width:700px){ .grid-stats { grid-template-columns:1fr 1fr; } }
+    .stat { background:#fff; border:1px solid var(--line); padding:12px; text-align:center; }
+    .stat b { display:block; font-size:1.4rem; }
+    .filters { display:flex; flex-wrap:wrap; gap:8px; margin:14px 0; }
+    .filters button { border:1px solid var(--line); background:#fff; padding:8px 12px; cursor:pointer; font-weight:700; }
+    .filters button.active { background:var(--ink); color:#fff; }
+    .card { background:#fff; border:1px solid var(--line); padding:16px; margin:0 0 14px; }
+    .card.done { opacity:.72; }
+    .top { display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:10px; }
+    .num { color:var(--mute); font-size:12px; font-weight:800; }
+    h2 { font-size:1.1rem; margin:2px 0; }
+    .meta { color:var(--mute); font-size:13px; }
+    .actions { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0; }
+    .msg { border:1px solid var(--line); background:var(--bg); margin-top:10px; }
+    .msg-head { display:flex; justify-content:space-between; align-items:center; padding:8px 10px; border-bottom:1px solid var(--line); background:var(--stone); }
+    pre { white-space:pre-wrap; direction:ltr; text-align:left; font-family:ui-monospace, SFMono-Regular, Menlo, monospace; font-size:12px; padding:12px; color:#111; }
+    .copy { border:1px solid var(--ink); background:var(--ink); color:#fff; padding:6px 10px; cursor:pointer; font-size:12px; font-weight:700; }
+    .notes textarea { width:100%; min-height:70px; border:1px solid var(--line); padding:10px; font:inherit; margin-top:6px; }
+    .status-wrap label { display:block; font-size:11px; color:var(--mute); font-weight:800; }
+    select.status { padding:8px; border:1px solid var(--line); font:inherit; min-width:150px; }
+    .toast { position:fixed; bottom:16px; left:16px; background:var(--ink); color:#fff; padding:10px 14px; display:none; z-index:20; }
+    .toast.show { display:block; }
+    .warn { background:#FFF7ED; border:1px solid #FED7AA; color:#9A3412; padding:12px; margin:12px 0; }
+    .ok { background:#ECFDF5; border:1px solid #A7F3D0; color:#065F46; padding:12px; margin:12px 0; }
+    footer { text-align:center; color:var(--mute); font-size:12px; padding:20px; }
+    .ltr { direction:ltr; text-align:left; }
+  </style>
+</head>
+<body>
+<header>
+  <div class="nav">
+    <a class="brand" href="/">LeadFlow · Outreach</a>
+    <div class="actions">
+      <a class="btn ghost" href="/first-customer">ترکر اصلی</a>
+      <a class="btn ghost" href="/hire" target="_blank">صفحه فروش</a>
+      <a class="btn sea" href="/live_demos/marina_pearl_dental_live.html" target="_blank">دمو</a>
+    </div>
+  </div>
+</header>
+<main class="wrap">
+  <section class="hero">
+    <h1>داشبورد مرتب ارسال پیام به کلینیک‌های دبی</h1>
+    <p>این صفحه برای این است که گیج نشوی: برای هر کلینیک دکمه <b>Copy</b> دارد. کپی کن → واتساپ/اینستا باز کن → بفرست → وضعیت را عوض کن.</p>
+    <div class="ok"><b>فایل MD را چطور باز کنی؟</b> لازم نیست. از همین صفحه استفاده کن. اگر خواستی فایل خام را ببینی: با VS Code / Notepad++ / Typora. در موبایل: Markor یا Textastic.</div>
+    <div class="warn"><b>خودکار کامل بدون دسترسی تو ممکن نیست.</b> واتساپ/اینستا فقط با اکانت خودت ارسال می‌شود. من پیام‌ها را آماده کرده‌ام؛ ارسال یا API رسمی باید به اکانت تو وصل شود.</div>
+    <div class="grid-stats">
+      <div class="stat"><b id="s-total">15</b>کل هدف</div>
+      <div class="stat"><b id="s-todo">0</b>نفرستاده</div>
+      <div class="stat"><b id="s-sent">0</b>ارسال‌شده</div>
+      <div class="stat"><b id="s-won">0</b>برنده</div>
+    </div>
+  </section>
+
+  <section class="hero">
+    <h2>چطور من/ایجنت واقعاً ارسال را خودکار کنیم؟</h2>
+    <p>یکی از این‌ها را باید بدهی:</p>
+    <ol class="ltr" style="margin-right:18px;color:var(--slate)">
+      <li><b>WhatsApp Business API</b> (Meta / Twilio / 360dialog) + شماره بیزنس verify شده</li>
+      <li><b>Email API</b> مثل Resend/SendGrid + دامنه verify شده</li>
+      <li>یک نیروی انسانی/VA که از همین داشبورد کپی‌ارسال کند (سریع‌ترین راه امروز)</li>
+    </ol>
+    <p>اینستاگرام DM اتومات غیررسمی معمولاً خلاف قوانین و پرریسک بن است. پیشنهاد حرفه‌ای: واتساپ بیزنس API یا ایمیل.</p>
+  </section>
+
+  <div class="filters">
+    <button type="button" class="active" data-filter="all">همه</button>
+    <button type="button" data-filter="dental">Dental</button>
+    <button type="button" data-filter="medspa">Medspa</button>
+    <button type="button" data-filter="todo">فقط نفرستاده‌ها</button>
+    <button type="button" class="btn ghost" id="export-btn" style="margin-right:auto">Export وضعیت</button>
+  </div>
+
+  
+    <article class="card" data-kind="dental" id="c1">
+      <div class="top">
+        <div>
+          <div class="num">#1</div>
+          <h2>Marina Smile Clinic</h2>
+          <div class="meta">Dubai Marina · dental</div>
+        </div>
+        <div class="status-wrap">
+          <label>Status</label>
+          <select class="status" data-id="1">
+            <option value="todo">Not sent</option>
+            <option value="sent">Message 1 sent</option>
+            <option value="follow">Follow-up sent</option>
+            <option value="replied">Replied</option>
+            <option value="won">Won</option>
+            <option value="lost">Lost</option>
+          </select>
+        </div>
+      </div>
+      <div class="actions">
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Marina Smile Clinic Dubai Marina">Find on Maps</a>
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://www.instagram.com/explore/search/keyword/?q=MarinaSmileClinic">Find on Instagram</a>
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html">Open demo</a>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Message 1</strong><button type="button" class="copy" data-copy="m1-1">Copy</button></div>
+        <pre id="m1-1">Hi there — quick note about Marina Smile Clinic in Dubai Marina.
+Your reviews look strong, but many clinics nearby still lose patients because the website is weak or missing.
+
+I prepared a free live clinic-website preview (booking request, services, team, before/after):
+https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html
+
+If useful, I can rebuild it with your clinic name today.
+If you want ownership later: Growth package is 1,499 USDT one-time (EN+AR ready).
+If not — zero cost.
+
+Want the customized preview?</pre>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Follow-up</strong><button type="button" class="copy" data-copy="f-1">Copy</button></div>
+        <pre id="f-1">Hi — following up in case this got buried.
+Live preview for a Dubai clinic site concept:
+https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html
+
+Happy to customize for Marina Smile Clinic today if helpful.</pre>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Close</strong><button type="button" class="copy" data-copy="c-1">Copy</button></div>
+        <pre id="c-1">Great — glad the direction resonates.
+
+Next step to own the package:
+1) Open https://leadflow-ai-1vip.onrender.com/onboard
+2) Choose Growth ($1,499 USDT)
+3) Pay USDT TRC-20 and paste TXID for automatic verification
+
+I’ll deliver the full handover ZIP after confirmation.
+Preview/info page: https://leadflow-ai-1vip.onrender.com/hire</pre>
+      </div>
+      <div class="notes">
+        <label>My notes</label>
+        <textarea data-notes="1" placeholder="Phone/IG handle, who replied, next step..."></textarea>
+      </div>
+    </article>
+    <article class="card" data-kind="dental" id="c2">
+      <div class="top">
+        <div>
+          <div class="num">#2</div>
+          <h2>JLT Family Dental</h2>
+          <div class="meta">JLT, Dubai · dental</div>
+        </div>
+        <div class="status-wrap">
+          <label>Status</label>
+          <select class="status" data-id="2">
+            <option value="todo">Not sent</option>
+            <option value="sent">Message 1 sent</option>
+            <option value="follow">Follow-up sent</option>
+            <option value="replied">Replied</option>
+            <option value="won">Won</option>
+            <option value="lost">Lost</option>
+          </select>
+        </div>
+      </div>
+      <div class="actions">
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=JLT Family Dental JLT, Dubai">Find on Maps</a>
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://www.instagram.com/explore/search/keyword/?q=JLTFamilyDental">Find on Instagram</a>
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html">Open demo</a>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Message 1</strong><button type="button" class="copy" data-copy="m1-2">Copy</button></div>
+        <pre id="m1-2">Hi there — quick note about JLT Family Dental in JLT, Dubai.
+Your reviews look strong, but many clinics nearby still lose patients because the website is weak or missing.
+
+I prepared a free live clinic-website preview (booking request, services, team, before/after):
+https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html
+
+If useful, I can rebuild it with your clinic name today.
+If you want ownership later: Growth package is 1,499 USDT one-time (EN+AR ready).
+If not — zero cost.
+
+Want the customized preview?</pre>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Follow-up</strong><button type="button" class="copy" data-copy="f-2">Copy</button></div>
+        <pre id="f-2">Hi — following up in case this got buried.
+Live preview for a Dubai clinic site concept:
+https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html
+
+Happy to customize for JLT Family Dental today if helpful.</pre>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Close</strong><button type="button" class="copy" data-copy="c-2">Copy</button></div>
+        <pre id="c-2">Great — glad the direction resonates.
+
+Next step to own the package:
+1) Open https://leadflow-ai-1vip.onrender.com/onboard
+2) Choose Growth ($1,499 USDT)
+3) Pay USDT TRC-20 and paste TXID for automatic verification
+
+I’ll deliver the full handover ZIP after confirmation.
+Preview/info page: https://leadflow-ai-1vip.onrender.com/hire</pre>
+      </div>
+      <div class="notes">
+        <label>My notes</label>
+        <textarea data-notes="2" placeholder="Phone/IG handle, who replied, next step..."></textarea>
+      </div>
+    </article>
+    <article class="card" data-kind="dental" id="c3">
+      <div class="top">
+        <div>
+          <div class="num">#3</div>
+          <h2>Business Bay Dental Studio</h2>
+          <div class="meta">Business Bay · dental</div>
+        </div>
+        <div class="status-wrap">
+          <label>Status</label>
+          <select class="status" data-id="3">
+            <option value="todo">Not sent</option>
+            <option value="sent">Message 1 sent</option>
+            <option value="follow">Follow-up sent</option>
+            <option value="replied">Replied</option>
+            <option value="won">Won</option>
+            <option value="lost">Lost</option>
+          </select>
+        </div>
+      </div>
+      <div class="actions">
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Business Bay Dental Studio Business Bay">Find on Maps</a>
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://www.instagram.com/explore/search/keyword/?q=BusinessBayDentalStudio">Find on Instagram</a>
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html">Open demo</a>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Message 1</strong><button type="button" class="copy" data-copy="m1-3">Copy</button></div>
+        <pre id="m1-3">Hi there — quick note about Business Bay Dental Studio in Business Bay.
+Your reviews look strong, but many clinics nearby still lose patients because the website is weak or missing.
+
+I prepared a free live clinic-website preview (booking request, services, team, before/after):
+https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html
+
+If useful, I can rebuild it with your clinic name today.
+If you want ownership later: Growth package is 1,499 USDT one-time (EN+AR ready).
+If not — zero cost.
+
+Want the customized preview?</pre>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Follow-up</strong><button type="button" class="copy" data-copy="f-3">Copy</button></div>
+        <pre id="f-3">Hi — following up in case this got buried.
+Live preview for a Dubai clinic site concept:
+https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html
+
+Happy to customize for Business Bay Dental Studio today if helpful.</pre>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Close</strong><button type="button" class="copy" data-copy="c-3">Copy</button></div>
+        <pre id="c-3">Great — glad the direction resonates.
+
+Next step to own the package:
+1) Open https://leadflow-ai-1vip.onrender.com/onboard
+2) Choose Growth ($1,499 USDT)
+3) Pay USDT TRC-20 and paste TXID for automatic verification
+
+I’ll deliver the full handover ZIP after confirmation.
+Preview/info page: https://leadflow-ai-1vip.onrender.com/hire</pre>
+      </div>
+      <div class="notes">
+        <label>My notes</label>
+        <textarea data-notes="3" placeholder="Phone/IG handle, who replied, next step..."></textarea>
+      </div>
+    </article>
+    <article class="card" data-kind="dental" id="c4">
+      <div class="top">
+        <div>
+          <div class="num">#4</div>
+          <h2>Jumeirah Beach Dental</h2>
+          <div class="meta">Jumeirah · dental</div>
+        </div>
+        <div class="status-wrap">
+          <label>Status</label>
+          <select class="status" data-id="4">
+            <option value="todo">Not sent</option>
+            <option value="sent">Message 1 sent</option>
+            <option value="follow">Follow-up sent</option>
+            <option value="replied">Replied</option>
+            <option value="won">Won</option>
+            <option value="lost">Lost</option>
+          </select>
+        </div>
+      </div>
+      <div class="actions">
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Jumeirah Beach Dental Jumeirah">Find on Maps</a>
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://www.instagram.com/explore/search/keyword/?q=JumeirahBeachDental">Find on Instagram</a>
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html">Open demo</a>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Message 1</strong><button type="button" class="copy" data-copy="m1-4">Copy</button></div>
+        <pre id="m1-4">Hi there — quick note about Jumeirah Beach Dental in Jumeirah.
+Your reviews look strong, but many clinics nearby still lose patients because the website is weak or missing.
+
+I prepared a free live clinic-website preview (booking request, services, team, before/after):
+https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html
+
+If useful, I can rebuild it with your clinic name today.
+If you want ownership later: Growth package is 1,499 USDT one-time (EN+AR ready).
+If not — zero cost.
+
+Want the customized preview?</pre>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Follow-up</strong><button type="button" class="copy" data-copy="f-4">Copy</button></div>
+        <pre id="f-4">Hi — following up in case this got buried.
+Live preview for a Dubai clinic site concept:
+https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html
+
+Happy to customize for Jumeirah Beach Dental today if helpful.</pre>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Close</strong><button type="button" class="copy" data-copy="c-4">Copy</button></div>
+        <pre id="c-4">Great — glad the direction resonates.
+
+Next step to own the package:
+1) Open https://leadflow-ai-1vip.onrender.com/onboard
+2) Choose Growth ($1,499 USDT)
+3) Pay USDT TRC-20 and paste TXID for automatic verification
+
+I’ll deliver the full handover ZIP after confirmation.
+Preview/info page: https://leadflow-ai-1vip.onrender.com/hire</pre>
+      </div>
+      <div class="notes">
+        <label>My notes</label>
+        <textarea data-notes="4" placeholder="Phone/IG handle, who replied, next step..."></textarea>
+      </div>
+    </article>
+    <article class="card" data-kind="dental" id="c5">
+      <div class="top">
+        <div>
+          <div class="num">#5</div>
+          <h2>Downtown Dental Lounge</h2>
+          <div class="meta">Downtown Dubai · dental</div>
+        </div>
+        <div class="status-wrap">
+          <label>Status</label>
+          <select class="status" data-id="5">
+            <option value="todo">Not sent</option>
+            <option value="sent">Message 1 sent</option>
+            <option value="follow">Follow-up sent</option>
+            <option value="replied">Replied</option>
+            <option value="won">Won</option>
+            <option value="lost">Lost</option>
+          </select>
+        </div>
+      </div>
+      <div class="actions">
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Downtown Dental Lounge Downtown Dubai">Find on Maps</a>
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://www.instagram.com/explore/search/keyword/?q=DowntownDentalLounge">Find on Instagram</a>
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html">Open demo</a>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Message 1</strong><button type="button" class="copy" data-copy="m1-5">Copy</button></div>
+        <pre id="m1-5">Hi there — quick note about Downtown Dental Lounge in Downtown Dubai.
+Your reviews look strong, but many clinics nearby still lose patients because the website is weak or missing.
+
+I prepared a free live clinic-website preview (booking request, services, team, before/after):
+https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html
+
+If useful, I can rebuild it with your clinic name today.
+If you want ownership later: Growth package is 1,499 USDT one-time (EN+AR ready).
+If not — zero cost.
+
+Want the customized preview?</pre>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Follow-up</strong><button type="button" class="copy" data-copy="f-5">Copy</button></div>
+        <pre id="f-5">Hi — following up in case this got buried.
+Live preview for a Dubai clinic site concept:
+https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html
+
+Happy to customize for Downtown Dental Lounge today if helpful.</pre>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Close</strong><button type="button" class="copy" data-copy="c-5">Copy</button></div>
+        <pre id="c-5">Great — glad the direction resonates.
+
+Next step to own the package:
+1) Open https://leadflow-ai-1vip.onrender.com/onboard
+2) Choose Growth ($1,499 USDT)
+3) Pay USDT TRC-20 and paste TXID for automatic verification
+
+I’ll deliver the full handover ZIP after confirmation.
+Preview/info page: https://leadflow-ai-1vip.onrender.com/hire</pre>
+      </div>
+      <div class="notes">
+        <label>My notes</label>
+        <textarea data-notes="5" placeholder="Phone/IG handle, who replied, next step..."></textarea>
+      </div>
+    </article>
+    <article class="card" data-kind="dental" id="c6">
+      <div class="top">
+        <div>
+          <div class="num">#6</div>
+          <h2>DIFC Executive Dental</h2>
+          <div class="meta">DIFC · dental</div>
+        </div>
+        <div class="status-wrap">
+          <label>Status</label>
+          <select class="status" data-id="6">
+            <option value="todo">Not sent</option>
+            <option value="sent">Message 1 sent</option>
+            <option value="follow">Follow-up sent</option>
+            <option value="replied">Replied</option>
+            <option value="won">Won</option>
+            <option value="lost">Lost</option>
+          </select>
+        </div>
+      </div>
+      <div class="actions">
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=DIFC Executive Dental DIFC">Find on Maps</a>
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://www.instagram.com/explore/search/keyword/?q=DIFCExecutiveDental">Find on Instagram</a>
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html">Open demo</a>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Message 1</strong><button type="button" class="copy" data-copy="m1-6">Copy</button></div>
+        <pre id="m1-6">Hi there — quick note about DIFC Executive Dental in DIFC.
+Your reviews look strong, but many clinics nearby still lose patients because the website is weak or missing.
+
+I prepared a free live clinic-website preview (booking request, services, team, before/after):
+https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html
+
+If useful, I can rebuild it with your clinic name today.
+If you want ownership later: Growth package is 1,499 USDT one-time (EN+AR ready).
+If not — zero cost.
+
+Want the customized preview?</pre>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Follow-up</strong><button type="button" class="copy" data-copy="f-6">Copy</button></div>
+        <pre id="f-6">Hi — following up in case this got buried.
+Live preview for a Dubai clinic site concept:
+https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html
+
+Happy to customize for DIFC Executive Dental today if helpful.</pre>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Close</strong><button type="button" class="copy" data-copy="c-6">Copy</button></div>
+        <pre id="c-6">Great — glad the direction resonates.
+
+Next step to own the package:
+1) Open https://leadflow-ai-1vip.onrender.com/onboard
+2) Choose Growth ($1,499 USDT)
+3) Pay USDT TRC-20 and paste TXID for automatic verification
+
+I’ll deliver the full handover ZIP after confirmation.
+Preview/info page: https://leadflow-ai-1vip.onrender.com/hire</pre>
+      </div>
+      <div class="notes">
+        <label>My notes</label>
+        <textarea data-notes="6" placeholder="Phone/IG handle, who replied, next step..."></textarea>
+      </div>
+    </article>
+    <article class="card" data-kind="dental" id="c7">
+      <div class="top">
+        <div>
+          <div class="num">#7</div>
+          <h2>Al Barsha Dental Hub</h2>
+          <div class="meta">Al Barsha · dental</div>
+        </div>
+        <div class="status-wrap">
+          <label>Status</label>
+          <select class="status" data-id="7">
+            <option value="todo">Not sent</option>
+            <option value="sent">Message 1 sent</option>
+            <option value="follow">Follow-up sent</option>
+            <option value="replied">Replied</option>
+            <option value="won">Won</option>
+            <option value="lost">Lost</option>
+          </select>
+        </div>
+      </div>
+      <div class="actions">
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Al Barsha Dental Hub Al Barsha">Find on Maps</a>
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://www.instagram.com/explore/search/keyword/?q=AlBarshaDentalHub">Find on Instagram</a>
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html">Open demo</a>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Message 1</strong><button type="button" class="copy" data-copy="m1-7">Copy</button></div>
+        <pre id="m1-7">Hi there — quick note about Al Barsha Dental Hub in Al Barsha.
+Your reviews look strong, but many clinics nearby still lose patients because the website is weak or missing.
+
+I prepared a free live clinic-website preview (booking request, services, team, before/after):
+https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html
+
+If useful, I can rebuild it with your clinic name today.
+If you want ownership later: Growth package is 1,499 USDT one-time (EN+AR ready).
+If not — zero cost.
+
+Want the customized preview?</pre>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Follow-up</strong><button type="button" class="copy" data-copy="f-7">Copy</button></div>
+        <pre id="f-7">Hi — following up in case this got buried.
+Live preview for a Dubai clinic site concept:
+https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html
+
+Happy to customize for Al Barsha Dental Hub today if helpful.</pre>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Close</strong><button type="button" class="copy" data-copy="c-7">Copy</button></div>
+        <pre id="c-7">Great — glad the direction resonates.
+
+Next step to own the package:
+1) Open https://leadflow-ai-1vip.onrender.com/onboard
+2) Choose Growth ($1,499 USDT)
+3) Pay USDT TRC-20 and paste TXID for automatic verification
+
+I’ll deliver the full handover ZIP after confirmation.
+Preview/info page: https://leadflow-ai-1vip.onrender.com/hire</pre>
+      </div>
+      <div class="notes">
+        <label>My notes</label>
+        <textarea data-notes="7" placeholder="Phone/IG handle, who replied, next step..."></textarea>
+      </div>
+    </article>
+    <article class="card" data-kind="dental" id="c8">
+      <div class="top">
+        <div>
+          <div class="num">#8</div>
+          <h2>Mirdif Family Dental</h2>
+          <div class="meta">Mirdif · dental</div>
+        </div>
+        <div class="status-wrap">
+          <label>Status</label>
+          <select class="status" data-id="8">
+            <option value="todo">Not sent</option>
+            <option value="sent">Message 1 sent</option>
+            <option value="follow">Follow-up sent</option>
+            <option value="replied">Replied</option>
+            <option value="won">Won</option>
+            <option value="lost">Lost</option>
+          </select>
+        </div>
+      </div>
+      <div class="actions">
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Mirdif Family Dental Mirdif">Find on Maps</a>
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://www.instagram.com/explore/search/keyword/?q=MirdifFamilyDental">Find on Instagram</a>
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html">Open demo</a>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Message 1</strong><button type="button" class="copy" data-copy="m1-8">Copy</button></div>
+        <pre id="m1-8">Hi there — quick note about Mirdif Family Dental in Mirdif.
+Your reviews look strong, but many clinics nearby still lose patients because the website is weak or missing.
+
+I prepared a free live clinic-website preview (booking request, services, team, before/after):
+https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html
+
+If useful, I can rebuild it with your clinic name today.
+If you want ownership later: Growth package is 1,499 USDT one-time (EN+AR ready).
+If not — zero cost.
+
+Want the customized preview?</pre>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Follow-up</strong><button type="button" class="copy" data-copy="f-8">Copy</button></div>
+        <pre id="f-8">Hi — following up in case this got buried.
+Live preview for a Dubai clinic site concept:
+https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html
+
+Happy to customize for Mirdif Family Dental today if helpful.</pre>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Close</strong><button type="button" class="copy" data-copy="c-8">Copy</button></div>
+        <pre id="c-8">Great — glad the direction resonates.
+
+Next step to own the package:
+1) Open https://leadflow-ai-1vip.onrender.com/onboard
+2) Choose Growth ($1,499 USDT)
+3) Pay USDT TRC-20 and paste TXID for automatic verification
+
+I’ll deliver the full handover ZIP after confirmation.
+Preview/info page: https://leadflow-ai-1vip.onrender.com/hire</pre>
+      </div>
+      <div class="notes">
+        <label>My notes</label>
+        <textarea data-notes="8" placeholder="Phone/IG handle, who replied, next step..."></textarea>
+      </div>
+    </article>
+    <article class="card" data-kind="dental" id="c9">
+      <div class="top">
+        <div>
+          <div class="num">#9</div>
+          <h2>Palm View Dental Care</h2>
+          <div class="meta">Palm / Fronds corridor · dental</div>
+        </div>
+        <div class="status-wrap">
+          <label>Status</label>
+          <select class="status" data-id="9">
+            <option value="todo">Not sent</option>
+            <option value="sent">Message 1 sent</option>
+            <option value="follow">Follow-up sent</option>
+            <option value="replied">Replied</option>
+            <option value="won">Won</option>
+            <option value="lost">Lost</option>
+          </select>
+        </div>
+      </div>
+      <div class="actions">
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Palm View Dental Care Palm / Fronds corridor">Find on Maps</a>
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://www.instagram.com/explore/search/keyword/?q=PalmViewDentalCare">Find on Instagram</a>
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html">Open demo</a>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Message 1</strong><button type="button" class="copy" data-copy="m1-9">Copy</button></div>
+        <pre id="m1-9">Hi there — quick note about Palm View Dental Care in Palm / Fronds corridor.
+Your reviews look strong, but many clinics nearby still lose patients because the website is weak or missing.
+
+I prepared a free live clinic-website preview (booking request, services, team, before/after):
+https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html
+
+If useful, I can rebuild it with your clinic name today.
+If you want ownership later: Growth package is 1,499 USDT one-time (EN+AR ready).
+If not — zero cost.
+
+Want the customized preview?</pre>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Follow-up</strong><button type="button" class="copy" data-copy="f-9">Copy</button></div>
+        <pre id="f-9">Hi — following up in case this got buried.
+Live preview for a Dubai clinic site concept:
+https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html
+
+Happy to customize for Palm View Dental Care today if helpful.</pre>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Close</strong><button type="button" class="copy" data-copy="c-9">Copy</button></div>
+        <pre id="c-9">Great — glad the direction resonates.
+
+Next step to own the package:
+1) Open https://leadflow-ai-1vip.onrender.com/onboard
+2) Choose Growth ($1,499 USDT)
+3) Pay USDT TRC-20 and paste TXID for automatic verification
+
+I’ll deliver the full handover ZIP after confirmation.
+Preview/info page: https://leadflow-ai-1vip.onrender.com/hire</pre>
+      </div>
+      <div class="notes">
+        <label>My notes</label>
+        <textarea data-notes="9" placeholder="Phone/IG handle, who replied, next step..."></textarea>
+      </div>
+    </article>
+    <article class="card" data-kind="dental" id="c10">
+      <div class="top">
+        <div>
+          <div class="num">#10</div>
+          <h2>Silicon Oasis Dental</h2>
+          <div class="meta">Dubai Silicon Oasis · dental</div>
+        </div>
+        <div class="status-wrap">
+          <label>Status</label>
+          <select class="status" data-id="10">
+            <option value="todo">Not sent</option>
+            <option value="sent">Message 1 sent</option>
+            <option value="follow">Follow-up sent</option>
+            <option value="replied">Replied</option>
+            <option value="won">Won</option>
+            <option value="lost">Lost</option>
+          </select>
+        </div>
+      </div>
+      <div class="actions">
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Silicon Oasis Dental Dubai Silicon Oasis">Find on Maps</a>
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://www.instagram.com/explore/search/keyword/?q=SiliconOasisDental">Find on Instagram</a>
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html">Open demo</a>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Message 1</strong><button type="button" class="copy" data-copy="m1-10">Copy</button></div>
+        <pre id="m1-10">Hi there — quick note about Silicon Oasis Dental in Dubai Silicon Oasis.
+Your reviews look strong, but many clinics nearby still lose patients because the website is weak or missing.
+
+I prepared a free live clinic-website preview (booking request, services, team, before/after):
+https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html
+
+If useful, I can rebuild it with your clinic name today.
+If you want ownership later: Growth package is 1,499 USDT one-time (EN+AR ready).
+If not — zero cost.
+
+Want the customized preview?</pre>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Follow-up</strong><button type="button" class="copy" data-copy="f-10">Copy</button></div>
+        <pre id="f-10">Hi — following up in case this got buried.
+Live preview for a Dubai clinic site concept:
+https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html
+
+Happy to customize for Silicon Oasis Dental today if helpful.</pre>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Close</strong><button type="button" class="copy" data-copy="c-10">Copy</button></div>
+        <pre id="c-10">Great — glad the direction resonates.
+
+Next step to own the package:
+1) Open https://leadflow-ai-1vip.onrender.com/onboard
+2) Choose Growth ($1,499 USDT)
+3) Pay USDT TRC-20 and paste TXID for automatic verification
+
+I’ll deliver the full handover ZIP after confirmation.
+Preview/info page: https://leadflow-ai-1vip.onrender.com/hire</pre>
+      </div>
+      <div class="notes">
+        <label>My notes</label>
+        <textarea data-notes="10" placeholder="Phone/IG handle, who replied, next step..."></textarea>
+      </div>
+    </article>
+    <article class="card" data-kind="medspa" id="c11">
+      <div class="top">
+        <div>
+          <div class="num">#11</div>
+          <h2>Marina Glow MedSpa</h2>
+          <div class="meta">Dubai Marina · medspa</div>
+        </div>
+        <div class="status-wrap">
+          <label>Status</label>
+          <select class="status" data-id="11">
+            <option value="todo">Not sent</option>
+            <option value="sent">Message 1 sent</option>
+            <option value="follow">Follow-up sent</option>
+            <option value="replied">Replied</option>
+            <option value="won">Won</option>
+            <option value="lost">Lost</option>
+          </select>
+        </div>
+      </div>
+      <div class="actions">
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Marina Glow MedSpa Dubai Marina">Find on Maps</a>
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://www.instagram.com/explore/search/keyword/?q=MarinaGlowMedSpa">Find on Instagram</a>
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html">Open demo</a>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Message 1</strong><button type="button" class="copy" data-copy="m1-11">Copy</button></div>
+        <pre id="m1-11">Hi there — quick note about Marina Glow MedSpa (Dubai Marina).
+Aesthetic patients compare clinics online before booking high-ticket treatments.
+
+I put together a free live website preview style for clinics/medspas in Dubai:
+https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html
+
+I can adapt it for Marina Glow MedSpa (treatments, team, booking CTA, EN+AR).
+If you love it: 1,499 USDT one-time Growth package.
+If not: no cost.
+
+Should I personalize a demo under your brand name?</pre>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Follow-up</strong><button type="button" class="copy" data-copy="f-11">Copy</button></div>
+        <pre id="f-11">Hi — following up in case this got buried.
+Live preview for a Dubai clinic site concept:
+https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html
+
+Happy to customize for Marina Glow MedSpa today if helpful.</pre>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Close</strong><button type="button" class="copy" data-copy="c-11">Copy</button></div>
+        <pre id="c-11">Great — glad the direction resonates.
+
+Next step to own the package:
+1) Open https://leadflow-ai-1vip.onrender.com/onboard
+2) Choose Growth ($1,499 USDT)
+3) Pay USDT TRC-20 and paste TXID for automatic verification
+
+I’ll deliver the full handover ZIP after confirmation.
+Preview/info page: https://leadflow-ai-1vip.onrender.com/hire</pre>
+      </div>
+      <div class="notes">
+        <label>My notes</label>
+        <textarea data-notes="11" placeholder="Phone/IG handle, who replied, next step..."></textarea>
+      </div>
+    </article>
+    <article class="card" data-kind="medspa" id="c12">
+      <div class="top">
+        <div>
+          <div class="num">#12</div>
+          <h2>Jumeirah Aesthetic Studio</h2>
+          <div class="meta">Jumeirah · medspa</div>
+        </div>
+        <div class="status-wrap">
+          <label>Status</label>
+          <select class="status" data-id="12">
+            <option value="todo">Not sent</option>
+            <option value="sent">Message 1 sent</option>
+            <option value="follow">Follow-up sent</option>
+            <option value="replied">Replied</option>
+            <option value="won">Won</option>
+            <option value="lost">Lost</option>
+          </select>
+        </div>
+      </div>
+      <div class="actions">
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Jumeirah Aesthetic Studio Jumeirah">Find on Maps</a>
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://www.instagram.com/explore/search/keyword/?q=JumeirahAestheticStudio">Find on Instagram</a>
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html">Open demo</a>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Message 1</strong><button type="button" class="copy" data-copy="m1-12">Copy</button></div>
+        <pre id="m1-12">Hi there — quick note about Jumeirah Aesthetic Studio (Jumeirah).
+Aesthetic patients compare clinics online before booking high-ticket treatments.
+
+I put together a free live website preview style for clinics/medspas in Dubai:
+https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html
+
+I can adapt it for Jumeirah Aesthetic Studio (treatments, team, booking CTA, EN+AR).
+If you love it: 1,499 USDT one-time Growth package.
+If not: no cost.
+
+Should I personalize a demo under your brand name?</pre>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Follow-up</strong><button type="button" class="copy" data-copy="f-12">Copy</button></div>
+        <pre id="f-12">Hi — following up in case this got buried.
+Live preview for a Dubai clinic site concept:
+https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html
+
+Happy to customize for Jumeirah Aesthetic Studio today if helpful.</pre>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Close</strong><button type="button" class="copy" data-copy="c-12">Copy</button></div>
+        <pre id="c-12">Great — glad the direction resonates.
+
+Next step to own the package:
+1) Open https://leadflow-ai-1vip.onrender.com/onboard
+2) Choose Growth ($1,499 USDT)
+3) Pay USDT TRC-20 and paste TXID for automatic verification
+
+I’ll deliver the full handover ZIP after confirmation.
+Preview/info page: https://leadflow-ai-1vip.onrender.com/hire</pre>
+      </div>
+      <div class="notes">
+        <label>My notes</label>
+        <textarea data-notes="12" placeholder="Phone/IG handle, who replied, next step..."></textarea>
+      </div>
+    </article>
+    <article class="card" data-kind="medspa" id="c13">
+      <div class="top">
+        <div>
+          <div class="num">#13</div>
+          <h2>Business Bay Skin Clinic</h2>
+          <div class="meta">Business Bay · medspa</div>
+        </div>
+        <div class="status-wrap">
+          <label>Status</label>
+          <select class="status" data-id="13">
+            <option value="todo">Not sent</option>
+            <option value="sent">Message 1 sent</option>
+            <option value="follow">Follow-up sent</option>
+            <option value="replied">Replied</option>
+            <option value="won">Won</option>
+            <option value="lost">Lost</option>
+          </select>
+        </div>
+      </div>
+      <div class="actions">
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Business Bay Skin Clinic Business Bay">Find on Maps</a>
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://www.instagram.com/explore/search/keyword/?q=BusinessBaySkinClinic">Find on Instagram</a>
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html">Open demo</a>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Message 1</strong><button type="button" class="copy" data-copy="m1-13">Copy</button></div>
+        <pre id="m1-13">Hi there — quick note about Business Bay Skin Clinic (Business Bay).
+Aesthetic patients compare clinics online before booking high-ticket treatments.
+
+I put together a free live website preview style for clinics/medspas in Dubai:
+https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html
+
+I can adapt it for Business Bay Skin Clinic (treatments, team, booking CTA, EN+AR).
+If you love it: 1,499 USDT one-time Growth package.
+If not: no cost.
+
+Should I personalize a demo under your brand name?</pre>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Follow-up</strong><button type="button" class="copy" data-copy="f-13">Copy</button></div>
+        <pre id="f-13">Hi — following up in case this got buried.
+Live preview for a Dubai clinic site concept:
+https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html
+
+Happy to customize for Business Bay Skin Clinic today if helpful.</pre>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Close</strong><button type="button" class="copy" data-copy="c-13">Copy</button></div>
+        <pre id="c-13">Great — glad the direction resonates.
+
+Next step to own the package:
+1) Open https://leadflow-ai-1vip.onrender.com/onboard
+2) Choose Growth ($1,499 USDT)
+3) Pay USDT TRC-20 and paste TXID for automatic verification
+
+I’ll deliver the full handover ZIP after confirmation.
+Preview/info page: https://leadflow-ai-1vip.onrender.com/hire</pre>
+      </div>
+      <div class="notes">
+        <label>My notes</label>
+        <textarea data-notes="13" placeholder="Phone/IG handle, who replied, next step..."></textarea>
+      </div>
+    </article>
+    <article class="card" data-kind="medspa" id="c14">
+      <div class="top">
+        <div>
+          <div class="num">#14</div>
+          <h2>Downtown Laser &amp; Aesthetics</h2>
+          <div class="meta">Downtown Dubai · medspa</div>
+        </div>
+        <div class="status-wrap">
+          <label>Status</label>
+          <select class="status" data-id="14">
+            <option value="todo">Not sent</option>
+            <option value="sent">Message 1 sent</option>
+            <option value="follow">Follow-up sent</option>
+            <option value="replied">Replied</option>
+            <option value="won">Won</option>
+            <option value="lost">Lost</option>
+          </select>
+        </div>
+      </div>
+      <div class="actions">
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Downtown Laser &amp; Aesthetics Downtown Dubai">Find on Maps</a>
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://www.instagram.com/explore/search/keyword/?q=DowntownLaser&amp;Aesthetics">Find on Instagram</a>
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html">Open demo</a>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Message 1</strong><button type="button" class="copy" data-copy="m1-14">Copy</button></div>
+        <pre id="m1-14">Hi there — quick note about Downtown Laser &amp; Aesthetics (Downtown Dubai).
+Aesthetic patients compare clinics online before booking high-ticket treatments.
+
+I put together a free live website preview style for clinics/medspas in Dubai:
+https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html
+
+I can adapt it for Downtown Laser &amp; Aesthetics (treatments, team, booking CTA, EN+AR).
+If you love it: 1,499 USDT one-time Growth package.
+If not: no cost.
+
+Should I personalize a demo under your brand name?</pre>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Follow-up</strong><button type="button" class="copy" data-copy="f-14">Copy</button></div>
+        <pre id="f-14">Hi — following up in case this got buried.
+Live preview for a Dubai clinic site concept:
+https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html
+
+Happy to customize for Downtown Laser &amp; Aesthetics today if helpful.</pre>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Close</strong><button type="button" class="copy" data-copy="c-14">Copy</button></div>
+        <pre id="c-14">Great — glad the direction resonates.
+
+Next step to own the package:
+1) Open https://leadflow-ai-1vip.onrender.com/onboard
+2) Choose Growth ($1,499 USDT)
+3) Pay USDT TRC-20 and paste TXID for automatic verification
+
+I’ll deliver the full handover ZIP after confirmation.
+Preview/info page: https://leadflow-ai-1vip.onrender.com/hire</pre>
+      </div>
+      <div class="notes">
+        <label>My notes</label>
+        <textarea data-notes="14" placeholder="Phone/IG handle, who replied, next step..."></textarea>
+      </div>
+    </article>
+    <article class="card" data-kind="medspa" id="c15">
+      <div class="top">
+        <div>
+          <div class="num">#15</div>
+          <h2>JLT Beauty Clinic</h2>
+          <div class="meta">JLT · medspa</div>
+        </div>
+        <div class="status-wrap">
+          <label>Status</label>
+          <select class="status" data-id="15">
+            <option value="todo">Not sent</option>
+            <option value="sent">Message 1 sent</option>
+            <option value="follow">Follow-up sent</option>
+            <option value="replied">Replied</option>
+            <option value="won">Won</option>
+            <option value="lost">Lost</option>
+          </select>
+        </div>
+      </div>
+      <div class="actions">
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=JLT Beauty Clinic JLT">Find on Maps</a>
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://www.instagram.com/explore/search/keyword/?q=JLTBeautyClinic">Find on Instagram</a>
+        <a class="btn ghost" target="_blank" rel="noopener" href="https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html">Open demo</a>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Message 1</strong><button type="button" class="copy" data-copy="m1-15">Copy</button></div>
+        <pre id="m1-15">Hi there — quick note about JLT Beauty Clinic (JLT).
+Aesthetic patients compare clinics online before booking high-ticket treatments.
+
+I put together a free live website preview style for clinics/medspas in Dubai:
+https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html
+
+I can adapt it for JLT Beauty Clinic (treatments, team, booking CTA, EN+AR).
+If you love it: 1,499 USDT one-time Growth package.
+If not: no cost.
+
+Should I personalize a demo under your brand name?</pre>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Follow-up</strong><button type="button" class="copy" data-copy="f-15">Copy</button></div>
+        <pre id="f-15">Hi — following up in case this got buried.
+Live preview for a Dubai clinic site concept:
+https://leadflow-ai-1vip.onrender.com/live_demos/marina_pearl_dental_live.html
+
+Happy to customize for JLT Beauty Clinic today if helpful.</pre>
+      </div>
+      <div class="msg">
+        <div class="msg-head"><strong>Close</strong><button type="button" class="copy" data-copy="c-15">Copy</button></div>
+        <pre id="c-15">Great — glad the direction resonates.
+
+Next step to own the package:
+1) Open https://leadflow-ai-1vip.onrender.com/onboard
+2) Choose Growth ($1,499 USDT)
+3) Pay USDT TRC-20 and paste TXID for automatic verification
+
+I’ll deliver the full handover ZIP after confirmation.
+Preview/info page: https://leadflow-ai-1vip.onrender.com/hire</pre>
+      </div>
+      <div class="notes">
+        <label>My notes</label>
+        <textarea data-notes="15" placeholder="Phone/IG handle, who replied, next step..."></textarea>
+      </div>
+    </article>
+</main>
+<footer>LeadFlow Outreach Desk · noindex · برای استفاده داخلی</footer>
+<div class="toast" id="toast">کپی شد</div>
+<script>
+const KEY = 'leadflow_outreach_dash_v1';
+function load() { try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch { return {}; } }
+function save(state) { localStorage.setItem(KEY, JSON.stringify(state)); renderStats(); }
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 1500);
+}
+function renderStats() {
+  const state = load();
+  const cards = [...document.querySelectorAll('.card')];
+  let todo=0,sent=0,won=0;
+  cards.forEach(card => {
+    const id = card.id.replace('c','');
+    const st = (state[id] && state[id].status) || 'todo';
+    const sel = card.querySelector('select.status');
+    const notes = card.querySelector('textarea');
+    if (sel) sel.value = st;
+    if (notes && state[id] && state[id].notes) notes.value = state[id].notes;
+    card.classList.toggle('done', ['sent','follow','won','lost'].includes(st));
+    if (st === 'todo') todo++;
+    if (['sent','follow','replied','won'].includes(st)) sent++;
+    if (st === 'won') won++;
+  });
+  document.getElementById('s-todo').textContent = todo;
+  document.getElementById('s-sent').textContent = sent;
+  document.getElementById('s-won').textContent = won;
+}
+document.querySelectorAll('.copy').forEach(btn => {
+  btn.addEventListener('click', async () => {
+    const id = btn.getAttribute('data-copy');
+    const text = document.getElementById(id).innerText;
+    try { await navigator.clipboard.writeText(text); toast('کپی شد ✓'); }
+    catch { prompt('کپی کنید:', text); }
+  });
+});
+document.querySelectorAll('select.status').forEach(sel => {
+  sel.addEventListener('change', () => {
+    const state = load();
+    const id = sel.getAttribute('data-id');
+    state[id] = state[id] || {};
+    state[id].status = sel.value;
+    save(state);
+  });
+});
+document.querySelectorAll('textarea[data-notes]').forEach(t => {
+  t.addEventListener('change', () => {
+    const state = load();
+    const id = t.getAttribute('data-notes');
+    state[id] = state[id] || {};
+    state[id].notes = t.value;
+    save(state);
+  });
+});
+document.querySelectorAll('.filters button[data-filter]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filters button[data-filter]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const f = btn.getAttribute('data-filter');
+    const state = load();
+    document.querySelectorAll('.card').forEach(card => {
+      const kind = card.getAttribute('data-kind');
+      const id = card.id.replace('c','');
+      const st = (state[id] && state[id].status) || 'todo';
+      let show = true;
+      if (f === 'dental' || f === 'medspa') show = kind === f;
+      if (f === 'todo') show = st === 'todo';
+      card.style.display = show ? '' : 'none';
+    });
+  });
+});
+document.getElementById('export-btn').addEventListener('click', () => {
+  const state = load();
+  const blob = new Blob([JSON.stringify(state, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'outreach-status.json';
+  a.click();
+});
+renderStats();
+</script>
+</body>
+</html>

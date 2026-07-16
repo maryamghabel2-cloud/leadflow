@@ -190,6 +190,13 @@ async def serve_hire():
     return {"message": "Hire page not found."}
 
 
+@app.get("/outreach")
+async def serve_outreach_dashboard():
+    if os.path.exists("outreach_dashboard.html"):
+        return FileResponse("outreach_dashboard.html")
+    return {"message": "Outreach dashboard not found."}
+
+
 @app.get("/first-customer")
 async def serve_first_customer():
     if os.path.exists("first_customer.html"):
@@ -247,7 +254,7 @@ async def robots_txt():
     body = (
         "User-agent: *\n"
         "Allow: /\n"
-        "Disallow: /first-customer\n"
+        "Disallow: /first-customer\nDisallow: /outreach\n"
         "Disallow: /go\n"
         "Disallow: /agency\n"
         "Disallow: /docs\n"
@@ -259,7 +266,7 @@ async def robots_txt():
     body = (
         "User-agent: *\n"
         "Allow: /\n"
-        "Disallow: /first-customer\n"
+        "Disallow: /first-customer\nDisallow: /outreach\n"
         "Disallow: /go\n"
         "Disallow: /agency\n"
         "Disallow: /docs\n"
