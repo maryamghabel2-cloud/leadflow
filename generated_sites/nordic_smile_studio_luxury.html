@@ -1,59 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nordic Smile Studio | Dentist in Nuremberg | Book Online</title>
-<meta name="description" content="Modern dental practice in Nuremberg. Online appointment requests, clear services, real team, insurance guidance, and calm patient-first care.">
+<title>Nordic Smile Studio | Zahnarzt Nürnberg | Termin anfragen</title>
+<meta name="description" content="Moderne Zahnarztpraxis in Nürnberg. Termin online anfragen, klare Leistungen, echtes Team, Kasseninfo und ruhige, patientennahe Betreuung – auf Deutsch.">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap');
 :root{
   --bg:#F4FAF8; --ink:#14302B; --mute:#5B726C; --line:#D5E6E1;
   --sea:#0F766E; --sea2:#115E59; --soft:#E7F5F1; --sand:#FFF9F3; --card:#fff;
-  --ok:#047857; --warn:#B45309;
+  --ok:#047857; --gold:#B8860B;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}
 img{max-width:100%;display:block}
 a{color:inherit}
 .wrap{width:min(1140px,92vw);margin:0 auto}
-.nav{position:sticky;top:0;z-index:30;background:rgba(244,250,248,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav{position:sticky;top:0;z-index:30;background:rgba(244,250,248,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
 .nav-inner{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 0;flex-wrap:wrap}
-.logo{font-family:'Fraunces',serif;font-size:1.35rem;font-weight:700;text-decoration:none}
-.nav-links{display:flex;flex-wrap:wrap;gap:12px 16px;align-items:center;font-size:.9rem;font-weight:600;color:var(--mute)}
+.logo{font-family:'Fraunces',serif;font-size:1.3rem;font-weight:700;text-decoration:none}
+.nav-links{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;font-size:.88rem;font-weight:600;color:var(--mute)}
 .nav-links a{text-decoration:none}
 .nav-links a:hover{color:var(--sea)}
+.lang{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;font-size:.75rem;font-weight:800}
+.lang button{border:0;background:#fff;padding:8px 10px;cursor:pointer;color:var(--mute)}
+.lang button.active{background:var(--sea);color:#fff}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;text-decoration:none;padding:12px 18px;border-radius:999px;font-weight:700}
 .btn-primary{background:var(--sea);color:#fff}
 .btn-primary:hover{background:var(--sea2)}
 .btn-soft{background:var(--soft);color:var(--sea)}
 .btn-ghost{background:transparent;border:1px solid var(--line);color:var(--ink)}
-.pill{display:inline-flex;align-items:center;gap:8px;background:var(--soft);color:var(--sea);padding:6px 12px;border-radius:999px;font-size:.75rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
-.hero{padding:28px 0 18px}
-.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:28px;align-items:center}
+.btn-offer{background:linear-gradient(135deg,#14302B,#0F766E);color:#fff;border-radius:14px;padding:14px 18px}
+.pill{display:inline-flex;align-items:center;gap:8px;background:var(--soft);color:var(--sea);padding:6px 12px;border-radius:999px;font-size:.72rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
+.hero{padding:26px 0 10px}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:26px;align-items:center}
 @media(max-width:900px){.hero-grid{grid-template-columns:1fr}}
-h1{font-family:'Fraunces',serif;font-size:clamp(2.1rem,4.5vw,3.3rem);line-height:1.12;margin:12px 0 14px}
-h2{font-family:'Fraunces',serif;font-size:clamp(1.5rem,3vw,2rem);margin-bottom:8px}
-h3{font-family:'Fraunces',serif;font-size:1.15rem;margin-bottom:6px}
-.lead{color:var(--mute);font-size:1.05rem;max-width:36rem}
+h1{font-family:'Fraunces',serif;font-size:clamp(2rem,4.4vw,3.15rem);line-height:1.12;margin:12px 0 14px}
+h2{font-family:'Fraunces',serif;font-size:clamp(1.45rem,3vw,1.95rem);margin-bottom:8px}
+h3{font-family:'Fraunces',serif;font-size:1.12rem;margin-bottom:6px}
+.lead{color:var(--mute);font-size:1.04rem;max-width:36rem}
 .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
 .hero-card{background:var(--card);border:1px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:0 18px 50px rgba(20,48,43,.06)}
 .hero-card img{width:100%;height:320px;object-fit:cover}
 .hero-meta{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--line)}
 .hero-meta div{background:var(--card);padding:14px;text-align:center}
-.hero-meta strong{display:block;font-family:'Fraunces',serif;font-size:1.3rem}
-.hero-meta span{color:var(--mute);font-size:.78rem}
+.hero-meta strong{display:block;font-family:'Fraunces',serif;font-size:1.25rem}
+.hero-meta span{color:var(--mute);font-size:.76rem}
 .trustbar{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 8px}
 .trustbar span{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:8px 12px;font-size:.82rem;color:var(--mute);font-weight:600}
-.section{padding:56px 0;scroll-margin-top:80px}
-.section .sub{color:var(--mute);margin-bottom:22px;max-width:40rem}
+.section{padding:52px 0;scroll-margin-top:84px}
+.section .sub{color:var(--mute);margin-bottom:20px;max-width:42rem}
 .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 .grid-2{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;align-items:start}
 @media(max-width:900px){.grid-3,.grid-2{grid-template-columns:1fr}}
 .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px}
 .card p,.muted{color:var(--mute)}
 .service img{width:100%;height:150px;object-fit:cover;border-radius:14px;margin-bottom:12px}
-.service .tag{font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--sea);margin-bottom:6px}
+.service .tag{font-size:.72rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--sea);margin-bottom:6px}
 .ba{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 @media(max-width:800px){.ba{grid-template-columns:1fr}}
 .ba figure{margin:0;background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden}
@@ -61,8 +65,7 @@ h3{font-family:'Fraunces',serif;font-size:1.15rem;margin-bottom:6px}
 .ba figcaption{padding:12px 14px;font-weight:700;font-size:.9rem}
 .team-card{text-align:center}
 .team-card img{width:110px;height:110px;border-radius:50%;object-fit:cover;margin:0 auto 12px;border:3px solid var(--soft)}
-.team-card .role{font-size:.78rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--sea);margin-bottom:8px}
-.steps{display:grid;gap:0}
+.team-card .role{font-size:.76rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--sea);margin-bottom:8px}
 .step{display:grid;grid-template-columns:48px 1fr;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}
 .step .n{width:40px;height:40px;border-radius:50%;background:var(--soft);color:var(--sea);display:grid;place-items:center;font-weight:800}
 .quote{background:linear-gradient(160deg,var(--sand),#fff);border:1px solid var(--line);border-radius:18px;padding:20px}
@@ -76,11 +79,11 @@ th{color:var(--mute);font-size:.75rem;text-transform:uppercase;letter-spacing:.0
 .sticky-cta{position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgba(20,48,43,.96);color:#fff;padding:12px 4vw;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 .sticky-cta p{font-size:.92rem;opacity:.92}
 .sticky-cta .btn-primary{background:#fff;color:var(--sea)}
-.footer{padding:70px 0 100px;border-top:1px solid var(--line);background:#fff;color:var(--mute);text-align:center}
+.footer{padding:70px 0 110px;border-top:1px solid var(--line);background:#fff;color:var(--mute);text-align:center}
 .footer strong{color:var(--ink);font-family:'Fraunces',serif;font-size:1.25rem}
 .modal{display:none;position:fixed;inset:0;background:rgba(20,48,43,.45);align-items:center;justify-content:center;padding:16px;z-index:60}
 .modal.open{display:flex}
-.modal-card{width:min(460px,100%);background:#fff;border-radius:20px;padding:24px;border:1px solid var(--line);position:relative}
+.modal-card{width:min(480px,100%);background:#fff;border-radius:20px;padding:24px;border:1px solid var(--line);position:relative}
 .modal-card h3{font-family:'Fraunces',serif;margin-bottom:6px}
 .modal-card input,.modal-card select,.modal-card textarea{width:100%;margin:8px 0;padding:12px 14px;border:1px solid var(--line);border-radius:12px;font:inherit}
 .modal-card .close{position:absolute;right:12px;top:8px;border:0;background:none;font-size:1.4rem;cursor:pointer;color:var(--mute)}
@@ -92,19 +95,29 @@ th{color:var(--mute);font-size:.75rem;text-transform:uppercase;letter-spacing:.0
 .alert{display:none;padding:10px 12px;border-radius:12px;margin-top:8px;font-size:.9rem}
 .alert.ok{display:block;background:#ECFDF5;color:var(--ok)}
 .alert.err{display:block;background:#FEF2F2;color:#B91C1C}
+.offer-banner{margin:18px 0 0;padding:18px;border:1px dashed var(--gold);background:linear-gradient(135deg,#FFF9F0,#fff);border-radius:18px}
+.offer-banner h3{color:var(--ink);margin-bottom:6px}
+.offer-banner .price{font-family:'Fraunces',serif;font-size:1.8rem;color:var(--sea);margin:8px 0}
+.offer-list{margin:10px 0 0 1.1rem;color:var(--mute)}
+.offer-list li{margin:4px 0}
+.hidden{display:none !important}
 </style>
 </head>
 <body>
 <div class="nav"><div class="wrap nav-inner">
   <a class="logo" href="#top">Nordic Smile Studio</a>
   <div class="nav-links">
-    <a href="#services">Services</a>
-    <a href="#results">Results</a>
-    <a href="#team">Team</a>
-    <a href="#visit">Visit</a>
-    <a href="#insurance">Insurance</a>
-    <a href="#faq">FAQ</a>
-    <a class="btn btn-primary" href="#book" onclick="openM();return false;">Book appointment</a>
+    <a href="#leistungen" data-i18n="nav_services">Leistungen</a>
+    <a href="#ergebnisse" data-i18n="nav_results">Ergebnisse</a>
+    <a href="#team" data-i18n="nav_team">Team</a>
+    <a href="#ablauf" data-i18n="nav_visit">Ablauf</a>
+    <a href="#kasse" data-i18n="nav_insurance">Kasse & Kosten</a>
+    <a href="#faq" data-i18n="nav_faq">FAQ</a>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" id="btn-de" class="active" onclick="setLang('de')">DE</button>
+      <button type="button" id="btn-en" onclick="setLang('en')">EN</button>
+    </div>
+    <a class="btn btn-primary" href="#termin" onclick="openM();return false;" data-i18n="nav_book">Termin anfragen</a>
   </div>
 </div></div>
 
@@ -112,220 +125,225 @@ th{color:var(--mute);font-size:.75rem;text-transform:uppercase;letter-spacing:.0
   <section class="hero wrap">
     <div class="hero-grid">
       <div>
-        <div class="pill">Zahnarztpraxis · Nuremberg</div>
-        <h1>A calmer way to find a dentist — and actually book one.</h1>
-        <p class="lead">Nordic Smile Studio helps local patients in Nuremberg compare services, trust the team, check insurance/financing basics, and request an appointment without phone tag.</p>
+        <div class="pill" data-i18n="hero_pill">Zahnarztpraxis · Nürnberg</div>
+        <h1 data-i18n="hero_h1">Ruhig. Klar. Online terminieren – ohne Telefonstress.</h1>
+        <p class="lead" data-i18n="hero_lead">Nordic Smile Studio hilft Patientinnen und Patienten in Nürnberg, Leistungen zu verstehen, dem Team zu vertrauen und einen Termin anzufragen – auf Deutsch, mobil und in wenigen Minuten.</p>
         <div class="actions">
-          <a class="btn btn-primary" href="#book" onclick="openM();return false;">Request appointment</a>
-          <a class="btn btn-soft" href="tel:+499115550188">Call +49 911 555 0188</a>
-          <a class="btn btn-ghost" href="#services">View treatments</a>
+          <a class="btn btn-primary" href="#termin" onclick="openM();return false;" data-i18n="cta_book">Termin anfragen</a>
+          <a class="btn btn-soft" href="tel:+499115550188" data-i18n="cta_call">Anrufen: 0911 5550188</a>
+          <a class="btn btn-ghost" href="#leistungen" data-i18n="cta_services">Leistungen ansehen</a>
         </div>
         <div class="trustbar">
-          <span>⭐ 4.9 patient rating</span>
-          <span>Same-week openings often available</span>
-          <span>German + English care</span>
-          <span>Clear treatment options before you commit</span>
+          <span data-i18n="trust_1">⭐ 4,9 Patientenbewertung</span>
+          <span data-i18n="trust_2">Oft Termine in derselben Woche</span>
+          <span data-i18n="trust_3">Deutsch + English spoken</span>
+          <span data-i18n="trust_4">Transparente Optionen vor der Behandlung</span>
         </div>
       </div>
       <div class="hero-card">
-        <img src="/assets/dental/hero_clinic.jpg" alt="Modern dental treatment room at Nordic Smile Studio in Nuremberg">
+        <img src="/assets/dental/hero_clinic.jpg" alt="Moderner Behandlungsraum der Zahnarztpraxis Nordic Smile Studio in Nürnberg">
         <div class="hero-meta">
-          <div><strong>24/7</strong><span>request form</span></div>
-          <div><strong>15m</strong><span>on-time goal</span></div>
-          <div><strong>0</strong><span>pressure sales</span></div>
+          <div><strong>24/7</strong><span data-i18n="meta_1">Online-Anfrage</span></div>
+          <div><strong>15 Min</strong><span data-i18n="meta_2">Pünktlichkeitsziel</span></div>
+          <div><strong>0</strong><span data-i18n="meta_3">Verkaufsdruck</span></div>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="section wrap" id="problem">
-    <h2>What this website is for (for the dentist)</h2>
-    <p class="sub">Not a pretty brochure. A patient-acquisition system that turns Google/Maps visitors into booked visits.</p>
+  <section class="section wrap" id="warum">
+    <h2 data-i18n="why_h2">Wofür diese Website da ist</h2>
+    <p class="sub" data-i18n="why_sub">Nicht nur „schön“. Ein System, das lokale Suchende in gebuchte Patienten verwandelt.</p>
     <div class="grid-3">
       <article class="card">
-        <h3>1) Attract the right local patients</h3>
-        <p>Service pages + clear location signals help people searching “dentist Nuremberg / Zahnarzt Nürnberg” understand you fast.</p>
+        <h3 data-i18n="why_1_t">1) Gefunden werden</h3>
+        <p data-i18n="why_1_p">Klare Leistungen + Standort Nürnberg helfen bei Suchen wie „Zahnarzt Nürnberg“.</p>
       </article>
       <article class="card">
-        <h3>2) Convert anxiety into a booking</h3>
-        <p>Reviews, real team photos, before/after, insurance notes, and a persistent Book CTA reduce drop-off.</p>
+        <h3 data-i18n="why_2_t">2) Vertrauen aufbauen</h3>
+        <p data-i18n="why_2_p">Echtes Team, Praxisbilder, Bewertungen und Vorher/Nachher reduzieren Unsicherheit.</p>
       </article>
       <article class="card">
-        <h3>3) Capture demand after hours</h3>
-        <p>Online appointment requests work when the phone is closed — nights/weekends included.</p>
+        <h3 data-i18n="why_3_t">3) Termin sichern</h3>
+        <p data-i18n="why_3_p">Online-Anfrage auch abends/am Wochenende – wenn das Telefon nicht besetzt ist.</p>
       </article>
     </div>
   </section>
 
-  <section class="section wrap" id="gallery">
-    <h2>A real clinic feel — not random stock</h2>
-    <p class="sub">Patients decide with visuals: room, team, process. These images are clinic-specific dental scenes generated for this demo.</p>
+  <section class="section wrap" id="galerie">
+    <h2 data-i18n="gal_h2">Echte Praxis-Atmosphäre</h2>
+    <p class="sub" data-i18n="gal_sub">Patienten entscheiden mit Bildern: Raum, Team, Ablauf – hier zahnmedizinisch und ruhig.</p>
     <div class="photo-strip">
-      <img src="/assets/dental/reception.jpg" alt="Welcoming dental clinic reception">
-      <img src="/assets/dental/consult.jpg" alt="Dentist consulting with patient using tablet">
-      <img src="/assets/dental/treatment.jpg" alt="Professional dental treatment in clinic">
+      <img src="/assets/dental/reception.jpg" alt="Empfang der Zahnarztpraxis">
+      <img src="/assets/dental/consult.jpg" alt="Zahnärztin im Beratungsgespräch">
+      <img src="/assets/dental/treatment.jpg" alt="Professionelle Zahnbehandlung">
     </div>
   </section>
 
-  <section class="section wrap" id="services">
-    <h2>Treatments patients actually search for</h2>
-    <p class="sub">Dedicated service paths (implants, whitening, hygiene, emergency) convert better than one vague “services” block.</p>
+  <section class="section wrap" id="leistungen">
+    <h2 data-i18n="svc_h2">Leistungen, nach denen Patienten suchen</h2>
+    <p class="sub" data-i18n="svc_sub">Eigene Wege für Prophylaxe, Ästhetik, Zahnersatz und Schmerzfälle – statt einer vagen Liste.</p>
     <div class="grid-3">
       <article class="card service">
-        <img src="/assets/dental/treatment.jpg" alt="General dentistry">
-        <div class="tag">General care</div>
-        <h3>Check-ups & hygiene</h3>
-        <p>Prevention-first visits, clear findings, and recall planning.</p>
+        <img src="/assets/dental/treatment.jpg" alt="Prophylaxe">
+        <div class="tag" data-i18n="svc1_tag">Allgemein</div>
+        <h3 data-i18n="svc1_t">Kontrolle & Prophylaxe</h3>
+        <p data-i18n="svc1_p">Vorsorge, klare Befunde, Recall-Planung.</p>
       </article>
       <article class="card service">
-        <img src="/assets/dental/consult.jpg" alt="Cosmetic consultation">
-        <div class="tag">Cosmetic</div>
-        <h3>Whitening & smile design</h3>
-        <p>Visual planning, options explained, no surprise upsells.</p>
+        <img src="/assets/dental/consult.jpg" alt="Ästhetische Beratung">
+        <div class="tag" data-i18n="svc2_tag">Ästhetik</div>
+        <h3 data-i18n="svc2_t">Bleaching & Smile Design</h3>
+        <p data-i18n="svc2_p">Optionen erklären, Ergebnisse planen, ohne Druck.</p>
       </article>
       <article class="card service">
-        <img src="/assets/dental/hero_clinic.jpg" alt="Restorative dentistry room">
-        <div class="tag">Restorative</div>
-        <h3>Crowns, implants & repairs</h3>
-        <p>Structured plans for durability and comfort.</p>
+        <img src="/assets/dental/hero_clinic.jpg" alt="Restaurative Zahnmedizin">
+        <div class="tag" data-i18n="svc3_tag">Restaurativ</div>
+        <h3 data-i18n="svc3_t">Kronen, Implantate & Reparaturen</h3>
+        <p data-i18n="svc3_p">Strukturierte Pläne für Funktion und Langlebigkeit.</p>
       </article>
       <article class="card service">
-        <img src="/assets/dental/reception.jpg" alt="Family dental care">
-        <div class="tag">Family</div>
-        <h3>Family dentistry</h3>
-        <p>Calm visits for adults and teens, practical scheduling.</p>
+        <img src="/assets/dental/reception.jpg" alt="Familienzahnheilkunde">
+        <div class="tag" data-i18n="svc4_tag">Familie</div>
+        <h3 data-i18n="svc4_t">Familienzahnheilkunde</h3>
+        <p data-i18n="svc4_p">Ruhige Termine, praktische Terminfindung.</p>
       </article>
       <article class="card service">
-        <img src="/assets/dental/consult.jpg" alt="Emergency dental advice">
-        <div class="tag">Urgent</div>
-        <h3>Emergency slots</h3>
-        <p>Pain-first triage and same-day pathway when available.</p>
+        <img src="/assets/dental/consult.jpg" alt="Schmerzfall">
+        <div class="tag" data-i18n="svc5_tag">Dringend</div>
+        <h3 data-i18n="svc5_t">Schmerz-/Notfälle</h3>
+        <p data-i18n="svc5_p">Priorisierung bei Schmerzen, wenn Kapazität frei ist.</p>
       </article>
       <article class="card service">
-        <img src="/assets/dental/hero_clinic.jpg" alt="Patient education">
-        <div class="tag">Clarity</div>
-        <h3>Second opinions</h3>
-        <p>Bring existing x-rays/plans — we explain options in plain language.</p>
+        <img src="/assets/dental/hero_clinic.jpg" alt="Zweitmeinung">
+        <div class="tag" data-i18n="svc6_tag">Klarheit</div>
+        <h3 data-i18n="svc6_t">Zweitmeinung</h3>
+        <p data-i18n="svc6_p">Bestehende Pläne verständlich einordnen.</p>
       </article>
     </div>
   </section>
 
-  <section class="section wrap" id="results">
-    <h2>Before / after proof</h2>
-    <p class="sub">The most persuasive element for higher-value treatments — shown as educational demo imagery.</p>
+  <section class="section wrap" id="ergebnisse">
+    <h2 data-i18n="ba_h2">Vorher / Nachher</h2>
+    <p class="sub" data-i18n="ba_sub">Besonders überzeugend bei ästhetischen und restaurativen Behandlungen (Demo-Bilder).</p>
     <div class="ba">
       <figure>
-        <img src="/assets/dental/before_teeth.jpg" alt="Smile before whitening and alignment plan">
-        <figcaption>Before consult planning</figcaption>
+        <img src="/assets/dental/before_teeth.jpg" alt="Zähne vor der Behandlungsplanung">
+        <figcaption data-i18n="ba_before">Vor der Planung</figcaption>
       </figure>
       <figure>
-        <img src="/assets/dental/after_teeth.jpg" alt="Brighter healthier smile after treatment plan">
-        <figcaption>After whitening / restorative plan</figcaption>
+        <img src="/assets/dental/after_teeth.jpg" alt="Zähne nach Bleaching/Restauration">
+        <figcaption data-i18n="ba_after">Nach Bleaching / restaurativem Plan</figcaption>
       </figure>
     </div>
     <div class="actions" style="margin-top:16px">
-      <a class="btn btn-primary" href="#book" onclick="openM();return false;">Ask about a similar plan</a>
+      <a class="btn btn-primary" href="#termin" onclick="openM();return false;" data-i18n="ba_cta">Ähnlichen Plan anfragen</a>
     </div>
   </section>
 
   <section class="section wrap" id="team">
-    <h2>Meet the people you’ll actually see</h2>
-    <p class="sub">Real faces beat anonymous stock. Trust rises when patients can picture the appointment.</p>
+    <h2 data-i18n="team_h2">Das Team, das Sie treffen</h2>
+    <p class="sub" data-i18n="team_sub">Echte Gesichter schaffen Vertrauen – besser als anonyme Stockfotos.</p>
     <div class="grid-3">
       <article class="card team-card">
         <img src="/assets/dental/team1.jpg" alt="Dr. Lena Vogt">
         <h3>Dr. Lena Vogt</h3>
-        <div class="role">Lead dentist</div>
-        <p>Restorative planning, implants pathway, gentle chairside communication.</p>
+        <div class="role" data-i18n="team1_r">Leitende Zahnärztin</div>
+        <p data-i18n="team1_p">Restaurative Planung, Implantat-Pfad, ruhige Aufklärung.</p>
       </article>
       <article class="card team-card">
         <img src="/assets/dental/team2.jpg" alt="Jonas Weber">
         <h3>Jonas Weber</h3>
-        <div class="role">Hygiene lead</div>
-        <p>Prevention programs, recall systems, and comfortable cleanings.</p>
+        <div class="role" data-i18n="team2_r">Prophylaxe</div>
+        <p data-i18n="team2_p">PZR, Recall, angenehme Reinigungen.</p>
       </article>
       <article class="card team-card">
         <img src="/assets/dental/team3.jpg" alt="Mila Hoffmann">
         <h3>Mila Hoffmann</h3>
-        <div class="role">Patient coordinator</div>
-        <p>Booking, insurance questions, and visit prep — your first human contact.</p>
+        <div class="role" data-i18n="team3_r">Patientenkoordination</div>
+        <p data-i18n="team3_p">Termine, Kassenfragen, Vorbereitung – Ihr erster Kontakt.</p>
       </article>
     </div>
   </section>
 
-  <section class="section wrap" id="visit">
+  <section class="section wrap" id="ablauf">
     <div class="grid-2">
       <div>
-        <h2>How booking works</h2>
-        <p class="sub">Designed to remove phone-tag and after-hours leakage.</p>
-        <div class="steps">
-          <div class="step"><div class="n">1</div><div><h3>Request online</h3><p class="muted">Tell us service, urgency, and preferred times (24/7 form).</p></div></div>
-          <div class="step"><div class="n">2</div><div><h3>We confirm a slot</h3><p class="muted">Coordinator replies with time options and prep notes.</p></div></div>
-          <div class="step"><div class="n">3</div><div><h3>Visit with a clear plan</h3><p class="muted">Exam, options, and pricing discussion before treatment decisions.</p></div></div>
-        </div>
+        <h2 data-i18n="flow_h2">So funktioniert die Termin-Anfrage</h2>
+        <p class="sub" data-i18n="flow_sub">Weniger Telefon-Pingpong. Mehr bestätigte Besuche.</p>
+        <div class="step"><div class="n">1</div><div><h3 data-i18n="flow1_t">Online anfragen</h3><p class="muted" data-i18n="flow1_p">Leistung, Dringlichkeit und Wunschzeiten angeben (24/7).</p></div></div>
+        <div class="step"><div class="n">2</div><div><h3 data-i18n="flow2_t">Wir bestätigen</h3><p class="muted" data-i18n="flow2_p">Koordination meldet sich mit Zeitslots und Vorbereitung.</p></div></div>
+        <div class="step"><div class="n">3</div><div><h3 data-i18n="flow3_t">Besuch mit Plan</h3><p class="muted" data-i18n="flow3_p">Untersuchung, Optionen und Kostenklarheit vor Entscheidungen.</p></div></div>
       </div>
       <div>
-        <div class="quote">“I compared three practices online. This site made booking feel safe — hours, team, and the request form were obvious on my phone.”<strong>— New patient, Nuremberg</strong></div>
+        <div class="quote" data-i18n="quote">„Ich habe drei Praxen online verglichen. Hier war alles auf dem Handy klar: Team, Leistungen, Terminbutton.“<strong>— Neupatientin, Nürnberg</strong></div>
         <div class="card" style="margin-top:12px">
-          <h3>Hours</h3>
+          <h3 data-i18n="hours_h">Öffnungszeiten</h3>
           <table>
-            <tr><td>Mon–Thu</td><td>08:00 – 18:00</td></tr>
-            <tr><td>Friday</td><td>08:00 – 15:00</td></tr>
-            <tr><td>Emergency line</td><td>Same-day triage when available</td></tr>
-            <tr><td>Address area</td><td>Nuremberg city center metro</td></tr>
+            <tr><td data-i18n="h1a">Mo–Do</td><td>08:00 – 18:00</td></tr>
+            <tr><td data-i18n="h2a">Freitag</td><td>08:00 – 15:00</td></tr>
+            <tr><td data-i18n="h3a">Schmerzfälle</td><td data-i18n="h3b">Priorisierung nach Kapazität</td></tr>
+            <tr><td data-i18n="h4a">Standort</td><td data-i18n="h4b">Nürnberg (Innenstadt-Metro)</td></tr>
           </table>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="section wrap" id="insurance">
-    <h2>Insurance & financing clarity</h2>
-    <p class="sub">Outdated insurance info is a top reason patients abandon a dental site. We surface the basics early.</p>
+  <section class="section wrap" id="kasse">
+    <h2 data-i18n="ins_h2">Kasse, Privat & Finanzierung – klar erklärt</h2>
+    <p class="sub" data-i18n="ins_sub">Unklare Kosten sind ein Hauptgrund, warum Patienten abspringen.</p>
     <div class="card">
       <div class="insurance">
-        <span>Public insurance welcome</span>
-        <span>Private plans</span>
-        <span>Transparent treatment options</span>
-        <span>Phased plans when needed</span>
+        <span data-i18n="ins1">Gesetzlich versichert willkommen</span>
+        <span data-i18n="ins2">Privat & Zusatz</span>
+        <span data-i18n="ins3">Transparente Optionen</span>
+        <span data-i18n="ins4">Stufenpläne möglich</span>
       </div>
-      <p class="muted" style="margin-top:12px">Final coverage depends on plan and treatment. Ask during booking and we’ll help you understand next steps.</p>
-    </div>
-  </section>
-
-  <section class="section wrap" id="fees">
-    <h2>Example fee ranges (orientation only)</h2>
-    <p class="sub">Shown for planning conversations — confirmed after exam.</p>
-    <div class="card">
-      <table>
-        <tr><th>Service</th><th>From</th><th>Goal</th></tr>
-        <tr><td>New patient exam</td><td>€89</td><td>Diagnosis + plan</td></tr>
-        <tr><td>Hygiene / PZR</td><td>€120</td><td>Prevention</td></tr>
-        <tr><td>Whitening package</td><td>€350</td><td>Cosmetic confidence</td></tr>
-        <tr><td>Restorative / implant pathway</td><td>Quoted</td><td>Long-term function</td></tr>
-      </table>
+      <p class="muted" style="margin-top:12px" data-i18n="ins_note">Endgültige Kosten hängen von Befund und Tarif ab – wir erklären das vor der Behandlung.</p>
     </div>
   </section>
 
   <section class="section wrap" id="faq">
-    <h2>FAQ patients ask before they call</h2>
+    <h2 data-i18n="faq_h2">Häufige Fragen vor dem Anruf</h2>
     <div class="faq">
-      <details open><summary>Can I request an appointment without calling?</summary><p>Yes. Use the Book form anytime — including nights and weekends. We confirm by phone/email.</p></details>
-      <details><summary>Do you accept public insurance?</summary><p>Yes for many treatments. Share your insurer when booking so we can guide expectations.</p></details>
-      <details><summary>I’m anxious about dental visits — what helps?</summary><p>We explain every step before treatment, offer breaks, and keep a calm room environment.</p></details>
-      <details><summary>How fast can I be seen for pain?</summary><p>Tell us it’s urgent in the form. We prioritize pain cases when slots open.</p></details>
-      <details><summary>Is this website only marketing?</summary><p>No. It’s built to solve three practice problems: get found, get trusted, and get booked.</p></details>
+      <details open><summary data-i18n="faq1_q">Kann ich ohne Anruf einen Termin anfragen?</summary><p data-i18n="faq1_a">Ja. Nutzen Sie das Formular jederzeit – auch abends und am Wochenende. Wir bestätigen per Telefon/E-Mail.</p></details>
+      <details><summary data-i18n="faq2_q">Nehmen Sie gesetzlich Versicherte an?</summary><p data-i18n="faq2_a">Ja, für viele Behandlungen. Nennen Sie Ihre Kasse bei der Anfrage.</p></details>
+      <details><summary data-i18n="faq3_q">Ich habe Angst vor dem Zahnarzt – was hilft?</summary><p data-i18n="faq3_a">Wir erklären jeden Schritt, machen Pausen und halten die Atmosphäre ruhig.</p></details>
+      <details><summary data-i18n="faq4_q">Wie schnell bei Schmerzen?</summary><p data-i18n="faq4_a">Bitte „dringend“ im Formular markieren. Schmerzfälle priorisieren wir, wenn möglich.</p></details>
     </div>
   </section>
 
-  <section class="section wrap" id="book">
+  <!-- B2B OFFER FOR PRACTICE OWNERS (LeadFlow sales) -->
+  <section class="section wrap" id="praxis-angebot">
+    <div class="offer-banner">
+      <div class="pill" style="background:#FFF4D6;color:#8A6A12" data-i18n="offer_pill">Angebot für Praxisinhaber</div>
+      <h3 data-i18n="offer_h3">Kostenlose Live-Vorschau Ihrer Praxis-Website – 48 Stunden</h3>
+      <p class="muted" data-i18n="offer_p">Wir bauen eine fertige Demo mit Ihrem Praxisnamen, Leistungen und Termin-CTA. Wenn Sie überzeugt sind, übernehmen Sie das Paket. Wenn nicht: null Euro, null Risiko.</p>
+      <div class="price" data-i18n="offer_price">Premium-Paket: 499 USDT einmalig</div>
+      <ul class="offer-list">
+        <li data-i18n="offer_li1">Live-Demo-Link zum Sofort-Teilen</li>
+        <li data-i18n="offer_li2">Deutsch als Hauptsprache (+ EN Umschalter optional)</li>
+        <li data-i18n="offer_li3">Termin-Anfrage, Leistungen, Team, Vorher/Nachher, Kasseninfo</li>
+        <li data-i18n="offer_li4">Volles Handover-ZIP (Deployment-Anleitung)</li>
+        <li data-i18n="offer_li5">Garantie-Logik: erst sehen, dann kaufen</li>
+      </ul>
+      <div class="actions">
+        <a class="btn btn-offer" href="https://leadflow-ai-1vip.onrender.com/onboard" data-i18n="offer_cta">Jetzt Premium sichern →</a>
+        <a class="btn btn-ghost" href="https://leadflow-ai-1vip.onrender.com/first-customer" data-i18n="offer_ops">Verkaufs-Cockpit öffnen</a>
+      </div>
+      <p class="muted" style="margin-top:10px;font-size:.85rem" data-i18n="offer_note">Diese Demo zeigt, wie Ihre Patienten-Website aussehen und konvertieren kann. Checkout: LeadFlow /onboard.</p>
+    </div>
+  </section>
+
+  <section class="section wrap" id="termin">
     <div class="card" style="text-align:center;padding:28px">
-      <div class="pill">Next step</div>
-      <h2 style="margin-top:10px">Ready when you are</h2>
-      <p class="sub" style="margin:8px auto 0">Request a slot online or call the practice line.</p>
+      <div class="pill" data-i18n="next_pill">Nächster Schritt</div>
+      <h2 style="margin-top:10px" data-i18n="next_h2">Termin in unter einer Minute anfragen</h2>
+      <p class="sub" style="margin:8px auto 0" data-i18n="next_sub">Online anfragen oder Praxis anrufen.</p>
       <div class="actions" style="justify-content:center">
-        <a class="btn btn-primary" href="#" onclick="openM();return false;">Book appointment</a>
-        <a class="btn btn-soft" href="tel:+499115550188">+49 911 555 0188</a>
+        <a class="btn btn-primary" href="#" onclick="openM();return false;" data-i18n="cta_book">Termin anfragen</a>
+        <a class="btn btn-soft" href="tel:+499115550188">0911 5550188</a>
       </div>
     </div>
   </section>
@@ -333,54 +351,213 @@ th{color:var(--mute);font-size:.75rem;text-transform:uppercase;letter-spacing:.0
 
 <footer class="footer wrap">
   <strong>Nordic Smile Studio</strong><br>
-  Nuremberg · +49 911 555 0188<br>
-  Patient-first dental website demo for LeadFlow first-customer GTM
+  <span data-i18n="footer_line">Nürnberg · 0911 5550188 · Deutsch zuerst, Englisch optional</span>
 </footer>
 
 <div class="sticky-cta">
-  <p><strong>Need a dentist in Nuremberg?</strong> Request a visit in under a minute.</p>
-  <a class="btn btn-primary" href="#book" onclick="openM();return false;">Book appointment</a>
+  <p data-i18n="sticky_p"><strong>Zahnarzt in Nürnberg?</strong> Termin online anfragen.</p>
+  <a class="btn btn-primary" href="#termin" onclick="openM();return false;" data-i18n="cta_book">Termin anfragen</a>
 </div>
 
 <div class="modal" id="m">
   <div class="modal-card">
     <button class="close" type="button" onclick="closeM()">×</button>
-    <h3>Request an appointment</h3>
-    <p class="muted">We’ll confirm availability. On LeadFlow host this also stores the lead via API.</p>
+    <h3 data-i18n="modal_h">Termin anfragen</h3>
+    <p class="muted" data-i18n="modal_p">Wir melden uns zur Bestätigung. Auf dem LeadFlow-Host wird die Anfrage gespeichert.</p>
     <form id="lead-form" onsubmit="return submitLead(event)">
-      <input name="name" placeholder="Full name *" required>
-      <input name="email" type="email" placeholder="Email *" required>
-      <input name="phone" placeholder="Phone / WhatsApp *" required>
+      <input name="name" data-ph="ph_name" placeholder="Vollständiger Name *" required>
+      <input name="email" type="email" data-ph="ph_email" placeholder="E-Mail *" required>
+      <input name="phone" data-ph="ph_phone" placeholder="Telefon / WhatsApp *" required>
       <select name="service">
-        <option value="check-up">Check-up / hygiene</option>
-        <option value="pain">Pain / emergency</option>
-        <option value="whitening">Whitening / cosmetic</option>
-        <option value="restorative">Crowns / implants</option>
-        <option value="other">Other</option>
+        <option value="kontrolle" data-i18n="opt1">Kontrolle / Prophylaxe</option>
+        <option value="schmerz" data-i18n="opt2">Schmerz / dringend</option>
+        <option value="bleaching" data-i18n="opt3">Bleaching / Ästhetik</option>
+        <option value="restauration" data-i18n="opt4">Krone / Implantat</option>
+        <option value="sonstiges" data-i18n="opt5">Sonstiges</option>
       </select>
-      <input name="time" placeholder="Preferred day/time window">
-      <button class="btn btn-primary" id="lead-btn" type="submit" style="width:100%;margin-top:8px">Send request</button>
+      <input name="time" data-ph="ph_time" placeholder="Wunschzeit (Tag/Uhrzeit)">
+      <button class="btn btn-primary" id="lead-btn" type="submit" style="width:100%;margin-top:8px" data-i18n="modal_send">Anfrage senden</button>
       <div class="alert" id="lead-status"></div>
     </form>
   </div>
 </div>
 
 <script>
+const I18N = {
+  de: {
+    nav_services:'Leistungen', nav_results:'Ergebnisse', nav_team:'Team', nav_visit:'Ablauf', nav_insurance:'Kasse & Kosten', nav_faq:'FAQ', nav_book:'Termin anfragen',
+    hero_pill:'Zahnarztpraxis · Nürnberg',
+    hero_h1:'Ruhig. Klar. Online terminieren – ohne Telefonstress.',
+    hero_lead:'Nordic Smile Studio hilft Patientinnen und Patienten in Nürnberg, Leistungen zu verstehen, dem Team zu vertrauen und einen Termin anzufragen – auf Deutsch, mobil und in wenigen Minuten.',
+    cta_book:'Termin anfragen', cta_call:'Anrufen: 0911 5550188', cta_services:'Leistungen ansehen',
+    trust_1:'⭐ 4,9 Patientenbewertung', trust_2:'Oft Termine in derselben Woche', trust_3:'Deutsch + English spoken', trust_4:'Transparente Optionen vor der Behandlung',
+    meta_1:'Online-Anfrage', meta_2:'Pünktlichkeitsziel', meta_3:'Verkaufsdruck',
+    why_h2:'Wofür diese Website da ist', why_sub:'Nicht nur „schön“. Ein System, das lokale Suchende in gebuchte Patienten verwandelt.',
+    why_1_t:'1) Gefunden werden', why_1_p:'Klare Leistungen + Standort Nürnberg helfen bei Suchen wie „Zahnarzt Nürnberg“.',
+    why_2_t:'2) Vertrauen aufbauen', why_2_p:'Echtes Team, Praxisbilder, Bewertungen und Vorher/Nachher reduzieren Unsicherheit.',
+    why_3_t:'3) Termin sichern', why_3_p:'Online-Anfrage auch abends/am Wochenende – wenn das Telefon nicht besetzt ist.',
+    gal_h2:'Echte Praxis-Atmosphäre', gal_sub:'Patienten entscheiden mit Bildern: Raum, Team, Ablauf – hier zahnmedizinisch und ruhig.',
+    svc_h2:'Leistungen, nach denen Patienten suchen', svc_sub:'Eigene Wege für Prophylaxe, Ästhetik, Zahnersatz und Schmerzfälle – statt einer vagen Liste.',
+    svc1_tag:'Allgemein', svc1_t:'Kontrolle & Prophylaxe', svc1_p:'Vorsorge, klare Befunde, Recall-Planung.',
+    svc2_tag:'Ästhetik', svc2_t:'Bleaching & Smile Design', svc2_p:'Optionen erklären, Ergebnisse planen, ohne Druck.',
+    svc3_tag:'Restaurativ', svc3_t:'Kronen, Implantate & Reparaturen', svc3_p:'Strukturierte Pläne für Funktion und Langlebigkeit.',
+    svc4_tag:'Familie', svc4_t:'Familienzahnheilkunde', svc4_p:'Ruhige Termine, praktische Terminfindung.',
+    svc5_tag:'Dringend', svc5_t:'Schmerz-/Notfälle', svc5_p:'Priorisierung bei Schmerzen, wenn Kapazität frei ist.',
+    svc6_tag:'Klarheit', svc6_t:'Zweitmeinung', svc6_p:'Bestehende Pläne verständlich einordnen.',
+    ba_h2:'Vorher / Nachher', ba_sub:'Besonders überzeugend bei ästhetischen und restaurativen Behandlungen (Demo-Bilder).',
+    ba_before:'Vor der Planung', ba_after:'Nach Bleaching / restaurativem Plan', ba_cta:'Ähnlichen Plan anfragen',
+    team_h2:'Das Team, das Sie treffen', team_sub:'Echte Gesichter schaffen Vertrauen – besser als anonyme Stockfotos.',
+    team1_r:'Leitende Zahnärztin', team1_p:'Restaurative Planung, Implantat-Pfad, ruhige Aufklärung.',
+    team2_r:'Prophylaxe', team2_p:'PZR, Recall, angenehme Reinigungen.',
+    team3_r:'Patientenkoordination', team3_p:'Termine, Kassenfragen, Vorbereitung – Ihr erster Kontakt.',
+    flow_h2:'So funktioniert die Termin-Anfrage', flow_sub:'Weniger Telefon-Pingpong. Mehr bestätigte Besuche.',
+    flow1_t:'Online anfragen', flow1_p:'Leistung, Dringlichkeit und Wunschzeiten angeben (24/7).',
+    flow2_t:'Wir bestätigen', flow2_p:'Koordination meldet sich mit Zeitslots und Vorbereitung.',
+    flow3_t:'Besuch mit Plan', flow3_p:'Untersuchung, Optionen und Kostenklarheit vor Entscheidungen.',
+    quote:'„Ich habe drei Praxen online verglichen. Hier war alles auf dem Handy klar: Team, Leistungen, Terminbutton.“',
+    hours_h:'Öffnungszeiten', h1a:'Mo–Do', h2a:'Freitag', h3a:'Schmerzfälle', h3b:'Priorisierung nach Kapazität', h4a:'Standort', h4b:'Nürnberg (Innenstadt-Metro)',
+    ins_h2:'Kasse, Privat & Finanzierung – klar erklärt', ins_sub:'Unklare Kosten sind ein Hauptgrund, warum Patienten abspringen.',
+    ins1:'Gesetzlich versichert willkommen', ins2:'Privat & Zusatz', ins3:'Transparente Optionen', ins4:'Stufenpläne möglich',
+    ins_note:'Endgültige Kosten hängen von Befund und Tarif ab – wir erklären das vor der Behandlung.',
+    faq_h2:'Häufige Fragen vor dem Anruf',
+    faq1_q:'Kann ich ohne Anruf einen Termin anfragen?', faq1_a:'Ja. Nutzen Sie das Formular jederzeit – auch abends und am Wochenende. Wir bestätigen per Telefon/E-Mail.',
+    faq2_q:'Nehmen Sie gesetzlich Versicherte an?', faq2_a:'Ja, für viele Behandlungen. Nennen Sie Ihre Kasse bei der Anfrage.',
+    faq3_q:'Ich habe Angst vor dem Zahnarzt – was hilft?', faq3_a:'Wir erklären jeden Schritt, machen Pausen und halten die Atmosphäre ruhig.',
+    faq4_q:'Wie schnell bei Schmerzen?', faq4_a:'Bitte „dringend“ im Formular markieren. Schmerzfälle priorisieren wir, wenn möglich.',
+    offer_pill:'Angebot für Praxisinhaber',
+    offer_h3:'Kostenlose Live-Vorschau Ihrer Praxis-Website – 48 Stunden',
+    offer_p:'Wir bauen eine fertige Demo mit Ihrem Praxisnamen, Leistungen und Termin-CTA. Wenn Sie überzeugt sind, übernehmen Sie das Paket. Wenn nicht: null Euro, null Risiko.',
+    offer_price:'Premium-Paket: 499 USDT einmalig',
+    offer_li1:'Live-Demo-Link zum Sofort-Teilen',
+    offer_li2:'Deutsch als Hauptsprache (+ EN Umschalter optional)',
+    offer_li3:'Termin-Anfrage, Leistungen, Team, Vorher/Nachher, Kasseninfo',
+    offer_li4:'Volles Handover-ZIP (Deployment-Anleitung)',
+    offer_li5:'Garantie-Logik: erst sehen, dann kaufen',
+    offer_cta:'Jetzt Premium sichern →', offer_ops:'Verkaufs-Cockpit öffnen',
+    offer_note:'Diese Demo zeigt, wie Ihre Patienten-Website aussehen und konvertieren kann. Checkout: LeadFlow /onboard.',
+    next_pill:'Nächster Schritt', next_h2:'Termin in unter einer Minute anfragen', next_sub:'Online anfragen oder Praxis anrufen.',
+    footer_line:'Nürnberg · 0911 5550188 · Deutsch zuerst, Englisch optional',
+    sticky_p:'Zahnarzt in Nürnberg? Termin online anfragen.',
+    modal_h:'Termin anfragen', modal_p:'Wir melden uns zur Bestätigung. Auf dem LeadFlow-Host wird die Anfrage gespeichert.',
+    modal_send:'Anfrage senden',
+    ph_name:'Vollständiger Name *', ph_email:'E-Mail *', ph_phone:'Telefon / WhatsApp *', ph_time:'Wunschzeit (Tag/Uhrzeit)',
+    opt1:'Kontrolle / Prophylaxe', opt2:'Schmerz / dringend', opt3:'Bleaching / Ästhetik', opt4:'Krone / Implantat', opt5:'Sonstiges',
+    lead_ok:'Anfrage erhalten. Wir melden uns mit Terminvorschlägen.',
+    lead_err:'Lead-API auf diesem Host nicht erreichbar. Auf LeadFlow Render funktioniert sie.'
+  },
+  en: {
+    nav_services:'Services', nav_results:'Results', nav_team:'Team', nav_visit:'Visit', nav_insurance:'Insurance', nav_faq:'FAQ', nav_book:'Request appointment',
+    hero_pill:'Dental practice · Nuremberg',
+    hero_h1:'Calm. Clear. Book online — without phone stress.',
+    hero_lead:'Nordic Smile Studio helps patients in Nuremberg understand services, trust the team, and request a visit — mobile-first, in minutes. German is primary; English available.',
+    cta_book:'Request appointment', cta_call:'Call 0911 5550188', cta_services:'View services',
+    trust_1:'⭐ 4.9 patient rating', trust_2:'Same-week openings often available', trust_3:'German + English spoken', trust_4:'Clear options before treatment',
+    meta_1:'Online request', meta_2:'On-time goal', meta_3:'Sales pressure',
+    why_h2:'What this website is for', why_sub:'Not just pretty — a system that turns local searchers into booked patients.',
+    why_1_t:'1) Get found', why_1_p:'Clear services + Nuremberg location for searches like “dentist Nuremberg”.',
+    why_2_t:'2) Build trust', why_2_p:'Real team, clinic photos, reviews and before/after reduce anxiety.',
+    why_3_t:'3) Secure the visit', why_3_p:'Online requests after hours when the phone is closed.',
+    gal_h2:'Real clinic atmosphere', gal_sub:'Patients decide with visuals: room, team, process.',
+    svc_h2:'Treatments patients search for', svc_sub:'Paths for hygiene, aesthetics, restorative care and pain cases.',
+    svc1_tag:'General', svc1_t:'Check-ups & hygiene', svc1_p:'Prevention, clear findings, recall planning.',
+    svc2_tag:'Cosmetic', svc2_t:'Whitening & smile design', svc2_p:'Options explained without pressure.',
+    svc3_tag:'Restorative', svc3_t:'Crowns, implants & repairs', svc3_p:'Structured plans for long-term function.',
+    svc4_tag:'Family', svc4_t:'Family dentistry', svc4_p:'Calm visits, practical scheduling.',
+    svc5_tag:'Urgent', svc5_t:'Pain / emergency', svc5_p:'Priority when capacity allows.',
+    svc6_tag:'Clarity', svc6_t:'Second opinion', svc6_p:'Existing plans explained in plain language.',
+    ba_h2:'Before / after', ba_sub:'Especially persuasive for cosmetic and restorative care (demo imagery).',
+    ba_before:'Before planning', ba_after:'After whitening / restorative plan', ba_cta:'Ask about a similar plan',
+    team_h2:'The people you’ll meet', team_sub:'Real faces build more trust than anonymous stock.',
+    team1_r:'Lead dentist', team1_p:'Restorative planning, implant pathway, calm explanations.',
+    team2_r:'Hygiene lead', team2_p:'Cleanings, recall, comfortable prevention.',
+    team3_r:'Patient coordinator', team3_p:'Booking, insurance questions, visit prep.',
+    flow_h2:'How booking works', flow_sub:'Less phone tag. More confirmed visits.',
+    flow1_t:'Request online', flow1_p:'Service, urgency and preferred times (24/7).',
+    flow2_t:'We confirm', flow2_p:'Coordinator replies with slots and prep notes.',
+    flow3_t:'Visit with a plan', flow3_p:'Exam, options and cost clarity before decisions.',
+    quote:'“I compared three practices online. This one made booking feel safe on my phone.”',
+    hours_h:'Hours', h1a:'Mon–Thu', h2a:'Friday', h3a:'Pain cases', h3b:'Priority by capacity', h4a:'Location', h4b:'Nuremberg (city metro)',
+    ins_h2:'Insurance & financing — explained clearly', ins_sub:'Unclear costs are a top reason patients leave a site.',
+    ins1:'Public insurance welcome', ins2:'Private & add-ons', ins3:'Transparent options', ins4:'Phased plans possible',
+    ins_note:'Final costs depend on findings and plan — we explain before treatment.',
+    faq_h2:'Questions before the call',
+    faq1_q:'Can I request without calling?', faq1_a:'Yes. Use the form anytime, including nights and weekends.',
+    faq2_q:'Do you accept public insurance?', faq2_a:'Yes for many treatments. Share your insurer when requesting.',
+    faq3_q:'I’m anxious — what helps?', faq3_a:'We explain every step, allow breaks, keep a calm room.',
+    faq4_q:'How fast for pain?', faq4_a:'Mark urgent in the form. We prioritize pain when possible.',
+    offer_pill:'Offer for practice owners',
+    offer_h3:'Free live preview of your practice website — 48 hours',
+    offer_p:'We build a finished demo with your practice name, services and booking CTA. Love it → take ownership. Don’t → zero cost, zero risk.',
+    offer_price:'Premium package: 499 USDT one-time',
+    offer_li1:'Live demo link ready to share',
+    offer_li2:'German as primary language (+ optional EN toggle)',
+    offer_li3:'Booking request, services, team, before/after, insurance info',
+    offer_li4:'Full handover ZIP + deploy guide',
+    offer_li5:'See first, buy second',
+    offer_cta:'Secure Premium →', offer_ops:'Open sales cockpit',
+    offer_note:'This demo shows how your patient website can look and convert. Checkout: LeadFlow /onboard.',
+    next_pill:'Next step', next_h2:'Request a visit in under a minute', next_sub:'Request online or call the practice.',
+    footer_line:'Nuremberg · 0911 5550188 · German first, English optional',
+    sticky_p:'Need a dentist in Nuremberg? Request online.',
+    modal_h:'Request appointment', modal_p:'We’ll confirm availability. On LeadFlow host the lead is stored via API.',
+    modal_send:'Send request',
+    ph_name:'Full name *', ph_email:'Email *', ph_phone:'Phone / WhatsApp *', ph_time:'Preferred day/time',
+    opt1:'Check-up / hygiene', opt2:'Pain / urgent', opt3:'Whitening / cosmetic', opt4:'Crown / implant', opt5:'Other',
+    lead_ok:'Request received. We’ll confirm appointment options shortly.',
+    lead_err:'Lead API not reachable on this host. It works on LeadFlow Render.'
+  }
+};
+
+function setLang(lang){
+  const dict = I18N[lang] || I18N.de;
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const k = el.getAttribute('data-i18n');
+    if(dict[k] != null){
+      if(k === 'quote'){
+        el.innerHTML = dict[k] + '<strong>— ' + (lang==='de'?'Neupatientin, Nürnberg':'New patient, Nuremberg') + '</strong>';
+      } else if(k === 'sticky_p'){
+        el.innerHTML = dict[k].replace('Zahnarzt in Nürnberg?', '<strong>Zahnarzt in Nürnberg?</strong>').replace('Need a dentist in Nuremberg?', '<strong>Need a dentist in Nuremberg?</strong>');
+      } else {
+        el.textContent = dict[k];
+      }
+    }
+  });
+  document.querySelectorAll('[data-ph]').forEach(el => {
+    const k = el.getAttribute('data-ph');
+    if(dict[k]) el.placeholder = dict[k];
+  });
+  // options
+  const sel = document.querySelector('select[name="service"]');
+  if(sel){
+    [...sel.options].forEach((opt,i)=>{
+      const key = 'opt'+(i+1);
+      if(dict[key]) opt.textContent = dict[key];
+    });
+  }
+  document.getElementById('btn-de').classList.toggle('active', lang==='de');
+  document.getElementById('btn-en').classList.toggle('active', lang==='en');
+  localStorage.setItem('nss_lang', lang);
+}
+
 function openM(){document.getElementById('m').classList.add('open');}
 function closeM(){document.getElementById('m').classList.remove('open');}
 document.addEventListener('keydown', e => { if(e.key==='Escape') closeM(); });
+
 async function submitLead(e){
   e.preventDefault();
   const form = e.target;
   const btn = document.getElementById('lead-btn');
   const status = document.getElementById('lead-status');
+  const lang = localStorage.getItem('nss_lang') || 'de';
+  const dict = I18N[lang];
   const payload = {
     email: form.email.value.trim(),
     name: form.name.value.trim(),
     company: 'Nordic Smile Studio',
-    studio_source: 'DENTAL_FLAGSHIP:' + form.service.value + ':' + (form.time.value||'').slice(0,40)
+    studio_source: 'DENTAL_DE_FLAGSHIP:' + form.service.value + ':' + (form.time.value||'').slice(0,40)
   };
-  btn.disabled = true; btn.textContent = 'Sending...';
+  btn.disabled = true; btn.textContent = lang==='de' ? 'Senden…' : 'Sending…';
   status.className = 'alert'; status.textContent = '';
   try {
     const res = await fetch('/api/lead/capture', {
@@ -388,16 +565,18 @@ async function submitLead(e){
     });
     if(!res.ok) throw new Error('API ' + res.status);
     status.className = 'alert ok';
-    status.textContent = 'Request received. We will confirm your appointment options shortly.';
+    status.textContent = dict.lead_ok;
     form.reset();
-    setTimeout(()=>{closeM(); btn.disabled=false; btn.textContent='Send request'; status.className='alert'; status.textContent='';}, 1400);
+    setTimeout(()=>{closeM(); btn.disabled=false; btn.textContent=dict.modal_send; status.className='alert'; status.textContent='';}, 1400);
   } catch (err) {
     status.className = 'alert err';
-    status.textContent = 'Could not reach lead API from this host. On LeadFlow Render it works — try again there.';
-    btn.disabled = false; btn.textContent = 'Send request';
+    status.textContent = dict.lead_err;
+    btn.disabled = false; btn.textContent = dict.modal_send;
   }
   return false;
 }
+
+setLang(localStorage.getItem('nss_lang') || 'de');
 </script>
 </body>
 </html>
