@@ -12,3 +12,6 @@ leadflow_payments.db
 .venv/
 .env
 *.db-journal
+
+leadflow_autopilot.db
+generated_sites/orders/

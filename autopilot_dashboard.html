@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>LeadFlow Autopilot Status</title>
+  <style>
+    :root { --bg:#FBFBF9; --ink:#18181B; --slate:#475569; --line:#E5E0D8; --ok:#059669; --sea:#0F766E; --stone:#F2EFE9; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family: system-ui, sans-serif; background:var(--bg); color:var(--ink); line-height:1.6; border-top:4px solid var(--ink); }
+    .wrap { width:min(1100px,94vw); margin:0 auto; padding:20px 0 60px; }
+    header { display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; align-items:center; margin-bottom:16px; }
+    h1 { font-size:1.4rem; }
+    .btn { display:inline-flex; border:1px solid var(--ink); background:var(--ink); color:#fff; text-decoration:none; padding:10px 12px; font-size:12px; font-weight:800; cursor:pointer; }
+    .btn.ghost { background:#fff; color:var(--ink); }
+    .grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:14px 0; }
+    @media(max-width:800px){ .grid{ grid-template-columns:1fr 1fr; } }
+    .card { background:#fff; border:1px solid var(--line); padding:14px; }
+    .card b { display:block; font-size:1.4rem; }
+    .muted { color:var(--slate); font-size:13px; }
+    table { width:100%; border-collapse:collapse; font-size:13px; }
+    th,td { border-bottom:1px solid var(--line); padding:8px; text-align:left; vertical-align:top; }
+    th { font-size:11px; text-transform:uppercase; letter-spacing:.04em; color:#78716C; }
+    .ok { color:var(--ok); font-weight:700; }
+    .bad { color:#B91C1C; font-weight:700; }
+    .panel { background:var(--stone); border:1px solid var(--line); padding:14px; margin:14px 0; }
+    code { background:#fff; border:1px solid var(--line); padding:1px 5px; }
+    ul { margin:8px 0 0 18px; color:var(--slate); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>LeadFlow Autopilot</h1>
+        <div class="muted">Unattended inbound sales + payment fulfillment monitor</div>
+      </div>
+      <div>
+        <button class="btn" id="reload">Refresh</button>
+        <a class="btn ghost" href="/hire">Hire</a>
+        <a class="btn ghost" href="/onboard">Checkout</a>
+      </div>
+    </header>
+
+    <div class="panel" id="summary">Loading status...</div>
+    <div class="grid" id="metrics"></div>
+
+    <div class="card" style="margin-bottom:14px;">
+      <h3>What runs without you</h3>
+      <ul id="caps"></ul>
+    </div>
+
+    <div class="card" style="margin-bottom:14px; overflow:auto;">
+      <h3>Recent leads</h3>
+      <table>
+        <thead><tr><th>ID</th><th>Company</th><th>Email</th><th>Status</th><th>Demo</th><th>Created</th></tr></thead>
+        <tbody id="leads"><tr><td colspan="6" class="muted">Loading...</td></tr></tbody>
+      </table>
+    </div>
+
+    <div class="card" style="margin-bottom:14px; overflow:auto;">
+      <h3>Orders / fulfillment</h3>
+      <table>
+        <thead><tr><th>Client</th><th>Amount</th><th>Status</th><th>Delivery</th><th>TX</th></tr></thead>
+        <tbody id="orders"><tr><td colspan="5" class="muted">Loading...</td></tr></tbody>
+      </table>
+    </div>
+
+    <div class="card" style="overflow:auto;">
+      <h3>Event log</h3>
+      <table>
+        <thead><tr><th>Time</th><th>Kind</th><th>Message</th></tr></thead>
+        <tbody id="events"><tr><td colspan="3" class="muted">Loading...</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+<script>
+async function j(url){ const r = await fetch(url); return r.json(); }
+function esc(s){ return String(s??'').replace(/[&<>"']/g,c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+async function loadAll(){
+  const st = await j('/api/autopilot/status');
+  const leads = await j('/api/autopilot/leads?limit=30');
+  const orders = await j('/api/autopilot/orders?limit=30');
+  const events = await j('/api/autopilot/events?limit=40');
+
+  document.getElementById('summary').innerHTML = `
+    <b class="${st.payments_ready ? 'ok':'bad'}">Autopilot: ${esc(st.autopilot)}</b>
+    <div class="muted">Mode: ${esc(st.mode)} · Base: <code>${esc(st.public_base)}</code></div>
+    <div class="muted">Payments ready: <b class="${st.payments_ready?'ok':'bad'}">${st.payments_ready}</b> ·
+    Telegram ready: <b class="${st.telegram_ready?'ok':'bad'}">${st.telegram_ready}</b></div>
+  `;
+
+  document.getElementById('metrics').innerHTML = `
+    <div class="card"><b>${esc(st.leads_total)}</b><span class="muted">Leads</span></div>
+    <div class="card"><b>${esc(st.orders_total)}</b><span class="muted">Orders</span></div>
+    <div class="card"><b>${esc(st.orders_fulfilled)}</b><span class="muted">Fulfilled</span></div>
+    <div class="card"><b>${esc(st.revenue_usdt)}</b><span class="muted">USDT revenue</span></div>
+  `;
+
+  const caps = st.capabilities || {};
+  document.getElementById('caps').innerHTML = Object.entries(caps).map(([k,v]) =>
+    `<li><b class="${v?'ok':'bad'}">${v?'YES':'NO'}</b> ${esc(k)}</li>`
+  ).join('') + (st.needs_for_full_outbound_automation||[]).map(x=>`<li class="muted">Need for full outbound: ${esc(x)}</li>`).join('');
+
+  const L = leads.leads || [];
+  document.getElementById('leads').innerHTML = L.length ? L.map(x => `
+    <tr>
+      <td>${esc(x.id)}</td>
+      <td>${esc(x.company)}</td>
+      <td>${esc(x.email)}</td>
+      <td>${esc(x.status)}</td>
+      <td>${x.demo_url ? `<a href="${esc(x.demo_url)}" target="_blank">open</a>` : '—'}</td>
+      <td>${esc(x.created_at)}</td>
+    </tr>
+  `).join('') : '<tr><td colspan="6" class="muted">No leads yet. Inbound form on /hire will appear here.</td></tr>';
+
+  const O = orders.orders || [];
+  document.getElementById('orders').innerHTML = O.length ? O.map(x => `
+    <tr>
+      <td>${esc(x.client_name)}</td>
+      <td>${esc(x.amount_usdt)}</td>
+      <td>${esc(x.status)}</td>
+      <td>${x.delivery_url ? `<a href="${esc(x.delivery_url)}" target="_blank">delivery</a>` : '—'}</td>
+      <td><code>${esc((x.tx_hash||'').slice(0,16))}...</code></td>
+    </tr>
+  `).join('') : '<tr><td colspan="5" class="muted">No paid orders yet.</td></tr>';
+
+  const E = events.events || [];
+  document.getElementById('events').innerHTML = E.length ? E.map(x => `
+    <tr>
+      <td>${esc(x.created_at)}</td>
+      <td>${esc(x.kind)}</td>
+      <td>${esc(x.message)}</td>
+    </tr>
+  `).join('') : '<tr><td colspan="3" class="muted">No events yet.</td></tr>';
+}
+document.getElementById('reload').onclick = loadAll;
+loadAll();
+setInterval(loadAll, 30000);
+</script>
+</body>
+</html>

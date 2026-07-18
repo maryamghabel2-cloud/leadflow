@@ -25,7 +25,7 @@ RUN pip install --no-cache-dir --upgrade pip && \
 COPY . .
 
 # Create necessary directories for runtime output
-RUN mkdir -p generated_sites/live_demos generated_sites/handover_packages uploads
+RUN mkdir -p generated_sites/live_demos generated_sites/handover_packages generated_sites/orders uploads
 
 # Expose server port
 EXPOSE 8000

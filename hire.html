@@ -424,9 +424,16 @@ async function sendHire(e){
     const res = await fetch('/api/lead/capture', {
       method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)
     });
+    const data = await res.json();
     if(!res.ok) throw new Error('api');
     status.className = 'status ok';
-    status.textContent = dict.ok;
+    let msg = dict.ok;
+    if (data && data.demo_url) {
+      msg += (lang==='ar' ? ' رابط المعاينة: ' : ' Preview: ') + data.demo_url;
+    } else if (data && data.autopilot && data.autopilot.demo_url) {
+      msg += (lang==='ar' ? ' رابط المعاينة: ' : ' Preview: ') + data.autopilot.demo_url;
+    }
+    status.textContent = msg;
     form.reset();
   }catch(err){
     status.className = 'status err';

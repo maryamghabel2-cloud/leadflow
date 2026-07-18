@@ -24,6 +24,7 @@ from affiliate_manager import AffiliateManager
 from voice_outbound_agent import VoiceOutboundAgent
 from referral_rewards_agent import ReferralRewardsAgent
 from payment_ledger import PaymentLedger
+from autopilot_engine import AutopilotEngine
 
 app = FastAPI(
     title="LeadFlow.AI Autonomous SDR & Shadow Infiltrator Engine",
@@ -66,6 +67,7 @@ affiliate_mgr = AffiliateManager()
 voice_agent = VoiceOutboundAgent()
 referral_agent = ReferralRewardsAgent()
 ledger = PaymentLedger()
+autopilot = AutopilotEngine()
 
 
 # ---------------------------------------------------------------------------
@@ -263,7 +265,7 @@ async def robots_txt():
     body = (
         "User-agent: *\n"
         "Allow: /\n"
-        "Disallow: /first-customer\nDisallow: /outreach\n"
+        "Disallow: /first-customer\nDisallow: /outreach\nDisallow: /autopilot\n"
         "Disallow: /go\n"
         "Disallow: /agency\n"
         "Disallow: /docs\n"
@@ -275,7 +277,7 @@ async def robots_txt():
     body = (
         "User-agent: *\n"
         "Allow: /\n"
-        "Disallow: /first-customer\nDisallow: /outreach\n"
+        "Disallow: /first-customer\nDisallow: /outreach\nDisallow: /autopilot\n"
         "Disallow: /go\n"
         "Disallow: /agency\n"
         "Disallow: /docs\n"
@@ -397,6 +399,23 @@ async def verify_payment(request: VerifyPaymentRequest):
                 client_name=request.client_name,
                 plan_name=request.plan_name,
             )
+            try:
+                fulfillment = autopilot.fulfill_payment(
+                    client_name=request.client_name or "Client Clinic",
+                    amount_usdt=float(audit_result.get("amount_usdt") or request.plan_amount or 0),
+                    tx_hash=tx_hash,
+                    email="",
+                    plan_name=request.plan_name or "Website package",
+                    city="Dubai",
+                    niche="Dental Clinic",
+                )
+                audit_result["fulfillment"] = fulfillment
+                audit_result["delivery_url"] = fulfillment.get("delivery_url")
+                audit_result["live_url"] = fulfillment.get("live_url")
+                audit_result["zip_url"] = fulfillment.get("zip_url")
+            except Exception as ful_e:
+                print(f"Autopilot fulfillment warning: {ful_e}")
+                audit_result["fulfillment_error"] = str(ful_e)
             if request.referrer_id:
                 try:
                     affiliate_mgr.register_new_sale(
@@ -517,16 +536,53 @@ async def trigger_voice_outbound_call(request: VoiceCallRequest):
 @app.post("/api/lead/capture")
 async def capture_work_email(request: LeadCaptureRequest):
     try:
-        # Durable storage
         durable = ledger.capture_lead(
             request.email, request.name, request.company, request.studio_source
         )
-        # Keep in-memory agent response shape for UI compatibility
+        source = request.studio_source or "api"
+        city = "Dubai"
+        niche = "Dental Clinic"
+        src_l = source.lower()
+        if "medspa" in src_l or "spa" in src_l or "aesthetic" in src_l:
+            niche = "Medspa"
+        if "abu dhabi" in src_l:
+            city = "Abu Dhabi"
+        elif "sharjah" in src_l:
+            city = "Sharjah"
+        elif "istanbul" in src_l:
+            city = "Istanbul"
+        elif "dubai" in src_l:
+            city = "Dubai"
+
+        auto = autopilot.ingest_lead(
+            email=request.email,
+            name=request.name,
+            company=request.company or request.name or "New Clinic",
+            phone="",
+            source=source,
+            city=city,
+            niche=niche,
+            notes=source,
+            auto_demo=True,
+        )
+
         res = referral_agent.capture_lead_email(
             request.email, request.name, request.company, request.studio_source
         )
         res["durable_lead_id"] = durable.get("lead_id")
         res["persisted"] = True
+        res["autopilot"] = {
+            "lead_id": auto.get("lead_id"),
+            "demo_url": auto.get("demo_url"),
+            "checkout_url": auto.get("checkout_url"),
+            "status": auto.get("autopilot"),
+        }
+        res["demo_url"] = auto.get("demo_url")
+        res["message"] = (
+            f"Lead saved. Preview ready: {auto.get('demo_url')}"
+            if auto.get("demo_url")
+            else "Lead saved. Preview generation pending."
+        )
         return res
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Lead Capture Error: {str(e)}")
@@ -543,6 +599,82 @@ async def grant_ambassador_reward(request: ReferralRewardRequest):
         raise HTTPException(status_code=500, detail=f"Referral Reward Error: {str(e)}")
 
 
+
+@app.get("/api/autopilot/status")
+async def autopilot_status():
+    return autopilot.status_snapshot()
+
+
+@app.get("/api/autopilot/leads")
+async def autopilot_leads(limit: int = 50):
+    return {"status": "success", "leads": autopilot.list_leads(limit=min(max(limit, 1), 200))}
+
+
+@app.get("/api/autopilot/orders")
+async def autopilot_orders(limit: int = 50):
+    return {"status": "success", "orders": autopilot.list_orders(limit=min(max(limit, 1), 200))}
+
+
+@app.get("/api/autopilot/events")
+async def autopilot_events(limit: int = 100):
+    return {"status": "success", "events": autopilot.list_events(limit=min(max(limit, 1), 300))}
+
+
+@app.post("/api/autopilot/build-demo")
+async def autopilot_build_demo(payload: Dict[str, Any] = Body(...)):
+    try:
+        res = autopilot.build_demo_for_business(
+            business_name=str(payload.get("business_name") or payload.get("company") or "Clinic Demo"),
+            city=str(payload.get("city") or "Dubai"),
+            niche=str(payload.get("niche") or payload.get("category") or "Dental Clinic"),
+            phone=str(payload.get("phone") or "+971 4 555 0100"),
+        )
+        return res
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Autopilot demo error: {e}")
+
+
+@app.get("/delivery/{token}")
+async def delivery_page(token: str):
+    from fastapi.responses import HTMLResponse
+    order = autopilot.get_order_by_token(token)
+    if not order:
+        raise HTTPException(status_code=404, detail="Delivery token not found")
+    client = str(order.get("client_name") or "Client")
+    plan = str(order.get("plan_name") or "")
+    amount = str(order.get("amount_usdt") or 0)
+    tx = str(order.get("tx_hash") or "")
+    live = str(order.get("live_url") or "#")
+    zurl = str(order.get("zip_url") or "#")
+    status = str(order.get("status") or "")
+    html = (
+        "<!DOCTYPE html><html lang='en'><head><meta charset='UTF-8'>"
+        "<meta name='viewport' content='width=device-width, initial-scale=1.0'>"
+        "<meta name='robots' content='noindex,nofollow'>"
+        f"<title>Delivery - {client}</title>"
+        "<style>body{font-family:system-ui,sans-serif;background:#FBFBF9;color:#18181B;margin:0;padding:24px;line-height:1.6}"
+        ".card{max-width:720px;margin:0 auto;background:#fff;border:1px solid #E5E0D8;padding:24px;border-radius:16px}"
+        "a.btn{display:inline-block;background:#0F766E;color:#fff;text-decoration:none;padding:12px 16px;border-radius:10px;margin:6px 6px 0 0;font-weight:700}"
+        "code{background:#F2EFE9;padding:2px 6px;border-radius:6px}</style></head><body><div class='card'>"
+        f"<h1>Delivery ready</h1><p>Client: <strong>{client}</strong></p>"
+        f"<p>Plan: {plan} | {amount} USDT</p>"
+        f"<p>TX: <code>{tx}</code></p>"
+        f"<p>Status: <strong>{status}</strong></p>"
+        f"<p><a class='btn' href='{live}' target='_blank'>Open live site</a>"
+        f"<a class='btn' href='{zurl}' target='_blank'>Download ZIP</a></p>"
+        "<p style='color:#78716C;font-size:14px'>Generated automatically by LeadFlow Autopilot after on-chain payment verification.</p>"
+        "</div></body></html>"
+    )
+    return HTMLResponse(html)
+
+
+@app.get("/autopilot")
+async def serve_autopilot_dashboard():
+    if os.path.exists("autopilot_dashboard.html"):
+        return FileResponse("autopilot_dashboard.html")
+    return {"message": "Autopilot dashboard missing"}
+
+
 @app.get("/api/health")
 async def health_check():
     treasury = os.environ.get("TRON_TREASURY_WALLET_ADDRESS", "").strip()
@@ -553,6 +685,7 @@ async def health_check():
         "treasury_configured": bool(treasury)
         and treasury != BlockchainVerifier.USDT_TRC20_CONTRACT,
         "sim_payments_allowed": verifier.allow_sim_payments,
+        "autopilot": autopilot.status_snapshot(),
         "agents": [
             "ResearcherAgent",
             "CopywriterAgent",

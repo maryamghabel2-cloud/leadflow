@@ -496,12 +496,19 @@
                 const result = await response.json();
 
                 if (response.ok && result.status === 'success') {
-                    showAlert(`Success. Verified ${result.amount_usdt} USDT. Deploying agent package for ${companyName}…`, true);
-                    btn.innerHTML = 'Agent deployed';
+                    const delivery = result.delivery_url || (result.fulfillment && result.fulfillment.delivery_url) || '';
+                    const live = result.live_url || (result.fulfillment && result.fulfillment.live_url) || '';
+                    const zipu = result.zip_url || (result.fulfillment && result.fulfillment.zip_url) || '';
+                    showAlert(`Success. Verified ${result.amount_usdt} USDT. Fulfillment ready for ${companyName}.`, true);
+                    btn.innerHTML = 'Payment verified';
                     setTimeout(() => {
-                        alert(`Deployment initialized for "${companyName}".`);
-                        window.location.href = '/';
-                    }, 2000);
+                        if (delivery) {
+                            window.location.href = delivery;
+                        } else {
+                            alert(`Payment verified for "${companyName}".${live ? '\nLive: ' + live : ''}${zipu ? '\nZIP: ' + zipu : ''}`);
+                            window.location.href = '/hire';
+                        }
+                    }, 1200);
                 } else {
                     showAlert(`Blockchain audit notice: ${result.message || 'Transaction not verified.'}`, false);
                     btn.disabled = false;

@@ -143,3 +143,16 @@ class PaymentLedger:
                 }
             finally:
                 conn.close()
+
+
+    def list_leads(self, limit: int = 100):
+        with self._lock:
+            conn = self._connect()
+            try:
+                rows = conn.execute(
+                    "SELECT id, email, name, company, source_studio, created_at FROM captured_leads ORDER BY id DESC LIMIT ?",
+                    (int(limit),),
+                ).fetchall()
+                return [dict(r) for r in rows]
+            finally:
+                conn.close()
