@@ -131,6 +131,15 @@ class GenerateSiteRequest(BaseModel):
 # ---------------------------------------------------------------------------
 # Static pages
 # ---------------------------------------------------------------------------
+
+@app.get("/google806da7787169c99e.html")
+async def google_site_verification_file():
+    path = "google806da7787169c99e.html"
+    if os.path.exists(path):
+        return FileResponse(path, media_type="text/html")
+    raise HTTPException(status_code=404, detail="Verification file not found.")
+
+
 @app.get("/")
 async def serve_index():
     if os.path.exists("index.html"):
